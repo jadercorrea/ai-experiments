@@ -1,0 +1,61 @@
+{
+  "schema_version": "ai-experiments.manifest/v1",
+  "release": "2026.07.29.1",
+  "experiment": "coding-agents/filesystem-containment",
+  "published_at": "2026-07-29T13:41:20-03:00",
+  "harness": {
+    "name": "GPTCode",
+    "repository": "https://github.com/jadercorrea/gptcode",
+    "published_revision": "8fe858b81c72625c214308a8aa72f6d25d14c2cb",
+    "provenance": "Historical runs used a precursor working tree later incorporated into the published revision; the exact transient build commit was not retained."
+  },
+  "models": [
+    {
+      "name": "devstral-small-2:24b-16k",
+      "digest": "ed904b98743e",
+      "context_window": 16384
+    }
+  ],
+  "environment": {
+    "machine": "Apple M1 Pro",
+    "memory_gb": 32,
+    "gpu_cores": 16,
+    "runtime": "Ollama",
+    "runtime_model_size_gb": 17,
+    "processor_residency": "100% GPU"
+  },
+  "campaigns": [
+    {
+      "id": "capability-check",
+      "purpose": "Determine whether the configuration can satisfy the strengthened contract at least once.",
+      "runs": 1,
+      "passed": 1,
+      "timed_out": 0,
+      "median_duration": "26m08s"
+    },
+    {
+      "id": "repeatability",
+      "purpose": "Measure three clean repetitions with the same committed suite configuration.",
+      "runs": 3,
+      "passed": 0,
+      "timed_out": 3,
+      "median_duration": "30m01s"
+    }
+  ],
+  "verification": [
+    ["go", "test", "-count=1", "-race", "./..."],
+    ["go", "vet", "./..."]
+  ],
+  "artifacts": [
+    {
+      "name": "ai-experiment-coding-agents-filesystem-containment-2026.07.29.1.tar.gz",
+      "sha256": "6ba0bc9bac3eac5ea9e740bb2e268923aa752f7e186902d5eb443d3a1df5054f"
+    }
+  ],
+  "limitations": [
+    "The exact transient source commit used to build the historical runner was not retained.",
+    "The capability patch passed the fixture but retained a possible symlink check-to-write race.",
+    "GPU residency was observed through Ollama telemetry rather than an independent profiler.",
+    "One capability pass and a later repeatability campaign are reported separately rather than combined."
+  ]
+}

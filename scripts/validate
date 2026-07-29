@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+schema="$root/schemas/experiment-manifest-v1.schema.json"
+
+bash -n "$root/scripts/verify-release"
+
+while IFS= read -r -d '' manifest; do
+  python3 - "$schema" "$manifest" <<'PY'
+import json
+import pathlib
+import sys
+
+import jsonschema
+
+schema_path, manifest_path = map(pathlib.Path, sys.argv[1:])
+with schema_path.open() as schema_file:
+    schema = json.load(schema_file)
+with manifest_path.open() as manifest_file:
+    manifest = json.load(manifest_file)
+
+jsonschema.Draft202012Validator(
+    schema,
+    format_checker=jsonschema.FormatChecker(),
+).validate(manifest)
+PY
+done < <(find "$root/experiments" -name manifest.json -print0)
+
+echo "repository validation passed"
