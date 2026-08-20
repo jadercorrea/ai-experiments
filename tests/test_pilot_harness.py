@@ -58,8 +58,12 @@ class PilotHarnessTest(unittest.TestCase):
         self.assertIn("--network none", rendered)
         self.assertNotIn("host.docker.internal", rendered)
         self.assertIn("AI_GATEWAY=http://127.0.0.1:8080/v1", rendered)
-        self.assertIn("src=/private/tmp/run,dst=/gateway", rendered)
-        self.assertIn("src=/private/tmp/config,dst=/config,readonly", rendered)
+        run_directory = pathlib.Path("/tmp/run").resolve()
+        config_directory = pathlib.Path("/tmp/config").resolve()
+        self.assertIn(f"src={run_directory},dst=/gateway", rendered)
+        self.assertIn(
+            f"src={config_directory},dst=/config,readonly", rendered
+        )
         self.assertIn("OPENCODE_CONFIG=/config/opencode.json", rendered)
         self.assertIn("--socket /gateway/gateway.sock", command[-1])
         self.assertIn("relay_pid=$!", command[-1])
@@ -125,14 +129,19 @@ class PilotHarnessTest(unittest.TestCase):
             arguments=["--run-id", "run-001", "--policy", "local-only"],
         )
         rendered = " ".join(command)
+        run_directory = pathlib.Path("/tmp/run").resolve()
+        model_lock = pathlib.Path("/tmp/model-lock.json").resolve()
+        secrets_directory = pathlib.Path("/tmp/secrets").resolve()
         self.assertIn("host.docker.internal:host-gateway", rendered)
-        self.assertIn("src=/private/tmp/run,dst=/gateway", rendered)
+        self.assertIn(f"src={run_directory},dst=/gateway", rendered)
         self.assertIn(
-            "src=/private/tmp/model-lock.json,dst=/run/model-lock.json,readonly",
+            f"src={model_lock},dst=/run/model-lock.json,readonly",
             rendered,
         )
         self.assertIn("--model-lock /run/model-lock.json", rendered)
-        self.assertIn("src=/private/tmp/secrets,dst=/run/secrets,readonly", rendered)
+        self.assertIn(
+            f"src={secrets_directory},dst=/run/secrets,readonly", rendered
+        )
         self.assertNotIn("Bearer", rendered)
         self.assertIn("dst=/evidence", rendered)
         self.assertIn(f"--user {os.getuid()}:{os.getgid()}", rendered)
