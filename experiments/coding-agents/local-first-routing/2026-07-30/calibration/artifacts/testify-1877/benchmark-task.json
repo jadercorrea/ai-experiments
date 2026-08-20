@@ -1,0 +1,98 @@
+{
+  "hidden_evaluator": {
+    "reference_solution_patch": {
+      "path": "solution.patch",
+      "sha256": "84e4c62c9dbc9940d8020edd5fcd82ee500f42a449252a9960faec555db916a2"
+    },
+    "reference_test_patch": {
+      "path": "test.patch",
+      "sha256": "5a24f54f3b16b300d6b278b9d474996b0dbdb960cb47704a4cd61ce5a078ca02"
+    },
+    "tests": [
+      {
+        "command": [
+          "go",
+          "test",
+          "./suite",
+          "-run",
+          "^TestSuiteWithSkipInSetupAndStats$"
+        ],
+        "id": "focal_regression",
+        "transition": "F2P"
+      },
+      {
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "./..."
+        ],
+        "id": "race_regression",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "provenance": {
+    "artifacts": [
+      {
+        "path": "solution.patch",
+        "sha256": "84e4c62c9dbc9940d8020edd5fcd82ee500f42a449252a9960faec555db916a2"
+      },
+      {
+        "path": "test.patch",
+        "sha256": "5a24f54f3b16b300d6b278b9d474996b0dbdb960cb47704a4cd61ce5a078ca02"
+      }
+    ],
+    "collected_at": "2026-07-31T15:40:00-03:00",
+    "container_digest": "sha256:64e439d6365d55ec073751e3baae29ac7169fd6fcb265623daaaf01f090ff9af",
+    "container_image": "ai-experiments/calibration-testify-1877:base",
+    "license_spdx": "MIT",
+    "network_disabled": true,
+    "problem_statement_provenance": {
+      "method": "curated_excerpt",
+      "notes": "Curated problem-only statement; solution details omitted.",
+      "source_sha256": "ec98c88b70c43f37bb02b8d83d95662ebee7ee27a5ec858427dc4c04c39d2624"
+    },
+    "reference_merged_at": "2026-05-11T15:28:01Z",
+    "source_created_at": "2026-04-27T21:48:49Z",
+    "split": "calibration"
+  },
+  "public_problem": {
+    "base_commit": "246de4504b1b5990508c5ab6b34fbcbd16614095",
+    "problem_statement": "A suite implementing HandleStats panics when SetupTest skips because deferred stats finalization observes a test entry that was never started.",
+    "public_test_commands": [
+      [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ]
+    ],
+    "repository": "https://github.com/stretchr/testify",
+    "source_kind": "pull_request",
+    "source_number": 1877,
+    "source_url": "https://github.com/stretchr/testify/pull/1877"
+  },
+  "router_view": {
+    "allowed_runtime_signals": [
+      "elapsed_seconds",
+      "model_tokens",
+      "tool_calls",
+      "material_patch_present",
+      "compilation_status",
+      "public_test_status",
+      "public_static_analysis_status",
+      "workspace_containment_status",
+      "public_api_change_status",
+      "agent_termination_status"
+    ],
+    "static_features": {
+      "issue_characters": 142,
+      "issue_referenced_symbols": 2,
+      "repository_files": 93,
+      "repository_lines": 30357
+    }
+  },
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "calibration/testify-1877"
+}

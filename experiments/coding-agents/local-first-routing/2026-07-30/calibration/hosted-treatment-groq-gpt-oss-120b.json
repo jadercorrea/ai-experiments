@@ -1,0 +1,40 @@
+{
+  "schema_version": "ai-experiments.hosted-treatment/v1",
+  "frozen_at": "2026-07-31T15:50:36-03:00",
+  "purpose": "calibration",
+  "provider": "GroqCloud",
+  "api_access": "direct",
+  "provider_router_allowed": false,
+  "model_role": "cloud_coding",
+  "provider_model": "openai/gpt-oss-120b",
+  "lifecycle": "production",
+  "credential_environment_variable": "GROQ_API_KEY",
+  "agent_timeout_seconds": 1800,
+  "inference_timeout_seconds": 300,
+  "maximum_total_hosted_spend_usd": 5.0,
+  "sampling": {
+    "temperature": 0
+  },
+  "identity_policy": {
+    "response_model_must_equal": "openai/gpt-oss-120b",
+    "record_system_fingerprint_when_present": true,
+    "provider_substitution_allowed": false
+  },
+  "accounting": {
+    "record_prompt_tokens": true,
+    "record_cached_prompt_tokens": true,
+    "record_completion_tokens": true,
+    "record_request_latency": true,
+    "price_schedule_source": "https://console.groq.com/docs/models",
+    "input_usd_per_million_tokens": 0.15,
+    "cached_input_usd_per_million_tokens": 0.075,
+    "output_usd_per_million_tokens": 0.6
+  },
+  "admission": {
+    "maximum_requests": 1,
+    "maximum_estimated_spend_usd": 0.01,
+    "requires_exact_model_identity": true,
+    "requires_tool_calling": true,
+    "requires_token_usage": true
+  }
+}

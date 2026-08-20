@@ -1,0 +1,98 @@
+{
+  "hidden_evaluator": {
+    "reference_solution_patch": {
+      "path": "solution.patch",
+      "sha256": "6c019e907f73196af66bdabd9110568e9ff7e32d29bf46e0b4bd85904a448242"
+    },
+    "reference_test_patch": {
+      "path": "test.patch",
+      "sha256": "05a50062fb9e0084e70367ba120891d89b26d9c15b794106667d5e61a0af87ef"
+    },
+    "tests": [
+      {
+        "command": [
+          "go",
+          "test",
+          "-run",
+          "^TestCronExpressionValidation$",
+          "."
+        ],
+        "id": "focal_regression",
+        "transition": "F2P"
+      },
+      {
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "./..."
+        ],
+        "id": "race_regression",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "provenance": {
+    "artifacts": [
+      {
+        "path": "solution.patch",
+        "sha256": "6c019e907f73196af66bdabd9110568e9ff7e32d29bf46e0b4bd85904a448242"
+      },
+      {
+        "path": "test.patch",
+        "sha256": "05a50062fb9e0084e70367ba120891d89b26d9c15b794106667d5e61a0af87ef"
+      }
+    ],
+    "collected_at": "2026-07-31T15:40:00-03:00",
+    "container_digest": "sha256:ba4c5b4ea2af09d9bd873371bfd30cd04da63fcb8ee2aa5b39758221692163a8",
+    "container_image": "ai-experiments/calibration-validator-1577:base",
+    "license_spdx": "MIT",
+    "network_disabled": true,
+    "problem_statement_provenance": {
+      "method": "curated_excerpt",
+      "notes": "Curated problem-only statement; solution details omitted.",
+      "source_sha256": "701a0f8b7d387c6352c03da410379af4e91928251009aba5e2fa5967eff1b9f0"
+    },
+    "reference_merged_at": "2026-05-25T12:16:22Z",
+    "source_created_at": "2026-05-15T22:16:52Z",
+    "split": "calibration"
+  },
+  "public_problem": {
+    "base_commit": "8eb2659789a33bda9262ce62eed2d714539dc8c5",
+    "problem_statement": "The cron validator accepts arbitrary text containing a cron-like substring because its expression is not anchored, while valid documented cron forms must remain accepted.",
+    "public_test_commands": [
+      [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ]
+    ],
+    "repository": "https://github.com/go-playground/validator",
+    "source_kind": "pull_request",
+    "source_number": 1577,
+    "source_url": "https://github.com/go-playground/validator/pull/1577"
+  },
+  "router_view": {
+    "allowed_runtime_signals": [
+      "elapsed_seconds",
+      "model_tokens",
+      "tool_calls",
+      "material_patch_present",
+      "compilation_status",
+      "public_test_status",
+      "public_static_analysis_status",
+      "workspace_containment_status",
+      "public_api_change_status",
+      "agent_termination_status"
+    ],
+    "static_features": {
+      "issue_characters": 170,
+      "issue_referenced_symbols": 0,
+      "repository_files": 100,
+      "repository_lines": 77544
+    }
+  },
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "calibration/validator-1577"
+}

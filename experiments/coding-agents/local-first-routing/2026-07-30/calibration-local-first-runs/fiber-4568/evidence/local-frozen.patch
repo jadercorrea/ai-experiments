@@ -1,0 +1,16 @@
+diff --git a/req.go b/req.go
+index a4ab1826..a61995da 100644
+--- a/req.go
++++ b/req.go
+@@ -649,7 +649,10 @@ func (r *DefaultReq) IP() string {
+ func (r *DefaultReq) extractIPsFromHeader(header string) []string {
+ 	// TODO: Reuse the c.extractIPFromHeader func somehow in here
+ 
+-	headerValue := r.Get(header)
++	// Get all header values and join them with commas to follow RFC 9110 §5.2
++	// Multiple field lines with the same field name are combined into a single comma-separated list
++	allHeaders := r.c.fasthttp.Request.Header.PeekAll(header)
++	headerValue := string(joinHeaderValues(allHeaders))
+ 
+ 	// We can't know how many IPs we will return, but we will try to guess with this constant division.
+ 	// Counting ',' makes function slower for about 50ns in general case.

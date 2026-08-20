@@ -1,0 +1,24 @@
+diff --git a/completions.go b/completions.go
+index d3607c2..9a8259f 100644
+--- a/completions.go
++++ b/completions.go
+@@ -317,7 +317,10 @@ func (c *Command) getCompletions(args []string) (*Command, []Completion, ShellCo
+ 	// The last argument, which is not completely typed by the user,
+ 	// should not be part of the list of arguments
+ 	toComplete := args[len(args)-1]
+-	trimmedArgs := args[:len(args)-1]
++	// Copy trimmedArgs to a new slice to avoid mutating the caller's
++	// backing array (which may be os.Args) when later appending "--".
++	trimmedArgs := make([]string, len(args)-1)
++	copy(trimmedArgs, args[:len(args)-1])
+ 
+ 	var finalCmd *Command
+ 	var finalArgs []string
+@@ -955,6 +958,7 @@ func CompDebug(msg string, printToStdErr bool) {
+ 	// Such logs are only printed when the user has set the environment
+ 	// variable BASH_COMP_DEBUG_FILE to the path of some file to be used.
+ 	if path := os.Getenv("BASH_COMP_DEBUG_FILE"); path != "" {
++		//nolint:gosec // G703:BASH_COMP_DEBUG_FILE intentionally user-controlled for completion debug logging.
+ 		f, err := os.OpenFile(path,
+ 			os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+ 		if err == nil {

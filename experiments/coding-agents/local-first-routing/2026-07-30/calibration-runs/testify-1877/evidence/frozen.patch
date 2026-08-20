@@ -1,0 +1,92 @@
+diff --git a/suite/stats.go b/suite/stats.go
+index be4ccd6..14cf1a0 100644
+--- a/suite/stats.go
++++ b/suite/stats.go
+@@ -25,9 +25,13 @@ func (s *SuiteInformation) start(testName string) {
+ 	if s == nil {
+ 		return
+ 	}
+-	s.TestStats[testName] = &TestInformation{
+-		TestName: testName,
+-		Start:    time.Now(),
++	
++	// Only create the entry if it doesn't exist
++	if _, exists := s.TestStats[testName]; !exists {
++		s.TestStats[testName] = &TestInformation{
++			TestName: testName,
++			Start:    time.Now(),
++		}
+ 	}
+ }
+ 
+@@ -35,6 +39,12 @@ func (s *SuiteInformation) end(testName string, passed bool) {
+ 	if s == nil {
+ 		return
+ 	}
++	
++	// Ensure the test entry exists before trying to update it
++	if _, exists := s.TestStats[testName]; !exists {
++		return
++	}
++	
+ 	s.TestStats[testName].End = time.Now()
+ 	s.TestStats[testName].Passed = passed
+ }
+diff --git a/suite/suite_setup_skip2_test.go b/suite/suite_setup_skip2_test.go
+new file mode 100644
+index 0000000..b47a776
+--- /dev/null
++++ b/suite/suite_setup_skip2_test.go
+@@ -0,0 +1,22 @@
++package suite
++
++import (
++	"testing"
++)
++
++type StatsSuite struct {
++	Suite
++}
++
++func (s *StatsSuite) SetupSuite() {
++	s.T().Skip()
++}
++
++func (s *StatsSuite) TestNothing() {
++	// This test should never run since SetupSuite skips
++}
++
++func TestSuiteSetupSkips(t *testing.T) {
++	suite := new(StatsSuite)
++	Run(t, suite)
++}
+\ No newline at end of file
+diff --git a/suite/suite_setup_skip_test.go b/suite/suite_setup_skip_test.go
+new file mode 100644
+index 0000000..f3bbee8
+--- /dev/null
++++ b/suite/suite_setup_skip_test.go
+@@ -0,0 +1,22 @@
++package suite
++
++import (
++	"testing"
++)
++
++type TestSetupSkipSuite struct {
++	Suite
++}
++
++func (s *TestSetupSkipSuite) SetupTest() {
++	s.T().Skip()
++}
++
++func (s *TestSetupSkipSuite) TestSomething() {
++	s.Equal(1, 1)
++}
++
++func TestSetupSkipsDuringTest(t *testing.T) {
++	suite := new(TestSetupSkipSuite)
++	Run(t, suite)
++}
+\ No newline at end of file

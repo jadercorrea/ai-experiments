@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jadercorrea/ai-experiments/blob/main/schemas/benchmark-task-v1.schema.json",
+  "title": "Repository-level coding-agent benchmark task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "public_problem",
+    "router_view",
+    "hidden_evaluator",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.benchmark-task/v1"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9._/-]*[a-z0-9])?$"
+    },
+    "public_problem": {
+      "$ref": "#/$defs/publicProblem"
+    },
+    "router_view": {
+      "$ref": "#/$defs/routerView"
+    },
+    "hidden_evaluator": {
+      "$ref": "#/$defs/hiddenEvaluator"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "publicProblem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "source_kind",
+        "source_url",
+        "source_number",
+        "problem_statement",
+        "base_commit"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+/?$"
+        },
+        "source_kind": {
+          "enum": ["issue", "pull_request"]
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https://github\\.com/[^/]+/[^/]+/(issues|pull)/[1-9][0-9]*$"
+        },
+        "source_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "problem_statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_commit": {
+          "$ref": "#/$defs/gitCommit"
+        },
+        "public_setup_commands": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string"}
+          }
+        },
+        "public_test_commands": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "routerView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["static_features", "allowed_runtime_signals"],
+      "properties": {
+        "static_features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "repository_files",
+            "repository_lines",
+            "issue_characters",
+            "issue_referenced_symbols"
+          ],
+          "properties": {
+            "repository_files": {"type": "integer", "minimum": 0},
+            "repository_lines": {"type": "integer", "minimum": 0},
+            "issue_characters": {"type": "integer", "minimum": 1},
+            "issue_referenced_symbols": {"type": "integer", "minimum": 0},
+            "dependency_graph_breadth": {"type": "integer", "minimum": 0},
+            "public_test_duration_seconds": {"type": "number", "minimum": 0}
+          }
+        },
+        "allowed_runtime_signals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "elapsed_seconds",
+              "model_tokens",
+              "tool_calls",
+              "material_patch_present",
+              "compilation_status",
+              "public_test_status",
+              "public_static_analysis_status",
+              "workspace_containment_status",
+              "public_api_change_status",
+              "agent_termination_status"
+            ]
+          }
+        }
+      }
+    },
+    "testCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "command", "transition"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "command": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "transition": {
+          "enum": ["F2P", "P2P", "F2F", "P2F"]
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "hiddenEvaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_solution_patch",
+        "reference_test_patch",
+        "tests"
+      ],
+      "properties": {
+        "reference_solution_patch": {"$ref": "#/$defs/artifact"},
+        "reference_test_patch": {"$ref": "#/$defs/artifact"},
+        "tests": {
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "type": "object",
+                "required": ["transition"],
+                "properties": {"transition": {"const": "P2P"}}
+              }
+            }
+          ],
+          "contains": {
+            "type": "object",
+            "required": ["transition"],
+            "properties": {"transition": {"const": "F2P"}}
+          },
+          "items": {"$ref": "#/$defs/testCase"}
+        },
+        "security_checks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "adversarial_checks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "reference_patch_features": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "files_changed": {"type": "integer", "minimum": 1},
+            "lines_changed": {"type": "integer", "minimum": 1},
+            "functions_changed": {"type": "integer", "minimum": 0},
+            "architectural_layers_crossed": {"type": "integer", "minimum": 1},
+            "call_graph_distance": {"type": ["integer", "null"], "minimum": 0}
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "license_spdx",
+        "split",
+        "source_created_at",
+        "reference_merged_at",
+        "collected_at",
+        "container_image",
+        "container_digest",
+        "network_disabled",
+        "problem_statement_provenance",
+        "artifacts"
+      ],
+      "properties": {
+        "license_spdx": {"type": "string", "minLength": 1},
+        "split": {"enum": ["construction", "calibration", "confirmatory"]},
+        "source_created_at": {"type": "string", "format": "date-time"},
+        "reference_merged_at": {"type": "string", "format": "date-time"},
+        "collected_at": {"type": "string", "format": "date-time"},
+        "container_image": {"type": "string", "minLength": 1},
+        "container_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "network_disabled": {"const": true},
+        "problem_statement_provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "source_sha256"],
+          "properties": {
+            "method": {
+              "enum": ["verbatim", "curated_excerpt"]
+            },
+            "source_sha256": {"$ref": "#/$defs/sha256"},
+            "notes": {"type": "string"}
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/artifact"}
+        },
+        "near_duplicate_group": {"type": ["string", "null"]},
+        "construction_tool_revision": {"$ref": "#/$defs/gitCommit"}
+      }
+    }
+  }
+}

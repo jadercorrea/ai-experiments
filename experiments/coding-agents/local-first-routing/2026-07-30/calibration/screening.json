@@ -1,0 +1,220 @@
+{
+  "candidates": [
+    {
+      "base_commit": "ed8bbe4b6cbf519766c99e492b9cc427404b3719",
+      "focal_test_command": [
+        "go",
+        "test",
+        "./middleware",
+        "-run",
+        "^TestDecompressContentEncodingCaseInsensitive$"
+      ],
+      "id": "echo-3056",
+      "license_spdx": "MIT",
+      "problem_statement": "Decompress middleware accepts only an exact lowercase gzip Content-Encoding value, although HTTP content codings are case-insensitive.",
+      "provisional_stratum": "L1",
+      "reference_commit": "79b496800f75fe4a83835719842847a9d5b25c3e",
+      "reference_merged_at": "2026-07-23T05:02:10Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ],
+      "repository": "https://github.com/labstack/echo",
+      "solution_paths": [
+        "middleware/decompress.go"
+      ],
+      "source_body_sha256": "99c9550faf03f12d063a15759c25aa4732aa1dc090fd8ea8be58158d1d8eee4c",
+      "source_created_at": "2026-07-22T05:43:40Z",
+      "source_number": 3056,
+      "source_url": "https://github.com/labstack/echo/pull/3056",
+      "test_paths": [
+        "middleware/decompress_test.go"
+      ]
+    },
+    {
+      "base_commit": "1170ccfb07953ca67a1d4754e43a9ce9f7b54738",
+      "focal_test_command": [
+        "go",
+        "test",
+        "-run",
+        "^TestParseLevelWarningAlias$",
+        "."
+      ],
+      "id": "zerolog-784",
+      "license_spdx": "MIT",
+      "problem_statement": "ParseLevel rejects the common warning alias even though it should map case-insensitively to WarnLevel.",
+      "provisional_stratum": "L1",
+      "reference_commit": "9c53f4ea79c89f42478eb1e0c0414e4d68594506",
+      "reference_merged_at": "2026-07-23T09:33:16Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ],
+      "repository": "https://github.com/rs/zerolog",
+      "solution_paths": [
+        "log.go"
+      ],
+      "source_body_sha256": "4ed780259df05daaff5acc0d6668a5548307e921d3096b10a4e5ad824bf299a5",
+      "source_created_at": "2026-07-23T07:14:17Z",
+      "source_number": 784,
+      "source_url": "https://github.com/rs/zerolog/pull/784",
+      "test_paths": [
+        "log_test.go"
+      ]
+    },
+    {
+      "base_commit": "246de4504b1b5990508c5ab6b34fbcbd16614095",
+      "focal_test_command": [
+        "go",
+        "test",
+        "./suite",
+        "-run",
+        "^TestSuiteWithSkipInSetupAndStats$"
+      ],
+      "id": "testify-1877",
+      "license_spdx": "MIT",
+      "problem_statement": "A suite implementing HandleStats panics when SetupTest skips because deferred stats finalization observes a test entry that was never started.",
+      "provisional_stratum": "L2",
+      "reference_commit": "37a3cb7cc084291e6d3c420f4a897b5102752dc8",
+      "reference_merged_at": "2026-05-11T15:28:01Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ],
+      "repository": "https://github.com/stretchr/testify",
+      "solution_paths": [
+        "suite/suite.go"
+      ],
+      "source_body_sha256": "ec98c88b70c43f37bb02b8d83d95662ebee7ee27a5ec858427dc4c04c39d2624",
+      "source_created_at": "2026-04-27T21:48:49Z",
+      "source_number": 1877,
+      "source_url": "https://github.com/stretchr/testify/pull/1877",
+      "test_paths": [
+        "suite/suite_test.go"
+      ]
+    },
+    {
+      "base_commit": "8eb2659789a33bda9262ce62eed2d714539dc8c5",
+      "focal_test_command": [
+        "go",
+        "test",
+        "-run",
+        "^TestCronExpressionValidation$",
+        "."
+      ],
+      "id": "validator-1577",
+      "license_spdx": "MIT",
+      "problem_statement": "The cron validator accepts arbitrary text containing a cron-like substring because its expression is not anchored, while valid documented cron forms must remain accepted.",
+      "provisional_stratum": "L2",
+      "reference_commit": "0364541fa467027703223b3d0cace07a667c8302",
+      "reference_merged_at": "2026-05-25T12:16:22Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ],
+      "repository": "https://github.com/go-playground/validator",
+      "solution_paths": [
+        "regexes.go"
+      ],
+      "source_body_sha256": "701a0f8b7d387c6352c03da410379af4e91928251009aba5e2fa5967eff1b9f0",
+      "source_created_at": "2026-05-15T22:16:52Z",
+      "source_number": 1577,
+      "source_url": "https://github.com/go-playground/validator/pull/1577",
+      "test_paths": [
+        "validator_test.go"
+      ]
+    },
+    {
+      "base_commit": "2263fb5f022dde90b1c2845f028d3e37e161f2b8",
+      "focal_test_command": [
+        "go",
+        "test",
+        "-run",
+        "^(TestWorktreeFilesystemRejectsSymlinkTraversal|TestCheckoutReplacesBlockingFinalSymlink)$",
+        "."
+      ],
+      "id": "go-git-2277",
+      "license_spdx": "Apache-2.0",
+      "problem_statement": "Worktree filesystem path validation does not account for existing symlinks, allowing otherwise valid paths to resolve outside the worktree during reads, writes, removals, checkout, or chroot.",
+      "provisional_stratum": "L3",
+      "public_test_command": [
+        "go",
+        "test",
+        "-race",
+        "-run",
+        "^(TestCheckoutSymlinkArbitraryTarget|TestValidPath|TestWorktreeFilesystemMkdirAllRootIsNoop)$",
+        "."
+      ],
+      "reference_commit": "3eeb238da61eb9c7a324f3ee04f990ce89175642",
+      "reference_merged_at": "2026-07-29T09:01:16Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "-run",
+        "^(TestCheckoutSymlinkArbitraryTarget|TestValidPath|TestWorktreeFilesystemMkdirAllRootIsNoop|TestForceCheckoutReplacesLeadingSymlink|TestWorktreeFilesystemRejectsSymlinkTraversal|TestCheckoutReplacesBlockingFinalSymlink)$",
+        "."
+      ],
+      "repository": "https://github.com/go-git/go-git",
+      "solution_paths": [
+        "worktree.go",
+        "worktree_fs.go"
+      ],
+      "source_body_sha256": "a0aa573e9b10e60c62f69f982f8770e86111760740eff5d1e60b5e41c2fbda18",
+      "source_created_at": "2026-07-24T22:09:33Z",
+      "source_number": 2277,
+      "source_url": "https://github.com/go-git/go-git/pull/2277",
+      "test_paths": [
+        "worktree_fs_test.go"
+      ]
+    },
+    {
+      "base_commit": "0a7e5340765d9c17f4830f41ebbed77d334c90c4",
+      "focal_test_command": [
+        "go",
+        "test",
+        "-run",
+        "^Test_Ctx_IP_ProxyHeader_RepeatedFieldLines",
+        "."
+      ],
+      "id": "fiber-4568",
+      "license_spdx": "MIT",
+      "problem_statement": "Client IP extraction reads only one repeated proxy-header field line, allowing an attacker-controlled first line to hide the trusted proxy chain instead of combining fields as required by HTTP semantics.",
+      "provisional_stratum": "L3",
+      "reference_authorship_note": "The pull request discloses a Codex task link; calibration analysis must retain this provenance flag.",
+      "reference_commit": "538322f07aaace193a5ccff3788ed8b12fec33d0",
+      "reference_merged_at": "2026-07-29T13:20:41Z",
+      "regression_command": [
+        "go",
+        "test",
+        "-race",
+        "-run",
+        "^(Test_Ctx_IP|Test_Ctx_IP_.*|Test_Ctx_IPs|Test_Ctx_IPs_.*|Test_Ctx_extractIPsFromHeader.*)$",
+        "."
+      ],
+      "repository": "https://github.com/gofiber/fiber",
+      "solution_paths": [
+        "helpers.go",
+        "req.go"
+      ],
+      "source_body_sha256": "3f11d3918f0131a3dd65cfd2a39fdf5511770da501d40c1b8126563e4ed337bb",
+      "source_created_at": "2026-07-29T12:24:15Z",
+      "source_number": 4568,
+      "source_url": "https://github.com/gofiber/fiber/pull/4568",
+      "test_paths": [
+        "ctx_test.go"
+      ]
+    }
+  ],
+  "schema_version": "ai-experiments.calibration-screening/v1",
+  "selected_at": "2026-07-31T14:45:00-03:00",
+  "status": "reproduced-frozen"
+}

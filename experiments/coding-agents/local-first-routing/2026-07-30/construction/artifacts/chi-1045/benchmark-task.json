@@ -1,0 +1,41 @@
+{
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "construction/chi-1045",
+  "public_problem": {
+    "repository": "https://github.com/go-chi/chi",
+    "source_kind": "pull_request",
+    "source_url": "https://github.com/go-chi/chi/pull/1045",
+    "source_number": 1045,
+    "problem_statement": "An empty RouteHeaders middleware invokes the next handler twice instead of exactly once.",
+    "base_commit": "6eb35881c0e438ffb663ddbad3a61babaa5e5d8a",
+    "public_test_commands": [["go", "test", "./..."]]
+  },
+  "router_view": {
+    "static_features": {"repository_files": 94, "repository_lines": 11601, "issue_characters": 88, "issue_referenced_symbols": 1},
+    "allowed_runtime_signals": ["elapsed_seconds", "model_tokens", "tool_calls", "material_patch_present", "compilation_status", "public_test_status", "public_static_analysis_status", "workspace_containment_status", "public_api_change_status", "agent_termination_status"]
+  },
+  "hidden_evaluator": {
+    "reference_solution_patch": {"path": "solution.patch", "sha256": "52e10fef24b70f0348b9fde56f8eaf02772c2e8b20ec2bad791a53ec2d567355"},
+    "reference_test_patch": {"path": "test.patch", "sha256": "a5b1e79c55c4378f4b2959509ac0908084f324de453865eddc3f4299a9fda1c6"},
+    "tests": [
+      {"id": "TestRouteHeaders", "command": ["go", "test", "./middleware", "-run", "^TestRouteHeaders$"], "transition": "F2P"},
+      {"id": "race_regression", "command": ["go", "test", "-race", "./..."], "transition": "P2P"}
+    ],
+    "reference_patch_features": {"files_changed": 2, "lines_changed": 213, "functions_changed": 2, "architectural_layers_crossed": 1, "call_graph_distance": 1}
+  },
+  "provenance": {
+    "license_spdx": "MIT",
+    "split": "construction",
+    "source_created_at": "2026-02-04T08:05:40Z",
+    "reference_merged_at": "2026-02-05T11:05:35Z",
+    "collected_at": "2026-07-31T00:00:00-03:00",
+    "container_image": "ai-experiments/chi-1045:base",
+    "container_digest": "sha256:866c16227d1c0dcedb0d788afd5f026a3b7ff2523fe0a37b98b63c521fcfa8dd",
+    "network_disabled": true,
+    "problem_statement_provenance": {"method": "curated_excerpt", "source_sha256": "7541c27313471dc011de6f38210bd1b9ac14b58d18e6c0f65c914980853b9b7f", "notes": "Problem-only excerpt; implementation-location details omitted."},
+    "artifacts": [
+      {"path": "solution.patch", "sha256": "52e10fef24b70f0348b9fde56f8eaf02772c2e8b20ec2bad791a53ec2d567355"},
+      {"path": "test.patch", "sha256": "a5b1e79c55c4378f4b2959509ac0908084f324de453865eddc3f4299a9fda1c6"}
+    ]
+  }
+}

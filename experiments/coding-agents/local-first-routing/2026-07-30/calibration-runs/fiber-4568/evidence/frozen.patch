@@ -1,0 +1,53 @@
+diff --git a/req.go b/req.go
+index a4ab1826..75fde93c 100644
+--- a/req.go
++++ b/req.go
+@@ -707,16 +707,44 @@ func (r *DefaultReq) extractIPsFromHeader(header string) []string {
+ // extractIPFromHeader returns the client IP from the given proxy header by walking the
+ // X-Forwarded-For chain from right to left and stripping trusted proxy IPs. When trusted
+ // proxies are configured, the rightmost non-trusted IP is returned; otherwise the first
+-// valid IP (left-to-right) is returned. When IP validation is disabled, the raw header
+-// value is returned as-is.
++// valid IP (left-to-right) is returned. When IP validation is disabled, all values from
++// potentially repeated headers are returned as a comma-separated string.
+ func (r *DefaultReq) extractIPFromHeader(header string) string {
+ 	app := r.c.app
+ 
++	// If IP validation is disabled, we must join all header field lines into one value
++	// to properly combine multiple lines with the same name, as required by HTTP semantics.
+ 	if !app.config.EnableIPValidation {
+-		return r.Get(header)
++		allValues := r.c.fasthttp.Request.Header.PeekAll(header)
++		var sb strings.Builder
++		for i, val := range allValues {
++			if i > 0 {
++				sb.WriteString(",")
++			}
++			sb.Write(val)
++		}
++		return sb.String()
++	}
++
++	// When IP validation is enabled, we want to get all header field lines and concatenate them
++	// so that we properly handle multi-line X-Forwarded-For headers.
++	allValues := r.c.fasthttp.Request.Header.PeekAll(header)
++	var combinedHeader string
++	if len(allValues) > 0 {
++		var sb strings.Builder
++		for i, val := range allValues {
++			if i > 0 {
++				sb.WriteString(",")
++			}
++			sb.Write(val)
++		}
++		combinedHeader = sb.String()
++	} else {
++		// Fallback to single header if none found with PeekAll
++		combinedHeader = r.Get(header)
+ 	}
+ 
+-	headerValue := r.Get(header)
++	headerValue := combinedHeader
+ 	hasTrustedProxyConfig := r.hasTrustedProxyConfig()
+ 	if !hasTrustedProxyConfig {
+ 		start := 0

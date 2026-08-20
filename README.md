@@ -20,6 +20,16 @@ See
 [coding-agents/filesystem-containment](experiments/coding-agents/filesystem-containment/2026-07-29)
 for the protocol, limitations, and release manifest.
 
+## Studies in progress
+
+| Study | Status | Next gate |
+| --- | --- | --- |
+| [Local-first routing for repository-level coding agents](experiments/coding-agents/local-first-routing/2026-07-30) | Calibration complete; pilot release candidate prepared; confirmatory no-go | Complete the external release checklist and publish the bounded pilot artifact |
+
+Draft and calibration artifacts are not published benchmark claims. They are
+retained so protocol changes, invalidated runs, and treatment-selection
+decisions remain auditable before confirmatory execution.
+
 ## Publication contract
 
 Each experiment must provide:

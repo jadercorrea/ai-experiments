@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jadercorrea/ai-experiments/blob/main/schemas/model-lock-v1.schema.json",
+  "title": "Immutable model treatment lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "locked_at", "runtime", "models"],
+  "properties": {
+    "schema_version": {"const": "ai-experiments.model-lock/v1"},
+    "locked_at": {"type": "string", "format": "date-time"},
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "models": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          {"$ref": "#/$defs/localModel"},
+          {"$ref": "#/$defs/hostedModel"}
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "localModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind", "provider_model", "public_registry_tag", "manifest_digest",
+        "size_bytes", "format", "family", "parameter_size", "quantization",
+        "declared_context_length", "experiment_context_length",
+        "registry_digest_verified"
+      ],
+      "properties": {
+        "kind": {"const": "local"},
+        "provider_model": {"type": "string", "minLength": 1, "not": {"pattern": ":latest$"}},
+        "public_registry_tag": {"type": "string", "minLength": 1, "not": {"pattern": ":latest$"}},
+        "manifest_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "format": {"type": "string", "minLength": 1},
+        "family": {"type": "string", "minLength": 1},
+        "parameter_size": {"type": "string", "minLength": 1},
+        "quantization": {"type": "string", "minLength": 1},
+        "declared_context_length": {"type": "integer", "minimum": 1},
+        "experiment_context_length": {"type": "integer", "minimum": 1},
+        "registry_digest_verified": {"const": true}
+      }
+    },
+    "hostedModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind", "provider", "provider_model", "lifecycle", "api_base_url",
+        "declared_context_length", "experiment_context_length",
+        "max_completion_tokens", "input_usd_per_million_tokens",
+        "output_usd_per_million_tokens", "pricing_captured_at",
+        "pricing_source", "identity_policy"
+      ],
+      "properties": {
+        "kind": {"const": "hosted"},
+        "provider": {"type": "string", "minLength": 1},
+        "provider_model": {"type": "string", "minLength": 1},
+        "foundation_model": {"type": "string", "minLength": 1},
+        "lifecycle": {"enum": ["production", "preview"]},
+        "api_base_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "api_format": {"enum": ["openai-compatible", "bedrock-converse"]},
+        "region": {"type": "string", "minLength": 1},
+        "declared_context_length": {"type": "integer", "minimum": 1},
+        "experiment_context_length": {"type": "integer", "minimum": 1},
+        "max_completion_tokens": {"type": "integer", "minimum": 1},
+        "input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "cached_input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "output_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "pricing_captured_at": {"type": "string", "format": "date-time"},
+        "pricing_source": {"type": "string", "format": "uri"},
+        "identity_policy": {"enum": [
+          "exact_response_model_and_fingerprint_when_present",
+          "endpoint_locked_model_and_iam_scope"
+        ]}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"provider": {"const": "Amazon Bedrock"}},
+            "required": ["provider"]
+          },
+          "then": {
+            "required": ["foundation_model", "api_format", "region"],
+            "properties": {"api_format": {"const": "bedrock-converse"}}
+          }
+        }
+      ]
+    }
+  }
+}

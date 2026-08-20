@@ -1,0 +1,73 @@
+diff --git a/suite/stats.go b/suite/stats.go
+index be4ccd6..f8ff92a 100644
+--- a/suite/stats.go
++++ b/suite/stats.go
+@@ -35,6 +35,9 @@ func (s *SuiteInformation) end(testName string, passed bool) {
+ 	if s == nil {
+ 		return
+ 	}
++	if _, started := s.TestStats[testName]; !started {
++		return
++	}
+ 	s.TestStats[testName].End = time.Now()
+ 	s.TestStats[testName].Passed = passed
+ }
+diff --git a/suite/suite_test.go b/suite/suite_test.go
+index 1c193aa..03112bb 100644
+--- a/suite/suite_test.go
++++ b/suite/suite_test.go
+@@ -554,6 +554,25 @@ func (s *suiteWithStats) TestPanic() {
+ 	panic("oops")
+ }
+ 
++type suiteWithStatsAndSetupTestSkip struct {
++	Suite
++	wasCalled bool
++	stats     *SuiteInformation
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) SetupTest() {
++	s.T().Skip("skipping in SetupTest")
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) HandleStats(suiteName string, stats *SuiteInformation) {
++	s.wasCalled = true
++	s.stats = stats
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) TestSkipped() {
++	s.Fail("should not run")
++}
++
+ func TestSuiteWithStats(t *testing.T) {
+ 	suiteWithStats := new(suiteWithStats)
+ 
+@@ -583,8 +602,27 @@ func TestSuiteWithStats(t *testing.T) {
+ 	assert.False(t, testStats["TestPanic"].Passed)
+ }
+ 
++func TestSuiteWithStatsSetupTestSkip(t *testing.T) {
++	s := new(suiteWithStatsAndSetupTestSkip)
++
++	require.NotPanics(t, func() {
++		testing.RunTests(allTestsFilter, []testing.InternalTest{
++			{
++				Name: t.Name() + "/suiteWithStatsAndSetupTestSkip",
++				F: func(t *testing.T) {
++					Run(t, s)
++				},
++			},
++		})
++	})
++
++	assert.True(t, s.wasCalled)
++	assert.NotZero(t, s.stats.Start)
++	assert.NotZero(t, s.stats.End)
++	assert.Nil(t, s.stats.TestStats["TestSkipped"])
++}
++
+ // FailfastSuite will test the behavior when running with the failfast flag
+-// It logs calls in the callOrder slice which we then use to assert the correct calls were made
+ type FailfastSuite struct {
+ 	Suite
+ 	callOrder []string

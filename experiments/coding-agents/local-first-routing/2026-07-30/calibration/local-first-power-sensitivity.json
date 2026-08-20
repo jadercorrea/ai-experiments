@@ -1,0 +1,130 @@
+{
+  "go_no_go": {
+    "blocking_reasons": [
+      "frozen_design_underpowered_at_observed_escalation_rate",
+      "frozen_design_underpowered_at_observed_resolution_and_escalation",
+      "powered_candidate_not_frozen_or_constructed"
+    ],
+    "confirmatory_ready": false
+  },
+  "inputs": {
+    "cloud_summary_sha256": "54b72fcc148a76d1c93cf236a6b622162da9c29cacfca60a21396366fa40bc25",
+    "frozen_assumptions_sha256": "5e926fb873d340c88210f2dd1f474aa2a433b3b435e82aac41baf38cc4bd8ea4",
+    "frozen_result_sha256": "97e64cbe75c200e0d6c13d0b757b03fcc4a4fe406b7c4de657cf5a456a58c459",
+    "local_first_summary_sha256": "674063892cafb5b4377c9c769c2f616402e66a66c35f13cd3d9f3a72c8dc78d2"
+  },
+  "interpretation": "Post-calibration design sensitivity. It does not replace or mutate the frozen assumptions and is not a confirmatory result.",
+  "observed_calibration": {
+    "beta_prior": "Beta(1,1)",
+    "escalation_rate": 0.6666666666666666,
+    "posterior_resolution_rates": {
+      "L1": {
+        "cloud_resolution_rate": 0.75,
+        "local_first_resolution_rate": 0.75
+      },
+      "L2": {
+        "cloud_resolution_rate": 0.5,
+        "local_first_resolution_rate": 0.25
+      },
+      "L3": {
+        "cloud_resolution_rate": 0.25,
+        "local_first_resolution_rate": 0.25
+      }
+    }
+  },
+  "power_target": 0.9,
+  "scenarios": {
+    "frozen_design_reproduction": {
+      "assumption_overrides": {},
+      "result": {
+        "hosted_cost_reduction_power": 1.0,
+        "joint_power": 0.9128,
+        "repositories": 15,
+        "resolution_noninferiority_power": 0.9128,
+        "simulations": 5000,
+        "tasks": 90,
+        "total_primary_runs": 900,
+        "total_three_policy_runs": 1350
+      }
+    },
+    "observed_escalation_only": {
+      "assumption_overrides": {
+        "local_first_escalation_rate": 0.6666666666666666
+      },
+      "result": {
+        "hosted_cost_reduction_power": 0.2864,
+        "joint_power": 0.2592,
+        "repositories": 15,
+        "resolution_noninferiority_power": 0.9128,
+        "simulations": 5000,
+        "tasks": 90,
+        "total_primary_runs": 900,
+        "total_three_policy_runs": 1350
+      }
+    },
+    "observed_powered_candidate": {
+      "assumption_overrides": {
+        "local_first_escalation_rate": 0.6666666666666666,
+        "repositories_per_stratum": 90,
+        "strata": [
+          {
+            "cloud_resolution_rate": 0.75,
+            "local_first_log_odds": 0.0
+          },
+          {
+            "cloud_resolution_rate": 0.5,
+            "local_first_log_odds": -1.0986122886681098
+          },
+          {
+            "cloud_resolution_rate": 0.25,
+            "local_first_log_odds": 0.0
+          }
+        ],
+        "tasks_per_stratum": 360,
+        "trajectories_per_task_policy": 15
+      },
+      "result": {
+        "hosted_cost_reduction_power": 1.0,
+        "joint_power": 0.9268,
+        "repositories": 270,
+        "resolution_noninferiority_power": 0.9268,
+        "simulations": 5000,
+        "tasks": 1080,
+        "total_primary_runs": 32400,
+        "total_three_policy_runs": 48600
+      },
+      "status": "candidate-only-not-preregistered"
+    },
+    "observed_resolution_and_escalation": {
+      "assumption_overrides": {
+        "local_first_escalation_rate": 0.6666666666666666,
+        "strata": [
+          {
+            "cloud_resolution_rate": 0.75,
+            "local_first_log_odds": 0.0
+          },
+          {
+            "cloud_resolution_rate": 0.5,
+            "local_first_log_odds": -1.0986122886681098
+          },
+          {
+            "cloud_resolution_rate": 0.25,
+            "local_first_log_odds": 0.0
+          }
+        ]
+      },
+      "result": {
+        "hosted_cost_reduction_power": 0.2864,
+        "joint_power": 0.0118,
+        "repositories": 15,
+        "resolution_noninferiority_power": 0.038,
+        "simulations": 5000,
+        "tasks": 90,
+        "total_primary_runs": 900,
+        "total_three_policy_runs": 1350
+      }
+    }
+  },
+  "schema_version": "ai-experiments.local-first-power-sensitivity/v1",
+  "status": "sensitivity-only-not-preregistered"
+}

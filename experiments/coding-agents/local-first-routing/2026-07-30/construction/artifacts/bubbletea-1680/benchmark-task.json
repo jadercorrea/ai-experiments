@@ -1,0 +1,46 @@
+{
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "construction/bubbletea-1680",
+  "public_problem": {
+    "repository": "https://github.com/charmbracelet/bubbletea",
+    "source_kind": "pull_request",
+    "source_url": "https://github.com/charmbracelet/bubbletea/pull/1680",
+    "source_number": 1680,
+    "problem_statement": "Using WithInput(nil) works until a program executes ExecProcess and restores the terminal. RestoreTerminal rebuilds the input reader even though input was explicitly disabled, causing a nil-pointer panic.",
+    "base_commit": "fdcd0cfd598195e7043c18ab1bc65dcae03588f5",
+    "public_test_commands": [["go", "test", "./..."]]
+  },
+  "router_view": {
+    "static_features": {
+      "repository_files": 214,
+      "repository_lines": 29560,
+      "issue_characters": 204,
+      "issue_referenced_symbols": 4
+    },
+    "allowed_runtime_signals": ["elapsed_seconds", "model_tokens", "tool_calls", "material_patch_present", "compilation_status", "public_test_status", "public_static_analysis_status", "workspace_containment_status", "public_api_change_status", "agent_termination_status"]
+  },
+  "hidden_evaluator": {
+    "reference_solution_patch": {"path": "solution.patch", "sha256": "783be9df6682bcff845742a2b815688f8ea0fc11aac550bab0983dee770b30dc"},
+    "reference_test_patch": {"path": "test.patch", "sha256": "06dfa2cc66a7ac72da6ee8c89033b7ee41f008e571cfc2c84492bac4168ec284"},
+    "tests": [
+      {"id": "TestTeaExecWithNilInput", "command": ["go", "test", "-run", "^TestTeaExecWithNilInput$", "."], "transition": "F2P"},
+      {"id": "race_regression", "command": ["go", "test", "-race", "./..."], "transition": "P2P"}
+    ],
+    "reference_patch_features": {"files_changed": 2, "lines_changed": 38, "functions_changed": 3, "architectural_layers_crossed": 1, "call_graph_distance": 1}
+  },
+  "provenance": {
+    "license_spdx": "MIT",
+    "split": "construction",
+    "source_created_at": "2026-04-19T12:42:39Z",
+    "reference_merged_at": "2026-04-20T13:45:07Z",
+    "collected_at": "2026-07-31T00:00:00-03:00",
+    "container_image": "ai-experiments/bubbletea-1680:base",
+    "container_digest": "sha256:6b937e288dbd46443ea769f7bb855948db5946767c3e5615fab22d978d0df25c",
+    "network_disabled": true,
+    "problem_statement_provenance": {"method": "curated_excerpt", "source_sha256": "cba48ac526795f6ca8ca3ad99cb45791d77f3ce75ae3b8756e96fee699d81590", "notes": "Problem-only excerpt; solution and validation sections omitted."},
+    "artifacts": [
+      {"path": "solution.patch", "sha256": "783be9df6682bcff845742a2b815688f8ea0fc11aac550bab0983dee770b30dc"},
+      {"path": "test.patch", "sha256": "06dfa2cc66a7ac72da6ee8c89033b7ee41f008e571cfc2c84492bac4168ec284"}
+    ]
+  }
+}

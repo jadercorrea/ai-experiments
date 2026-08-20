@@ -1,0 +1,57 @@
+diff --git a/middleware/decompress.go b/middleware/decompress.go
+index 501ee6c..158ce36 100644
+--- a/middleware/decompress.go
++++ b/middleware/decompress.go
+@@ -7,6 +7,7 @@ import (
+ 	"compress/gzip"
+ 	"io"
+ 	"net/http"
++	"strings"
+ 	"sync"
+ 
+ 	"github.com/labstack/echo/v5"
+@@ -82,7 +83,7 @@ func (config DecompressConfig) ToMiddleware() (echo.MiddlewareFunc, error) {
+ 				return next(c)
+ 			}
+ 
+-			if c.Request().Header.Get(echo.HeaderContentEncoding) != GZIPEncoding {
++			if !strings.EqualFold(c.Request().Header.Get(echo.HeaderContentEncoding), GZIPEncoding) {
+ 				return next(c)
+ 			}
+ 
+diff --git a/middleware/decompress_test.go b/middleware/decompress_test.go
+index 8dc3057..4ef6269 100644
+--- a/middleware/decompress_test.go
++++ b/middleware/decompress_test.go
+@@ -211,6 +211,31 @@ func TestDecompressPoolError(t *testing.T) {
+ 	assert.Equal(t, rec.Code, http.StatusInternalServerError)
+ }
+ 
++func TestDecompress_CaseInsensitiveContentEncoding(t *testing.T) {
++	e := echo.New()
++
++	h := Decompress()(func(c *echo.Context) error {
++		b, err := io.ReadAll(c.Request().Body)
++		if err != nil {
++			return err
++		}
++		return c.String(http.StatusOK, string(b))
++	})
++
++	body := `{"name": "echo"}`
++	for _, encoding := range []string{"gzip", "GZIP", "Gzip", "GZip", "gZIP"} {
++		gz, _ := gzipString(body)
++		req := httptest.NewRequest(http.MethodPost, "/", bytes.NewReader(gz))
++		req.Header.Set(echo.HeaderContentEncoding, encoding)
++		rec := httptest.NewRecorder()
++		c := e.NewContext(req, rec)
++
++		err := h(c)
++		assert.NoError(t, err, "encoding: %s", encoding)
++		assert.Equal(t, body, rec.Body.String(), "encoding: %s", encoding)
++	}
++}
++
+ func BenchmarkDecompress(b *testing.B) {
+ 	e := echo.New()
+ 	body := `{"name": "echo"}`

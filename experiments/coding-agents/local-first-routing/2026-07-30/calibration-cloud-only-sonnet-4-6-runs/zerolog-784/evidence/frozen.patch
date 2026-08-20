@@ -1,0 +1,28 @@
+diff --git a/log.go b/log.go
+index f9ba541..527b80c 100644
+--- a/log.go
++++ b/log.go
+@@ -183,7 +183,8 @@ func ParseLevel(levelStr string) (Level, error) {
+ 		return DebugLevel, nil
+ 	case strings.EqualFold(levelStr, LevelFieldMarshalFunc(InfoLevel)):
+ 		return InfoLevel, nil
+-	case strings.EqualFold(levelStr, LevelFieldMarshalFunc(WarnLevel)):
++	case strings.EqualFold(levelStr, LevelFieldMarshalFunc(WarnLevel)),
++		strings.EqualFold(levelStr, "warning"):
+ 		return WarnLevel, nil
+ 	case strings.EqualFold(levelStr, LevelFieldMarshalFunc(ErrorLevel)):
+ 		return ErrorLevel, nil
+diff --git a/log_test.go b/log_test.go
+index f4c2ea5..8637702 100644
+--- a/log_test.go
++++ b/log_test.go
+@@ -1378,6 +1378,9 @@ func TestParseLevel(t *testing.T) {
+ 		{"debug", args{"debug"}, DebugLevel, false},
+ 		{"info", args{"info"}, InfoLevel, false},
+ 		{"warn", args{"warn"}, WarnLevel, false},
++		{"warning", args{"warning"}, WarnLevel, false},
++		{"Warning", args{"Warning"}, WarnLevel, false},
++		{"WARNING", args{"WARNING"}, WarnLevel, false},
+ 		{"error", args{"error"}, ErrorLevel, false},
+ 		{"fatal", args{"fatal"}, FatalLevel, false},
+ 		{"panic", args{"panic"}, PanicLevel, false},

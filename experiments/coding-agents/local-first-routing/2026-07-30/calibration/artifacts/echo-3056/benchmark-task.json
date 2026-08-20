@@ -1,0 +1,98 @@
+{
+  "hidden_evaluator": {
+    "reference_solution_patch": {
+      "path": "solution.patch",
+      "sha256": "92df52540657a98db3ef4556e99914187336232e54d6bd3c74fc5641fac38e9d"
+    },
+    "reference_test_patch": {
+      "path": "test.patch",
+      "sha256": "19311d6ab56290379fee2bd808e708037a48ea8096385357c45e1c48b345889c"
+    },
+    "tests": [
+      {
+        "command": [
+          "go",
+          "test",
+          "./middleware",
+          "-run",
+          "^TestDecompressContentEncodingCaseInsensitive$"
+        ],
+        "id": "focal_regression",
+        "transition": "F2P"
+      },
+      {
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "./..."
+        ],
+        "id": "race_regression",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "provenance": {
+    "artifacts": [
+      {
+        "path": "solution.patch",
+        "sha256": "92df52540657a98db3ef4556e99914187336232e54d6bd3c74fc5641fac38e9d"
+      },
+      {
+        "path": "test.patch",
+        "sha256": "19311d6ab56290379fee2bd808e708037a48ea8096385357c45e1c48b345889c"
+      }
+    ],
+    "collected_at": "2026-07-31T15:40:00-03:00",
+    "container_digest": "sha256:490bc08d30bf7245919b5e7c0f30d2c7fecda32f11200041aa4fda7b6cb2e954",
+    "container_image": "ai-experiments/calibration-echo-3056:base",
+    "license_spdx": "MIT",
+    "network_disabled": true,
+    "problem_statement_provenance": {
+      "method": "curated_excerpt",
+      "notes": "Curated problem-only statement; solution details omitted.",
+      "source_sha256": "99c9550faf03f12d063a15759c25aa4732aa1dc090fd8ea8be58158d1d8eee4c"
+    },
+    "reference_merged_at": "2026-07-23T05:02:10Z",
+    "source_created_at": "2026-07-22T05:43:40Z",
+    "split": "calibration"
+  },
+  "public_problem": {
+    "base_commit": "ed8bbe4b6cbf519766c99e492b9cc427404b3719",
+    "problem_statement": "Decompress middleware accepts only an exact lowercase gzip Content-Encoding value, although HTTP content codings are case-insensitive.",
+    "public_test_commands": [
+      [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ]
+    ],
+    "repository": "https://github.com/labstack/echo",
+    "source_kind": "pull_request",
+    "source_number": 3056,
+    "source_url": "https://github.com/labstack/echo/pull/3056"
+  },
+  "router_view": {
+    "allowed_runtime_signals": [
+      "elapsed_seconds",
+      "model_tokens",
+      "tool_calls",
+      "material_patch_present",
+      "compilation_status",
+      "public_test_status",
+      "public_static_analysis_status",
+      "workspace_containment_status",
+      "public_api_change_status",
+      "agent_termination_status"
+    ],
+    "static_features": {
+      "issue_characters": 134,
+      "issue_referenced_symbols": 1,
+      "repository_files": 148,
+      "repository_lines": 44612
+    }
+  },
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "calibration/echo-3056"
+}

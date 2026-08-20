@@ -1,0 +1,21 @@
+diff --git a/worktree_fs.go b/worktree_fs.go
+index 9bc2fd97..28581ffa 100644
+--- a/worktree_fs.go
++++ b/worktree_fs.go
+@@ -227,6 +227,16 @@ func (sfs *worktreeFilesystem) validPath(paths ...string) error {
+ 			if sfs.protectNTFS && !pathutil.WindowsValidPath(part) {
+ 				return fmt.Errorf("invalid path: %q", p)
+ 			}
++
++			// Disallow existing symlink components that could escape worktree
++			if i < len(parts)-1 { // check intermediate components only
++				cum := strings.Join(parts[:i+1], string(os.PathSeparator))
++if info, err := sfs.Filesystem.Lstat(cum); err == nil && info != nil {
++				if info.Mode()&os.ModeSymlink != 0 {
++					return fmt.Errorf("invalid path %q: contains symlink", p)
++					}
++				}
++			}
+ 		}
+ 	}
+ 	return nil

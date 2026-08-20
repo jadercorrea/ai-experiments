@@ -1,0 +1,12 @@
+diff --git a/middleware/route_headers.go b/middleware/route_headers.go
+index 8874376..1c3334d 100644
+--- a/middleware/route_headers.go
++++ b/middleware/route_headers.go
+@@ -79,6 +79,7 @@ func (hr HeaderRouter) Handler(next http.Handler) http.Handler {
+ 		if len(hr) == 0 {
+ 			// skip if no routes set
+ 			next.ServeHTTP(w, r)
++			return
+ 		}
+ 
+ 		// find first matching header route, and continue
