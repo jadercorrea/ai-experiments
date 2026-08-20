@@ -24,7 +24,7 @@ for the protocol, limitations, and release manifest.
 
 | Study | Status | Next gate |
 | --- | --- | --- |
-| [Local-first routing for repository-level coding agents](experiments/coding-agents/local-first-routing/2026-07-30) | Calibration complete; pilot release candidate prepared; confirmatory no-go | Complete the external release checklist and publish the bounded pilot artifact |
+| [Local-first routing for repository-level coding agents](experiments/coding-agents/local-first-routing/2026-07-30) | Published calibration pilot; confirmatory no-go | Develop the separately named successor without pooling v1 outcomes |
 
 Draft and calibration artifacts are not published benchmark claims. They are
 retained so protocol changes, invalidated runs, and treatment-selection

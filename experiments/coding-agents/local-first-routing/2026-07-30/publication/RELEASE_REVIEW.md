@@ -1,8 +1,10 @@
-# Release-candidate review
+# Release review
 
-Date: 2026-08-19
+Automated review: 2026-08-19
 
-Scope: local experiment tree before external publication
+Human review completed: 2026-08-20
+
+Scope: local experiment tree for release `2026.08.20.1`
 
 ## Automated triage completed
 
@@ -22,11 +24,11 @@ Scope: local experiment tree before external publication
 The scans reported only filenames or matched category labels. No credential
 value was printed during review.
 
-## Human release gate still required
+## Human release gate completed
 
 Pattern scans are not proof that arbitrary prose, patches, or event streams are
-free of sensitive information. Before an external release, a human must review
-the raw evidence and confirm:
+free of sensitive information. The human reviewer reported completion of the
+release review and authorized publication after checking:
 
 1. repository attribution and license-notice obligations for redistributed
    patches and excerpts;
@@ -36,5 +38,5 @@ the raw evidence and confirm:
    third-party source tree not intended as a release asset;
 4. agreement between the final archive contents and the release manifest.
 
-Failure of this gate blocks publication but does not change or invalidate the
-scientific calibration results.
+The gate passed. This approval applies to the bounded pilot package and does
+not authorize execution or publication claims for the successor series.

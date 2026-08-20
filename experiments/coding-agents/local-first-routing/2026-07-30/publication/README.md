@@ -1,10 +1,11 @@
-# Pilot publication release candidate
+# Pilot publication
 
-Status: release candidate; not yet published or peer reviewed.
+Status: released as `2026.08.20.1`; not peer reviewed.
 
 This package turns the completed `2026-07-30` calibration into a bounded pilot
 publication. It does not upgrade calibration outcomes into confirmatory
-evidence and it does not authorize the exploratory 48,600-run campaign.
+evidence and it does not authorize the exploratory 48,600-run campaign or any
+successor-series trajectory.
 
 ## Publication claim
 
@@ -29,6 +30,9 @@ the observed percentages estimate population effects.
   symlink, and license-metadata triage performed on the release candidate.
 - [`artifact-lock.json`](artifact-lock.json) checksums the complete experiment
   tree, excluding only itself and generated operating-system/Python cache files.
+- [`../manifest.json`](../manifest.json) records release provenance, treatments,
+  verification, limitations, and the archive checksum.
+- [`../SHA256SUMS`](../SHA256SUMS) is the release-asset checksum file.
 - [`../CALIBRATION_PILOT_REPORT.md`](../CALIBRATION_PILOT_REPORT.md) is the
   concise analysis report from which the manuscript is derived.
 - [`../calibration/local-first-summary.json`](../calibration/local-first-summary.json)
@@ -60,20 +64,14 @@ The two analysis commands must reproduce their checked-in JSON outputs before
 the artifact lock is regenerated. Regenerating the lock is an explicit release
 operation, not an automatic formatting step.
 
-## Remaining external publication steps
+## Release boundary
 
-The local release candidate is complete only after these external steps:
+The Git tag is the authoritative source for the protocol, harness, analysis,
+release manifest, checksum file, and artifact lock. The attached evidence
+archive excludes `manifest.json`, `SHA256SUMS`, and `artifact-lock.json` to
+avoid circular checksums; runtime Unix sockets, operating-system metadata, and
+Python caches are also excluded. The three release-control files remain in the
+tag.
 
-1. complete human review of raw evidence for secrets, personal data, and
-   third-party attribution obligations; automated triage is recorded in
-   `RELEASE_REVIEW.md`;
-2. commit the complete study so the harness and analysis have an immutable Git
-   revision;
-3. assign a CalVer release identifier, create a release archive, and record its
-   checksum in the repository release manifest;
-4. update `CITATION.cff` to the new release without erasing the earlier
-   publication history;
-5. publish the archive and tag to the selected public destination.
-
-No file in this directory represents a completed external publication until
-those steps have occurred.
+Human review and automated triage are recorded in `RELEASE_REVIEW.md`. The
+archive checksum must match `SHA256SUMS` before the asset is interpreted.

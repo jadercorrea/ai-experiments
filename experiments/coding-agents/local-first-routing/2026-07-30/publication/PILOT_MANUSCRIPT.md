@@ -2,7 +2,7 @@
 
 ## A calibration study of transparent local-first routing
 
-Status: pilot manuscript draft; calibration evidence only; not peer reviewed.
+Status: released pilot manuscript; calibration evidence only; not peer reviewed.
 
 ### Abstract
 
@@ -150,9 +150,9 @@ not be pooled as repetitions of one unchanged policy.
 
 The study retains valid and invalidated trajectories, schedules, model and
 routing locks, analysis code, summaries, patches, event streams, and held-out
-evaluation results. The publication release candidate is checksummed by
+evaluation results. Release `2026.08.20.1` is checksummed by
 [`artifact-lock.json`](artifact-lock.json). Exact reproduction commands and the
-remaining external release steps are recorded in [`README.md`](README.md).
+release boundary are recorded in [`README.md`](README.md).
 
 Related-work citations and venue-specific formatting remain intentionally
 deferred until a submission destination is selected. They cannot alter the

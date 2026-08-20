@@ -2,7 +2,7 @@
 
 Date: 2026-08-19
 
-Status: accepted locally; external release pending
+Status: accepted and authorized for release `2026.08.20.1`
 
 ## Context
 
@@ -35,8 +35,8 @@ remain separate.
   treatment or series.
 - The two series must not be pooled unless a preregistered bridge study proves
   compatibility on every treatment-defining dimension.
-- External publication still requires a committed revision, license and secret
-  review, release archive, checksum, tag, and citation update.
+- External publication is versioned independently from any successor-series
+  calibration or confirmatory result.
 
 ## Reconsideration trigger
 

@@ -1,6 +1,6 @@
 # Calibration pilot report: local-first coding-agent routing
 
-Status: calibration-only draft; not a confirmatory result
+Status: released calibration-only report; not a confirmatory result
 
 Calibration completed: 2026-08-18
 

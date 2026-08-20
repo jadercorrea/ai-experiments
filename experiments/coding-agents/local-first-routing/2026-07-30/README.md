@@ -1,6 +1,6 @@
 # Local-first routing for repository-level coding agents
 
-Status: calibration complete; confirmatory no-go; no confirmatory runs executed.
+Status: calibration pilot released; confirmatory no-go; no confirmatory runs executed.
 
 Protocol created: 2026-07-30
 
@@ -9,11 +9,11 @@ Scientific redesign: 2026-07-31
 Current calibration interpretation:
 [`CALIBRATION_PILOT_REPORT.md`](CALIBRATION_PILOT_REPORT.md)
 
-Pilot publication release candidate:
+Pilot publication:
 [`publication/README.md`](publication/README.md)
 
-Separately named prospective successor:
-[`local-first-routing-v2/2026-08-19`](../../local-first-routing-v2/2026-08-19)
+The separately named prospective successor is intentionally outside this
+release and must not pool v1 outcomes into future effect estimates.
 
 This document pre-specifies an empirical evaluation of transparent local-first
 routing for repository-level coding agents. It is intended to support a
