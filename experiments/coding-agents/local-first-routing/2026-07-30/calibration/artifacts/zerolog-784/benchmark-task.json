@@ -1,0 +1,98 @@
+{
+  "hidden_evaluator": {
+    "reference_solution_patch": {
+      "path": "solution.patch",
+      "sha256": "57b52ef397dd64d2aadc4969f4850df2be6e27b523bd5e79645c9d570d8c3155"
+    },
+    "reference_test_patch": {
+      "path": "test.patch",
+      "sha256": "6bd4ab8fd47d1c3d4a96b46f2a1638b8ca9d37af302013187d9a4de939fdb94b"
+    },
+    "tests": [
+      {
+        "command": [
+          "go",
+          "test",
+          "-run",
+          "^TestParseLevelWarningAlias$",
+          "."
+        ],
+        "id": "focal_regression",
+        "transition": "F2P"
+      },
+      {
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "./..."
+        ],
+        "id": "race_regression",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "provenance": {
+    "artifacts": [
+      {
+        "path": "solution.patch",
+        "sha256": "57b52ef397dd64d2aadc4969f4850df2be6e27b523bd5e79645c9d570d8c3155"
+      },
+      {
+        "path": "test.patch",
+        "sha256": "6bd4ab8fd47d1c3d4a96b46f2a1638b8ca9d37af302013187d9a4de939fdb94b"
+      }
+    ],
+    "collected_at": "2026-07-31T15:40:00-03:00",
+    "container_digest": "sha256:c683a82d668ba642789122e657d4861d4c68831cbf4408486762d69d8602943c",
+    "container_image": "ai-experiments/calibration-zerolog-784:base",
+    "license_spdx": "MIT",
+    "network_disabled": true,
+    "problem_statement_provenance": {
+      "method": "curated_excerpt",
+      "notes": "Curated problem-only statement; solution details omitted.",
+      "source_sha256": "4ed780259df05daaff5acc0d6668a5548307e921d3096b10a4e5ad824bf299a5"
+    },
+    "reference_merged_at": "2026-07-23T09:33:16Z",
+    "source_created_at": "2026-07-23T07:14:17Z",
+    "split": "calibration"
+  },
+  "public_problem": {
+    "base_commit": "1170ccfb07953ca67a1d4754e43a9ce9f7b54738",
+    "problem_statement": "ParseLevel rejects the common warning alias even though it should map case-insensitively to WarnLevel.",
+    "public_test_commands": [
+      [
+        "go",
+        "test",
+        "-race",
+        "./..."
+      ]
+    ],
+    "repository": "https://github.com/rs/zerolog",
+    "source_kind": "pull_request",
+    "source_number": 784,
+    "source_url": "https://github.com/rs/zerolog/pull/784"
+  },
+  "router_view": {
+    "allowed_runtime_signals": [
+      "elapsed_seconds",
+      "model_tokens",
+      "tool_calls",
+      "material_patch_present",
+      "compilation_status",
+      "public_test_status",
+      "public_static_analysis_status",
+      "workspace_containment_status",
+      "public_api_change_status",
+      "agent_termination_status"
+    ],
+    "static_features": {
+      "issue_characters": 102,
+      "issue_referenced_symbols": 2,
+      "repository_files": 99,
+      "repository_lines": 22605
+    }
+  },
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "calibration/zerolog-784"
+}

@@ -1,0 +1,17 @@
+diff --git a/tea.go b/tea.go
+index cd98092..e249d71 100644
+--- a/tea.go
++++ b/tea.go
+@@ -1347,8 +1347,10 @@ func (p *Program) RestoreTerminal() error {
+ 	if err := p.initTerminal(); err != nil {
+ 		return err
+ 	}
+-	if err := p.initInputReader(false); err != nil {
+-		return err
++	if p.input != nil {
++		if err := p.initInputReader(false); err != nil {
++			return err
++		}
+ 	}
+ 
+ 	p.startRenderer()

@@ -1,0 +1,76 @@
+{
+  "schema_version": "ai-experiments.manifest/v1",
+  "release": "2026.08.20.1",
+  "experiment": "coding-agents/local-first-routing",
+  "published_at": "2026-08-20T14:43:04-03:00",
+  "harness": {
+    "name": "AI Experiments repository-level coding-agent harness",
+    "repository": "https://github.com/jadercorrea/ai-experiments",
+    "published_revision": "835d6623da6b10a812ef5394b0f0c5ba74dbc79c",
+    "provenance": "The published revision contains the reviewed v1 harness, analysis, protocol, and evidence; treatment-defining source and image hashes are additionally frozen by the routing and model locks."
+  },
+  "models": [
+    {
+      "name": "qwen3-coder:30b-a3b-q4_K_M",
+      "digest": "sha256:06c1097efce0431c2045fe7b2e5108366e43bee1b4603a7aded8f21689e90bca",
+      "context_window": 65536
+    },
+    {
+      "name": "us.anthropic.claude-sonnet-4-6",
+      "digest": "provider-id:us.anthropic.claude-sonnet-4-6",
+      "context_window": 65536
+    }
+  ],
+  "environment": {
+    "machine": "Apple M1 Pro",
+    "memory_gb": 32,
+    "gpu_cores": 16,
+    "local_runtime": "Ollama 0.32.5",
+    "cloud_runtime": "Amazon Bedrock Converse",
+    "cloud_region": "us-east-1"
+  },
+  "campaigns": [
+    {
+      "id": "local-only-calibration",
+      "purpose": "Measure the frozen local policy on six repository-disjoint calibration tasks.",
+      "runs": 6,
+      "passed": 3,
+      "timed_out": 2,
+      "median_duration": "27m41s"
+    },
+    {
+      "id": "cloud-only-sonnet-4-6-calibration",
+      "purpose": "Measure the paired Sonnet 4.6 cloud reference on the same six tasks.",
+      "runs": 6,
+      "passed": 3,
+      "timed_out": 1,
+      "median_duration": "2m00s"
+    },
+    {
+      "id": "local-first-clean-fallback-calibration",
+      "purpose": "Evaluate the frozen clean-fallback local-first policy and its observable routing decisions.",
+      "runs": 6,
+      "passed": 2,
+      "timed_out": 1,
+      "median_duration": "30m33s"
+    }
+  ],
+  "verification": [
+    ["ruff", "check", "scripts", "tests"],
+    ["env", "PATH=.venv/bin:/usr/local/bin:/usr/bin:/bin", "scripts/validate"],
+    ["scripts/verify-release", "experiments/coding-agents/local-first-routing/2026-07-30/SHA256SUMS", "dist/ai-experiment-coding-agents-local-first-routing-2026.08.20.1.tar.gz"]
+  ],
+  "artifacts": [
+    {
+      "name": "ai-experiment-coding-agents-local-first-routing-2026.08.20.1.tar.gz",
+      "sha256": "8279f0f396568c007a027395cfe81fe459b57a2188d608cff0425cd837773058"
+    }
+  ],
+  "limitations": [
+    "The calibration contains six Go tasks and one trajectory per task-policy pair.",
+    "The release supports method, infrastructure, routing, and feasibility claims but not population non-inferiority claims.",
+    "Hosted cost excludes local hardware, electricity, and opportunity cost.",
+    "One locally accepted patch failed held-out evaluation.",
+    "The confirmatory gate for the tested policy and original design is no-go."
+  ]
+}

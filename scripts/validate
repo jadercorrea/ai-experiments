@@ -7,6 +7,82 @@ schema="$root/schemas/experiment-manifest-v1.schema.json"
 
 bash -n "$root/scripts/verify-release"
 
+python3 -m unittest discover -s "$root/tests" -p "test_*.py"
+
+while IFS= read -r -d '' artifact_lock; do
+  python3 "$root/scripts/build_artifact_lock.py" \
+    "$(dirname "$(dirname "$artifact_lock")")" \
+    "$artifact_lock" \
+    --verify
+done < <(find "$root/experiments" -name artifact-lock.json -print0)
+
+for benchmark_schema in "$root"/schemas/benchmark-task-*.schema.json; do
+  python3 - "$benchmark_schema" <<'PY'
+import json
+import pathlib
+import sys
+
+import jsonschema
+
+schema_path = pathlib.Path(sys.argv[1])
+with schema_path.open() as schema_file:
+    schema = json.load(schema_file)
+
+jsonschema.Draft202012Validator.check_schema(schema)
+PY
+done
+
+python3 - "$root" <<'PY'
+import json
+import pathlib
+import sys
+
+import jsonschema
+
+root = pathlib.Path(sys.argv[1])
+with (root / "schemas/calibration-screening-v1.schema.json").open() as schema_file:
+    schema = json.load(schema_file)
+validator = jsonschema.Draft202012Validator(
+    schema,
+    format_checker=jsonschema.FormatChecker(),
+)
+for screening_path in root.glob("experiments/**/calibration/screening.json"):
+    with screening_path.open() as screening_file:
+        screening = json.load(screening_file)
+    validator.validate(screening)
+    ids = [candidate["id"] for candidate in screening["candidates"]]
+    repositories = [candidate["repository"] for candidate in screening["candidates"]]
+    if len(ids) != len(set(ids)):
+        raise ValueError(f"duplicate calibration candidate id: {screening_path}")
+    if len(repositories) != len(set(repositories)):
+        raise ValueError(f"calibration repositories are not disjoint: {screening_path}")
+PY
+
+python3 - "$root" <<'PY'
+import json
+import pathlib
+import sys
+
+import jsonschema
+
+root = pathlib.Path(sys.argv[1])
+sys.path.insert(0, str(root / "scripts"))
+from benchmark_tasks import validate_candidate_set
+
+schema_path = root / "schemas" / "construction-candidates-v1.schema.json"
+with schema_path.open() as schema_file:
+    schema = json.load(schema_file)
+validator = jsonschema.Draft202012Validator(
+    schema,
+    format_checker=jsonschema.FormatChecker(),
+)
+for candidate_path in root.glob("experiments/**/construction/candidates.json"):
+    with candidate_path.open() as candidate_file:
+        candidate_set = json.load(candidate_file)
+    validator.validate(candidate_set)
+    validate_candidate_set(candidate_set)
+PY
+
 while IFS= read -r -d '' manifest; do
   python3 - "$schema" "$manifest" <<'PY'
 import json
@@ -27,5 +103,28 @@ jsonschema.Draft202012Validator(
 ).validate(manifest)
 PY
 done < <(find "$root/experiments" -name manifest.json -print0)
+
+while IFS= read -r -d '' task; do
+  python3 "$root/scripts/benchmark_tasks.py" "$task"
+done < <(find "$root/experiments" -name benchmark-task.json -print0)
+
+python3 - "$root" <<'PY'
+import json
+import pathlib
+import sys
+
+import jsonschema
+
+root = pathlib.Path(sys.argv[1])
+with (root / "schemas/model-lock-v1.schema.json").open() as schema_file:
+    schema = json.load(schema_file)
+validator = jsonschema.Draft202012Validator(
+    schema,
+    format_checker=jsonschema.FormatChecker(),
+)
+for lock_path in root.glob("experiments/**/model-lock.json"):
+    with lock_path.open() as lock_file:
+        validator.validate(json.load(lock_file))
+PY
 
 echo "repository validation passed"

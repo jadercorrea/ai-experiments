@@ -1,0 +1,41 @@
+{
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "construction/cobra-2356",
+  "public_problem": {
+    "repository": "https://github.com/spf13/cobra",
+    "source_kind": "pull_request",
+    "source_url": "https://github.com/spf13/cobra/pull/2356",
+    "source_number": 2356,
+    "problem_statement": "Shell completion can mutate os.Args when append writes into the spare capacity of a shared backing array. The behavior is visible when callers inspect arguments from ValidArgsFunction, particularly with TraverseChildren enabled.",
+    "base_commit": "61968e893eee2f27696c2fbc8e34fa5c4afaf7c4",
+    "public_test_commands": [["go", "test", "./..."]]
+  },
+  "router_view": {
+    "static_features": {"repository_files": 66, "repository_lines": 20139, "issue_characters": 228, "issue_referenced_symbols": 5},
+    "allowed_runtime_signals": ["elapsed_seconds", "model_tokens", "tool_calls", "material_patch_present", "compilation_status", "public_test_status", "public_static_analysis_status", "workspace_containment_status", "public_api_change_status", "agent_termination_status"]
+  },
+  "hidden_evaluator": {
+    "reference_solution_patch": {"path": "solution.patch", "sha256": "f0e42cdd7a637c6d7a93dff26eb5b800bb64629c711963623ccbecb1d8a1206f"},
+    "reference_test_patch": {"path": "test.patch", "sha256": "480c8b87a92d874d079779eb13b0a7ca9a5392dfc4565e849a9626fa3c8aa178"},
+    "tests": [
+      {"id": "TestCompletionDoesNotMutateOsArgs", "command": ["go", "test", "-run", "^TestCompletionDoesNotMutateOsArgs$", "."], "transition": "F2P"},
+      {"id": "race_regression", "command": ["go", "test", "-race", "./..."], "transition": "P2P"}
+    ],
+    "reference_patch_features": {"files_changed": 2, "lines_changed": 61, "functions_changed": 2, "architectural_layers_crossed": 1, "call_graph_distance": 1}
+  },
+  "provenance": {
+    "license_spdx": "Apache-2.0",
+    "split": "construction",
+    "source_created_at": "2026-02-10T08:14:44Z",
+    "reference_merged_at": "2026-04-24T20:41:58Z",
+    "collected_at": "2026-07-31T00:00:00-03:00",
+    "container_image": "ai-experiments/cobra-2356:base",
+    "container_digest": "sha256:908e65200644af06675aaaad64706f06b67f4ef74b90c2bdcae017ce383051a6",
+    "network_disabled": true,
+    "problem_statement_provenance": {"method": "curated_excerpt", "source_sha256": "360384477fc19f93c52df3d050bcabc9f36fc36a0db94950a930a581e52c164c", "notes": "Problem-only excerpt; solution and test-plan sections omitted."},
+    "artifacts": [
+      {"path": "solution.patch", "sha256": "f0e42cdd7a637c6d7a93dff26eb5b800bb64629c711963623ccbecb1d8a1206f"},
+      {"path": "test.patch", "sha256": "480c8b87a92d874d079779eb13b0a7ca9a5392dfc4565e849a9626fa3c8aa178"}
+    ]
+  }
+}

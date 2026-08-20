@@ -1,0 +1,34 @@
+{
+  "agent_rerun": false,
+  "frozen_patch_unchanged": true,
+  "original_result_path": "result.json",
+  "reason": "The original full-suite P2P evaluator was invalidated by unrelated I/O timeouts and its 10-minute package timeout.",
+  "revised_evaluation": {
+    "resolved": true,
+    "tests": [
+      {
+        "exit_code": 0,
+        "id": "focal_regression",
+        "output_path": "evaluator-focal_regression.log",
+        "output_sha256": "252deb2687fd37ee09415bbe9d573cf17f8b5e516908ccc6aefd659642e4da81",
+        "transition": "F2P"
+      },
+      {
+        "exit_code": 0,
+        "id": "race_regression",
+        "output_path": "evaluator-race_regression.log",
+        "output_sha256": "85147cf969bd71c498be5b080f827048b25b26d09d47b7c3b63ac78b703b62e2",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "revised_regression_command": [
+    "go",
+    "test",
+    "-race",
+    "-run",
+    "^(Test_Ctx_IP|Test_Ctx_IP_.*|Test_Ctx_IPs|Test_Ctx_IPs_.*|Test_Ctx_extractIPsFromHeader.*)$",
+    "."
+  ],
+  "schema_version": "ai-experiments.evaluator-revision/v1"
+}

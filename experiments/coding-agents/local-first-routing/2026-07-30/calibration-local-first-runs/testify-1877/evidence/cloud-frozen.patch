@@ -1,0 +1,61 @@
+diff --git a/suite/stats.go b/suite/stats.go
+index be4ccd6..f8ff92a 100644
+--- a/suite/stats.go
++++ b/suite/stats.go
+@@ -35,6 +35,9 @@ func (s *SuiteInformation) end(testName string, passed bool) {
+ 	if s == nil {
+ 		return
+ 	}
++	if _, started := s.TestStats[testName]; !started {
++		return
++	}
+ 	s.TestStats[testName].End = time.Now()
+ 	s.TestStats[testName].Passed = passed
+ }
+diff --git a/suite/suite_test.go b/suite/suite_test.go
+index 1c193aa..733aca1 100644
+--- a/suite/suite_test.go
++++ b/suite/suite_test.go
+@@ -554,6 +554,42 @@ func (s *suiteWithStats) TestPanic() {
+ 	panic("oops")
+ }
+ 
++type suiteWithStatsAndSetupTestSkip struct {
++	Suite
++	wasCalled bool
++	stats     *SuiteInformation
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) SetupTest() {
++	s.T().Skip("skipping all tests")
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) HandleStats(suiteName string, stats *SuiteInformation) {
++	s.wasCalled = true
++	s.stats = stats
++}
++
++func (s *suiteWithStatsAndSetupTestSkip) TestSomething() {
++	s.Equal(1, 1)
++}
++
++func TestSuiteWithStatsAndSetupTestSkip(t *testing.T) {
++	suite := new(suiteWithStatsAndSetupTestSkip)
++
++	require.NotPanics(t, func() {
++		testing.RunTests(allTestsFilter, []testing.InternalTest{
++			{
++				Name: t.Name() + "/suiteWithStatsAndSetupTestSkip",
++				F: func(t *testing.T) {
++					Run(t, suite)
++				},
++			},
++		})
++	})
++
++	assert.True(t, suite.wasCalled)
++}
++
+ func TestSuiteWithStats(t *testing.T) {
+ 	suiteWithStats := new(suiteWithStats)
+ 

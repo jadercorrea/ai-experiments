@@ -1,0 +1,249 @@
+/run/frozen.patch:12: trailing whitespace.
+	
+/run/frozen.patch:26: trailing whitespace.
+	
+/run/frozen.patch:31: trailing whitespace.
+	
+warning: 3 lines add whitespace errors.
+ok  	github.com/stretchr/testify	1.018s
+ok  	github.com/stretchr/testify/assert	7.065s
+ok  	github.com/stretchr/testify/assert/internal/unsafetests	1.019s
+?   	github.com/stretchr/testify/assert/yaml	[no test files]
+?   	github.com/stretchr/testify/http	[no test files]
+ok  	github.com/stretchr/testify/internal/difflib	1.060s
+ok  	github.com/stretchr/testify/internal/spew	1.054s
+ok  	github.com/stretchr/testify/mock	1.126s
+ok  	github.com/stretchr/testify/require	1.154s
+--- FAIL: TestSuiteRequireTwice/SuiteRequireTwice (0.02s)
+    --- FAIL: TestSuiteRequireTwice/SuiteRequireTwice/TestRequireOne (0.00s)
+        suite_test.go:47: 
+            	Error Trace:	/workspace/suite/suite_test.go:47
+            	            				/usr/local/go/src/runtime/asm_arm64.s:1268
+            	Error:      	Not equal: 
+            	            	expected: 1
+            	            	actual  : 2
+            	Test:       	TestSuiteRequireTwice/SuiteRequireTwice/TestRequireOne
+    --- FAIL: TestSuiteRequireTwice/SuiteRequireTwice/TestRequireTwo (0.00s)
+        suite_test.go:52: 
+            	Error Trace:	/workspace/suite/suite_test.go:52
+            	            				/usr/local/go/src/runtime/asm_arm64.s:1268
+            	Error:      	Not equal: 
+            	            	expected: 1
+            	            	actual  : 2
+            	Test:       	TestSuiteRequireTwice/SuiteRequireTwice/TestRequireTwo
+--- FAIL: TestSuiteRecoverPanic/InSetupSuite (0.00s)
+    suite_test.go:68: test panicked: oops in setup suite
+        goroutine 30 [running]:
+        runtime/debug.Stack()
+        	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+        github.com/stretchr/testify/suite.failOnPanic(0xc0001baa80, {0x61c6a0, 0x760ca0})
+        	/workspace/suite/suite.go:93 +0x44
+        github.com/stretchr/testify/suite.recoverAndFailOnPanic(0xc0001baa80)
+        	/workspace/suite/suite.go:87 +0x4c
+        panic({0x61c6a0?, 0x760ca0?})
+        	/usr/local/go/src/runtime/panic.go:783 +0x120
+        github.com/stretchr/testify/suite.(*panickingSuite).SetupSuite(0xc0001b5cc0)
+        	/workspace/suite/suite_test.go:68 +0x64
+        github.com/stretchr/testify/suite.Run(0xc0001baa80, {0x766648, 0xc0001b5cc0})
+        	/workspace/suite/suite.go:227 +0x8ec
+        github.com/stretchr/testify/suite.TestSuiteRecoverPanic.func1(0xc0001baa80)
+        	/workspace/suite/suite_test.go:113 +0x94
+        testing.tRunner(0xc0001baa80, 0x6dbfe8)
+        	/usr/local/go/src/testing/testing.go:1934 +0x168
+        created by testing.(*T).Run in goroutine 29
+        	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanic/InSetupTest (0.00s)
+    --- FAIL: TestSuiteRecoverPanic/InSetupTest/Test (0.00s)
+        suite_test.go:74: test panicked: oops in setup test
+            goroutine 35 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc000082a80, {0x61c6a0, 0x760cb0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:200 +0x18c
+            panic({0x61c6a0?, 0x760cb0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*panickingSuite).SetupTest(0xc0000a4050)
+            	/workspace/suite/suite_test.go:74 +0x64
+            github.com/stretchr/testify/suite.Run.func2(0xc000082a80)
+            	/workspace/suite/suite.go:204 +0x1e4
+            testing.tRunner(0xc000082a80, 0xc0000c8000)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 34
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanicInBeforeTest (0.00s)
+    --- FAIL: TestSuiteRecoverPanicInBeforeTest/Test (0.00s)
+        suite_test.go:80: test panicked: oops in before test
+            goroutine 37 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc000082fc0, {0x61c6a0, 0x760cc0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:200 +0x18c
+            panic({0x61c6a0?, 0x760cc0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*panickingSuite).BeforeTest(0xc0000a5180, {0x6b56e0?, 0x9e9cc8?}, {0xac8400?, 0x9e9cc8?})
+            	/workspace/suite/suite_test.go:80 +0x64
+            github.com/stretchr/testify/suite.Run.func2(0xc000082fc0)
+            	/workspace/suite/suite.go:207 +0x268
+            testing.tRunner(0xc000082fc0, 0xc0000c8090)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 36
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanic/InTest (0.00s)
+    --- FAIL: TestSuiteRecoverPanic/InTest/Test (0.00s)
+        suite_test.go:86: test panicked: oops in test
+            goroutine 39 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc000083340, {0x61c6a0, 0x760cd0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:200 +0x18c
+            panic({0x61c6a0?, 0x760cd0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*panickingSuite).Test(0xc0000e4370)
+            	/workspace/suite/suite_test.go:86 +0x64
+            reflect.Value.call({0xc0001c51c0?, 0xc0000b4f38?, 0x13?}, {0x6b91f3, 0x4}, {0xc0000bde90, 0x1, 0x1?})
+            	/usr/local/go/src/reflect/value.go:581 +0x930
+            reflect.Value.Call({0xc0001c51c0?, 0xc0000b4f38?, 0x4?}, {0xc000095e90, 0x1, 0x1})
+            	/usr/local/go/src/reflect/value.go:365 +0x94
+            github.com/stretchr/testify/suite.Run.func2(0xc000083340)
+            	/workspace/suite/suite.go:212 +0x338
+            testing.tRunner(0xc000083340, 0xc0000c8120)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 38
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanic/InAfterTest (0.01s)
+    --- FAIL: TestSuiteRecoverPanic/InAfterTest/Test (0.00s)
+        suite_test.go:92: test panicked: oops in after test
+            goroutine 41 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc000083880, {0x61c6a0, 0x760ce0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.recoverAndFailOnPanic(0xc000083880)
+            	/workspace/suite/suite.go:87 +0x4c
+            panic({0x61c6a0?, 0x760ce0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*panickingSuite).AfterTest(0xc0000e54a0, {0x6b56e0?, 0x4?}, {0x1?, 0x0?})
+            	/workspace/suite/suite_test.go:92 +0x64
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:192 +0x130
+            github.com/stretchr/testify/suite.Run.func2(0xc000083880)
+            	/workspace/suite/suite.go:213 +0x33c
+            testing.tRunner(0xc000083880, 0xc0000c81b0)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 40
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanic/InTearDownTest (0.00s)
+    --- FAIL: TestSuiteRecoverPanic/InTearDownTest/Test (0.00s)
+        suite_test.go:98: test panicked: oops in tear down test
+            goroutine 43 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc000083c00, {0x61c6a0, 0x760cf0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.recoverAndFailOnPanic(0xc000083c00)
+            	/workspace/suite/suite.go:87 +0x4c
+            panic({0x61c6a0?, 0x760cf0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*panickingSuite).TearDownTest(0xc000282690)
+            	/workspace/suite/suite_test.go:98 +0x64
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:196 +0x168
+            github.com/stretchr/testify/suite.Run.func2(0xc000083c00)
+            	/workspace/suite/suite.go:213 +0x33c
+            testing.tRunner(0xc000083c00, 0xc0000c8240)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 42
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteRecoverPanic/InTearDownSuite (0.00s)
+    suite_test.go:104: test panicked: oops in tear down suite
+        goroutine 44 [running]:
+        runtime/debug.Stack()
+        	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+        github.com/stretchr/testify/suite.failOnPanic(0xc000083dc0, {0x61c6a0, 0x760d00})
+        	/workspace/suite/suite.go:93 +0x44
+        github.com/stretchr/testify/suite.recoverAndFailOnPanic(0xc000083dc0)
+        	/workspace/suite/suite.go:87 +0x4c
+        panic({0x61c6a0?, 0x760d00?})
+        	/usr/local/go/src/runtime/panic.go:783 +0x120
+        github.com/stretchr/testify/suite.(*panickingSuite).TearDownSuite(0xc0002837c0)
+        	/workspace/suite/suite_test.go:104 +0x64
+        github.com/stretchr/testify/suite.Run.func3()
+        	/workspace/suite/suite.go:232 +0x78
+        github.com/stretchr/testify/suite.Run(0xc000083dc0, {0x766648, 0xc0002837c0})
+        	/workspace/suite/suite.go:242 +0x980
+        github.com/stretchr/testify/suite.TestSuiteRecoverPanic.func7(0xc000083dc0)
+        	/workspace/suite/suite_test.go:137 +0x94
+        testing.tRunner(0xc000083dc0, 0x6dc018)
+        	/usr/local/go/src/testing/testing.go:1934 +0x168
+        created by testing.(*T).Run in goroutine 29
+        	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteWithStats/suiteWithStats (0.00s)
+    --- FAIL: TestSuiteWithStats/suiteWithStats/TestPanic (0.00s)
+        suite_test.go:554: test panicked: oops
+            goroutine 16 [running]:
+            runtime/debug.Stack()
+            	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+            github.com/stretchr/testify/suite.failOnPanic(0xc00022cc40, {0x61c6a0, 0x760dd0})
+            	/workspace/suite/suite.go:93 +0x44
+            github.com/stretchr/testify/suite.Run.func2.1()
+            	/workspace/suite/suite.go:200 +0x18c
+            panic({0x61c6a0?, 0x760dd0?})
+            	/usr/local/go/src/runtime/panic.go:783 +0x120
+            github.com/stretchr/testify/suite.(*suiteWithStats).TestPanic(0xc0000b74f8?)
+            	/workspace/suite/suite_test.go:554 +0x34
+            reflect.Value.call({0xc000249340?, 0xc00004b808?, 0x13?}, {0x6b91f3, 0x4}, {0xc0000b7e90, 0x1, 0x1?})
+            	/usr/local/go/src/reflect/value.go:581 +0x930
+            reflect.Value.Call({0xc000249340?, 0xc00004b808?, 0x9?}, {0xc000096e90, 0x1, 0x1})
+            	/usr/local/go/src/reflect/value.go:365 +0x94
+            github.com/stretchr/testify/suite.Run.func2(0xc00022cc40)
+            	/workspace/suite/suite.go:212 +0x338
+            testing.tRunner(0xc00022cc40, 0xc000016240)
+            	/usr/local/go/src/testing/testing.go:1934 +0x168
+            created by testing.(*T).Run in goroutine 15
+            	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: TestSuiteWithSkipInSetupAndStats (0.00s)
+    suite_test.go:619: 
+        	Error Trace:	/workspace/suite/suite_test.go:619
+        	Error:      	Expected value not to be nil.
+        	Test:       	TestSuiteWithSkipInSetupAndStats
+        	Messages:   	test stats entry should exist even when skipped in SetupTest
+--- FAIL: TestFailfastSuite/FailfastSuite (0.00s)
+    --- FAIL: TestFailfastSuite/FailfastSuite/Test_A_Fails (0.00s)
+        suite_test.go:716: Test A meant to fail
+--- FAIL: TestSubtestPanic/subtestPanicSuite (0.00s)
+    --- FAIL: TestSubtestPanic/subtestPanicSuite/TestSubtestPanic (0.00s)
+        --- FAIL: TestSubtestPanic/subtestPanicSuite/TestSubtestPanic/subtest (0.00s)
+            suite_test.go:745: test panicked: panic
+                goroutine 79 [running]:
+                runtime/debug.Stack()
+                	/usr/local/go/src/runtime/debug/stack.go:26 +0x6c
+                github.com/stretchr/testify/suite.failOnPanic(0xc0003248c0, {0x61c6a0, 0x760eb0})
+                	/workspace/suite/suite.go:93 +0x44
+                github.com/stretchr/testify/suite.recoverAndFailOnPanic(0xc0003248c0)
+                	/workspace/suite/suite.go:87 +0x4c
+                panic({0x61c6a0?, 0x760eb0?})
+                	/usr/local/go/src/runtime/panic.go:783 +0x120
+                github.com/stretchr/testify/suite.(*subtestPanicSuite).TestSubtestPanic.func1()
+                	/workspace/suite/suite_test.go:745 +0x34
+                github.com/stretchr/testify/suite.(*Suite).Run.func1(0xc0003248c0)
+                	/workspace/suite/suite.go:119 +0x1b8
+                testing.tRunner(0xc0003248c0, 0xc000068800)
+                	/usr/local/go/src/testing/testing.go:1934 +0x168
+                created by testing.(*T).Run in goroutine 78
+                	/usr/local/go/src/testing/testing.go:1997 +0x6e4
+--- FAIL: signature validation (0.00s)
+    --- FAIL: signature validation/TestInvalidSignatureArg (0.00s)
+        suite.go:170: testify: suite method "TestInvalidSignatureArg" has invalid signature: expected no input or output parameters, method has 1 input parameters and 0 output parameters
+    --- FAIL: signature validation/TestInvalidSignatureBoth (0.00s)
+        suite.go:170: testify: suite method "TestInvalidSignatureBoth" has invalid signature: expected no input or output parameters, method has 1 input parameters and 1 output parameters
+    --- FAIL: signature validation/TestInvalidSignatureReturnValue (0.00s)
+        suite.go:170: testify: suite method "TestInvalidSignatureReturnValue" has invalid signature: expected no input or output parameters, method has 0 input parameters and 1 output parameters
+FAIL
+FAIL	github.com/stretchr/testify/suite	5.222s
+FAIL

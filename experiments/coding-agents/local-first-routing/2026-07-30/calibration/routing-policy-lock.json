@@ -1,0 +1,73 @@
+{
+  "calibration_only": true,
+  "fallback": {
+    "cloud_stage_policy": "cloud-only",
+    "cloud_stage_timeout_seconds": 1800,
+    "conversation": "fresh",
+    "local_patch_handoff": false,
+    "local_reasoning_handoff": false,
+    "repository_reset": "hard reset and clean to immutable base commit",
+    "router_report_schema": "ai-experiments.router-report/v1"
+  },
+  "frozen_at": "2026-08-14T14:14:02-03:00",
+  "hosted_cost_cap": {
+    "cap_usd": 50.0,
+    "failed_cloud_request_accounting": "charge the full worst-case request amount when provider token usage is unavailable",
+    "input_usd_per_million_tokens": 3.0,
+    "known_prior_spend_usd": 8.843046,
+    "maximum_input_tokens_per_request": 65536,
+    "maximum_new_requests_at_freeze": 35,
+    "maximum_output_tokens_per_request": 64000,
+    "output_usd_per_million_tokens": 15.0,
+    "recalculation": "before every cloud stage from all valid and aborted local-first evidence",
+    "worst_case_request_usd": 1.156608
+  },
+  "implementation": {
+    "gateway_image": "sha256:056641ef28ed517be8dd96424408f22fe0365103f5a71265ed087856c0ec1539",
+    "gateway_source_sha256": "8ba18ae299137d924cb24fcca4df168e25e931d170272de99388920faa74470a",
+    "hosted_budget_source_sha256": "31c8500469578e62e7471a64db7dcbcdf8557502133b26ae4d860240b530df6a",
+    "local_first_policy_source_sha256": "e8cedffdceec144a89a188538b7990d4be64cc9f13fc5b68589f65273c78cf4b",
+    "opencode_config_sha256": "aa98258d857ffd0266d31916bb6da269fa3e2a3d3dfc171756b51405db21ae59",
+    "runner_source_sha256": "9937e1d8b176bebc148ca8f676a4b5b5f776e7148019384242422be5464e04fc"
+  },
+  "inputs": {
+    "cloud_only_summary_sha256": "54b72fcc148a76d1c93cf236a6b622162da9c29cacfca60a21396366fa40bc25",
+    "hosted_treatment_sha256": "aba89d9cc41c24d31423ebd9199c080a7cbd641eabda25644ffe9b19468de413",
+    "local_first_schedule_sha256": "1ba628bf45c509ed96fd005d848d8da9bf897b9f16ec3b572305589c13b7d147",
+    "local_only_schedule_sha256": "a3a28fbcb5bd2c2a3c52654c8ec7fdd27b5d03ac0044ff6aceb13e3f66a175a2",
+    "local_only_summary_sha256": "e68c0f23d8173cf73cfd24da9664b2138dff627ecda1c0cbb63f5717f51e27e1",
+    "model_lock_sha256": "b4147d513b82837a6a21b3f649cfe4ef3968f80c18ce69920dcbdeceafcaef31"
+  },
+  "interpretation": {
+    "confirmatory_outcomes_used": false,
+    "learned_classifier": false,
+    "retrospective_calibration_check": "two of six tasks escalate; applying their cloud outcomes yields four of six resolved in the calibration union",
+    "task_specific_rules": false
+  },
+  "preflight": {
+    "artifact": "cloud-preflight-2026-08-14.json",
+    "http_status": 200,
+    "model": "us.anthropic.claude-sonnet-4-6",
+    "output_matched_exact_ok": true
+  },
+  "purpose": "freeze deterministic observable routing before local-first calibration",
+  "routing": {
+    "accept_local_only_if": [
+      "agent exits with status zero",
+      "no inference failure is recorded",
+      "a material patch exists",
+      "every repository-provided public verification command passes"
+    ],
+    "external_repair_cycles": 0,
+    "hidden_evaluator_available_to_router": false,
+    "local_stage_timeout_seconds": 1800,
+    "precedence": [
+      "hard_timeout",
+      "backend_failure",
+      "no_material_patch",
+      "public_verification_failed",
+      "accept_local"
+    ]
+  },
+  "schema_version": "ai-experiments.routing-policy-lock/v1"
+}

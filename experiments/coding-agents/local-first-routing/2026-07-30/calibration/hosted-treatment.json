@@ -1,0 +1,50 @@
+{
+  "schema_version": "ai-experiments.hosted-treatment/v1",
+  "frozen_at": "2026-08-12T15:42:17-03:00",
+  "purpose": "calibration",
+  "provider": "Amazon Bedrock",
+  "api_access": "direct_bearer",
+  "provider_router_allowed": false,
+  "model_role": "cloud_coding",
+  "provider_model": "us.anthropic.claude-sonnet-4-6",
+  "foundation_model": "anthropic.claude-sonnet-4-6",
+  "api_format": "bedrock-converse",
+  "region": "us-east-1",
+  "lifecycle": "production",
+  "gateway_image": "sha256:8f4e51fd0d530896134b862fc95f73e2124f3f8ff66edffa7b86173587c99729",
+  "adapter_sha256": "262f38b628397bb82a17dd49af101de0db86679d3f9988fcfd9c8c6b9aff9bfa",
+  "credential": {
+    "source": "macos_keychain",
+    "keychain_service": "aws-bedrock-fable5",
+    "keychain_account": "968138089800"
+  },
+  "agent_timeout_seconds": 1800,
+  "inference_timeout_seconds": 300,
+  "maximum_total_hosted_spend_usd": 50.0,
+  "sampling": {
+    "temperature": 0
+  },
+  "identity_policy": {
+    "requested_inference_profile_must_equal": "us.anthropic.claude-sonnet-4-6",
+    "identity_source": "locked_endpoint_path_and_exclusive_iam_scope",
+    "record_system_fingerprint_when_present": false,
+    "provider_substitution_allowed": false
+  },
+  "accounting": {
+    "record_prompt_tokens": true,
+    "record_cached_prompt_tokens": true,
+    "record_completion_tokens": true,
+    "record_request_latency": true,
+    "price_schedule_source": "https://aws.amazon.com/bedrock/pricing/",
+    "input_usd_per_million_tokens": 3.0,
+    "cached_input_usd_per_million_tokens": 0.3,
+    "output_usd_per_million_tokens": 15.0
+  },
+  "admission": {
+    "maximum_requests": 1,
+    "maximum_estimated_spend_usd": 0.02,
+    "requires_exact_model_identity": true,
+    "requires_tool_calling": true,
+    "requires_token_usage": true
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "hidden_evaluator": {
+    "reference_solution_patch": {
+      "path": "solution.patch",
+      "sha256": "ea4df646143c27fb053cf084189e64ac1addb3cda147b95fb88d63619a61ec8b"
+    },
+    "reference_test_patch": {
+      "path": "test.patch",
+      "sha256": "eeba2fc0d9d2fc9366cbd61efeff2f914158c55416b6d4b4cefd70c463afdf8f"
+    },
+    "tests": [
+      {
+        "command": [
+          "go",
+          "test",
+          "-run",
+          "^Test_Ctx_IP_ProxyHeader_RepeatedFieldLines",
+          "."
+        ],
+        "id": "focal_regression",
+        "transition": "F2P"
+      },
+      {
+        "command": [
+          "go",
+          "test",
+          "-race",
+          "-run",
+          "^(Test_Ctx_IP|Test_Ctx_IP_.*|Test_Ctx_IPs|Test_Ctx_IPs_.*|Test_Ctx_extractIPsFromHeader.*)$",
+          "."
+        ],
+        "id": "race_regression",
+        "transition": "P2P"
+      }
+    ]
+  },
+  "provenance": {
+    "artifacts": [
+      {
+        "path": "solution.patch",
+        "sha256": "ea4df646143c27fb053cf084189e64ac1addb3cda147b95fb88d63619a61ec8b"
+      },
+      {
+        "path": "test.patch",
+        "sha256": "eeba2fc0d9d2fc9366cbd61efeff2f914158c55416b6d4b4cefd70c463afdf8f"
+      }
+    ],
+    "collected_at": "2026-07-31T15:40:00-03:00",
+    "container_digest": "sha256:84a3f9c6aeb3c5557d1de0c504e310fa189ab7de18f500617c6a9accc4f1d2c2",
+    "container_image": "ai-experiments/calibration-fiber-4568:base",
+    "license_spdx": "MIT",
+    "network_disabled": true,
+    "problem_statement_provenance": {
+      "method": "curated_excerpt",
+      "notes": "Curated problem-only statement; solution details omitted. Reference provenance: The pull request discloses a Codex task link; calibration analysis must retain this provenance flag.",
+      "source_sha256": "3f11d3918f0131a3dd65cfd2a39fdf5511770da501d40c1b8126563e4ed337bb"
+    },
+    "reference_merged_at": "2026-07-29T13:20:41Z",
+    "source_created_at": "2026-07-29T12:24:15Z",
+    "split": "calibration"
+  },
+  "public_problem": {
+    "base_commit": "0a7e5340765d9c17f4830f41ebbed77d334c90c4",
+    "problem_statement": "Client IP extraction reads only one repeated proxy-header field line, allowing an attacker-controlled first line to hide the trusted proxy chain instead of combining fields as required by HTTP semantics.",
+    "public_test_commands": [
+      [
+        "go",
+        "test",
+        "-race",
+        "-run",
+        "^(Test_Ctx_IP|Test_Ctx_IP_.*|Test_Ctx_IPs|Test_Ctx_IPs_.*|Test_Ctx_extractIPsFromHeader.*)$",
+        "."
+      ]
+    ],
+    "repository": "https://github.com/gofiber/fiber",
+    "source_kind": "pull_request",
+    "source_number": 4568,
+    "source_url": "https://github.com/gofiber/fiber/pull/4568"
+  },
+  "router_view": {
+    "allowed_runtime_signals": [
+      "elapsed_seconds",
+      "model_tokens",
+      "tool_calls",
+      "material_patch_present",
+      "compilation_status",
+      "public_test_status",
+      "public_static_analysis_status",
+      "workspace_containment_status",
+      "public_api_change_status",
+      "agent_termination_status"
+    ],
+    "static_features": {
+      "issue_characters": 203,
+      "issue_referenced_symbols": 2,
+      "repository_files": 437,
+      "repository_lines": 163354
+    }
+  },
+  "schema_version": "ai-experiments.benchmark-task/v1",
+  "task_id": "calibration/fiber-4568"
+}

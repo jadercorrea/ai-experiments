@@ -1,0 +1,22 @@
+diff --git a/suite/suite.go b/suite/suite.go
+index 32976ac..3fc6b74 100644
+--- a/suite/suite.go
++++ b/suite/suite.go
+@@ -200,6 +200,8 @@ func Run(t *testing.T, suite TestingSuite) {
+ 					failOnPanic(t, r)
+ 				}()
+ 
++				stats.start(method.Name)
++
+ 				if setupTestSuite, ok := suite.(SetupTestSuite); ok {
+ 					setupTestSuite.SetupTest()
+ 				}
+@@ -207,8 +209,6 @@ func Run(t *testing.T, suite TestingSuite) {
+ 					beforeTestSuite.BeforeTest(methodFinder.Elem().Name(), method.Name)
+ 				}
+ 
+-				stats.start(method.Name)
+-
+ 				method.Func.Call([]reflect.Value{reflect.ValueOf(suite)})
+ 			},
+ 		}
