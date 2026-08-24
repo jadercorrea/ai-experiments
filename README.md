@@ -25,6 +25,7 @@ for the protocol, limitations, and release manifest.
 | Study | Status | Next gate |
 | --- | --- | --- |
 | [Local-first routing for repository-level coding agents](experiments/coding-agents/local-first-routing/2026-07-30) | Published calibration pilot; confirmatory no-go | Develop the separately named successor without pooling v1 outcomes |
+| [Evidence-carrying handoffs for coding agents](experiments/coding-agents/evidence-carrying-handoffs/2026-08-21) | Public protocol preview v0.1; no runs authorized | Pass the calibration-entry lock, then freeze the confirmatory design |
 
 Draft and calibration artifacts are not published benchmark claims. They are
 retained so protocol changes, invalidated runs, and treatment-selection

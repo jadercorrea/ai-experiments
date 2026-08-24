@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jadercorrea/ai-experiments/blob/main/experiments/coding-agents/evidence-carrying-handoffs/2026-08-21/protocol/normalized-event-v1.schema.json",
+  "title": "Evidence-carrying handoff normalized event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "sequence",
+    "occurred_at",
+    "actor",
+    "phase",
+    "kind",
+    "visibility",
+    "linguistic_metadata",
+    "payload",
+    "content_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.evidence-carrying-handoffs.normalized-event/v1"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9._:-]*[a-z0-9])?$"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "enum": ["sender", "receiver", "generator", "harness", "evaluator"]
+    },
+    "phase": {
+      "enum": [
+        "stage1_sender",
+        "handoff_generation",
+        "stage2_receiver",
+        "public_evaluation",
+        "hidden_evaluation"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "message",
+        "tool_call",
+        "tool_result",
+        "command",
+        "command_result",
+        "file_read",
+        "file_write",
+        "patch",
+        "termination",
+        "resource_usage",
+        "redaction"
+      ]
+    },
+    "visibility": {
+      "enum": ["participant", "publishable", "restricted"]
+    },
+    "provider_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "linguistic_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_language",
+        "detected_languages",
+        "mixed_language",
+        "detector_revision"
+      ],
+      "properties": {
+        "primary_language": {"$ref": "#/$defs/languageTagOrUndetermined"},
+        "detected_languages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/languageTag"}
+        },
+        "mixed_language": {"type": "boolean"},
+        "detector_revision": {"type": "string", "minLength": 1}
+      }
+    },
+    "payload": {
+      "type": "object"
+    },
+    "content_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "languageTag": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+    },
+    "languageTagOrUndetermined": {
+      "anyOf": [
+        {"$ref": "#/$defs/languageTag"},
+        {"const": "und"}
+      ]
+    }
+  }
+}

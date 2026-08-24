@@ -1,0 +1,401 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jadercorrea/ai-experiments/blob/main/experiments/coding-agents/evidence-carrying-handoffs/2026-08-21/protocol/handoff-bundle-v1.schema.json",
+  "title": "Evidence-carrying handoff bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "task_id",
+    "source_commit",
+    "trace",
+    "language_policy",
+    "sender_identity",
+    "termination_reason",
+    "resource_usage",
+    "files_inspected",
+    "commands_run",
+    "observations",
+    "hypotheses_rejected",
+    "unresolved_failures",
+    "failed_patch",
+    "redactions",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.evidence-carrying-handoffs.handoff-bundle/v1"
+    },
+    "experiment_id": {
+      "const": "evidence-carrying-handoffs-2026-08-21"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9._/-]*[a-z0-9])?$"
+    },
+    "source_commit": {
+      "$ref": "#/$defs/gitCommit"
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trace_id", "sha256"],
+      "properties": {
+        "trace_id": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "language_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_language",
+        "sender_output_language",
+        "trace_languages",
+        "realization_language",
+        "mixed_language_policy",
+        "translation",
+        "token_accounting"
+      ],
+      "properties": {
+        "task_language": {"$ref": "#/$defs/languageTag"},
+        "sender_output_language": {"$ref": "#/$defs/languageTag"},
+        "trace_languages": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/languageTag"}
+        },
+        "realization_language": {"$ref": "#/$defs/languageTag"},
+        "mixed_language_policy": {
+          "enum": ["reject", "record_and_preserve", "normalize"]
+        },
+        "translation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["used", "method", "source_language", "review_status"],
+          "properties": {
+            "used": {"type": "boolean"},
+            "method": {
+              "enum": ["none", "deterministic_template", "human", "model"]
+            },
+            "source_language": {
+              "oneOf": [
+                {"$ref": "#/$defs/languageTag"},
+                {"type": "null"}
+              ]
+            },
+            "review_status": {
+              "enum": ["not_applicable", "pending", "passed", "failed"]
+            }
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"used": {"const": false}}},
+              "then": {
+                "properties": {
+                  "method": {"const": "none"},
+                  "source_language": {"type": "null"},
+                  "review_status": {"const": "not_applicable"}
+                }
+              },
+              "else": {
+                "properties": {
+                  "method": {
+                    "enum": ["deterministic_template", "human", "model"]
+                  },
+                  "source_language": {"$ref": "#/$defs/languageTag"},
+                  "review_status": {"enum": ["pending", "passed", "failed"]}
+                }
+              }
+            }
+          ]
+        },
+        "token_accounting": {
+          "const": "provider_native_and_normalized"
+        }
+      }
+    },
+    "sender_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "harness_revision"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "model_digest": {"type": "string", "minLength": 1},
+        "harness_revision": {"$ref": "#/$defs/gitCommit"},
+        "adapter_revision": {"$ref": "#/$defs/gitCommit"}
+      }
+    },
+    "termination_reason": {
+      "enum": [
+        "timeout",
+        "resource_limit",
+        "public_evaluator_failure",
+        "no_material_patch",
+        "incorrect_completion_claim",
+        "recoverable_provider_failure",
+        "recoverable_harness_failure"
+      ]
+    },
+    "resource_usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wall_clock_seconds", "tool_calls"],
+      "properties": {
+        "wall_clock_seconds": {"type": "number", "minimum": 0},
+        "tool_calls": {"type": "integer", "minimum": 0},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "cached_input_tokens": {"type": "integer", "minimum": 0},
+        "reasoning_tokens": {"type": "integer", "minimum": 0},
+        "provider_cost_usd": {"type": "number", "minimum": 0}
+      }
+    },
+    "files_inspected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "evidence_refs"],
+        "properties": {
+          "path": {"$ref": "#/$defs/relativePath"},
+          "content_sha256": {"$ref": "#/$defs/sha256"},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}
+        }
+      }
+    },
+    "commands_run": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["argv", "exit_code", "output_sha256", "evidence_refs"],
+        "properties": {
+          "argv": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string"}
+          },
+          "exit_code": {"type": ["integer", "null"]},
+          "output_sha256": {"$ref": "#/$defs/sha256"},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim_id",
+          "proposition",
+          "confidence",
+          "evidence_refs",
+          "realizations"
+        ],
+        "properties": {
+          "claim_id": {"$ref": "#/$defs/semanticIdentifier"},
+          "proposition": {"$ref": "#/$defs/proposition"},
+          "confidence": {"enum": ["observed", "strong", "tentative"]},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+          "realizations": {"$ref": "#/$defs/realizations"}
+        }
+      }
+    },
+    "hypotheses_rejected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "hypothesis_id",
+          "proposition",
+          "evidence_refs",
+          "realizations"
+        ],
+        "properties": {
+          "hypothesis_id": {"$ref": "#/$defs/semanticIdentifier"},
+          "proposition": {"$ref": "#/$defs/proposition"},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+          "realizations": {"$ref": "#/$defs/realizations"}
+        }
+      }
+    },
+    "unresolved_failures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "failure_id",
+          "proposition",
+          "evidence_refs",
+          "realizations"
+        ],
+        "properties": {
+          "failure_id": {"$ref": "#/$defs/semanticIdentifier"},
+          "proposition": {"$ref": "#/$defs/proposition"},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+          "realizations": {"$ref": "#/$defs/realizations"}
+        }
+      }
+    },
+    "failed_patch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["present", "diff_sha256", "public_evaluator_status"],
+      "properties": {
+        "present": {"type": "boolean"},
+        "diff_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "public_evaluator_status": {
+          "enum": ["pass", "fail", "not_run", "unavailable"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"present": {"const": true}}},
+          "then": {"properties": {"diff_sha256": {"$ref": "#/$defs/sha256"}}},
+          "else": {"properties": {"diff_sha256": {"type": "null"}}}
+        }
+      ]
+    },
+    "redactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "count", "evidence_refs"],
+        "properties": {
+          "category": {
+            "enum": [
+              "secret",
+              "personal_data",
+              "control_character",
+              "binary_data",
+              "provider_restricted_field"
+            ]
+          },
+          "count": {"type": "integer", "minimum": 1},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generator_revision", "evidence", "bundle_sha256"],
+      "properties": {
+        "generator_revision": {"$ref": "#/$defs/gitCommit"},
+        "evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["event_id", "content_sha256"],
+            "properties": {
+              "event_id": {"type": "string", "minLength": 1},
+              "content_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        "bundle_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "languageTag": {
+      "type": "string",
+      "pattern": "^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$"
+    },
+    "semanticIdentifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[a-z0-9._:/-]*[a-z0-9])?$"
+    },
+    "semanticValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "value"],
+      "properties": {
+        "type": {"enum": ["identifier", "integer", "number", "boolean", "null"]},
+        "value": {
+          "type": ["string", "integer", "number", "boolean", "null"]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"type": {"const": "identifier"}}},
+          "then": {"properties": {"value": {"$ref": "#/$defs/semanticIdentifier"}}}
+        },
+        {
+          "if": {"properties": {"type": {"const": "integer"}}},
+          "then": {"properties": {"value": {"type": "integer"}}}
+        },
+        {
+          "if": {"properties": {"type": {"const": "number"}}},
+          "then": {"properties": {"value": {"type": "number"}}}
+        },
+        {
+          "if": {"properties": {"type": {"const": "boolean"}}},
+          "then": {"properties": {"value": {"type": "boolean"}}}
+        },
+        {
+          "if": {"properties": {"type": {"const": "null"}}},
+          "then": {"properties": {"value": {"type": "null"}}}
+        }
+      ]
+    },
+    "proposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "predicate", "object"],
+      "properties": {
+        "subject": {"$ref": "#/$defs/semanticIdentifier"},
+        "predicate": {"$ref": "#/$defs/semanticIdentifier"},
+        "object": {"$ref": "#/$defs/semanticValue"}
+      }
+    },
+    "realization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "text"],
+      "properties": {
+        "language": {"$ref": "#/$defs/languageTag"},
+        "text": {"type": "string", "minLength": 1}
+      }
+    },
+    "realizations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/realization"}
+    }
+  }
+}
