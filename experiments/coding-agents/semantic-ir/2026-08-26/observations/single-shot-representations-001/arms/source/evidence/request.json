@@ -1,0 +1,45 @@
+{
+  "max_completion_tokens": 2048,
+  "messages": [
+    {
+      "content": "# Task\n\n# User lookup task\n\nImplement `lookupUser` under the contract already declared in\n`src/lookup-user.ts`.\n\nRequired behavior:\n\n1. Remove ASCII whitespace (`space`, `tab`, `LF`, `VT`, `FF`, and `CR`) from\n   both ends of `rawId`.\n2. If the normalized identifier is empty, return\n   `{ error: \"invalid_user_id\" }` without reading the user store.\n3. Otherwise call the available user lookup exactly once with the normalized\n   identifier.\n4. Return `{ error: \"not_found\" }` when no user exists.\n5. Return `{ ok: user }` when a user exists.\n\nExpected failures are values, not thrown exceptions. Do not change public APIs,\ntest files, runtime configuration, or any file other than the declared target.\n\n# Initial public workspace\n\n## deno.json\n\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n```\n\n## src/lookup-user.ts\n\n```typescript\nexport interface User {\n  readonly id: string;\n  readonly name: string;\n}\n\nexport type Result<T, E> = { ok: T } | { error: E };\n\nexport interface SemanticCapabilities {\n  readonly users: {\n    getById(id: string): User | undefined;\n  };\n}\n\nexport function lookupUser(\n  rawId: string,\n  capabilities: SemanticCapabilities,\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n```\n\n## tests/public.test.ts\n\n```typescript\nimport {\n  lookupUser,\n  type SemanticCapabilities,\n  type User,\n} from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nfunction capability(\n  users: Readonly<Record<string, User>>,\n  calls: string[],\n): SemanticCapabilities {\n  return {\n    users: {\n      getById(id: string): User | undefined {\n        calls.push(id);\n        return users[id];\n      },\n    },\n  };\n}\n\nDeno.test(\"rejects an ASCII-whitespace-only identifier without I/O\", () => {\n  const calls: string[] = [];\n  const result = lookupUser(\" \\t\\n\\v\\f\\r \", capability({}, calls));\n\n  assertEquals(result, { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"normalizes an identifier and returns the matching user\", () => {\n  const calls: string[] = [];\n  const user: User = { id: \"42\", name: \"Ada\" };\n  const result = lookupUser(\" \\t42\\r \", capability({ \"42\": user }, calls));\n\n  assertEquals(result, { ok: user });\n  assertEquals(calls, [\"42\"]);\n});\n```\n\n# Closed semantic catalog\n\n```json\n{\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"types\": [\n    \"string\",\n    \"boolean\",\n    \"user\",\n    \"option<user>\",\n    \"result<user,string>\"\n  ],\n  \"effects\": [\"db.read:users\"],\n  \"symbols\": [\n    {\n      \"symbol\": \"string.trim_ascii\",\n      \"arguments\": [\"string\"],\n      \"result\": \"string\",\n      \"effects\": []\n    },\n    {\n      \"symbol\": \"string.is_empty\",\n      \"arguments\": [\"string\"],\n      \"result\": \"boolean\",\n      \"effects\": []\n    },\n    {\n      \"symbol\": \"users.get_by_id\",\n      \"arguments\": [\"string\"],\n      \"result\": \"option<user>\",\n      \"effects\": [\"db.read:users\"]\n    }\n  ]\n}\n```\n\n# Submission boundary\n\nThe evaluator withholds additional behavioral cases. You receive no execution feedback and have one submission attempt. The forced tool is the only permitted output.\n",
+      "role": "system"
+    },
+    {
+      "content": "Produce one final candidate by calling the required submission tool exactly once. Do not answer in plain text.",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": {
+    "function": {
+      "name": "submit_source"
+    },
+    "type": "function"
+  },
+  "tools": [
+    {
+      "function": {
+        "description": "Submit the complete replacement text for src/lookup-user.ts. This is the only editable file and the final submission.",
+        "name": "submit_source",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "content": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "content"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

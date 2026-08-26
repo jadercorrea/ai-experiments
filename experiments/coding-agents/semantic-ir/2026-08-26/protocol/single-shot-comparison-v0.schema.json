@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/single-shot-comparison-v0.schema.json",
+  "title": "Semantic IR single-shot representation comparison protocol v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "purpose",
+    "model_calls_authorized",
+    "efficacy_claim_authorized",
+    "task",
+    "artifacts",
+    "model_sources",
+    "model",
+    "sampling",
+    "limits",
+    "accounting",
+    "arm_order",
+    "initial_user_message"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.single-shot-comparison/v0"
+    },
+    "observation_id": {
+      "pattern": "^semantic-ir-construction/single-shot-representations-[0-9]{3}$"
+    },
+    "purpose": {"const": "construction_observation"},
+    "model_calls_authorized": {"const": true},
+    "efficacy_claim_authorized": {"const": false},
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "task_id", "construction_tree_sha256"],
+      "properties": {
+        "path": {"const": "construction/task-001-user-lookup"},
+        "task_id": {"const": "semantic-ir-construction/user-lookup-001"},
+        "construction_tree_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "program_schema_path",
+        "program_schema_sha256",
+        "compact_decoder_path",
+        "compact_decoder_sha256",
+        "semantic_lowerer_path",
+        "semantic_lowerer_sha256",
+        "common_prompt_bytes",
+        "common_prompt_sha256"
+      ],
+      "properties": {
+        "program_schema_path": {"const": "protocol/program-ir-v0.schema.json"},
+        "program_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "compact_decoder_path": {"const": "scripts/compact_ir.py"},
+        "compact_decoder_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_lowerer_path": {"const": "scripts/semantic_ir.py"},
+        "semantic_lowerer_sha256": {"$ref": "#/$defs/sha256"},
+        "common_prompt_bytes": {"type": "integer", "minimum": 1},
+        "common_prompt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "model_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_lock_path",
+        "model_lock_sha256",
+        "hosted_treatment_path",
+        "hosted_treatment_sha256"
+      ],
+      "properties": {
+        "model_lock_path": {"$ref": "#/$defs/repositoryPath"},
+        "model_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "hosted_treatment_path": {"$ref": "#/$defs/repositoryPath"},
+        "hosted_treatment_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "provider_model",
+        "foundation_model",
+        "api_format",
+        "region",
+        "identity_policy"
+      ],
+      "properties": {
+        "provider": {"const": "Amazon Bedrock"},
+        "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+        "foundation_model": {"const": "anthropic.claude-sonnet-4-6"},
+        "api_format": {"const": "bedrock-converse"},
+        "region": {"const": "us-east-1"},
+        "identity_policy": {"const": "endpoint_locked_model_and_iam_scope"}
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature", "maximum_output_tokens"],
+      "properties": {
+        "temperature": {"const": 0},
+        "maximum_output_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_requests_per_arm",
+        "submission_attempts_per_arm",
+        "inference_timeout_seconds"
+      ],
+      "properties": {
+        "provider_requests_per_arm": {"const": 1},
+        "submission_attempts_per_arm": {"const": 1},
+        "inference_timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300
+        }
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "input_metric",
+        "cached_input_metric",
+        "output_metric",
+        "input_usd_per_million_tokens",
+        "cached_input_usd_per_million_tokens",
+        "output_usd_per_million_tokens"
+      ],
+      "properties": {
+        "source": {"const": "provider_native"},
+        "input_metric": {"const": "usage_inputTokens"},
+        "cached_input_metric": {"const": "usage_cacheReadInputTokens"},
+        "output_metric": {"const": "usage_outputTokens"},
+        "input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "cached_input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "output_usd_per_million_tokens": {"type": "number", "minimum": 0}
+      }
+    },
+    "arm_order": {"const": ["source", "json_ir", "compact_ir"]},
+    "initial_user_message": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    }
+  }
+}

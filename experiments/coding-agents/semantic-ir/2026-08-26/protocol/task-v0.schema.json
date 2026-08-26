@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/task-v0.schema.json",
+  "title": "Semantic IR matched task construction contract v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "language",
+    "repository_path",
+    "editable_paths",
+    "submission_modes",
+    "participant_visible_paths",
+    "mode_context_paths",
+    "contract_integrity",
+    "semantic_program",
+    "evaluators",
+    "runtime"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.task/v0"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:[/:][a-z0-9-]+)+$"
+    },
+    "language": {
+      "const": "typescript"
+    },
+    "repository_path": {
+      "const": "repository"
+    },
+    "editable_paths": {
+      "const": ["src/lookup-user.ts"]
+    },
+    "submission_modes": {
+      "const": ["source", "semantic_ir"]
+    },
+    "participant_visible_paths": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "mode_context_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["common", "source", "semantic_ir", "catalog"],
+      "properties": {
+        "common": {"$ref": "#/$defs/relativePath"},
+        "source": {"$ref": "#/$defs/relativePath"},
+        "semantic_ir": {"$ref": "#/$defs/relativePath"},
+        "catalog": {"$ref": "#/$defs/relativePath"}
+      }
+    },
+    "contract_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_schema_path",
+        "task_schema_sha256",
+        "harness_path",
+        "harness_sha256"
+      ],
+      "properties": {
+        "task_schema_path": {"const": "protocol/task-v0.schema.json"},
+        "task_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "harness_path": {"const": "scripts/semantic_task.py"},
+        "harness_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "semantic_program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "program_id",
+        "target_path",
+        "schema_path",
+        "schema_sha256",
+        "lowering_path",
+        "lowering_sha256"
+      ],
+      "properties": {
+        "program_id": {"const": "program:user-lookup"},
+        "target_path": {"const": "src/lookup-user.ts"},
+        "schema_path": {"const": "protocol/program-ir-v0.schema.json"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "lowering_path": {"const": "scripts/semantic_ir.py"},
+        "lowering_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "evaluators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public", "hidden"],
+      "properties": {
+        "public": {"const": "tests/public.test.ts"},
+        "hidden": {"const": "evaluator/hidden.test.ts"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "version", "timeout_seconds", "network"],
+      "properties": {
+        "command": {"const": "deno"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 60},
+        "network": {"const": "denied"}
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

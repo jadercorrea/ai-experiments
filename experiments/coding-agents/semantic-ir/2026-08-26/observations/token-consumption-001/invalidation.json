@@ -1,0 +1,13 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.token-comparison-invalidation/v0",
+  "observation_id": "semantic-ir-construction/token-consumption-001",
+  "invalidated_at": "2026-08-26T12:02:22-03:00",
+  "reason": "semantic_interface_underspecified",
+  "evidence": {
+    "required_program_id": "program:user-lookup",
+    "first_submitted_program_id": "prog:lookup-user",
+    "corrected_program_id_on_blocked_second_attempt": "program:user-lookup"
+  },
+  "explanation": "The semantic backend required a task-specific program_id that was absent from all participant-visible context. The first submission was rejected only for that undisclosed value; the model corrected it on the next turn, but the frozen single-attempt policy then rejected the second mutation. The paired token comparison is invalid and must not be used as evidence for or against semantic IR efficiency.",
+  "disposition": "Retain all evidence. Expose the required program_id, rebuild dependent locks, and run a separately identified construction observation without overwriting this one."
+}

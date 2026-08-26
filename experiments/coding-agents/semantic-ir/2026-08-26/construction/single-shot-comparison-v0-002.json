@@ -1,0 +1,56 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.single-shot-comparison/v0",
+  "observation_id": "semantic-ir-construction/single-shot-representations-002",
+  "purpose": "construction_observation",
+  "model_calls_authorized": true,
+  "efficacy_claim_authorized": false,
+  "task": {
+    "path": "construction/task-001-user-lookup",
+    "task_id": "semantic-ir-construction/user-lookup-001",
+    "construction_tree_sha256": "8f725a5e97bcc31603da4128f26613cd557f6bd1649ddc622d35f139ec34c830"
+  },
+  "artifacts": {
+    "program_schema_path": "protocol/program-ir-v0.schema.json",
+    "program_schema_sha256": "f127184f9c2ec69009bd4f230110c5cd61f0cea59b435be2628e753a8e916ae2",
+    "compact_decoder_path": "scripts/compact_ir.py",
+    "compact_decoder_sha256": "9e07f5a758f01fb2fa836b887027193bbe3671f9deb2c8e8f05a89b2b9ab3429",
+    "semantic_lowerer_path": "scripts/semantic_ir.py",
+    "semantic_lowerer_sha256": "1ab428bfddcd86c1deb9b788119d7f6e7bbdb817c733de46626986735b41ba5d",
+    "common_prompt_bytes": 3380,
+    "common_prompt_sha256": "faa87964434b4b52a6fd0f0f55b1830dd7a56f701c30b4653cc3256b5e8b3054"
+  },
+  "model_sources": {
+    "model_lock_path": "experiments/coding-agents/local-first-routing/2026-07-30/model-lock.json",
+    "model_lock_sha256": "b4147d513b82837a6a21b3f649cfe4ef3968f80c18ce69920dcbdeceafcaef31",
+    "hosted_treatment_path": "experiments/coding-agents/local-first-routing/2026-07-30/calibration/hosted-treatment.json",
+    "hosted_treatment_sha256": "aba89d9cc41c24d31423ebd9199c080a7cbd641eabda25644ffe9b19468de413"
+  },
+  "model": {
+    "provider": "Amazon Bedrock",
+    "provider_model": "us.anthropic.claude-sonnet-4-6",
+    "foundation_model": "anthropic.claude-sonnet-4-6",
+    "api_format": "bedrock-converse",
+    "region": "us-east-1",
+    "identity_policy": "endpoint_locked_model_and_iam_scope"
+  },
+  "sampling": {
+    "temperature": 0,
+    "maximum_output_tokens": 2048
+  },
+  "limits": {
+    "provider_requests_per_arm": 1,
+    "submission_attempts_per_arm": 1,
+    "inference_timeout_seconds": 300
+  },
+  "accounting": {
+    "source": "provider_native",
+    "input_metric": "usage_inputTokens",
+    "cached_input_metric": "usage_cacheReadInputTokens",
+    "output_metric": "usage_outputTokens",
+    "input_usd_per_million_tokens": 3.0,
+    "cached_input_usd_per_million_tokens": 0.3,
+    "output_usd_per_million_tokens": 15.0
+  },
+  "arm_order": ["source", "json_ir", "compact_ir"],
+  "initial_user_message": "Produce one final candidate by calling the required submission tool exactly once. Do not answer in plain text."
+}

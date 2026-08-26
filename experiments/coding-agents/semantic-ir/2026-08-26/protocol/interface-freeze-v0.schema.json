@@ -1,0 +1,320 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/interface-freeze-v0.schema.json",
+  "title": "Semantic IR model-facing interface freeze v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "freeze_id",
+    "status",
+    "claim_boundary",
+    "task",
+    "shared",
+    "arms",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.interface-freeze/v0"
+    },
+    "freeze_id": {
+      "const": "semantic-ir-construction/output-representation-v0"
+    },
+    "status": {
+      "const": "frozen_for_construction"
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contrast",
+        "model_calls_authorized",
+        "efficacy_claim_authorized",
+        "deferred"
+      ],
+      "properties": {
+        "contrast": {"const": "output_representation"},
+        "model_calls_authorized": {"const": false},
+        "efficacy_claim_authorized": {"const": false},
+        "deferred": {
+          "const": [
+            "model_identity",
+            "inference_parameters",
+            "budgets",
+            "retry_limits",
+            "token_accounting_policy",
+            "calibration_stopping_rule"
+          ]
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "construction_tree_sha256",
+        "editable_paths",
+        "submission_modes"
+      ],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "construction_tree_sha256": {"$ref": "#/$defs/sha256"},
+        "editable_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "submission_modes": {"const": ["source", "semantic_ir"]}
+      }
+    },
+    "shared": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace", "evaluator", "lifecycle", "tools"],
+      "properties": {
+        "workspace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "encoding", "newlines", "tree_sha256", "files"],
+          "properties": {
+            "source": {"const": "repository"},
+            "encoding": {"const": "utf-8"},
+            "newlines": {"const": "lf"},
+            "tree_sha256": {"$ref": "#/$defs/sha256"},
+            "files": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/file"}
+            }
+          }
+        },
+        "evaluator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "public_path",
+            "public_available_to_agent",
+            "hidden_withheld",
+            "hidden_runs_after_finish",
+            "runtime"
+          ],
+          "properties": {
+            "public_path": {"$ref": "#/$defs/relativePath"},
+            "public_available_to_agent": {"const": true},
+            "hidden_withheld": {"const": true},
+            "hidden_runs_after_finish": {"const": true},
+            "runtime": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["command", "version", "timeout_seconds", "network"],
+              "properties": {
+                "command": {"type": "string", "minLength": 1},
+                "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+                "timeout_seconds": {"type": "integer", "minimum": 1},
+                "network": {"const": "denied"}
+              }
+            }
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["initial_state", "terminal_operation", "public_runs_terminal"],
+          "properties": {
+            "initial_state": {"const": "materialized_locked_workspace"},
+            "terminal_operation": {"const": "submission_finish"},
+            "public_runs_terminal": {"const": false}
+          }
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "prefixItems": [
+            {"$ref": "#/$defs/tool"},
+            {"$ref": "#/$defs/tool"},
+            {"$ref": "#/$defs/tool"},
+            {"$ref": "#/$defs/tool"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "arms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "semantic_ir"],
+      "properties": {
+        "source": {"$ref": "#/$defs/sourceArm"},
+        "semantic_ir": {"$ref": "#/$defs/semanticArm"}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_path",
+        "schema_sha256",
+        "builder_path",
+        "builder_sha256",
+        "freeze_sha256"
+      ],
+      "properties": {
+        "schema_path": {"const": "protocol/interface-freeze-v0.schema.json"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "builder_path": {"const": "scripts/interface_freeze.py"},
+        "builder_sha256": {"$ref": "#/$defs/sha256"},
+        "freeze_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "jsonSchema": {
+      "type": "object"
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "description",
+        "mutates_workspace",
+        "input_schema",
+        "output_schema",
+        "semantics"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "workspace_list",
+            "workspace_read",
+            "evaluation_run_public",
+            "submission_finish",
+            "workspace_write_target",
+            "ir_submit"
+          ]
+        },
+        "description": {"type": "string", "minLength": 1},
+        "mutates_workspace": {"type": "boolean"},
+        "input_schema": {"$ref": "#/$defs/jsonSchema"},
+        "output_schema": {"$ref": "#/$defs/jsonSchema"},
+        "semantics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["encoding", "newlines", "bytes", "sha256", "ordered_sources"],
+      "properties": {
+        "encoding": {"const": "utf-8"},
+        "newlines": {"const": "lf"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "ordered_sources": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/relativePath"}
+        }
+      }
+    },
+    "sourceArm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "submission_type", "mutation_scope", "tools"],
+      "properties": {
+        "context": {"$ref": "#/$defs/context"},
+        "submission_type": {"const": "typescript_source"},
+        "mutation_scope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "prefixItems": [{"$ref": "#/$defs/tool"}],
+          "items": false
+        }
+      }
+    },
+    "semanticArm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context",
+        "submission_type",
+        "mutation_scope",
+        "program_schema",
+        "catalog",
+        "lowering",
+        "tools"
+      ],
+      "properties": {
+        "context": {"$ref": "#/$defs/context"},
+        "submission_type": {"const": "semantic_ir_program"},
+        "mutation_scope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/relativePath"}
+        },
+        "program_schema": {"$ref": "#/$defs/contextArtifact"},
+        "catalog": {"$ref": "#/$defs/contextArtifact"},
+        "lowering": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "deterministic"],
+          "properties": {
+            "path": {"$ref": "#/$defs/relativePath"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "deterministic": {"const": true}
+          }
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "prefixItems": [{"$ref": "#/$defs/tool"}],
+          "items": false
+        }
+      }
+    },
+    "contextArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "included_in_context"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "included_in_context": {"const": true}
+      }
+    }
+  }
+}

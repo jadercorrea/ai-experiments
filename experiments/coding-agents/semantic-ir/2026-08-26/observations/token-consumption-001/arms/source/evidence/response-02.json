@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I'll implement the `lookupUser` function according to the requirements:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"content\":\"export interface User {\\n  readonly id: string;\\n  readonly name: string;\\n}\\n\\nexport type Result<T, E> = { ok: T } | { error: E };\\n\\nexport interface SemanticCapabilities {\\n  readonly users: {\\n    getById(id: string): User | undefined;\\n  };\\n}\\n\\nexport function lookupUser(\\n  rawId: string,\\n  capabilities: SemanticCapabilities,\\n): Result<User, string> {\\n  const normalized = rawId.replace(/^[ \\\\t\\\\n\\\\v\\\\f\\\\r]+|[ \\\\t\\\\n\\\\v\\\\f\\\\r]+$/g, \\\"\\\");\\n  if (normalized === \\\"\\\") {\\n    return { error: \\\"invalid_user_id\\\" };\\n  }\\n  const user = capabilities.users.getById(normalized);\\n  if (user === undefined) {\\n    return { error: \\\"not_found\\\" };\\n  }\\n  return { ok: user };\\n}\\n\",\"path\":\"src/lookup-user.ts\"}",
+              "name": "workspace_write_target"
+            },
+            "id": "tooluse_XkElTErk6d79IjlY8010Un",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-6d4fe806334fa1dd9e47d576",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 316,
+    "prompt_tokens": 1858,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 2174
+  }
+}
