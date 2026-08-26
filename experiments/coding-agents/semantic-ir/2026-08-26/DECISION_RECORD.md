@@ -109,3 +109,47 @@ or efficacy claim is authorized by freezing these interfaces.
   their numerical limits must be fixed by the later budget and retry policy.
 - The checked freeze is deterministic, pins its schema and builder, and carries
   a self-digest. Any change requires an explicit regeneration and review.
+
+## Semantic patch boundary v0
+
+### Context
+
+The single-shot and break-even observations regenerated whole programs. They did
+not test the stronger claim that semantic state can persist across agent turns
+and receive small, checked edits. A general graph rewrite system would introduce
+multiple untested mechanisms at once.
+
+### Decision
+
+Add one transactional operation, `replace_subtree`, over the canonical program.
+A patch identifies the exact program and canonical base digest. Each operation
+identifies a stable target node, carries the expected canonical subtree digest,
+and supplies a replacement whose root preserves that identity.
+
+Validate every operation against the unchanged base before applying any of
+them. Reject overlapping targets, replacement identity collisions, and any
+result that fails the existing structural, symbol, type, or effect checks.
+Non-overlapping operations must be order-independent at the canonical result
+boundary.
+
+Construct one matched local task where a staged unified diff and the semantic
+patch begin from byte-corresponding source and semantic state, then face the
+same public and hidden evaluators.
+
+### Consequences
+
+- Stale edits fail explicitly instead of being heuristically rebased.
+- Patch application is all-or-nothing and leaves the caller's base object
+  unchanged.
+- Stable identities become active concurrency and audit primitives rather than
+  projection markers only.
+- The first source and semantic reference patches converge to byte-identical
+  TypeScript under the same executable behavior.
+- This v0 is not a merge language: it has no insert, delete, move, symbol-table,
+  effect-declaration, or conflict-resolution operation.
+- The local reference task is construction evidence only. It contains no model
+  call and cannot support token-efficiency, efficacy, or generality claims.
+
+The next gate is a frozen heterogeneous task set with at least one intentionally
+unsupported task. Add a new patch operation only when a predeclared task cannot
+be represented safely by `replace_subtree`.

@@ -2,9 +2,10 @@
 
 ## Status
 
-**Executable construction artifact with one matched task fixture, two valid
-single-task observations, and one valid five-point break-even curve. No
-efficacy claim is supported.**
+**Executable construction artifact with matched whole-program and patch task
+fixtures, two valid single-task model observations, one valid five-point
+break-even curve, and one local semantic-patch observation. No efficacy claim
+is supported.**
 
 Snapshot date: **2026-08-26**
 
@@ -98,6 +99,18 @@ different Unicode definitions from their host languages.
 - [`task-001-user-lookup`](construction/task-001-user-lookup) is the first
   immutable matched TypeScript construction task. It contains separated
   participant context, repository, evaluators, and reference material.
+- [`semantic-patch-v0.schema.json`](protocol/semantic-patch-v0.schema.json)
+  defines checked, transactional subtree replacement over persistent IR.
+- [`semantic_patch.py`](scripts/semantic_patch.py) validates patch and state
+  preconditions, rejects overlapping or colliding edits, and applies all
+  operations or none.
+- [`patch-task-001-error-codes`](construction/patch-task-001-error-codes) is the
+  locked local comparison between a staged unified diff and a semantic patch.
+- [`semantic_patch_task.py`](scripts/semantic_patch_task.py) materializes the
+  shared baseline, audits both mutation paths, and runs identical evaluators.
+- [`SEMANTIC_PATCH_CONSTRUCTION_OBSERVATION.md`](SEMANTIC_PATCH_CONSTRUCTION_OBSERVATION.md)
+  reports byte-identical target convergence and the strict construction-only
+  claim boundary.
 - [`semantic_task.py`](scripts/semantic_task.py) materializes isolated
   workspaces, audits treatment integrity, lowers semantic submissions, and runs
   the shared evaluators.
@@ -134,6 +147,11 @@ different Unicode definitions from their host languages.
   construction invariants.
 - [`test_semantic_task.py`](../../../../tests/test_semantic_task.py) proves the
   expected baseline/reference/semantic/public-only evaluator separation.
+- [`test_semantic_patch.py`](../../../../tests/test_semantic_patch.py) exercises
+  atomicity, optimistic-concurrency guards, identity safety, and operation-order
+  independence.
+- [`test_semantic_patch_task.py`](../../../../tests/test_semantic_patch_task.py)
+  proves matched evaluator behavior and workspace isolation for both patch arms.
 - [`test_semantic_interface_freeze.py`](../../../../tests/test_semantic_interface_freeze.py)
   proves that the only arm-specific mutation operation is the intended output
   representation boundary.
@@ -172,12 +190,24 @@ Project the same object to TypeScript:
 Pass `--output <path>` to write the deterministic projection for compilation or
 execution by a target toolchain.
 
+Apply the checked reference patch to persistent semantic state:
+
+```bash
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_patch.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/patch-task-001-error-codes/base/user-lookup.program.json \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/patch-task-001-error-codes/reference/semantic.patch.json \
+  /tmp/user-lookup.patched.program.json
+```
+
 Run the focused construction checks:
 
 ```bash
 .venv/bin/python -m unittest \
   tests.test_semantic_ir \
   tests.test_semantic_task \
+  tests.test_semantic_patch \
+  tests.test_semantic_patch_task \
   tests.test_semantic_interface_freeze
 ```
 
@@ -287,21 +317,36 @@ use: its example IR, reference solution, and hidden evaluator are public in this
 tree. A real run must use a fresh locked task and expose only the materialized
 workspace plus the assigned mode context to the model.
 
+### Semantic patch construction status
+
+`patch-task-001-error-codes` changes two independent literals over persistent
+IR. The unchanged source projection fails both evaluators. The staged source
+diff and transactional semantic patch pass the same public and hidden tests and
+produce byte-identical TypeScript. A public-only semantic patch passes the
+public test and fails the hidden evaluator; stale semantic state and protected
+source changes are rejected without mutating the participant workspace.
+
+The semantic JSON patch is 1,009 bytes versus 1,238 bytes for the unified diff
+on this generated source. This is a local payload measurement, not token or
+model evidence. The reference solutions and hidden tests are checked in, so the
+task is permanently non-confirmatory.
+
 ## Limitations and next gate
 
 This slice is closer to a typed domain kernel than to a programming language.
 It has one domain type, one effect, no modules, no recursion, no collections,
-no semantic patch operation, and no adapter to an existing repository. Its JSON
-encoding is verbose and is not evidence for token efficiency. Generated
-TypeScript has node markers, not a standards-compliant source map, and has not
-yet been compiled as part of the repository verification path. Capability
-adapter exceptions remain runtime failures rather than typed IR values, and the
-v0 projection is synchronous; both boundaries must be made explicit in any
-task fixture that uses this core.
+and only one semantic patch operation. There is no insert, delete, move, merge,
+or repository adapter beyond deterministic replacement of one generated target.
+Its JSON encoding remains verbose and the local patch bytes are not evidence for
+token efficiency. Generated TypeScript has node markers, not a
+standards-compliant source map. Capability adapter exceptions remain runtime
+failures rather than typed IR values, and the v0 projection is synchronous;
+both boundaries must be explicit in every task fixture.
 
 The synthetic repeated-body curve crossed at eight bodies and remained below
 source at sixteen, but it does not represent heterogeneous repository work. The
-next slice should freeze fresh tasks across several natural solution-size bands
-and compare semantic patches with source patches. This tests persistent graph
-editing, shared abstractions, and whether compact amortization survives task
-variation.
+local patch task now proves the mechanics, not model performance. The next slice
+should freeze fresh tasks spanning local literals, control flow, effects, and an
+intentionally unsupported case. Only then should source and semantic patches be
+compared on provider-native tokens, hidden Pass@1, repair cycles, validation
+failures, and unsupported-task rate.
