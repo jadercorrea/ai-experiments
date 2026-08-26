@@ -1,0 +1,277 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.semantic-patch-suite/v0",
+  "suite_id": "semantic-ir-candidates/heterogeneous-patches-v0",
+  "status": "candidate_matrix_frozen",
+  "claim_boundary": {
+    "model_calls_authorized": false,
+    "efficacy_claim_authorized": false,
+    "concrete_tasks_sealed": false,
+    "frozen_now": [
+      "task_family_identity",
+      "participant_objective",
+      "stratum",
+      "size_band",
+      "required_semantics",
+      "candidate_support_disposition",
+      "analysis_policy"
+    ],
+    "deferred": [
+      "concrete_repository_instances",
+      "sealed_hidden_evaluators",
+      "model_identity",
+      "inference_parameters",
+      "tool_and_retry_budgets",
+      "arm_context_digests",
+      "execution_order",
+      "calibration_stopping_rule"
+    ]
+  },
+  "contrast": {
+    "independent_variable": "patch_representation_over_persistent_state",
+    "arms": [
+      {
+        "name": "source_patch",
+        "persistent_state": "locked_repository_source",
+        "terminal_submission": "unified_diff"
+      },
+      {
+        "name": "semantic_patch",
+        "persistent_state": "locked_canonical_semantic_ir",
+        "terminal_submission": "checked_semantic_patch_or_unsupported"
+      }
+    ],
+    "shared_controls": [
+      "participant_objective",
+      "repository_instance",
+      "visible_files",
+      "public_evaluator",
+      "hidden_evaluator",
+      "runtime",
+      "model_and_sampling_policy",
+      "tool_and_retry_budget"
+    ]
+  },
+  "task_matrix": {
+    "required_strata": [
+      "local_literal",
+      "dataflow",
+      "control_flow",
+      "effect",
+      "repository_scope"
+    ],
+    "required_size_counts": {
+      "small": 2,
+      "medium": 2,
+      "large": 2
+    },
+    "tasks": [
+      {
+        "task_id": "semantic-patch-suite/cross-module-rename-001",
+        "stratum": "repository_scope",
+        "size_band": "large",
+        "participant_objective": "Rename a public lookup contract and migrate its callers and export map without changing runtime behavior.",
+        "required_semantics": [
+          "multi_file_identity",
+          "module_exports",
+          "cross_file_symbol_references"
+        ],
+        "expected_files_changed": 3,
+        "required_patch_operations": [],
+        "support_at_candidate_freeze": "intentionally_unsupported",
+        "support_reason": "The candidate IR owns one program and one generated target; repository-wide module and symbol migration is outside the v0 boundary.",
+        "extension_gate": null,
+        "fresh_instance_required": true,
+        "task_sha256": "0994287b3f433073ceef1e9cff4f1c4bd222129178114140ee9717249f567c3e"
+      },
+      {
+        "task_id": "semantic-patch-suite/directory-fallback-001",
+        "stratum": "effect",
+        "size_band": "large",
+        "participant_objective": "Fall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.",
+        "required_semantics": [
+          "catalog_symbol:directory.get_by_id",
+          "effect:network.read:directory",
+          "ordered_effect_fallback"
+        ],
+        "expected_files_changed": 1,
+        "required_patch_operations": [
+          "replace_subtree"
+        ],
+        "support_at_candidate_freeze": "extension_required",
+        "support_reason": "The expression grammar can represent the fallback, but the closed catalog, effect set, interpreter, and TypeScript capability adapter cannot.",
+        "extension_gate": "add_and_test_directory_capability_with_explicit_effect",
+        "fresh_instance_required": true,
+        "task_sha256": "73c0b7e4f77993d3a5e80646adbcd38ad1cf8683ee4f7f5236e8e9f1584fae4a"
+      },
+      {
+        "task_id": "semantic-patch-suite/error-taxonomy-001",
+        "stratum": "local_literal",
+        "size_band": "small",
+        "participant_objective": "Replace the empty-input and missing-user error codes while preserving all control flow and effects.",
+        "required_semantics": [
+          "string_literal",
+          "stable_node_identity"
+        ],
+        "expected_files_changed": 1,
+        "required_patch_operations": [
+          "replace_subtree"
+        ],
+        "support_at_candidate_freeze": "supported_v0",
+        "support_reason": "Both edits are non-overlapping string-expression replacements already accepted by semantic patch v0.",
+        "extension_gate": null,
+        "fresh_instance_required": true,
+        "task_sha256": "ff414a7b3e1d7b394af7e141cafb9017296f264c492426c31ac88f0849003fc0"
+      },
+      {
+        "task_id": "semantic-patch-suite/normalization-policy-001",
+        "stratum": "dataflow",
+        "size_band": "small",
+        "participant_objective": "Use the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.",
+        "required_semantics": [
+          "stable_symbol_reference",
+          "let_value_replacement"
+        ],
+        "expected_files_changed": 1,
+        "required_patch_operations": [
+          "replace_subtree"
+        ],
+        "support_at_candidate_freeze": "supported_v0",
+        "support_reason": "Replacing the trim call with the existing raw-id variable reference is valid under the current types, symbols, effects, and lowering.",
+        "extension_gate": null,
+        "fresh_instance_required": true,
+        "task_sha256": "56b48811becaf8c50a894a840bc6edb1c5c3904c94b4738964fc9bf85563f069"
+      },
+      {
+        "task_id": "semantic-patch-suite/raw-id-retry-001",
+        "stratum": "control_flow",
+        "size_band": "medium",
+        "participant_objective": "After a normalized lookup misses, perform exactly one second lookup with the original identifier and return the first user found.",
+        "required_semantics": [
+          "nested_option_match",
+          "repeated_declared_effect",
+          "stable_lexical_reference"
+        ],
+        "expected_files_changed": 1,
+        "required_patch_operations": [
+          "replace_subtree"
+        ],
+        "support_at_candidate_freeze": "supported_v0",
+        "support_reason": "Nested option matching and repeated calls to the already-declared user-read effect are expressible without changing the v0 catalog or effect set.",
+        "extension_gate": null,
+        "fresh_instance_required": true,
+        "task_sha256": "9fc4b065984d2d85dc332b6305630070a4e46e8ba0195c27a49b62e7d01195c6"
+      },
+      {
+        "task_id": "semantic-patch-suite/reserved-id-guard-001",
+        "stratum": "control_flow",
+        "size_band": "medium",
+        "participant_objective": "Reject one exact reserved identifier before database access while preserving normalization and every other lookup path.",
+        "required_semantics": [
+          "catalog_symbol:string.equals",
+          "pre_effect_guard",
+          "typed_if"
+        ],
+        "expected_files_changed": 1,
+        "required_patch_operations": [
+          "replace_subtree"
+        ],
+        "support_at_candidate_freeze": "extension_required",
+        "support_reason": "The control-flow grammar is sufficient, but the closed catalog has no string equality predicate for an exact reserved-id guard.",
+        "extension_gate": "add_and_test_pure_string_equality_intrinsic",
+        "fresh_instance_required": true,
+        "task_sha256": "c8835effa76edc2c9db32b81b46ccaa39e6875f29a501278ba78b1bff2a7693d"
+      }
+    ]
+  },
+  "extension_policy": {
+    "allowed_before_final_task_lock": true,
+    "task_identity_must_remain_stable": true,
+    "must_be_justified_by_required_semantics": true,
+    "model_outcomes_may_influence": false,
+    "allowed_after_first_model_call": false
+  },
+  "analysis_policy": {
+    "all_task_utility": {
+      "metric": "hidden_pass_at_1",
+      "denominator": "all_locked_tasks",
+      "semantic_unsupported_outcome": "counts_as_failure"
+    },
+    "conditional_efficacy": {
+      "metric": "hidden_pass_at_1",
+      "denominator": "tasks_supported_by_both_arms_at_final_lock",
+      "must_be_reported_with_all_task_utility": true
+    },
+    "token_accounting": {
+      "source": "provider_native_usage",
+      "counted_content": [
+        "system_and_task_context",
+        "persistent_state_representation",
+        "schemas_and_catalogs",
+        "tool_inputs_and_outputs",
+        "repair_turns",
+        "terminal_submission"
+      ]
+    },
+    "mandatory_secondary_metrics": [
+      "semantic_applicability_rate",
+      "total_input_tokens",
+      "total_output_tokens",
+      "validation_failures_by_category",
+      "public_evaluator_runs",
+      "repair_cycles",
+      "time_to_terminal_submission",
+      "terminal_payload_bytes"
+    ]
+  },
+  "final_task_gate": {
+    "concrete_task_count": 6,
+    "same_task_instance_for_both_arms": true,
+    "same_hidden_evaluator_for_both_arms": true,
+    "hidden_evaluators_must_be_sealed": true,
+    "reference_solutions_excluded_from_participant_tree": true,
+    "task_trees_content_locked": true,
+    "contamination_audit_required": true,
+    "final_support_disposition_locked_before_model_calls": true,
+    "baseline_must_fail_hidden_evaluator": true,
+    "reference_solution_must_pass_hidden_evaluator": true,
+    "public_hidden_discrimination_required": true,
+    "candidate_rejection_reasons_predeclared": true,
+    "rejected_candidates_retained": true,
+    "selection_may_use_model_outcomes": false
+  },
+  "integrity": {
+    "dependencies": [
+      {
+        "path": "protocol/program-ir-v0.schema.json",
+        "bytes": 7453,
+        "sha256": "f127184f9c2ec69009bd4f230110c5cd61f0cea59b435be2628e753a8e916ae2"
+      },
+      {
+        "path": "protocol/semantic-patch-suite-v0.schema.json",
+        "bytes": 10459,
+        "sha256": "f29110770968a40497e8b58a4c90d76003bfd9ec0a8d0e1de768ce08b003c534"
+      },
+      {
+        "path": "protocol/semantic-patch-v0.schema.json",
+        "bytes": 1756,
+        "sha256": "f6530e40978a88f2d25bc0a116589c7b83ff357ba2608ac553e122551de7fa84"
+      },
+      {
+        "path": "scripts/semantic_patch.py",
+        "bytes": 9147,
+        "sha256": "f0609082ca10560eab6e7a217326e1870a07ce76546c770e906839fa6dddb167"
+      },
+      {
+        "path": "scripts/semantic_patch_suite.py",
+        "bytes": 19609,
+        "sha256": "254198e5e71360c0a26090c85187bf9a89562f3a940f767f4d10fbf2ffef27d4"
+      },
+      {
+        "path": "scripts/semantic_patch_task.py",
+        "bytes": 16312,
+        "sha256": "e3516f3542a797574110946af930756b34e86c15ec0c1e5f88d9ac38923cfcb9"
+      }
+    ],
+    "suite_sha256": "3d80b1d66567e780e38f59c86dd1d82c522f734d54bad88077ad7fe9d6727199"
+  }
+}

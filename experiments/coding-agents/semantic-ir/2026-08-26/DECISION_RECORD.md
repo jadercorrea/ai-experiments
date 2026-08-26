@@ -153,3 +153,42 @@ same public and hidden evaluators.
 The next gate is a frozen heterogeneous task set with at least one intentionally
 unsupported task. Add a new patch operation only when a predeclared task cannot
 be represented safely by `replace_subtree`.
+
+## Heterogeneous candidate matrix v0
+
+### Context
+
+The local semantic-patch construction task exercises two string literals in one
+program. Expanding directly from that result would permit task selection and IR
+features to co-evolve, making later token or Pass@1 comparisons vulnerable to
+support-set cherry-picking.
+
+### Decision
+
+Freeze six task families before constructing fresh instances: two small, two
+medium, and two large across local literals, dataflow, control flow, effects,
+and repository scope. Record current support disposition and required semantics
+as content-addressed task identities.
+
+Permit two requirement-driven extensions before the final task lock: pure
+string equality and an explicit directory-read capability/effect. Forbid any
+extension after the first model call. Keep the cross-module migration
+intentionally unsupported rather than broadening the study into a repository IR.
+
+Use two linked estimands. All-task utility includes every locked task and counts
+a semantic unsupported outcome as failure. Conditional efficacy includes only
+tasks supported by both arms at the final lock, but may never be reported
+without the all-task result and semantic applicability rate.
+
+### Consequences
+
+- The support boundary becomes measured behavior rather than an implicit task
+  filter.
+- Task identities and objectives cannot change in response to model outcomes.
+- Candidate disposition may change only through pre-model implementation of a
+  frozen semantic requirement and must be locked again before execution.
+- The candidate freeze does not authorize model calls: concrete repositories,
+  sealed evaluators, contexts, model policy, budgets, order, and stopping rule
+  remain deferred.
+- Rejected construction candidates must be retained with predeclared reasons so
+  task curation remains auditable.

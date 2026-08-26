@@ -4,8 +4,8 @@
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
-break-even curve, and one local semantic-patch observation. No efficacy claim
-is supported.**
+break-even curve, one local semantic-patch observation, and a frozen
+six-family heterogeneous candidate matrix. No efficacy claim is supported.**
 
 Snapshot date: **2026-08-26**
 
@@ -111,6 +111,15 @@ different Unicode definitions from their host languages.
 - [`SEMANTIC_PATCH_CONSTRUCTION_OBSERVATION.md`](SEMANTIC_PATCH_CONSTRUCTION_OBSERVATION.md)
   reports byte-identical target convergence and the strict construction-only
   claim boundary.
+- [`semantic-patch-suite-v0.json`](construction/semantic-patch-suite-v0.json)
+  freezes six task families, size balance, support dispositions, estimands, and
+  the gate for fresh sealed instances.
+- [`semantic_patch_suite.py`](scripts/semantic_patch_suite.py) deterministically
+  builds and verifies the matrix, per-task digests, dependency digests, and
+  suite self-digest.
+- [`SEMANTIC_PATCH_SUITE_FREEZE.md`](SEMANTIC_PATCH_SUITE_FREEZE.md) explains why
+  unsupported work remains in the all-task denominator and which two pre-model
+  extensions are permitted.
 - [`semantic_task.py`](scripts/semantic_task.py) materializes isolated
   workspaces, audits treatment integrity, lowers semantic submissions, and runs
   the shared evaluators.
@@ -152,6 +161,9 @@ different Unicode definitions from their host languages.
   independence.
 - [`test_semantic_patch_task.py`](../../../../tests/test_semantic_patch_task.py)
   proves matched evaluator behavior and workspace isolation for both patch arms.
+- [`test_semantic_patch_suite.py`](../../../../tests/test_semantic_patch_suite.py)
+  proves coverage, size balance, support accounting, extension discipline, and
+  content-addressed freeze integrity.
 - [`test_semantic_interface_freeze.py`](../../../../tests/test_semantic_interface_freeze.py)
   proves that the only arm-specific mutation operation is the intended output
   representation boundary.
@@ -200,6 +212,15 @@ Apply the checked reference patch to persistent semantic state:
   /tmp/user-lookup.patched.program.json
 ```
 
+Verify the heterogeneous candidate matrix:
+
+```bash
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_patch_suite.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/semantic-patch-suite-v0.json \
+  --verify
+```
+
 Run the focused construction checks:
 
 ```bash
@@ -208,6 +229,7 @@ Run the focused construction checks:
   tests.test_semantic_task \
   tests.test_semantic_patch \
   tests.test_semantic_patch_task \
+  tests.test_semantic_patch_suite \
   tests.test_semantic_interface_freeze
 ```
 
@@ -331,6 +353,19 @@ on this generated source. This is a local payload measurement, not token or
 model evidence. The reference solutions and hidden tests are checked in, so the
 task is permanently non-confirmatory.
 
+### Heterogeneous candidate matrix status
+
+Six fresh task families are now frozen across local literals, dataflow, control
+flow, effects, and repository scope, with exactly two tasks in each size band.
+Three are expressible in v0, two require predeclared catalog/effect extensions,
+and one cross-module migration is deliberately unsupported.
+
+Unsupported semantic outcomes count as failures in all-task utility. A
+conditional supported-task result is allowed only beside all-task utility and
+applicability. The matrix itself authorizes no model calls: concrete task trees,
+sealed hidden evaluators, contexts, model policy, budgets, order, and stopping
+rule remain to be locked.
+
 ## Limitations and next gate
 
 This slice is closer to a typed domain kernel than to a programming language.
@@ -346,7 +381,8 @@ both boundaries must be explicit in every task fixture.
 The synthetic repeated-body curve crossed at eight bodies and remained below
 source at sixteen, but it does not represent heterogeneous repository work. The
 local patch task now proves the mechanics, not model performance. The next slice
-should freeze fresh tasks spanning local literals, control flow, effects, and an
-intentionally unsupported case. Only then should source and semantic patches be
-compared on provider-native tokens, hidden Pass@1, repair cycles, validation
-failures, and unsupported-task rate.
+should implement the two requirement-driven extensions without changing the
+frozen task identities, then construct and seal one fresh instance per family.
+Only after the final support, task, context, model, budget, order, and stopping
+locks should source and semantic patches be compared on provider-native tokens,
+hidden Pass@1, repair cycles, validation failures, and unsupported-task rate.
