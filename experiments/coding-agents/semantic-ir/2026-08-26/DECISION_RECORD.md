@@ -192,3 +192,42 @@ without the all-task result and semantic applicability rate.
   remain deferred.
 - Rejected construction candidates must be retained with predeclared reasons so
   task curation remains auditable.
+
+## Additive catalog extension v1: pure string equality
+
+### Context
+
+The frozen `reserved-id-guard-001` family requires exact string equality before
+an existing database effect. The v0 expression grammar already contains calls,
+strings, variables, and typed conditionals, but its closed catalog has no such
+predicate. The v0 schema and implementation are pinned by earlier observations,
+so editing them would change a historical interface after measurement.
+
+### Decision
+
+Leave v0 byte-for-byte unchanged. Add program/catalog v1 as a thin layer over
+the frozen v0 expression grammar and introduce exactly one symbol:
+`string.equals(string, string) -> boolean`.
+
+Define it as pure, exact, and case-sensitive. It requires no capability,
+contributes no effect, executes directly in the interpreter, and lowers to
+TypeScript strict equality. Keep semantic patch v0 unchanged; use a v1
+application boundary that runs the same transactional checks and validates the
+result as a v1 program.
+
+Record the frozen suite commit and task digest beside the construction evidence.
+Do not change the task's identity or its `extension_required` disposition at
+candidate-freeze time, and do not authorize model calls.
+
+### Consequences
+
+- The extension is traceably requirement-driven rather than selected from model
+  outcomes.
+- Earlier v0 observations remain reproducible against identical files.
+- The reference reserved-id guard is expressible and rejects `root` before I/O.
+- JSON/tree shape was not the limiting factor in this task; the closed semantic
+  instruction catalog was.
+- Construction support is not final benchmark support. Concrete instances,
+  hidden evaluators, and final dispositions remain to be sealed.
+- The explicit directory-read capability/effect is still required before the
+  final task lock.

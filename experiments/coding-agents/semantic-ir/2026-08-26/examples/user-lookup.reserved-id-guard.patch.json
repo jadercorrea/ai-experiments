@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:user-lookup-reserved-id-guard",
+  "program_id": "program:user-lookup",
+  "base_program_sha256": "f5e40864f0d38fd08dd11bda2049120ff3472e117776fc4a9b12262ac17dade0",
+  "operations": [
+    {
+      "operation_id": "operation:reserved-id-guard",
+      "op": "replace_subtree",
+      "target_node_id": "node:user-match",
+      "expected_subtree_sha256": "592ecedf8b9efbc4e69cac1e82174ab958a3666813d2c41f922bb92e3078a8bf",
+      "replacement": {
+        "node_id": "node:user-match",
+        "op": "if",
+        "condition": {
+          "node_id": "node:reserved-id-equals",
+          "op": "call",
+          "symbol": "string.equals",
+          "arguments": [
+            {
+              "node_id": "node:normalized-ref-for-reserved-id",
+              "op": "var",
+              "symbol_id": "local:normalized-id"
+            },
+            {
+              "node_id": "node:reserved-id-literal",
+              "op": "string",
+              "value": "root"
+            }
+          ]
+        },
+        "then": {
+          "node_id": "node:reserved-id-error",
+          "op": "err",
+          "error": {
+            "node_id": "node:reserved-id-error-code",
+            "op": "string",
+            "value": "reserved_user_id"
+          }
+        },
+        "else": {
+          "node_id": "node:user-match-after-guard",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:get-user",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:user",
+            "name": "user",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:user-ref",
+              "op": "var",
+              "symbol_id": "local:user"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

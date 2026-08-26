@@ -1,0 +1,89 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.catalog-extension-observation/v0",
+  "extension_id": "semantic-ir-extension/string-equals-001",
+  "status": "construction_supported_after_candidate_freeze",
+  "construction_only": true,
+  "chronology": {
+    "candidate_suite_base_commit": "16d29a5cf31dc37b340a94dd2c732d4a13b2e840",
+    "candidate_suite_id": "semantic-ir-candidates/heterogeneous-patches-v0",
+    "candidate_suite_sha256": "3d80b1d66567e780e38f59c86dd1d82c522f734d54bad88077ad7fe9d6727199",
+    "task_id": "semantic-patch-suite/reserved-id-guard-001",
+    "task_sha256": "c8835effa76edc2c9db32b81b46ccaa39e6875f29a501278ba78b1bff2a7693d",
+    "support_at_candidate_freeze": "extension_required",
+    "extension_gate": "add_and_test_pure_string_equality_intrinsic",
+    "model_calls_authorized": false,
+    "model_calls_observed": 0
+  },
+  "catalog_delta": {
+    "from": "ai-experiments.semantic-ir.catalog/v0",
+    "to": "ai-experiments.semantic-ir.catalog/v1",
+    "added_symbols": [
+      {
+        "symbol": "string.equals",
+        "arguments": [
+          "string",
+          "string"
+        ],
+        "result": "boolean",
+        "effect": null,
+        "semantics": "exact_case_sensitive_code_point_equality"
+      }
+    ],
+    "removed_symbols": []
+  },
+  "compatibility_boundary": {
+    "v0_program_schema_unchanged_sha256": "f127184f9c2ec69009bd4f230110c5cd61f0cea59b435be2628e753a8e916ae2",
+    "v0_semantic_ir_implementation_unchanged_sha256": "1ab428bfddcd86c1deb9b788119d7f6e7bbdb817c733de46626986735b41ba5d",
+    "v0_semantic_patch_implementation_unchanged_sha256": "f0609082ca10560eab6e7a217326e1870a07ce76546c770e906839fa6dddb167",
+    "v0_rejects_new_symbol": true,
+    "v1_reuses_v0_expression_grammar": true,
+    "patch_protocol_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "reference_construction": {
+    "base_program_canonical_sha256": "f5e40864f0d38fd08dd11bda2049120ff3472e117776fc4a9b12262ac17dade0",
+    "target_subtree_canonical_sha256": "592ecedf8b9efbc4e69cac1e82174ab958a3666813d2c41f922bb92e3078a8bf",
+    "applied_operation_ids": [
+      "operation:reserved-id-guard"
+    ],
+    "result_program_canonical_sha256": "98f9d17f7c4df25a03754ddd402dffeec1cc59d2fbc134bca4fabf5bdcb8cec0",
+    "projected_typescript_bytes": 1633,
+    "projected_typescript_sha256": "3e330d819278220efe6290627d78ef578946467274089730325a0d7275606023"
+  },
+  "behavior_checks": {
+    "ascii_whitespace_only_preserves_invalid_input_result": true,
+    "normalized_exact_root_returns_reserved_user_id": true,
+    "normalized_exact_root_performs_zero_effects": true,
+    "uppercase_root_is_not_reserved": true,
+    "non_reserved_id_performs_one_existing_database_read": true,
+    "found_user_behavior_preserved": true,
+    "missing_user_behavior_preserved": true,
+    "wrong_arity_rejected_before_execution": true,
+    "wrong_argument_type_rejected_before_execution": true,
+    "typescript_projection_uses_strict_equality": true,
+    "typescript_projection_type_checks": true,
+    "stale_patch_rejected_without_base_mutation": true
+  },
+  "dependencies": [
+    {
+      "path": "protocol/program-ir-v1.schema.json",
+      "sha256": "7963d11dc31cb65f31f127776a524ac7b2ce4fd00c8b6e6cc396e2a20b72e5cb"
+    },
+    {
+      "path": "scripts/semantic_ir_v1.py",
+      "sha256": "043bea6c94f31db76e482d2432fea19773fec4c24aa4b0d8ccba39c9c03e12ce"
+    },
+    {
+      "path": "scripts/semantic_patch_v1.py",
+      "sha256": "fff94c9215b3b6a72410be957bf7bbd06b8c1460f672f2e4dca595b5bf58d8ee"
+    },
+    {
+      "path": "examples/user-lookup.catalog-v1.program.json",
+      "sha256": "cc2bb7337c7b0830e57704268ef288ffda3ff71935867465cc709f9f5846add4"
+    },
+    {
+      "path": "examples/user-lookup.reserved-id-guard.patch.json",
+      "sha256": "40fc084f9c1acd9119721662b42be1f3d6ca96b486f95a59432a7e9ee54fa97b"
+    }
+  ],
+  "claim_boundary": "Local reference construction after candidate freeze; no sealed benchmark task, model, token-efficiency, efficacy, generality, or production-readiness claim."
+}

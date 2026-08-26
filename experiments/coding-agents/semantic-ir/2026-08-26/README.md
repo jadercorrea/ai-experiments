@@ -1,11 +1,13 @@
-# Semantic IR for coding agents — construction slice v0
+# Semantic IR for coding agents — construction slice v0 + catalog extension v1
 
 ## Status
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
 break-even curve, one local semantic-patch observation, and a frozen
-six-family heterogeneous candidate matrix. No efficacy claim is supported.**
+six-family heterogeneous candidate matrix. The first of two predeclared
+catalog/effect extensions is construction-supported. No efficacy claim is
+supported.**
 
 Snapshot date: **2026-08-26**
 
@@ -38,7 +40,8 @@ or sufficient expressiveness for repository work.
 - One target projection: TypeScript.
 - One domain operation: user lookup by a normalized identifier.
 - One declared external effect: `db.read:users`.
-- A closed catalog with three callable symbols.
+- A v0 closed catalog with three callable symbols; additive v1 adds one pure
+  equality predicate required by the frozen candidate matrix.
 - `Option` is represented by `user | none`; errors are explicit `Result`
   values rather than exceptions.
 - No model calls, source-to-source editing, custom tokenizer, theorem prover,
@@ -66,11 +69,12 @@ The canonical representation is JSON for this construction slice. JSON is a
 transport and inspection format, not a proposed final AI-native surface syntax.
 The important boundary is the typed tree and its operational semantics.
 
-| Symbol | Input | Output | Effect |
-| --- | --- | --- | --- |
-| `string.trim_ascii` | `string` | `string` | pure |
-| `string.is_empty` | `string` | `boolean` | pure |
-| `users.get_by_id` | `string` | `option<user>` | `db.read:users` |
+| Symbol | Input | Output | Effect | Introduced |
+| --- | --- | --- | --- | --- |
+| `string.trim_ascii` | `string` | `string` | pure | v0 |
+| `string.is_empty` | `string` | `boolean` | pure | v0 |
+| `users.get_by_id` | `string` | `option<user>` | `db.read:users` | v0 |
+| `string.equals` | `string, string` | `boolean` | pure | v1 |
 
 The v0 expression set is intentionally small:
 
@@ -120,6 +124,13 @@ different Unicode definitions from their host languages.
 - [`SEMANTIC_PATCH_SUITE_FREEZE.md`](SEMANTIC_PATCH_SUITE_FREEZE.md) explains why
   unsupported work remains in the all-task denominator and which two pre-model
   extensions are permitted.
+- [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
+  [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
+  equality without changing the pinned v0 schema or implementation.
+- [`semantic_patch_v1.py`](scripts/semantic_patch_v1.py) applies the unchanged
+  semantic patch v0 protocol transactionally to v1 programs.
+- [`STRING_EQUALS_EXTENSION_OBSERVATION.md`](STRING_EQUALS_EXTENSION_OBSERVATION.md)
+  records the chronology, compatibility boundary, and local guard construction.
 - [`semantic_task.py`](scripts/semantic_task.py) materializes isolated
   workspaces, audits treatment integrity, lowers semantic submissions, and runs
   the shared evaluators.
@@ -164,6 +175,9 @@ different Unicode definitions from their host languages.
 - [`test_semantic_patch_suite.py`](../../../../tests/test_semantic_patch_suite.py)
   proves coverage, size balance, support accounting, extension discipline, and
   content-addressed freeze integrity.
+- [`test_semantic_string_equals_extension.py`](../../../../tests/test_semantic_string_equals_extension.py)
+  proves exact pure equality, pre-effect guarding, v0 rejection, deterministic
+  TypeScript lowering, transactional patching, and evidence integrity.
 - [`test_semantic_interface_freeze.py`](../../../../tests/test_semantic_interface_freeze.py)
   proves that the only arm-specific mutation operation is the intended output
   representation boundary.
@@ -221,6 +235,16 @@ Verify the heterogeneous candidate matrix:
   --verify
 ```
 
+Apply the reference reserved-identifier guard with catalog v1:
+
+```bash
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_patch_v1.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/examples/user-lookup.catalog-v1.program.json \
+  experiments/coding-agents/semantic-ir/2026-08-26/examples/user-lookup.reserved-id-guard.patch.json \
+  /tmp/user-lookup.reserved-id-guard.program.json
+```
+
 Run the focused construction checks:
 
 ```bash
@@ -230,6 +254,7 @@ Run the focused construction checks:
   tests.test_semantic_patch \
   tests.test_semantic_patch_task \
   tests.test_semantic_patch_suite \
+  tests.test_semantic_string_equals_extension \
   tests.test_semantic_interface_freeze
 ```
 
@@ -357,8 +382,10 @@ task is permanently non-confirmatory.
 
 Six fresh task families are now frozen across local literals, dataflow, control
 flow, effects, and repository scope, with exactly two tasks in each size band.
-Three are expressible in v0, two require predeclared catalog/effect extensions,
-and one cross-module migration is deliberately unsupported.
+Three are expressible in v0, two required predeclared catalog/effect extensions,
+and one cross-module migration is deliberately unsupported. Pure string
+equality is now construction-supported in additive catalog v1; the explicit
+directory-read capability/effect remains to be implemented before final lock.
 
 Unsupported semantic outcomes count as failures in all-task utility. A
 conditional supported-task result is allowed only beside all-task utility and
@@ -381,7 +408,7 @@ both boundaries must be explicit in every task fixture.
 The synthetic repeated-body curve crossed at eight bodies and remained below
 source at sixteen, but it does not represent heterogeneous repository work. The
 local patch task now proves the mechanics, not model performance. The next slice
-should implement the two requirement-driven extensions without changing the
+should implement the remaining directory-read extension without changing the
 frozen task identities, then construct and seal one fresh instance per family.
 Only after the final support, task, context, model, budget, order, and stopping
 locks should source and semantic patches be compared on provider-native tokens,
