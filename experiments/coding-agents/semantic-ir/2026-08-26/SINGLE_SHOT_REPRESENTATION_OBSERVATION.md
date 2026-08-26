@@ -119,11 +119,11 @@ canonical typed semantic graph/tree
 TypeScript / WASM / native targets
 ```
 
-The next experiment should test the break-even curve rather than add arbitrary
-language features: use several fresh tasks with increasing solution size,
-freeze the compact grammar once, and measure when its fixed input overhead is
-amortized. A semantic-patch arm should then test whether editing a persistent
-graph is cheaper than retransmitting complete programs.
+The completed follow-up froze the compact grammar across a synthetic repeated-
+body size grid and observed sustained total-token break-even at eight bodies.
+See [`BREAK_EVEN_OBSERVATION.md`](BREAK_EVEN_OBSERVATION.md). A semantic-patch
+arm should next test whether editing heterogeneous persistent state is cheaper
+than retransmitting complete programs.
 
 ## Evidence
 

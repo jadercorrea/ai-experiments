@@ -1,0 +1,50 @@
+{
+  "max_completion_tokens": 8192,
+  "messages": [
+    {
+      "content": "# Task\n\nImplement all 8 declared user-lookup function slots.\n\nEach slot has `rawId: string` and `capabilities: SemanticCapabilities` in\nscope and must independently implement this behavior:\n\n1. Remove ASCII whitespace (space, tab, LF, VT, FF, CR) from both ends.\n2. Return `{ error: \"invalid_user_id\" }` without I/O when the result is empty.\n3. Otherwise call `capabilities.users.getById` exactly once with the normalized ID.\n4. Return `{ error: \"not_found\" }` for a missing user, or `{ ok: user }`.\n\nSubmit exactly one body/program for every slot in this order:\n\n1. `lookupUser01`\n2. `lookupUser02`\n3. `lookupUser03`\n4. `lookupUser04`\n5. `lookupUser05`\n6. `lookupUser06`\n7. `lookupUser07`\n8. `lookupUser08`\n\nDo not change signatures or public APIs. Expected failures are values, not\nthrown exceptions. You receive no execution feedback and have one submission.\n\n# Initial public workspace\n\n## deno.json\n\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true\n  },\n  \"fmt\": {\n    \"useTabs\": false,\n    \"lineWidth\": 100\n  }\n}\n```\n\n## src/lookups.ts\n\n```typescript\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function lookupUser01(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser02(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser03(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser04(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser05(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser06(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser07(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n\nexport function lookupUser08(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n```\n\n## tests/public.test.ts\n\n```typescript\nimport * as subject from \"../src/lookups.ts\";\n\nconst expectedNames = [\"lookupUser01\",\"lookupUser02\",\"lookupUser03\",\"lookupUser04\",\"lookupUser05\",\"lookupUser06\",\"lookupUser07\",\"lookupUser08\"] as const;\n\nfunction assert(condition: unknown, message: string): asserts condition {\n  if (!condition) throw new Error(message);\n}\n\nfor (const name of expectedNames) {\n  const lookup = subject[name];\n  Deno.test(`${name} rejects ASCII whitespace without I/O`, () => {\n    let calls = 0;\n    const result = lookup(\" \\t\\n\\v\\f\\r \", {\n      users: { getById: () => { calls += 1; return undefined; } },\n    });\n    assert(\"error\" in result && result.error === \"invalid_user_id\", name);\n    assert(calls === 0, `${name} performed unexpected I/O`);\n  });\n\n  Deno.test(`${name} normalizes and returns a user`, () => {\n    const seen: string[] = [];\n    const result = lookup(\" \\t42\\r \", {\n      users: {\n        getById: (id: string) => {\n          seen.push(id);\n          return id === \"42\" ? { id, name: \"Ada\" } : undefined;\n        },\n      },\n    });\n    assert(\"ok\" in result && result.ok.id === \"42\", name);\n    assert(JSON.stringify(seen) === '[\"42\"]', `${name} lookup trace`);\n  });\n}\n```\n\n# Closed semantic catalog\n\n```json\n{\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"types\": [\n    \"string\",\n    \"boolean\",\n    \"user\",\n    \"option<user>\",\n    \"result<user,string>\"\n  ],\n  \"effects\": [\"db.read:users\"],\n  \"symbols\": [\n    {\n      \"symbol\": \"string.trim_ascii\",\n      \"arguments\": [\"string\"],\n      \"result\": \"string\",\n      \"effects\": []\n    },\n    {\n      \"symbol\": \"string.is_empty\",\n      \"arguments\": [\"string\"],\n      \"result\": \"boolean\",\n      \"effects\": []\n    },\n    {\n      \"symbol\": \"users.get_by_id\",\n      \"arguments\": [\"string\"],\n      \"result\": \"option<user>\",\n      \"effects\": [\"db.read:users\"]\n    }\n  ]\n}\n```\n\n# Submission boundary\n\nThe forced tool is the only permitted output. Submit the complete ordered collection once; do not answer in plain text.\n",
+      "role": "system"
+    },
+    {
+      "content": "Produce the complete ordered submission by calling the required tool exactly once. Do not answer in plain text.",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": {
+    "function": {
+      "name": "submit_compact_programs"
+    },
+    "type": "function"
+  },
+  "tools": [
+    {
+      "function": {
+        "description": "Submit one compact program per declared slot, in slot order. Each program is [\"F\",BODY]. Forms: [\"V\",name] variable; [\"S\",text] string; [\"T\",x] ASCII trim; [\"Z\",x] empty test; [\"G\",x] user lookup; [\"L\",name,value,then] let; [\"I\",condition,then,else] conditional; [\"M\",option,someName,none,some] option match; [\"O\",user] success; [\"E\",errorCode] failure. The decoder supplies each fixed function header, rawId parameter, result type, effect, IDs, and catalog version. Names are lexical and may not shadow.",
+        "name": "submit_compact_programs",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "programs": {
+              "items": {
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "programs"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

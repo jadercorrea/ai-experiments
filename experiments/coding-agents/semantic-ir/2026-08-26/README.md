@@ -2,8 +2,9 @@
 
 ## Status
 
-**Executable construction artifact with one matched task fixture and two valid
-descriptive token observations. No efficacy claim is supported.**
+**Executable construction artifact with one matched task fixture, two valid
+single-task observations, and one valid five-point break-even curve. No
+efficacy claim is supported.**
 
 Snapshot date: **2026-08-26**
 
@@ -123,6 +124,12 @@ different Unicode definitions from their host languages.
 - [`SINGLE_SHOT_REPRESENTATION_OBSERVATION.md`](SINGLE_SHOT_REPRESENTATION_OBSERVATION.md)
   reports that compact IR reduced output tokens by 55.04% versus source while
   total tokens remained within 0.65% on this small task.
+- [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
+  freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
+- [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
+  paired body assemblers, fixed tool contracts, evaluators, and curve rule.
+- [`BREAK_EVEN_OBSERVATION.md`](BREAK_EVEN_OBSERVATION.md) reports sustained
+  observed total-token break-even at eight bodies.
 - [`test_semantic_ir.py`](../../../../tests/test_semantic_ir.py) exercises the
   construction invariants.
 - [`test_semantic_task.py`](../../../../tests/test_semantic_task.py) proves the
@@ -292,9 +299,9 @@ adapter exceptions remain runtime failures rather than typed IR values, and the
 v0 projection is synchronous; both boundaries must be made explicit in any
 task fixture that uses this core.
 
-The next gate is not “add more syntax.” The forced single-shot comparison showed
-that compact IR can make the generated solution substantially denser while the
-fixed grammar/context cost keeps whole-request tokens at parity on a tiny task.
-The next slice should measure that break-even curve across fresh tasks of
-increasing solution size, with the grammar frozen once. A later semantic-patch
-arm should test persistent graph editing instead of full-program retransmission.
+The synthetic repeated-body curve crossed at eight bodies and remained below
+source at sixteen, but it does not represent heterogeneous repository work. The
+next slice should freeze fresh tasks across several natural solution-size bands
+and compare semantic patches with source patches. This tests persistent graph
+editing, shared abstractions, and whether compact amortization survives task
+variation.

@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"bodies\":[\"const id = rawId.replace(/^[ \\\\t\\\\n\\\\v\\\\f\\\\r]+|[ \\\\t\\\\n\\\\v\\\\f\\\\r]+$/g, '');\\nif (id === '') return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\",\"const id = rawId.replace(/^[ \\\\t\\\\n\\\\v\\\\f\\\\r]+|[ \\\\t\\\\n\\\\v\\\\f\\\\r]+$/g, '');\\nif (id.length === 0) return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\",\"const id = rawId.replace(/^[\\\\x20\\\\x09\\\\x0A\\\\x0B\\\\x0C\\\\x0D]+|[\\\\x20\\\\x09\\\\x0A\\\\x0B\\\\x0C\\\\x0D]+$/g, '');\\nif (!id) return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nif (user === undefined) return { error: 'not_found' };\\nreturn { ok: user };\",\"let start = 0;\\nlet end = rawId.length;\\nconst ws = new Set([' ', '\\\\t', '\\\\n', '\\\\v', '\\\\f', '\\\\r']);\\nwhile (start < end && ws.has(rawId[start])) start++;\\nwhile (end > start && ws.has(rawId[end - 1])) end--;\\nconst id = rawId.slice(start, end);\\nif (id === '') return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\",\"const ASCII_WS = /^[ \\\\t\\\\n\\\\v\\\\f\\\\r]+|[ \\\\t\\\\n\\\\v\\\\f\\\\r]+$/g;\\nconst id = rawId.replace(ASCII_WS, '');\\nif (id === '') return { error: 'invalid_user_id' };\\nconst result = capabilities.users.getById(id);\\nreturn result !== undefined ? { ok: result } : { error: 'not_found' };\",\"function trimAsciiWs(s: string): string {\\n  let i = 0, j = s.length;\\n  while (i < j && ' \\\\t\\\\n\\\\v\\\\f\\\\r'.includes(s[i])) i++;\\n  while (j > i && ' \\\\t\\\\n\\\\v\\\\f\\\\r'.includes(s[j - 1])) j--;\\n  return s.slice(i, j);\\n}\\nconst id = trimAsciiWs(rawId);\\nif (id === '') return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\",\"const id = rawId.replace(/^[ \\\\t\\\\n\\\\v\\\\f\\\\r]*(.*?)[ \\\\t\\\\n\\\\v\\\\f\\\\r]*$/, '$1');\\nif (id === '') return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(id);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\",\"const chars = Array.from(' \\\\t\\\\n\\\\v\\\\f\\\\r');\\nlet s = rawId;\\nwhile (s.length > 0 && chars.includes(s[0])) s = s.slice(1);\\nwhile (s.length > 0 && chars.includes(s[s.length - 1])) s = s.slice(0, -1);\\nif (s === '') return { error: 'invalid_user_id' };\\nconst user = capabilities.users.getById(s);\\nreturn user !== undefined ? { ok: user } : { error: 'not_found' };\"]}",
+              "name": "submit_source_bodies"
+            },
+            "id": "tooluse_JvzB5BPrKoaZapHAM50PC8",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-0ab47c110bc4a7a8bf8b5a6f",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 1103,
+    "prompt_tokens": 2251,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3354
+  }
+}

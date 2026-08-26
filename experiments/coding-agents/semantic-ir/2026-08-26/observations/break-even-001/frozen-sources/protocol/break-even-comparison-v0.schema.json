@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/break-even-comparison-v0.schema.json",
+  "title": "Semantic IR break-even comparison protocol v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observation_id",
+    "purpose",
+    "model_calls_authorized",
+    "efficacy_claim_authorized",
+    "adaptive_stopping",
+    "task_family",
+    "sizes",
+    "execution_order",
+    "artifacts",
+    "model_sources",
+    "model",
+    "sampling",
+    "limits",
+    "accounting",
+    "initial_user_message"
+  ],
+  "properties": {
+    "schema_version": {"const": "ai-experiments.semantic-ir.break-even-comparison/v0"},
+    "observation_id": {"const": "semantic-ir-construction/break-even-001"},
+    "purpose": {"const": "construction_observation"},
+    "model_calls_authorized": {"const": true},
+    "efficacy_claim_authorized": {"const": false},
+    "adaptive_stopping": {"const": false},
+    "task_family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_id", "source_unit", "compact_unit", "shared_abi"],
+      "properties": {
+        "family_id": {"const": "repeated-user-lookup-bodies-v0"},
+        "source_unit": {"const": "typescript_function_body"},
+        "compact_unit": {"const": "compact_program_tree"},
+        "shared_abi": {"const": "compiler_supplied_function_headers"}
+      }
+    },
+    "sizes": {"const": [1, 2, 4, 8, 16]},
+    "execution_order": {
+      "const": [
+        {"size": 1, "arms": ["source", "compact_ir"]},
+        {"size": 2, "arms": ["compact_ir", "source"]},
+        {"size": 4, "arms": ["source", "compact_ir"]},
+        {"size": 8, "arms": ["compact_ir", "source"]},
+        {"size": 16, "arms": ["source", "compact_ir"]}
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compact_decoder_path",
+        "compact_decoder_sha256",
+        "semantic_lowerer_path",
+        "semantic_lowerer_sha256",
+        "catalog_path",
+        "catalog_sha256",
+        "common_prompts"
+      ],
+      "properties": {
+        "compact_decoder_path": {"const": "scripts/compact_ir.py"},
+        "compact_decoder_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_lowerer_path": {"const": "scripts/semantic_ir.py"},
+        "semantic_lowerer_sha256": {"$ref": "#/$defs/sha256"},
+        "catalog_path": {
+          "const": "construction/task-001-user-lookup/participant-context/catalog.json"
+        },
+        "catalog_sha256": {"$ref": "#/$defs/sha256"},
+        "common_prompts": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["size", "bytes", "sha256"],
+            "properties": {
+              "size": {"enum": [1, 2, 4, 8, 16]},
+              "bytes": {"type": "integer", "minimum": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "model_sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_lock_path",
+        "model_lock_sha256",
+        "hosted_treatment_path",
+        "hosted_treatment_sha256"
+      ],
+      "properties": {
+        "model_lock_path": {"$ref": "#/$defs/repositoryPath"},
+        "model_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "hosted_treatment_path": {"$ref": "#/$defs/repositoryPath"},
+        "hosted_treatment_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider", "provider_model", "foundation_model", "api_format",
+        "region", "identity_policy"
+      ],
+      "properties": {
+        "provider": {"const": "Amazon Bedrock"},
+        "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+        "foundation_model": {"const": "anthropic.claude-sonnet-4-6"},
+        "api_format": {"const": "bedrock-converse"},
+        "region": {"const": "us-east-1"},
+        "identity_policy": {"const": "endpoint_locked_model_and_iam_scope"}
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature", "maximum_output_tokens"],
+      "properties": {
+        "temperature": {"const": 0},
+        "maximum_output_tokens": {"type": "integer", "minimum": 1, "maximum": 16384}
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_requests_per_cell", "submission_attempts_per_cell",
+        "inference_timeout_seconds", "maximum_cells"
+      ],
+      "properties": {
+        "provider_requests_per_cell": {"const": 1},
+        "submission_attempts_per_cell": {"const": 1},
+        "inference_timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 300},
+        "maximum_cells": {"const": 10}
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source", "input_metric", "cached_input_metric", "output_metric",
+        "input_usd_per_million_tokens", "cached_input_usd_per_million_tokens",
+        "output_usd_per_million_tokens"
+      ],
+      "properties": {
+        "source": {"const": "provider_native"},
+        "input_metric": {"const": "usage_inputTokens"},
+        "cached_input_metric": {"const": "usage_cacheReadInputTokens"},
+        "output_metric": {"const": "usage_outputTokens"},
+        "input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "cached_input_usd_per_million_tokens": {"type": "number", "minimum": 0},
+        "output_usd_per_million_tokens": {"type": "number", "minimum": 0}
+      }
+    },
+    "initial_user_message": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    }
+  }
+}
