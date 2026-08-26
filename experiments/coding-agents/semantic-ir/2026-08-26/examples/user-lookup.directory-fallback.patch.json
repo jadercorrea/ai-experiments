@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:user-lookup-directory-fallback",
+  "program_id": "program:user-lookup",
+  "base_program_sha256": "3b4d1e1e188c1f2274205f9732059b7b4e07179cd4dc4ed43f36764f4861fca7",
+  "operations": [
+    {
+      "operation_id": "operation:directory-fallback",
+      "op": "replace_subtree",
+      "target_node_id": "node:user-match",
+      "expected_subtree_sha256": "592ecedf8b9efbc4e69cac1e82174ab958a3666813d2c41f922bb92e3078a8bf",
+      "replacement": {
+        "node_id": "node:user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:directory-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:get-directory-user",
+            "op": "call",
+            "symbol": "directory.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:normalized-ref-for-directory",
+                "op": "var",
+                "symbol_id": "local:normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:directory-user",
+            "name": "directoryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:directory-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:directory-user-ref",
+              "op": "var",
+              "symbol_id": "local:directory-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:user-ref",
+            "op": "var",
+            "symbol_id": "local:user"
+          }
+        }
+      }
+    }
+  ]
+}

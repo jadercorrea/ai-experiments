@@ -1,0 +1,102 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.catalog-extension-observation/v0",
+  "extension_id": "semantic-ir-extension/directory-get-by-id-001",
+  "status": "construction_supported_after_candidate_freeze",
+  "construction_only": true,
+  "chronology": {
+    "candidate_suite_freeze_commit": "16d29a5cf31dc37b340a94dd2c732d4a13b2e840",
+    "extension_base_commit": "221818803bd81f6612df8cfb19a46261ed16e8f1",
+    "candidate_suite_id": "semantic-ir-candidates/heterogeneous-patches-v0",
+    "candidate_suite_sha256": "3d80b1d66567e780e38f59c86dd1d82c522f734d54bad88077ad7fe9d6727199",
+    "task_id": "semantic-patch-suite/directory-fallback-001",
+    "task_sha256": "73c0b7e4f77993d3a5e80646adbcd38ad1cf8683ee4f7f5236e8e9f1584fae4a",
+    "support_at_candidate_freeze": "extension_required",
+    "extension_gate": "add_and_test_directory_capability_with_explicit_effect",
+    "model_calls_authorized": false,
+    "model_calls_observed": 0
+  },
+  "catalog_delta": {
+    "from": "ai-experiments.semantic-ir.catalog/v1",
+    "to": "ai-experiments.semantic-ir.catalog/v2",
+    "added_symbols": [
+      {
+        "symbol": "directory.get_by_id",
+        "arguments": [
+          "string"
+        ],
+        "result": "option<user>",
+        "effect": "network.read:directory"
+      }
+    ],
+    "removed_symbols": []
+  },
+  "effect_model": {
+    "declaration_invariant": "declared_effects_equal_statically_inferred_effects",
+    "runtime_telemetry": "records_only_effects_actually_executed_in_order",
+    "patch_protocol_operations": [
+      "replace_subtree"
+    ],
+    "patch_result_canonicalization": "derive_sorted_exact_effect_header_after_checked_tree_replacement_before_final_validation",
+    "direct_missing_effect_rejected": true,
+    "direct_unused_effect_rejected": true
+  },
+  "compatibility_boundary": {
+    "v0_program_schema_unchanged_sha256": "f127184f9c2ec69009bd4f230110c5cd61f0cea59b435be2628e753a8e916ae2",
+    "v1_semantic_ir_implementation_unchanged_sha256": "043bea6c94f31db76e482d2432fea19773fec4c24aa4b0d8ccba39c9c03e12ce",
+    "v1_semantic_patch_implementation_unchanged_sha256": "fff94c9215b3b6a72410be957bf7bbd06b8c1460f672f2e4dca595b5bf58d8ee",
+    "v1_rejects_new_symbol": true,
+    "v2_reuses_v0_expression_grammar": true,
+    "patch_protocol_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "reference_construction": {
+    "base_program_canonical_sha256": "3b4d1e1e188c1f2274205f9732059b7b4e07179cd4dc4ed43f36764f4861fca7",
+    "target_subtree_canonical_sha256": "592ecedf8b9efbc4e69cac1e82174ab958a3666813d2c41f922bb92e3078a8bf",
+    "applied_operation_ids": [
+      "operation:directory-fallback"
+    ],
+    "result_program_canonical_sha256": "df01ca5c72aea75af9a76a5897eb12ffd21cc42e885522337b255a4e9d8f7c07",
+    "result_declared_effects": [
+      "db.read:users",
+      "network.read:directory"
+    ],
+    "projected_typescript_bytes": 1859,
+    "projected_typescript_sha256": "1ecc9999599d87a0a791890849be339317d35262cdaa55fa30ce5bf25b79d551"
+  },
+  "behavior_checks": {
+    "empty_input_performs_zero_effects": true,
+    "local_hit_performs_only_users_read": true,
+    "local_miss_performs_users_then_directory": true,
+    "directory_hit_returns_directory_user": true,
+    "double_miss_preserves_not_found": true,
+    "directory_capability_is_resolved_lazily": true,
+    "invalid_directory_result_is_rejected": true,
+    "wrong_arity_rejected_before_execution": true,
+    "wrong_argument_type_rejected_before_execution": true,
+    "typescript_projection_type_checks": true,
+    "typescript_projection_runtime_order_matches_interpreter": true,
+    "stale_patch_rejected_without_base_mutation": true
+  },
+  "dependencies": [
+    {
+      "path": "protocol/program-ir-v2.schema.json",
+      "sha256": "441f94fa46f2de5f1d3052cbfe7b5f1b1ade50327086af843641ec10fbad5c29"
+    },
+    {
+      "path": "scripts/semantic_ir_v2.py",
+      "sha256": "0d46f3632e9b95648411b3ebbb57edfd8ca676e832b891f4ec46640e231bd771"
+    },
+    {
+      "path": "scripts/semantic_patch_v2.py",
+      "sha256": "51d85d27c9421a9ea060377591e09bd01a52c7a55908fa5f75cb8faaf57310c2"
+    },
+    {
+      "path": "examples/user-lookup.catalog-v2.program.json",
+      "sha256": "4bb9073b9ad24844660ce7927cde4c87f1307e8218302edd84ce853f0c7ca317"
+    },
+    {
+      "path": "examples/user-lookup.directory-fallback.patch.json",
+      "sha256": "f5446f94b8fe5bf2231bd611d73e2b2df00b387cdc8c9109e1539776e22e6054"
+    }
+  ],
+  "claim_boundary": "Local reference construction after candidate freeze; no sealed benchmark task, model, token-efficiency, efficacy, generality, latency, or production-readiness claim."
+}

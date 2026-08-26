@@ -33,6 +33,12 @@ objectives cannot be changed after seeing model behavior.
 | `directory-fallback-001` | effect | large | extension required | directory capability and explicit network-read effect |
 | `cross-module-rename-001` | repository scope | large | intentionally unsupported | multi-file identities, exports, and symbol references |
 
+Post-freeze construction status: the pure equality gate is implemented in
+catalog v1 and the directory capability/effect gate is implemented in catalog
+v2. These additions do not rewrite the table's historical dispositions or task
+digests. Final support dispositions remain deferred until fresh task instances
+and shared evaluators are sealed.
+
 There are exactly two small, two medium, and two large families. Every family
 has a content digest over its objective, semantic requirements, size,
 disposition, and construction expectations.

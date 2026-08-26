@@ -231,3 +231,48 @@ candidate-freeze time, and do not authorize model calls.
   hidden evaluators, and final dispositions remain to be sealed.
 - The explicit directory-read capability/effect is still required before the
   final task lock.
+
+## Additive catalog extension v2: directory fallback
+
+### Context
+
+The frozen `directory-fallback-001` family requires an ordered second lookup
+with the explicit `network.read:directory` effect. The expression grammar can
+already represent its nested option match, but v1 lacks the catalog symbol,
+effect enum, interpreter capability, and target adapter.
+
+One additional mismatch appears at the patch boundary. The frozen task requires
+only `replace_subtree`, while the exact function-effect list is stored outside
+the expression tree. A new effectful call makes that redundant summary stale.
+Weakening exact validation would permit overdeclared authority; adding a second
+patch operation would change the frozen task identity.
+
+### Decision
+
+Add program/catalog v2 with
+`directory.get_by_id(string) -> option<user>` carrying
+`network.read:directory`. Preserve the frozen v0 expression grammar and the v0
+semantic patch operation.
+
+Treat the function-effect list as canonical derived metadata during v2 patch
+application. Validate the base and every patch precondition first, apply all
+tree replacements to a copy, statically infer the resulting effects from the
+closed catalog, store the sorted exact list, and then run complete v2 validation.
+Direct program submissions continue to require exact declarations and reject
+both missing and unused effects.
+
+Interpret capabilities lazily and record only effects actually executed, in
+order. Project both required adapters into the TypeScript capability contract
+and execute the projected fallback as part of construction verification.
+
+### Consequences
+
+- The agent-facing patch remains the predeclared `replace_subtree` operation.
+- The canonical result explicitly stores both effects without trusting the
+  agent to synchronize redundant metadata.
+- Empty input performs no effect; local success performs only the user-store
+  read; local miss performs user-store then directory reads.
+- Missing and invalid directory adapters fail only when the fallback is reached.
+- Program/catalog v0 and v1 remain unchanged and reproducible.
+- Both predeclared extensions are construction-supported, but final support
+  dispositions still require fresh sealed task instances before model use.
