@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The patch was rejected because the replacement must preserve the target node's identity. I need to keep `node:capability-v2-reserved-id-guard-001-user-match` as the root node of the replacement. Instead, I should target a parent node. Let me target the `else` branch of the validity-if — which is `node:capability-v2-reserved-id-guard-001-validity-if` — but actually I need to replace the entire `else` subtree. \n\nThe constraint is that the replacement root must have the same `node_id` as the target. So I need to wrap the reserved check inside the `user-match` node, or target a different node. Let me re-think: I should target the `validity-if` node itself and rebuild it with the reserved check inserted in the `else` branch.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"node_ids\":[\"node:capability-v2-reserved-id-guard-001-validity-if\"]}",
+              "name": "semantic_state_inspect"
+            },
+            "id": "tooluse_eP6EJxXAQ3BBtoO5ACCZaQ",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-37ca4c573634ba1aeeb0f641",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 261,
+    "prompt_tokens": 11725,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 11986
+  }
+}

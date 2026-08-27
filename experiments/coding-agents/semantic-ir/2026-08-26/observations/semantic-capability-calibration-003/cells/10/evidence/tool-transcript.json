@@ -1,0 +1,169 @@
+[
+  {
+    "request_sha256": "1a080887467e4214e449618f33c7b4937291234e56816918770f9eaa2fe620fc",
+    "response_sha256": "f2d943f9f69ad64a74a7d05c6c13ee0f5103687ebb72784ad31b398002c54e9e",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 298,
+          "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_1YSFt8azPTpVOzO79qVgTv"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1864,
+              "path": "src/lookup-user.ts",
+              "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+            },
+            {
+              "bytes": 942,
+              "path": "tests/public.test.ts",
+              "sha256": "ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_saptVt4kvo7QSbhkxosgKX"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "fadeb670c5efb29205c48d6ea68f66617ce64cbd4f73e5a6799fcf0ad97c887d",
+    "response_sha256": "16c823547b6fac06a50a40bef5a0fe092be41b475f170bc89e33fee9744938cd",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_P69Vt2Mcs1mgUTFTzG7LDI"
+      },
+      {
+        "result": {
+          "content": "import { processWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(processWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(processWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_9D0PoB8oel9QH2DT1en6sy"
+      },
+      {
+        "result": {
+          "bytes": 3567,
+          "content": "{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v2\",\n  \"program_id\": \"program:capability-v2-directory-fallback-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v2\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-directory-fallback-001-lookup-user\",\n    \"name\": \"processWithDirectory\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:capability-v2-directory-fallback-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:capability-v2-directory-fallback-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:capability-v2-directory-fallback-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:capability-v2-directory-fallback-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:capability-v2-directory-fallback-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:capability-v2-directory-fallback-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:capability-v2-directory-fallback-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:capability-v2-directory-fallback-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "handle": "context://state/program",
+          "path": "tasks/directory-fallback-001/base/program.json",
+          "role": "persistent_state",
+          "sha256": "a160fd96fd562c0ca97b81d11c22d917ee4e78cb8624638eb7bcd68f134e9d2e"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_Aim27iXzaE1qvSJTnNCali"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "6deb0dc005a36ef04d7418f044c12b936d296bd18e65c3d170241920a942b26f",
+    "response_sha256": "30a70ec324d93714047dac9d464f245ac5f4d5ee52d80ad4914fc7366a5f1cbc",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:capability-v2-directory-fallback-001",
+          "schema_version": "ai-experiments.semantic-ir.capability-inspection/v1",
+          "state_token": "cap:v1:state:ef0698a9deaf30738daa78a6c7ccfe65",
+          "targets": [
+            {
+              "node_id": "node:capability-v2-directory-fallback-001-not-found",
+              "op": "err",
+              "target_token": "cap:v1:target:8927bd562058a2d2ad6ee4181292bf08"
+            }
+          ]
+        },
+        "tool": "semantic_state_inspect",
+        "tool_call_id": "tooluse_J0tMX87c2zTuA5RmPYwPCk"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "de66f0096682adaf76248043f1a45ffabcaf3f2b2bc8973a820d3b467260f0ab",
+    "response_sha256": "b1e8d8fe5af161e726688d17c6e11fca61320f7f8a6e55a565514d020d862f4d",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: replacement must preserve target node identity: node:capability-v2-directory-fallback-001-not-found"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_EpRyA1qdtuKlqRRiFlXKsC"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "d1c6de315a47103e8424441a23e3e39720be515b5a9347af16a50f52e58aa361",
+    "response_sha256": "cd96533fddffc8db394d045851e714f191bddbd1c767f55b1210b0418c2ae2b9",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "projection_sha256": "c2f950b60600276763a301d09154cbcd96316e6d0057bfebe0195d7fe062e8e1",
+          "target": "src/lookup-user.ts"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_UTdvQtGMp1ehmfoA6gvpRc"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "00a60a8cb173c9170f6c468fe905c0f582625afa75840b351ed1e4b57777aa19",
+    "response_sha256": "c9bc7a3af1c849a16f4e5f1e9e3e9108d0a87702dd2459dc6f3b0a2b044a9306",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... ok (0ms)\npreserves a local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (5ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_We2JqGC6a9MTam6B0vhGX3"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "4149ab5e12fcff40e0cf5d5d1bd18ebabd6b60081dd25900f581a6f250bd789f",
+    "response_sha256": "e060db45efd7fbe772b72c72c5989941be0d0041ceddf958759a3d685cf50888",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "d21115bd33cf3febbbacde0ae0810de7601ad90dad1289d8ace43f4d30956add"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_j5JDsrpBzAUj6HPvLkD8C5"
+      }
+    ],
+    "turn": 7
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,24 +1,29 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithRetry(\\n   rawId: string, capabilities: SemanticCapabilities\\n ): Result<User, string> {\\n   return /* ir:node:capability-v2-raw-id-retry-001-normalize-let */ (() => {\\n     const normalizedId: string = /* ir:node:capability-v2-raw-id-retry-001-trim */ (/* ir:node:capability-v2-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n     return /* ir:node:capability-v2-raw-id-retry-001-validity-if */ (/* ir:node:capability-v2-raw-id-retry-001-is-empty */ (/* ir:node:capability-v2-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n       ? (/* ir:node:capability-v2-raw-id-retry-001-invalid-id */ { error: /* ir:node:capability-v2-raw-id-retry-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n       : (/* ir:node:capability-v2-raw-id-retry-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\\n-          if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-raw-id-retry-001-not-found */ { error: /* ir:node:capability-v2-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n-          }\\n-          const user: User = __semantic_ir_option_1;\\n-          return /* ir:node:capability-v2-raw-id-retry-001-found */ { ok: /* ir:node:capability-v2-raw-id-retry-001-user-ref */ user };\\n+          if (__semantic_ir_option_1 !== undefined) {\\n+            const user: User = __semantic_ir_option_1;\\n+            return /* ir:node:capability-v2-raw-id-retry-001-found */ { ok: /* ir:node:capability-v2-raw-id-retry-001-user-ref */ user };\\n+          }\\n+          const __raw_retry: User | undefined = capabilities.users.getById(rawId);\\n+          if (__raw_retry !== undefined) {\\n+            return { ok: __raw_retry };\\n+          }\\n+          return /* ir:node:capability-v2-raw-id-retry-001-not-found */ { error: /* ir:node:capability-v2-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n         })());\\n   })();\\n }\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_5g0dBtkKGzjzg1ADJu3Akv",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-cbad0f7973a55dd69c7007ec",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 948,
+    "prompt_tokens": 10005,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 10953
+  }
+}

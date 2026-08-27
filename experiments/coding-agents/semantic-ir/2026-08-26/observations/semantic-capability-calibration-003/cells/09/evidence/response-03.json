@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I understand the task. The tests show:\n\n1. The `SemanticCapabilities` type needs a `directory` capability added\n2. When `users.getById()` returns `undefined` (local miss), it should fall back to `directory.getById()`\n3. If the directory also misses, return `not_found`\n4. Empty input still returns `invalid_user_id`\n5. Local hit still returns the local user\n\nLet me create the patch:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,7 +1,9 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n@@ -17,9 +19,14 @@ export function processWithDirectory(\\n       : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_rDtiLQIkx6112cGuQDOuKP",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-3081d04987b1e075b43c244c",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 730,
+    "prompt_tokens": 3284,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4014
+  }
+}

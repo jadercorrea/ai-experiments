@@ -1,0 +1,584 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-execution-freeze/v2",
+  "freeze_id": "semantic-ir-capability-calibration/heterogeneous-patches-v2",
+  "status": "frozen_pre_execution",
+  "purpose": "calibration",
+  "initial_user_message": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. In the semantic arm, inspect selected state nodes to obtain opaque precondition tokens before submitting one patch. Recover from typed tool errors within the available budget and call submission_finish when final.",
+  "claim_boundary": {
+    "execution_variables_complete": true,
+    "model_calls_authorized": false,
+    "experimental_subject_calls_observed": 0,
+    "efficacy_claim_authorized": false,
+    "remaining_before_launch": [
+      "explicit_launch"
+    ]
+  },
+  "final_suite": {
+    "path": "construction/capability-patch-tasks-v2/suite.json",
+    "sha256": "f87df7fbb721f517a9a0ea74657c662ea6f2d0053fa1bbf569704625b1b0f014"
+  },
+  "model_sources": {
+    "model_lock": {
+      "path": "experiments/coding-agents/local-first-routing/2026-07-30/model-lock.json",
+      "sha256": "b4147d513b82837a6a21b3f649cfe4ef3968f80c18ce69920dcbdeceafcaef31"
+    },
+    "hosted_access": {
+      "path": "experiments/coding-agents/local-first-routing/2026-07-30/calibration/hosted-treatment.json",
+      "sha256": "aba89d9cc41c24d31423ebd9199c080a7cbd641eabda25644ffe9b19468de413"
+    }
+  },
+  "provider_access": {
+    "api_base_url": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "credential_source": "macos_keychain",
+    "keychain_service": "aws-bedrock-fable5",
+    "keychain_account": "968138089800",
+    "credential_may_enter_model_context": false,
+    "prior_treatment_admission_policy_reused": false
+  },
+  "model": {
+    "provider": "Amazon Bedrock",
+    "provider_model": "us.anthropic.claude-sonnet-4-6",
+    "foundation_model": "anthropic.claude-sonnet-4-6",
+    "api_format": "bedrock-converse",
+    "region": "us-east-1",
+    "experiment_context_length": 65536,
+    "identity_policy": "endpoint_locked_model_and_iam_scope",
+    "provider_substitution_allowed": false
+  },
+  "sampling": {
+    "temperature": 0,
+    "maximum_output_tokens_per_turn": 4096,
+    "seed": null
+  },
+  "limits": {
+    "model_turns_per_call_cell": 12,
+    "tool_calls_per_turn": 4,
+    "mutation_attempts_per_cell": 3,
+    "public_evaluations_per_cell": 2,
+    "hidden_evaluations_per_cell": 1,
+    "provider_retries": 0,
+    "inference_timeout_seconds": 300,
+    "cell_timeout_seconds": 900,
+    "maximum_provider_requests": 132,
+    "maximum_total_spend_usd": 10.0
+  },
+  "accounting": {
+    "source": "provider_native_usage",
+    "include_all_trajectory_requests": true,
+    "input_metric": "sum_usage_inputTokens",
+    "cached_input_metric": "sum_usage_cacheReadInputTokens",
+    "output_metric": "sum_usage_outputTokens",
+    "terminal_payload_bytes": true,
+    "input_usd_per_million_tokens": 3.0,
+    "cached_input_usd_per_million_tokens": 0.3,
+    "output_usd_per_million_tokens": 15.0
+  },
+  "isolation": {
+    "subject_surface": "closed_tool_protocol",
+    "workspace": "fresh_ephemeral_copy_per_cell",
+    "host_repository_access": "denied_to_subject",
+    "shell_access": "denied",
+    "external_network_and_browsing": "denied_to_subject",
+    "orchestrator_provider_egress": "bedrock_endpoint_only",
+    "evaluator_network": "denied",
+    "credential_source": "macos_keychain",
+    "credentials_in_model_context": false,
+    "hidden_evaluator_after_finish_only": true,
+    "hidden_feedback_to_subject": false,
+    "evidence_contains_provider_payloads": true,
+    "evidence_publication_requires_secret_scan": true,
+    "context_surface": "immutable_allowlisted_artifacts",
+    "context_addressing": "context_uri_handles",
+    "tool_error_policy": "typed_recoverable_results_within_turn_budget",
+    "semantic_preconditions": "opaque_capability_tokens_resolved_inside_trusted_boundary"
+  },
+  "tasks": [
+    {
+      "candidate_task_id": "semantic-patch-suite/cross-module-rename-001",
+      "instance_id": "semantic-ir-capability-v2/cross-module-rename-001",
+      "slug": "cross-module-rename-001",
+      "task_root": "tasks/cross-module-rename-001",
+      "task_manifest_sha256": "fe0a1d734b9c3f3e2ebea0e8672775f0c0b43446959b0f035902e465f2a28c2c",
+      "workspace_tree_sha256": "c7bc86bac45d93b5d5123233050ccbc61ea66875e225ff7980afd09986e4ecb4",
+      "hidden_evaluator_sha256": "6cb7b7d9a74c8f2487e4a095f40e2547681c85c193cdb8bc6efd6ec6b30d7425",
+      "final_semantic_disposition": "unsupported"
+    },
+    {
+      "candidate_task_id": "semantic-patch-suite/directory-fallback-001",
+      "instance_id": "semantic-ir-capability-v2/directory-fallback-001",
+      "slug": "directory-fallback-001",
+      "task_root": "tasks/directory-fallback-001",
+      "task_manifest_sha256": "29e94cbea9a909efd08014d70f5cad77314571bfe0189543ac426e77470aa587",
+      "workspace_tree_sha256": "2e54adbb94581cf92da6b48a7cc2af66b6ce814ffe77ba58b0665a76b3808fb0",
+      "hidden_evaluator_sha256": "378e20abd66a8ede2f8827caba16f684c24056d3c5a75a9d64257a4ba834d885",
+      "final_semantic_disposition": "supported"
+    },
+    {
+      "candidate_task_id": "semantic-patch-suite/error-taxonomy-001",
+      "instance_id": "semantic-ir-capability-v2/error-taxonomy-001",
+      "slug": "error-taxonomy-001",
+      "task_root": "tasks/error-taxonomy-001",
+      "task_manifest_sha256": "69928d2ede388e6259aff23a9f7a2e8a30251ec8e8eb60539f6251e9da882d65",
+      "workspace_tree_sha256": "500f5fd73c9c5fef75d75e4fd7b89b49f7b8e4246df6c8afb01465b7a3af0d0b",
+      "hidden_evaluator_sha256": "8b112e77402ebdb19134574ffefe389328bc800581e380b1921bf770c4fbe77f",
+      "final_semantic_disposition": "supported"
+    },
+    {
+      "candidate_task_id": "semantic-patch-suite/normalization-policy-001",
+      "instance_id": "semantic-ir-capability-v2/normalization-policy-001",
+      "slug": "normalization-policy-001",
+      "task_root": "tasks/normalization-policy-001",
+      "task_manifest_sha256": "44a8f2ea2cebc1bd24e8aa9c1cad21fa5480e9d69741a078510e7e7c9ebc1209",
+      "workspace_tree_sha256": "9f49d88602537b1df24fedff1bf98cf048e34402502e788304aa49b4fa570b48",
+      "hidden_evaluator_sha256": "26c736064155293b1302d489f1b4c117f527698c1064a1cd519ef201f33d3c33",
+      "final_semantic_disposition": "supported"
+    },
+    {
+      "candidate_task_id": "semantic-patch-suite/raw-id-retry-001",
+      "instance_id": "semantic-ir-capability-v2/raw-id-retry-001",
+      "slug": "raw-id-retry-001",
+      "task_root": "tasks/raw-id-retry-001",
+      "task_manifest_sha256": "f3c891bc287f6663b9fd20a50e181ccab8ebef2580dc3a0735f4ae0f6163d040",
+      "workspace_tree_sha256": "1db1bbbcb01a588b8edf925a96a7e8606ffa47f252650ae08be7dfe5151d2dd6",
+      "hidden_evaluator_sha256": "88e58e17bcd36af530fe815973115e782e2ecbd323808ee3e16c1216ada05850",
+      "final_semantic_disposition": "supported"
+    },
+    {
+      "candidate_task_id": "semantic-patch-suite/reserved-id-guard-001",
+      "instance_id": "semantic-ir-capability-v2/reserved-id-guard-001",
+      "slug": "reserved-id-guard-001",
+      "task_root": "tasks/reserved-id-guard-001",
+      "task_manifest_sha256": "2030ae6a41e73f8228bd14cb7bb1b821045b5949e1f6b1a6b1fccb3b1c7f4da3",
+      "workspace_tree_sha256": "b45d9b30df351307ef0a61de9b3c4c627828ec20ba114028e7a03103a12b9803",
+      "hidden_evaluator_sha256": "cce67cb2453e98be5cf0976a7e73a597f0f907697d28527270ce37aa91f02fa9",
+      "final_semantic_disposition": "supported"
+    }
+  ],
+  "schedule": {
+    "adaptive_ordering": false,
+    "adaptive_stopping": false,
+    "source_first_pairs": 3,
+    "semantic_first_pairs": 3,
+    "provider_call_cells": 11,
+    "cells": [
+      {
+        "sequence": 1,
+        "cell_id": "semantic-ir-capability-calibration/error-taxonomy-001/source",
+        "candidate_task_id": "semantic-patch-suite/error-taxonomy-001",
+        "task_root": "tasks/error-taxonomy-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/01-error-taxonomy-001-source.txt",
+          "bytes": 1317,
+          "sha256": "3c359dae75b39bb5b5d2005a1e12e6599f7aef6f379e216d5adf5dd55b88a456",
+          "ordered_sources": [
+            "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "tasks/error-taxonomy-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/01-error-taxonomy-001-source.json",
+          "manifest_sha256": "c32d1f608a4dfdbf0be825fb6aa50c981e2cecbe4259739394dd25cd8f6fb952"
+        },
+        "tools": {
+          "path": "tools/01-error-taxonomy-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 2,
+        "cell_id": "semantic-ir-capability-calibration/error-taxonomy-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/error-taxonomy-001",
+        "task_root": "tasks/error-taxonomy-001",
+        "arm": "semantic",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/02-error-taxonomy-001-semantic.txt",
+          "bytes": 15421,
+          "sha256": "a6c9840173437c95821edeadbaba7b47cd843afb9f1baa374a01b685a6c9ccb2",
+          "ordered_sources": [
+            "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "tasks/error-taxonomy-001/participant-context/semantic-patch.md",
+            "tasks/error-taxonomy-001/base/program.json",
+            "tasks/error-taxonomy-001/participant-context/catalog.json",
+            "tasks/error-taxonomy-001/participant-context/program-schema.json",
+            "tasks/error-taxonomy-001/participant-context/semantic-patch-schema.json"
+          ],
+          "manifest_path": "contexts/02-error-taxonomy-001-semantic.json",
+          "manifest_sha256": "32d123e19c6f18fe6eb468bd999a6f2e931948825dd25d4e3e74bcfac4e3a667"
+        },
+        "tools": {
+          "path": "tools/02-error-taxonomy-001-semantic.json",
+          "bytes": 18116,
+          "sha256": "4af9e00f4ad90af9d3d78062bd4f118a19b66058d7474f00ea9f7241db744d03"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 3,
+        "cell_id": "semantic-ir-capability-calibration/normalization-policy-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/normalization-policy-001",
+        "task_root": "tasks/normalization-policy-001",
+        "arm": "semantic",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/03-normalization-policy-001-semantic.txt",
+          "bytes": 15645,
+          "sha256": "09d8998f1aea447efeee87e3a3aafb082d72f8df016d986135e1b3ba14bd7f74",
+          "ordered_sources": [
+            "tasks/normalization-policy-001/participant-context/TASK.md",
+            "tasks/normalization-policy-001/participant-context/semantic-patch.md",
+            "tasks/normalization-policy-001/base/program.json",
+            "tasks/normalization-policy-001/participant-context/catalog.json",
+            "tasks/normalization-policy-001/participant-context/program-schema.json",
+            "tasks/normalization-policy-001/participant-context/semantic-patch-schema.json"
+          ],
+          "manifest_path": "contexts/03-normalization-policy-001-semantic.json",
+          "manifest_sha256": "69dfac378308a5adccf8d3cd60618a53f05ad798928c5138289c2f8eb797b4b0"
+        },
+        "tools": {
+          "path": "tools/03-normalization-policy-001-semantic.json",
+          "bytes": 18116,
+          "sha256": "4af9e00f4ad90af9d3d78062bd4f118a19b66058d7474f00ea9f7241db744d03"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 4,
+        "cell_id": "semantic-ir-capability-calibration/normalization-policy-001/source",
+        "candidate_task_id": "semantic-patch-suite/normalization-policy-001",
+        "task_root": "tasks/normalization-policy-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/04-normalization-policy-001-source.txt",
+          "bytes": 1369,
+          "sha256": "0b9d031129fe5b0164a7a79b61399f7fdce385781fab1beda61b58e83aa8cb39",
+          "ordered_sources": [
+            "tasks/normalization-policy-001/participant-context/TASK.md",
+            "tasks/normalization-policy-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/04-normalization-policy-001-source.json",
+          "manifest_sha256": "35562c208f1cd1303802daaeba47b28027664656f2d59dc90fdcf9264eda1899"
+        },
+        "tools": {
+          "path": "tools/04-normalization-policy-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 5,
+        "cell_id": "semantic-ir-capability-calibration/raw-id-retry-001/source",
+        "candidate_task_id": "semantic-patch-suite/raw-id-retry-001",
+        "task_root": "tasks/raw-id-retry-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/05-raw-id-retry-001-source.txt",
+          "bytes": 1343,
+          "sha256": "6cf7dd3402e22386f05a6f35aa3081755aa6b33f7f0070ca74002535cad5620c",
+          "ordered_sources": [
+            "tasks/raw-id-retry-001/participant-context/TASK.md",
+            "tasks/raw-id-retry-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/05-raw-id-retry-001-source.json",
+          "manifest_sha256": "5d7f7a6af4b808c6c2ddd0c4dec502dd8cfdfb164e17d8b0de50b993b40aa843"
+        },
+        "tools": {
+          "path": "tools/05-raw-id-retry-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 6,
+        "cell_id": "semantic-ir-capability-calibration/raw-id-retry-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/raw-id-retry-001",
+        "task_root": "tasks/raw-id-retry-001",
+        "arm": "semantic",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/06-raw-id-retry-001-semantic.txt",
+          "bytes": 15391,
+          "sha256": "445601fb16658c2e3713145220453c6c77a6bb9db9f91c08e64d572010106c40",
+          "ordered_sources": [
+            "tasks/raw-id-retry-001/participant-context/TASK.md",
+            "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+            "tasks/raw-id-retry-001/base/program.json",
+            "tasks/raw-id-retry-001/participant-context/catalog.json",
+            "tasks/raw-id-retry-001/participant-context/program-schema.json",
+            "tasks/raw-id-retry-001/participant-context/semantic-patch-schema.json"
+          ],
+          "manifest_path": "contexts/06-raw-id-retry-001-semantic.json",
+          "manifest_sha256": "5aabd2c5b1c0fcce78ca0e3c90ab77da7d2eaa821babf5a9c795a029e8c6d4a4"
+        },
+        "tools": {
+          "path": "tools/06-raw-id-retry-001-semantic.json",
+          "bytes": 18116,
+          "sha256": "4af9e00f4ad90af9d3d78062bd4f118a19b66058d7474f00ea9f7241db744d03"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 7,
+        "cell_id": "semantic-ir-capability-calibration/reserved-id-guard-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/reserved-id-guard-001",
+        "task_root": "tasks/reserved-id-guard-001",
+        "arm": "semantic",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/07-reserved-id-guard-001-semantic.txt",
+          "bytes": 16651,
+          "sha256": "b734fc3d414ac56bf7185ea20a6829fc9d038de11641f42a11a3721cebc56c2b",
+          "ordered_sources": [
+            "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "tasks/reserved-id-guard-001/participant-context/semantic-patch.md",
+            "tasks/reserved-id-guard-001/base/program.json",
+            "tasks/reserved-id-guard-001/participant-context/catalog.json",
+            "tasks/reserved-id-guard-001/participant-context/program-schema.json",
+            "tasks/reserved-id-guard-001/participant-context/semantic-patch-schema.json",
+            "tasks/reserved-id-guard-001/participant-context/expression-grammar-v0.schema.json"
+          ],
+          "manifest_path": "contexts/07-reserved-id-guard-001-semantic.json",
+          "manifest_sha256": "1507cad1e1c4ce7733bf30d0bf7f34964f0104be8901a82be6e3cc05b6c3f6b3"
+        },
+        "tools": {
+          "path": "tools/07-reserved-id-guard-001-semantic.json",
+          "bytes": 18116,
+          "sha256": "4af9e00f4ad90af9d3d78062bd4f118a19b66058d7474f00ea9f7241db744d03"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 8,
+        "cell_id": "semantic-ir-capability-calibration/reserved-id-guard-001/source",
+        "candidate_task_id": "semantic-patch-suite/reserved-id-guard-001",
+        "task_root": "tasks/reserved-id-guard-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/08-reserved-id-guard-001-source.txt",
+          "bytes": 1343,
+          "sha256": "012de54f479e70d37a45d03757460f00da68b1837c1bf93883d302fb8cde42e3",
+          "ordered_sources": [
+            "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "tasks/reserved-id-guard-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/08-reserved-id-guard-001-source.json",
+          "manifest_sha256": "cac0220a047752248697f6196b71a8c827e14bde47b157b0b61fb93aa1d65353"
+        },
+        "tools": {
+          "path": "tools/08-reserved-id-guard-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 9,
+        "cell_id": "semantic-ir-capability-calibration/directory-fallback-001/source",
+        "candidate_task_id": "semantic-patch-suite/directory-fallback-001",
+        "task_root": "tasks/directory-fallback-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/09-directory-fallback-001-source.txt",
+          "bytes": 1355,
+          "sha256": "9d82bd55f1523b05f0106425f66db887f87d3b494fc59d2d6eeb97004832ebd4",
+          "ordered_sources": [
+            "tasks/directory-fallback-001/participant-context/TASK.md",
+            "tasks/directory-fallback-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/09-directory-fallback-001-source.json",
+          "manifest_sha256": "e91759b468bfe17f2d7b204740fa8abe4c2edd9eaa389a2a8bf29d9684e52eaf"
+        },
+        "tools": {
+          "path": "tools/09-directory-fallback-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 10,
+        "cell_id": "semantic-ir-capability-calibration/directory-fallback-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/directory-fallback-001",
+        "task_root": "tasks/directory-fallback-001",
+        "arm": "semantic",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/10-directory-fallback-001-semantic.txt",
+          "bytes": 18063,
+          "sha256": "ea3205f861a1bedb2a488a0ca204682840fbfe38cd57b74bc6bc9ba19aaae207",
+          "ordered_sources": [
+            "tasks/directory-fallback-001/participant-context/TASK.md",
+            "tasks/directory-fallback-001/participant-context/semantic-patch.md",
+            "tasks/directory-fallback-001/base/program.json",
+            "tasks/directory-fallback-001/participant-context/catalog.json",
+            "tasks/directory-fallback-001/participant-context/program-schema.json",
+            "tasks/directory-fallback-001/participant-context/semantic-patch-schema.json",
+            "tasks/directory-fallback-001/participant-context/expression-grammar-v0.schema.json"
+          ],
+          "manifest_path": "contexts/10-directory-fallback-001-semantic.json",
+          "manifest_sha256": "dd56efbc00e4c194db9d16566543452885a259c17eb0fa50462b198e809d893e"
+        },
+        "tools": {
+          "path": "tools/10-directory-fallback-001-semantic.json",
+          "bytes": 18116,
+          "sha256": "4af9e00f4ad90af9d3d78062bd4f118a19b66058d7474f00ea9f7241db744d03"
+        },
+        "terminal_policy": "agent_submission_finish"
+      },
+      {
+        "sequence": 11,
+        "cell_id": "semantic-ir-capability-calibration/cross-module-rename-001/semantic",
+        "candidate_task_id": "semantic-patch-suite/cross-module-rename-001",
+        "task_root": "tasks/cross-module-rename-001",
+        "arm": "semantic",
+        "provider_call": false,
+        "context": null,
+        "tools": null,
+        "terminal_policy": "orchestrator_semantic_unsupported"
+      },
+      {
+        "sequence": 12,
+        "cell_id": "semantic-ir-capability-calibration/cross-module-rename-001/source",
+        "candidate_task_id": "semantic-patch-suite/cross-module-rename-001",
+        "task_root": "tasks/cross-module-rename-001",
+        "arm": "source",
+        "provider_call": true,
+        "context": {
+          "path": "contexts/12-cross-module-rename-001-source.txt",
+          "bytes": 1333,
+          "sha256": "189df8737933591ccf623c0c59e89c94506e982f6db68a0787b4141ea60a2f96",
+          "ordered_sources": [
+            "tasks/cross-module-rename-001/participant-context/TASK.md",
+            "tasks/cross-module-rename-001/participant-context/source-patch.md"
+          ],
+          "manifest_path": "contexts/12-cross-module-rename-001-source.json",
+          "manifest_sha256": "d09fa8d6968fca27b5bb61e403b35ebfcf2829fc8d36e0951124155ad7bca2a5"
+        },
+        "tools": {
+          "path": "tools/12-cross-module-rename-001-source.json",
+          "bytes": 2784,
+          "sha256": "979b64856b6c19ff07636a1a7a07318ad5129196d16c059e1f5ab17edabd5766"
+        },
+        "terminal_policy": "agent_submission_finish"
+      }
+    ]
+  },
+  "stopping_rule": {
+    "planned_terminal_outcomes": 12,
+    "planned_provider_call_cells": 11,
+    "efficacy_early_stop": "forbidden",
+    "product_failure_stops_batch": false,
+    "systemic_infrastructure_stop_after": 2,
+    "consecutive_infrastructure_invalidations_reset_on_non_infrastructure_outcome": true,
+    "replacement_runs": "forbidden",
+    "spend_stop": "before_request_worst_case_reservation_would_exceed_cap",
+    "partial_batch_interpretation": "descriptive_only_with_missing_cells_explicit",
+    "completion": "all_scheduled_cells_terminal_or_systemic_infrastructure_stop"
+  },
+  "analysis_policy": {
+    "all_task_utility": {
+      "metric": "hidden_pass_at_1",
+      "denominator": "all_locked_tasks",
+      "semantic_unsupported_outcome": "counts_as_failure"
+    },
+    "conditional_efficacy": {
+      "metric": "hidden_pass_at_1",
+      "denominator": "tasks_supported_by_both_arms_at_final_lock",
+      "must_be_reported_with_all_task_utility": true
+    },
+    "token_accounting": {
+      "source": "provider_native_usage",
+      "counted_content": [
+        "system_and_task_context",
+        "persistent_state_representation",
+        "schemas_and_catalogs",
+        "tool_inputs_and_outputs",
+        "repair_turns",
+        "terminal_submission"
+      ]
+    },
+    "mandatory_secondary_metrics": [
+      "semantic_applicability_rate",
+      "total_input_tokens",
+      "total_output_tokens",
+      "validation_failures_by_category",
+      "public_evaluator_runs",
+      "repair_cycles",
+      "time_to_terminal_submission",
+      "terminal_payload_bytes"
+    ]
+  },
+  "contamination": {
+    "audit": {
+      "path": "publication/preflight-contamination-audit.json",
+      "sha256": "9dfd991c9036803cf4333f7bdf7c1122887c84c8b610d2b792c59643eaf4d62d"
+    },
+    "status": "conditional_pre_model_clearance",
+    "prelaunch_repeat_required": true
+  },
+  "launch_contract": {
+    "path": "protocol/capability-execution-launch-v2.schema.json",
+    "sha256": "e201c53bc036fd792d6c5142ba6816c22043db9556e1a758e6ea913b3a052994"
+  },
+  "runner": {
+    "path": "scripts/semantic_capability_calibration.py",
+    "sha256": "66a3a66b33ca276430fc196e7fec87869b36c706e4f22e32d839bf9780d32d76"
+  },
+  "integrity": {
+    "dependencies": [
+      {
+        "path": "protocol/capability-execution-freeze-v2.schema.json",
+        "sha256": "5c1b29f98a2a1ef20ca56ba5ddce2f522cf40d0059e4dbbc24c67e9e35f93106"
+      },
+      {
+        "path": "scripts/semantic_capability_execution_freeze.py",
+        "sha256": "c4a04630477f865b103550402006ef05348b3443f4d40a2cb3bd8beefc5ca326"
+      },
+      {
+        "path": "protocol/capability-execution-launch-v2.schema.json",
+        "sha256": "e201c53bc036fd792d6c5142ba6816c22043db9556e1a758e6ea913b3a052994"
+      },
+      {
+        "path": "protocol/capability-semantic-patch-v1.schema.json",
+        "sha256": "2401570c0d338b5abe029bbde444217ea98bb7e27cc31c281d9dfbe0d7eb20dd"
+      },
+      {
+        "path": "scripts/semantic_capability_calibration.py",
+        "sha256": "66a3a66b33ca276430fc196e7fec87869b36c706e4f22e32d839bf9780d32d76"
+      },
+      {
+        "path": "scripts/semantic_capability_protocol.py",
+        "sha256": "dddc524958b3c0ad4d4809e51e5fd850231b6770cbbab23af9d110df2d0e9131"
+      },
+      {
+        "path": "scripts/semantic_context_protocol.py",
+        "sha256": "1b1b1b63791ed93ef7fd3473f0bb63846f41ed168472df7840e0458a329a7036"
+      },
+      {
+        "path": "scripts/semantic_execution_freeze.py",
+        "sha256": "2cd197652a07384f2c268f47e94e1764e02eca397f254af0c6ba9a0b1bf54803"
+      },
+      {
+        "path": "scripts/semantic_context_execution_freeze.py",
+        "sha256": "4b14b659c0153723813422a92cdd69b0ebcaf915dd6feba63c8a0a6aba12fbb9"
+      },
+      {
+        "path": "construction/capability-patch-tasks-v2/suite.json",
+        "sha256": "f87df7fbb721f517a9a0ea74657c662ea6f2d0053fa1bbf569704625b1b0f014"
+      },
+      {
+        "path": "construction/capability-patch-tasks-v2/publication/artifact-lock.json",
+        "sha256": "8c96df25a7951d83e6cf0a607126236ab5a8a80e2205369d93e4cfa6fbaac077"
+      }
+    ],
+    "freeze_sha256": "d8a3083ad2a08c5e66c5b10d61c390df6d75f42b7419a61f7906fe1896e8eab1"
+  }
+}

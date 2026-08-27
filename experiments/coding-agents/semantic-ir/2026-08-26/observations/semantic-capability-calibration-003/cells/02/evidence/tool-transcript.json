@@ -1,0 +1,146 @@
+[
+  {
+    "request_sha256": "a7d519efa06f8f1bf353b47c924369cf2256ac72958e4c37acd216655a188738",
+    "response_sha256": "02cefbd040861b19aa2811088a089472735e304877b9925ca11b0b447067c102",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 268,
+          "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_D3XIUaMfTOsDaRWeb8Lk1B"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1800,
+              "path": "src/lookup-user.ts",
+              "sha256": "281aafec98f5266dbd95207e959be933bba6c3ac580df884fbfac476a909f8d9"
+            },
+            {
+              "bytes": 733,
+              "path": "tests/public.test.ts",
+              "sha256": "f1ca9ebc84711817baec1213c817fa07e3b55f84ba1b06d03d0d7c8926d6789a"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_QAsysU74kdoeuGHqw9yQvL"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "618dd48603eb26887e04c1e7c1574b2a0f4e388d7a8a78c0d78f4eab50d416ad",
+    "response_sha256": "b0037f2f0a5acdb20d1e2eab890e46cd184d26a887fc40e11b1bbc4b247d4153",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { processErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(processErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(processErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "f1ca9ebc84711817baec1213c817fa07e3b55f84ba1b06d03d0d7c8926d6789a"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_8Gtrdh11hjOWbQQ8O8iBb5"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-error-taxonomy-001-trim */ (/* ir:node:capability-v2-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-error-taxonomy-001-validity-if */ (/* ir:node:capability-v2-error-taxonomy-001-is-empty */ (/* ir:node:capability-v2-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-error-taxonomy-001-invalid-id */ { error: /* ir:node:capability-v2-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-error-taxonomy-001-not-found */ { error: /* ir:node:capability-v2-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-error-taxonomy-001-found */ { ok: /* ir:node:capability-v2-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "281aafec98f5266dbd95207e959be933bba6c3ac580df884fbfac476a909f8d9"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_Wk2ISS8XiDBmccUyC3Gglu"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "243c8d1e01b797481e513efe7cfc95f1d947966aa9f91dbf95811bab3c634b98",
+    "response_sha256": "e0172e5164133aaed927ed785adea7fef245f82070bf816ecf2584a5ac7d6bbf",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:capability-v2-error-taxonomy-001",
+          "schema_version": "ai-experiments.semantic-ir.capability-inspection/v1",
+          "state_token": "cap:v1:state:686f874790db8edfd0c364737afb181b",
+          "targets": [
+            {
+              "node_id": "node:capability-v2-error-taxonomy-001-invalid-id-code",
+              "op": "string",
+              "target_token": "cap:v1:target:b6cc60d1f000cc75a9c9638f283d9eb7"
+            },
+            {
+              "node_id": "node:capability-v2-error-taxonomy-001-not-found-code",
+              "op": "string",
+              "target_token": "cap:v1:target:7add2883f0b145f4c00d00a6ff392199"
+            }
+          ]
+        },
+        "tool": "semantic_state_inspect",
+        "tool_call_id": "tooluse_hwWoIShDEI3RMxrht2VKoS"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "258a56cf2ffebb99beaa1d40bb3611771f8a2fd72008e5c360373196abd13960",
+    "response_sha256": "0a4be5fbca6a135a2ee4db13de93635b9e11a7d15f384a68b9f5934c9ab70acd",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "projection_sha256": "c63a1cb0dd73445a5c21b0302e99e2170a132670a89312179291d8e938357f36",
+          "target": "src/lookup-user.ts"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_UdZYw1vD6N81LvUz3O7aDD"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "50f155e9695382f4a549189abf69e4498e20c40688345a68e8191aa672593596",
+    "response_sha256": "1b239b2aa5903bff35a4ae2b59450bab61c7a0d4a3af65900714fcfbc1c67535",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... ok (0ms)\n\nok | 1 passed | 0 failed (5ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_mQvYloQiEh9z1au4EgbB6c"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "17c06c41b61b5a0bbba6744f374d05f4230a2ecd3c31bf3886b6d6b7c50feb1b",
+    "response_sha256": "6f012fb9522c2e3848301fcfc93c957f961a7f90b035286c0ae36a51ca2a44ae",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "220f452a1719b4e9e42144200a7c297b01ed470f8e95ca6027bdd4a79abbc038"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_4Jl7uRLBpSirOV1qfMebAL"
+      }
+    ],
+    "turn": 6
+  }
+]

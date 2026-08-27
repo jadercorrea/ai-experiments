@@ -4,13 +4,11 @@
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
-break-even curve, one local semantic-patch observation, and two completed but
-invalidated heterogeneous calibrations. Context v1 fixed addressability and
-exposed unavailable digest preconditions. Capability v2 now moves those
-preconditions into deterministic infrastructure, seals six fresh exact
-instances, and freezes the next launch-gated comparison with zero new model
-calls. Neither earlier paired run supports an efficacy or token-efficiency
-winner.**
+break-even curve, one local semantic-patch observation, two invalidated
+heterogeneous calibrations, and one valid descriptive capability-v2
+calibration. Calibration 003 observed semantic hidden passes of 4/6 versus 2/6
+for source, with fewer calls and output tokens but more total tokens and cost.
+The sample does not authorize an inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -202,6 +200,18 @@ different Unicode definitions from their host languages.
 - [`CAPABILITY_PROTOCOL_V2_FREEZE.md`](CAPABILITY_PROTOCOL_V2_FREEZE.md) records
   the next experimental-TDD failure, the version-neutral fix, exact digests, and
   construction-only claim boundary.
+- [`capability-execution-launch-003.json`](construction/capability-execution-launch-003.json)
+  and its
+  [`preflight`](construction/capability-execution-launch-003.preflight.json)
+  bind the explicit authorization to the exact v2 freeze, suite, model, budget,
+  and provider-policy audit.
+- [`semantic-capability-calibration-003`](observations/semantic-capability-calibration-003)
+  retains the complete 12-cell execution: 78 provider responses, USD 2.101818
+  estimated cost, workspaces, transcripts, evaluator results, and a 233-file
+  content lock.
+- [`CALIBRATION_003_OBSERVATION.md`](CALIBRATION_003_OBSERVATION.md) records the
+  valid descriptive comparison, the resolved capability defect, the opposing
+  output- and input-token results, and the next compact-context red test.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -373,7 +383,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
 .venv/bin/python -m unittest \
   tests.test_semantic_capability_protocol \
   tests.test_semantic_capability_task_suite \
-  tests.test_semantic_capability_execution
+  tests.test_semantic_capability_execution \
+  tests.test_semantic_capability_calibration_observation
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -381,8 +392,9 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   --preflight
 ```
 
-The preflight performs no provider call. Execution remains blocked until a
-separate capability-v2 launch record is explicitly authorized.
+The preflight performs no provider call. Calibration 003 used a separately
+authorized, content-bound launch record; reproducing preflight does not
+authorize another execution.
 
 Verify the checked model-facing interface freeze:
 
@@ -534,15 +546,17 @@ failures rather than typed IR values, and the v0 projection is synchronous;
 both boundaries must be explicit in every task fixture.
 
 The synthetic repeated-body curve crossed at eight bodies and remained below
-source at sixteen, but it does not represent heterogeneous repository work. The
-local patch task and sealed heterogeneous suite prove mechanics, fixture
-discrimination, and the 5/6 representation boundary, not model performance.
-The execution lock fixed model identity, inference parameters, tool/retry
-budgets, exact arm contexts, execution order, calibration stopping rule, and the
-closed-tool runner. Calibration 001 then completed all twelve cells, but all
-five supported semantic trajectories terminated before mutation when they
-tried to reread task-prefixed artifacts that were embedded in context but absent
-from the participant workspace. Because invalid reads were fatal rather than
-recoverable, this was a treatment-asymmetric early-censoring defect. The next
-gate is a separately identified protocol with an addressable read-only context
-surface, recoverable tool errors, and fresh sealed task instances.
+source at sixteen, but it does not represent heterogeneous repository work.
+Calibration 001 exposed a treatment-asymmetric addressability failure.
+Calibration 002 fixed addressability but exposed model-inaccessible digest
+preconditions. Capability v2 moved those preconditions into trusted
+infrastructure, and calibration 003 completed without either defect.
+
+Calibration 003 is valid descriptive evidence, not a confirmatory result. On
+six frozen tasks, semantic hidden passes were 4/6 versus 2/6 for source. The
+semantic arm used 30.4% fewer provider requests and 54.2% fewer output tokens,
+but 57.3% more total tokens and 28.4% more estimated cost because its input
+surface was larger. The next gate is a compact, progressively disclosed
+semantic context that preserves checked state and opaque preconditions. It must
+cross local whole-trajectory input-token break-even before a fresh, larger
+confirmatory suite is frozen.

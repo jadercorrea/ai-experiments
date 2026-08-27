@@ -1,0 +1,267 @@
+[
+  {
+    "request_sha256": "4bb1bd18f280aad1316c1e5db8138bb64f68d1c3a587b797a912886973e9a3a1",
+    "response_sha256": "68a4eeaa9b2449bee4977954babcdffa2b173b5d832d783a34286221eeb4a4fc",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 165,
+              "handle": "context://mode",
+              "path": "tasks/directory-fallback-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+            },
+            {
+              "bytes": 298,
+              "handle": "context://task",
+              "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+            }
+          ]
+        },
+        "tool": "context_list",
+        "tool_call_id": "tooluse_2B1MtaNaQQ2DwJbMQhk60F"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1864,
+              "path": "src/lookup-user.ts",
+              "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+            },
+            {
+              "bytes": 942,
+              "path": "tests/public.test.ts",
+              "sha256": "ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_T4GSWH1b8besRtzinQihrK"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "260ffa69c80131cded1da91b9b015ac23c776addd9506f16c8c73a01f42b610a",
+    "response_sha256": "65490066c5f850845cc145378eb9601eb541f28dcacdb3c238aec0d201b88b22",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_1YgOhfcOnBy0nWbf0AfZ63"
+      },
+      {
+        "result": {
+          "content": "import { processWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(processWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(processWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_HqT673RVqdjzvEjEWHmegc"
+      },
+      {
+        "result": {
+          "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_1h7nbNchLqsmW0UMCOhjRg"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "adf723139f0bfc801f099a1dc06453814e564e2ca969173f6b566ca4ddd40cb0",
+    "response_sha256": "229794baee9f7919e23d013d88b97beb21320998f02ca5afd91eea3cce671f25",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 13"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_rDtiLQIkx6112cGuQDOuKP"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "c2095f17b354051a4dfab1cd22c86cce6711a4aea4b30ec2ae06b9dd7c4c025d",
+    "response_sha256": "c86d069817021a118da0d24a38815a69a189c89ac4a90ddb3114a455897f402f",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 24"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_r2QlT3E1vxOrK4J2RuUb5n"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "12939e35c609baba013afe1769a69d4a0930e947533e8f66caf7093223e02f25",
+    "response_sha256": "d3cb77383980c1d173e281a0baf8a390c3bed345541f3ee158d08f7c201eb844",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 25"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_PRM0EDz24bddsbe2ZnlqPb"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "f3ddc21df582ba2e8b3c99fd455eeee1ab8ec540f6344ffe817cf3ad4eb598b2",
+    "response_sha256": "86a2790b327f54b1194b14dbb625849d3f07949e1007fd6b96d159da2aac7300",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_zZh73GrE6aP11U3uPyWtbH"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "5cedd9f8005a7072c797e5b38b3ed82d19dc8d0c418352531d6a6b301423a26e",
+    "response_sha256": "3fcff237d2f47aeb53b113c98eb12fa9210fb1c70d0fd6c22c54e5c34645b23c",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (2ms)\npreserves a local hit ... ok (0ms)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (6ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_5r6Cr7hngbpKuxHdqzNNs8"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "2a18cb12f70933e55aa66a8336a71ef1df3bafea2a77fd8fb89dd37228caea41",
+    "response_sha256": "a4124afba72d96d5e597a9ad6215162bf55d4edcd73895740e019408972fb842",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_Cc9nDjERjWlgx9NfGyeRWP"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "92c5e9e7097888b35cb8bbd580def5af8ba6a5185a24c79d25bf7c1557261918",
+    "response_sha256": "ee3d65bf2ea58ac43915c33f3d5a3ad25aa93898213873425f19077f8c12eeda",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "error: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (0ms)\npreserves a local hit ... ok (0ms)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (4ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_9hcUTJZUFfGlMxt4buSk4Q"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "request_sha256": "5932df332ff9aa720f96e02d1d5d5381ce6330f7d3efeb6d02bf767fc352481d",
+    "response_sha256": "56c392fc80aea3271e16de80140257525aa51f5678160f71dd72e2021466a3f2",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_z4XzJlozM9TC75XhRjsvsH"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "request_sha256": "b0250d8eec3c7adeec66f4f2f75871203b22fbfa34b74dd706f1ab7b6ad2794c",
+    "response_sha256": "bfdeae73b85c30b6d6812171f1e50f1b9aed0a10f66804355b935ec28e808d3b",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_U0fXy9jsAtttnRAyfNSSMN"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "request_sha256": "01a69ac394a16212219388ae6b1163c564bf5f4d9b8b9ed92238c7373ebedee4",
+    "response_sha256": "a73561e981881395865a249e2e81eae23a6585d5a5ad4455f2e8818b6f36cea2",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_RVBo72XlCfPuNBeYZhfK5Z"
+      }
+    ],
+    "turn": 12
+  }
+]

@@ -26,7 +26,7 @@ for the protocol, limitations, and release manifest.
 | --- | --- | --- |
 | [Local-first routing for repository-level coding agents](experiments/coding-agents/local-first-routing/2026-07-30) | Published calibration pilot; confirmatory no-go | Develop the separately named successor without pooling v1 outcomes |
 | [Evidence-carrying handoffs for coding agents](experiments/coding-agents/evidence-carrying-handoffs/2026-08-21) | Public protocol preview v0.1; no runs authorized | Pass the calibration-entry lock, then freeze the confirmatory design |
-| [Semantic IR for coding agents](experiments/coding-agents/semantic-ir/2026-08-26) | Capability protocol v2 and six fresh instances frozen pre-execution; prior comparisons remain invalid | Explicitly authorize the content-bound calibration v2 launch |
+| [Semantic IR for coding agents](experiments/coding-agents/semantic-ir/2026-08-26) | Calibration 003 valid as descriptive evidence: semantic 4/6 vs source 2/6, with lower output but higher total-token cost | Test compact semantic context before a fresh confirmatory freeze |
 
 Draft and calibration artifacts are not published benchmark claims. They are
 retained so protocol changes, invalidated runs, and treatment-selection

@@ -1,0 +1,141 @@
+[
+  {
+    "request_sha256": "789430bf64c730d7f63e3746dd483560aa5855d433f46a36b28eaca618326d50",
+    "response_sha256": "2d1f019be9b58e8e40cbbeb85970a756474f55d9a3ababa065ca1a03935db4ca",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 288,
+          "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_CvDcvyw1QTfWfF8H5LiEiT"
+      },
+      {
+        "result": {
+          "bytes": 165,
+          "content": "# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n",
+          "handle": "context://mode",
+          "path": "tasks/reserved-id-guard-001/participant-context/source-patch.md",
+          "role": "mode",
+          "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_UlxnT5mrtnDjkXkQ9T0zUk"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1847,
+              "path": "src/lookup-user.ts",
+              "sha256": "e1085fbe98553892dfa61b59509102cc002dc0db9d0b0653e6cfb0dc41876123"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "3b5bfa122f2c428b76af90edd131978912442722a34960a2cde270bb4bf4e1ca"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_N7EkMVzRC7sc86xwCv8z8C"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "458dd438f9609bb29dd390b55b627c5bf86816594a8e4d893d76b86f69e6cd2b",
+    "response_sha256": "2ec3a224fc1177e8855ceae3fb4fc941f897010ee47715e8e4d2e963cfcafd02",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-reserved-id-guard-001-trim */ (/* ir:node:capability-v2-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-reserved-id-guard-001-validity-if */ (/* ir:node:capability-v2-reserved-id-guard-001-is-empty */ (/* ir:node:capability-v2-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-reserved-id-guard-001-invalid-id */ { error: /* ir:node:capability-v2-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-reserved-id-guard-001-not-found */ { error: /* ir:node:capability-v2-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-reserved-id-guard-001-found */ { ok: /* ir:node:capability-v2-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "e1085fbe98553892dfa61b59509102cc002dc0db9d0b0653e6cfb0dc41876123"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_zTSnQ2nLrfFYRB0hqcsRTo"
+      },
+      {
+        "result": {
+          "content": "import { processGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(processGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(processGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "3b5bfa122f2c428b76af90edd131978912442722a34960a2cde270bb4bf4e1ca"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_7w3bbqK1axKeiEYLTsTXjj"
+      },
+      {
+        "result": {
+          "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_XID0wvYZfvhfH5Zhfs01dT"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "99674e73681d17ca5dcd9c29533c2ea493b6f621e7b6f513e692bfa866897604",
+    "response_sha256": "7ff491d850fa0fda02490f899ae51f6804957d841ba8f7bd47e3bd3d6309327b",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "fc3a1b14fc01dec4746477a322b44af052118c30ed23beea076c89e83728ad3a"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_qmXFcp8kmg49VoMeAiX2r7"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "49e4a5635fcc7251a8d14d4f9c839bea4d2d247c79e59b1a4abc9be6dd0ba6c4",
+    "response_sha256": "adbdf38b091a3a3bb1062173b378374aafc7a5ed8a0554910c9e5a7fb3ecced5",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (3ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_KdHptlxsQH9iSZurofJ6uL"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "2a11ea7383a537405817321dbf732fd1ec3d8a43de4a66633d6b2fe9e62c0e11",
+    "response_sha256": "3a3da989004f5de9baf7b470d2ecc6efe42d0f7ff7a1fad6b1c4167b7803826d",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "679b2c05ccc883d12eef78beda4cd24f96ea6760c546a9056867152618b9ce4a"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_K5iGlen2Nka5XfQkMBAklY"
+      }
+    ],
+    "turn": 5
+  }
+]

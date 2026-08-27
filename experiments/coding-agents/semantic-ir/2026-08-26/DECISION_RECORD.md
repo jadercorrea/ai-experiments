@@ -569,3 +569,54 @@ checkpoint.
   `d8a3083ad2a08c5e66c5b10d61c390df6d75f42b7419a61f7906fe1896e8eab1`.
 - Experimental subject calls remain zero. A separate explicit launch is the
   only remaining gate before calibration 003.
+
+## Calibration 003 descriptive acceptance
+
+### Context
+
+The explicitly authorized capability-v2 calibration completed all twelve cells
+with 78 successful provider responses and USD 2.101818 estimated cost. All five
+supported semantic cells reached terminal submission. Six semantic inspections
+issued the opaque state and target tokens used by eight subsequent patch
+submissions.
+
+The three rejected semantic patches violated stable target-node identity. No
+rejection involved a missing, guessed, mismatched, or stale capability token.
+The digest-precondition defect from calibration 002 did not recur, and no cell
+was infrastructure-invalid.
+
+The raw summarizer reported four semantic and two source hidden passes in the
+six-task denominator. On the five supported pairs, it also reported four
+semantic and two source passes. The semantic arm used 32 provider requests and
+9,108 output tokens versus 46 requests and 19,887 output tokens for source. Its
+larger input surface raised total use to 357,435 tokens versus 227,191 and cost
+to USD 1.181601 versus USD 0.920217.
+
+### Decision
+
+Accept calibration 003 as a valid, complete descriptive comparison of the two
+frozen interfaces. Accept capability v2 as resolving the specific unavailable
+semantic-precondition defect identified by calibration 002.
+
+Do not authorize an inferential, general efficacy, or general token-efficiency
+claim. Do not replace or rerun cells under this freeze. Report all-task utility,
+the 5/6 semantic applicability boundary, supported-task outcomes, provider
+requests, input and output tokens separately, total tokens, and cost together.
+
+Move the next red test to semantic input projection. Preserve the canonical
+program and opaque capability semantics while testing compact typed slices,
+stable graph handles, or progressive inspection. Require deterministic recovery
+of omitted state and local whole-trajectory break-even before freezing a fresh
+confirmatory task set.
+
+### Consequences
+
+- Capability-mediated preconditions are no longer the observed semantic-arm
+  bottleneck.
+- The semantic arm doubled hidden passes in this small suite and reduced
+  provider requests by 30.4% and output tokens by 54.2%.
+- The semantic arm still used 57.3% more all-task tokens and cost 28.4% more;
+  supported-pair total-token overhead was 68.2%.
+- The observed tension separates mutation efficiency from context efficiency.
+- Calibration 003 advances the experimental-TDD sequence from context
+  correctness to context density; it does not establish a language winner.
