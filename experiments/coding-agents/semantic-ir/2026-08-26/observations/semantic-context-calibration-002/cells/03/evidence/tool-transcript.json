@@ -1,0 +1,187 @@
+[
+  {
+    "request_sha256": "2c5dbc2358a536d710b585c31f9d6624271f01ad27b9b7a59cc8e267581818a0",
+    "response_sha256": "4d8ce2c7378484a282d48d0f2e9fb794541bb664b7e981c9bcc8cd6a1077effa",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 308,
+          "content": "# Task\n\nUse the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/normalization-policy-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "c3d3300a266f69165ad3ee5e6ab32aa6ea6e5677f73ad3b3ef5a1dbb64a6b67b"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_oD2c16bW4q6X0N5Gz6i620"
+      },
+      {
+        "result": {
+          "bytes": 3546,
+          "content": "{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v0\",\n  \"program_id\": \"program:context-v1-normalization-policy-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-normalization-policy-001-lookup-user\",\n    \"name\": \"resolveRawIdentifier\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:context-v1-normalization-policy-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:context-v1-normalization-policy-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:context-v1-normalization-policy-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:context-v1-normalization-policy-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:context-v1-normalization-policy-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:context-v1-normalization-policy-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:context-v1-normalization-policy-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:context-v1-normalization-policy-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:context-v1-normalization-policy-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-normalization-policy-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:context-v1-normalization-policy-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:context-v1-normalization-policy-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:context-v1-normalization-policy-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:context-v1-normalization-policy-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:context-v1-normalization-policy-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:context-v1-normalization-policy-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:context-v1-normalization-policy-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:context-v1-normalization-policy-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:context-v1-normalization-policy-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:context-v1-normalization-policy-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:context-v1-normalization-policy-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-normalization-policy-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "handle": "context://state/program",
+          "path": "tasks/normalization-policy-001/base/program.json",
+          "role": "persistent_state",
+          "sha256": "036979aad2e606c058cad4d655fa1e146e188114522138a921d9660c8b490ee5"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_KKhaUIhHzytKPeIm3LKHCX"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "3b98f0b99d9249308293c371ba050c9e251018631bb2bf823b14741e79f14734",
+    "response_sha256": "c80cb4c3b3b8bb1eea247b8263e101d30d887ec14e8ac027bf6bfce6541a012f",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1849,
+              "path": "src/lookup-user.ts",
+              "sha256": "3bf79ee428d98ff3a6b72366bba0c794e797f56187b3b75f3e9bd5ef8d069030"
+            },
+            {
+              "bytes": 801,
+              "path": "tests/public.test.ts",
+              "sha256": "b70d1ca5d3f677f56c054859edb30a0b910dfbd895db07feeeb284503419b0e1"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_GsJNUUzB38C9oOm06otVx4"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "df3adc26bb2b6f1167fa6d92d397fc68789310531bdb708cb75ebbd851a51664",
+    "response_sha256": "f1755c983f7e3a4ec8eea5ba847bfa44f38ec9f077df732c54e4f7ad3ad7c53e",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function resolveRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:context-v1-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:context-v1-normalization-policy-001-trim */ (/* ir:node:context-v1-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:context-v1-normalization-policy-001-validity-if */ (/* ir:node:context-v1-normalization-policy-001-is-empty */ (/* ir:node:context-v1-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:context-v1-normalization-policy-001-invalid-id */ { error: /* ir:node:context-v1-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:context-v1-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:context-v1-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:context-v1-normalization-policy-001-not-found */ { error: /* ir:node:context-v1-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:context-v1-normalization-policy-001-found */ { ok: /* ir:node:context-v1-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "3bf79ee428d98ff3a6b72366bba0c794e797f56187b3b75f3e9bd5ef8d069030"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_gC62Cg7XuvGGKQCrFLPOMI"
+      },
+      {
+        "result": {
+          "content": "import { resolveRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(resolveRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(resolveRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "b70d1ca5d3f677f56c054859edb30a0b910dfbd895db07feeeb284503419b0e1"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_rY6SEPA2OgeFML9WmeCg56"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "7909d59518580749340b5b9bcb4209c06efd4435f68bfc0db13c42bc0e0f4ebc",
+    "response_sha256": "46a7712811fb4935b08e64641f5a197d073ac6d478fc14723896023ab9508445",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nuses raw identifier and exact empty ... FAILED (0ms)\n\n ERRORS \n\nuses raw identifier and exact empty => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/03/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/03/workspace/tests/public.test.ts:15:3\n\n FAILURES \n\nuses raw identifier and exact empty => ./tests/public.test.ts:11:6\n\nFAILED | 0 passed | 1 failed (4ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_yUNnHjyvyixNBvtLqQGBeM"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "ca354e804b0ac9f5b27ada6dc83fd34e1a96b244bdbdc44280eb1d9d7552ad3a",
+    "response_sha256": "15d67ca914ad6ac84ae6087796d1c0115f0780df534920a20650a38744e037c5",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: base program digest mismatch: expected 1b79cb99540f31c35d6c8dc0acf5ef80b4221bebf545cfaea690be874929c2c8, got 036979aad2e606c058cad4d655fa1e146e188114522138a921d9660c8b490ee5"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_ul6Vnqdb942D6OLG7ubzzx"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "aa8313e5978c737ea86027b29b3b534e26c805aa1e49eaf8eaed0647843f35e4",
+    "response_sha256": "fec65ab6b47d3beff288f44ce7977bd9b2ca68f627b0de49e83bec3fb82e5453",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: subtree digest mismatch for node:context-v1-normalization-policy-001-trim: expected cf843a2fe8f62f332666a2ae81218be900bcc8ef17fe2a6ab00a66655be97cb7, got 0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_a06F4dsaf4dsufhD2lOuzb"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "78c8a892a9bed0c0f06a8a3daa07ff61a72226ce6348bb2b8f2d800be89315c2",
+    "response_sha256": "1db8691185ad6d325b7f0a37f9fcf0bb542e3223aa220b434a50f5f00ed2261d",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "projection_sha256": "824efeaf6d44898320aaa1740906a342dace1a6886e8140b26493b8388d5f125",
+          "target": "src/lookup-user.ts"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_tnJihG707F33L7JblQUP5x"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "861f0e40e44458644a9b35363a9eb1cb4245c2bef9584e35c90ef7f1676a61b1",
+    "response_sha256": "22117c9e305d27f321ff163ada52ff30365bc99b7a7a8cd2df46ffb8f38576a1",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nuses raw identifier and exact empty ... ok (0ms)\n\nok | 1 passed | 0 failed (4ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_hWMKJCPx1rqk8TdrPeIUnS"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "7f56b7b609311146ec4e53afb24ca6722dcc736820e0bc9995c62f4374b0bf3b",
+    "response_sha256": "df613ad9207617fb5bc8023d5238ce336235868bc7a732c87936f5aa9fdbcb1e",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "cef8e8eda1932ba6534d19c3dd8a930f2d8fc5232bb282e48bdc9dcc5f503a40"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_snheuR2MyONt5ZsAeK8b96"
+      }
+    ],
+    "turn": 9
+  }
+]

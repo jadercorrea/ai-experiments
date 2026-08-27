@@ -1,0 +1,260 @@
+[
+  {
+    "request_sha256": "2f09edc489030cba02ed87ac7e186f69cb56639de924b85eecb50af0fa7bb991",
+    "response_sha256": "dd77187089f0ee765d5716908dffe479a92becccf79901c4e83b4db6fb65450a",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 288,
+          "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_ptDMS6JWU0cluIzZXpVth8"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1802,
+              "path": "src/lookup-user.ts",
+              "sha256": "33aaff8b6a1b2febd223c14c7df21833f9a72b485daeb801349af18f4b504023"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "97d0bea72c723ad5416c09724ce507f91d8c7b11490257e081b915e9193bc598"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_CNHpVfzHBuAEZmQToomSFq"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "df8b9fcb523258b48c51b90dc0dbb04e86d833b7147a41c1826266c4ae6eff95",
+    "response_sha256": "ccadf574c2f301988ffc1fbca0a6cf230f47b2c33b8bda37082e91749b234425",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { resolveGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(resolveGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(resolveGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "97d0bea72c723ad5416c09724ce507f91d8c7b11490257e081b915e9193bc598"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_GNrz2hRzU1wTdT6ikDEBUH"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function resolveGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:context-v1-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:context-v1-reserved-id-guard-001-trim */ (/* ir:node:context-v1-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:context-v1-reserved-id-guard-001-validity-if */ (/* ir:node:context-v1-reserved-id-guard-001-is-empty */ (/* ir:node:context-v1-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:context-v1-reserved-id-guard-001-invalid-id */ { error: /* ir:node:context-v1-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:context-v1-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:context-v1-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:context-v1-reserved-id-guard-001-not-found */ { error: /* ir:node:context-v1-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:context-v1-reserved-id-guard-001-found */ { ok: /* ir:node:context-v1-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "33aaff8b6a1b2febd223c14c7df21833f9a72b485daeb801349af18f4b504023"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_Ps98yZMfzhB8LLQhDEguXO"
+      },
+      {
+        "result": {
+          "bytes": 3472,
+          "content": "{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v1\",\n  \"program_id\": \"program:context-v1-reserved-id-guard-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v1\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-reserved-id-guard-001-lookup-user\",\n    \"name\": \"resolveGuardedUser\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:context-v1-reserved-id-guard-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:context-v1-reserved-id-guard-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:context-v1-reserved-id-guard-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:context-v1-reserved-id-guard-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:context-v1-reserved-id-guard-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:context-v1-reserved-id-guard-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:context-v1-reserved-id-guard-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:context-v1-reserved-id-guard-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:context-v1-reserved-id-guard-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-reserved-id-guard-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:context-v1-reserved-id-guard-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:context-v1-reserved-id-guard-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:context-v1-reserved-id-guard-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:context-v1-reserved-id-guard-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:context-v1-reserved-id-guard-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:context-v1-reserved-id-guard-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:context-v1-reserved-id-guard-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:context-v1-reserved-id-guard-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:context-v1-reserved-id-guard-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:context-v1-reserved-id-guard-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:context-v1-reserved-id-guard-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-reserved-id-guard-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "handle": "context://state/program",
+          "path": "tasks/reserved-id-guard-001/base/program.json",
+          "role": "persistent_state",
+          "sha256": "b5afbcc1fec008e41badd6a38b4d365cc64feb68542798893ff5a6d86246311c"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_BLq1s45ARxRHoruvCBK6Ez"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "2cdb9fec46e2cad92dfbb6074fa9f4fd8e717c759eda363236f40a68e702dbd0",
+    "response_sha256": "cdc72374a247609edd043380762892c7d0e7f3b87d408d0ce2b996b3ba2faae9",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... FAILED (2ms)\npreserves an ordinary local hit ... ok (0ms)\n\n ERRORS \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"reserved_user_id\"}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/07/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/07/workspace/tests/public.test.ts:14:3\n\n FAILURES \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (7ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_ofRvVnEng5htKoCr6LET2M"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "ed724c0effab9561241c18888b85a74d6fe0dc0231a745a4f7f32a7c6a8eb342",
+    "response_sha256": "edcdaca636d79a40b8730f9dd947dfedcef3ebf0578f47797e7112d07ea95e47",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: base program digest mismatch: expected 92235734f62393dfffcb2d16fa904ef78ba074d2dfec4efbaefb85a3038782c5, got b5afbcc1fec008e41badd6a38b4d365cc64feb68542798893ff5a6d86246311c"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_eKdqSSIw07AM8IkaQ9KVwu"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "26567d6700d684ef4b67ad12e6f2506f2375cd7da2efbb20ed8c6203de4fe8da",
+    "response_sha256": "155ffaebe45c65f4c2d318dbd24385fa85ddaf03109bfacb849b7d03eb379fae",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: replacement must preserve target node identity: node:context-v1-reserved-id-guard-001-user-match"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_DKH9QDa95VhoCtRhNvNB0U"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "41d56da03e21f0d1d2499ff4afcb64103f98f0d1cd43407d1dc77d611676e383",
+    "response_sha256": "0ff9f447fd52d6f132255f1a8d706a44fe26c5e5d3a7058ff331ac164cb6a3b6",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: subtree digest mismatch for node:context-v1-reserved-id-guard-001-user-match: expected 4182cba785dd3b2039f193355f54b9739743e69e8263c9c6ab1febd67209a11c, got 0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_ZpQke3klcL6aH4DIlir26H"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "b56d504f2a8ffcf53a4774d6c26f144acb418b841415e1d454b2e0ccbbeed46b",
+    "response_sha256": "152787b7ffa23c54328144237509ce9cbc8dc5f616efde44a6cc96cf32ad9acb",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_7HGMAnFpfHFqZUgg82e17N"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "103363790e68479cd138e45b815b4f977ec088983fb636b2f131a63a1238c681",
+    "response_sha256": "4534ecfd03903a4b8cad32124af56b21ab3c4a1ef99dc3a5b032566bf2cf04a8",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_eu9fjqqDt18IihonOU9uGj"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "f08f50c034c4e56ec119569b723ca2a0e66901f0856517ba6891cc4ff9ed6dfd",
+    "response_sha256": "6d24c3c3a41ef23e15b1bd55e6717147d0782f17130db6f7eacd1fce9254f427",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_8qE8fpTsB0FxEsb06wjXLA"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "request_sha256": "965600be3eb5923b0a8ba3c7119a97599728a6a2de8619cf19de55a5549b1491",
+    "response_sha256": "61d0990c5346ccf4f1e53d23dbdec12c6a1a95ef2cdab8d2b54e4d66fe0f9383",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "error: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... FAILED (3ms)\npreserves an ordinary local hit ... ok (0ms)\n\n ERRORS \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"reserved_user_id\"}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/07/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/07/workspace/tests/public.test.ts:14:3\n\n FAILURES \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (9ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_PH4n6P57GEcEjiQj9ZYnJD"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "request_sha256": "fb681374b22a4cb282c432f34710fd642a8a90161da9898db5b3be606bf1da8e",
+    "response_sha256": "ce3518fc97d809888992fc81a8c2a83de52f1646b938c7f1c4ba2b2bef713fac",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_FAj8Tb0PQbiMl6Lt5Ef7PM"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "request_sha256": "8598ecd562f773a9bb14267f2c85b1f3fad3fde60870cc7af750f01041110674",
+    "response_sha256": "3a96d9f7d9aefc0fe228cdabae6747a4ae0bdb8029360c7ccdf69087d948cf91",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_4y9nMgEfUtvkKkXFIPO99y"
+      }
+    ],
+    "turn": 12
+  }
+]

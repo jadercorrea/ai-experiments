@@ -1,0 +1,139 @@
+[
+  {
+    "request_sha256": "22301148d3b60d0522d52e429b4d5864243a58292bcefcb155dbda668cfa3bcf",
+    "response_sha256": "1eedf98c0229c7ac6951bb2b4268865bf93c803eab17150e4012ed8a48d41aab",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 165,
+              "handle": "context://mode",
+              "path": "tasks/reserved-id-guard-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+            },
+            {
+              "bytes": 288,
+              "handle": "context://task",
+              "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+            }
+          ]
+        },
+        "tool": "context_list",
+        "tool_call_id": "tooluse_b3W8G0GBNX9RzXUEnDGdOW"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1802,
+              "path": "src/lookup-user.ts",
+              "sha256": "33aaff8b6a1b2febd223c14c7df21833f9a72b485daeb801349af18f4b504023"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "97d0bea72c723ad5416c09724ce507f91d8c7b11490257e081b915e9193bc598"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_aqwgY5wPQvCQ012biPXFKG"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "0a76c8255955d4a8906d4797068b7aa5659dcf077c961d6fb1246928c7111dce",
+    "response_sha256": "08ce3205db7504ab98a00359afa2135c5bf54acc0f0ce694fc1bbebb47d584c8",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function resolveGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:context-v1-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:context-v1-reserved-id-guard-001-trim */ (/* ir:node:context-v1-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:context-v1-reserved-id-guard-001-validity-if */ (/* ir:node:context-v1-reserved-id-guard-001-is-empty */ (/* ir:node:context-v1-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:context-v1-reserved-id-guard-001-invalid-id */ { error: /* ir:node:context-v1-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:context-v1-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:context-v1-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:context-v1-reserved-id-guard-001-not-found */ { error: /* ir:node:context-v1-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:context-v1-reserved-id-guard-001-found */ { ok: /* ir:node:context-v1-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "33aaff8b6a1b2febd223c14c7df21833f9a72b485daeb801349af18f4b504023"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_zVfuIfJoixyq54KINVz304"
+      },
+      {
+        "result": {
+          "content": "import { resolveGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(resolveGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(resolveGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "97d0bea72c723ad5416c09724ce507f91d8c7b11490257e081b915e9193bc598"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_tlF3eKTorfAKPJXxBG6JEs"
+      },
+      {
+        "result": {
+          "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_xOv9U1cGUsxXs7SF9UT9UC"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "d3eaa67decccb8a5d1408bc2c48ebf46860368f1fbe86103fa5a5104f2c7b779",
+    "response_sha256": "7498f3804da171641e59f687f98178fe0ea09d4b029576040b131379eda1f1fe",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "d99e15d02480f7c253b361d29bf5380755d2b1fa1ee6f780b670c6760b917e0f"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_9IcapH2QGgQStDJwVl73lu"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "673ea3e31f2e83cc43e7b5429fad23f8ccde5931296986359a7d9d301188083b",
+    "response_sha256": "959c44bc015f22504547b1c9f3fa9582a0a83f16804b2a6e62ede4f0de5d5cec",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (5ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_85bq6qISXpzHhlgbMNGFyh"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "f811daf31aa22bd05a0f7de2d267fae9d156d5455fd3ebf7012b72662d85c5fa",
+    "response_sha256": "b8090d8e236b63aa1c01b3b31749b8e72040da9854c4cbac7874ac37d7bcbd92",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "d2e70e85e15b3341c23f547418ff8454e154c05ef8925114e6c84893e11b6288"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_R7DNATUejlFbJnS2mkuGRe"
+      }
+    ],
+    "turn": 5
+  }
+]

@@ -471,3 +471,54 @@ authorizes zero provider calls.
   requirements and development lineage are deliberately disclosed.
 - One gate remains before any new inference: explicit launch against the final
   v1 freeze and its artifact lock.
+
+## Calibration 002 precondition-affordance invalidation
+
+### Context
+
+The explicitly authorized v1 calibration completed all twelve cells with 102
+provider responses and USD 3.606831 estimated cost. Addressable context and
+recoverable tool errors behaved as designed: no context-read failure recurred,
+no cell was infrastructure-invalid, and every scheduled cell reached a frozen
+terminal outcome.
+
+The raw summarizer reported two source and one semantic hidden passes in the
+six-task denominator. The semantic arm consumed 799,255 tokens versus 217,314
+for source.
+
+### Finding
+
+Semantic submission required canonical base-program and target-subtree digests.
+Those values were absent from participant context, while the visible context
+manifest supplied a different byte-level artifact digest. The subject had no
+hashing or semantic-inspection operation capable of producing the required
+canonical values.
+
+Subjects consequently learned preconditions through rejection feedback. Each
+such discovery consumed the three-attempt mutation budget. Source submissions
+had no equivalent cryptographic-precondition discovery step. This introduced a
+treatment-asymmetric capability defect after the v1 addressability defect had
+been removed.
+
+### Decision
+
+Retain the complete execution and its raw descriptive counts. Invalidate claims
+comparing representation efficacy, token efficiency, and repair latency. Do not
+replace or rerun cells under the same freeze.
+
+Require the next protocol to return opaque canonical state and subtree
+precondition tokens through a read-only semantic context operation. Selecting
+or reading immutable concurrency state must not consume mutation budget, and
+the model must never be asked to calculate a cryptographic digest.
+
+Require fresh exact task instances before the next paired run.
+
+### Consequences
+
+- Context v1 passed its intended addressability and recovery test.
+- The raw 2/6 source, 1/6 semantic, and 3.68× semantic-token observations
+  describe v1 but do not isolate semantic representation quality.
+- The next experimental-TDD layer is now explicit: semantic concurrency tokens
+  must move from model-generated payload to deterministic infrastructure.
+- Calibration 002 remains a completed, auditable infrastructure observation;
+  it is not discarded or silently corrected.

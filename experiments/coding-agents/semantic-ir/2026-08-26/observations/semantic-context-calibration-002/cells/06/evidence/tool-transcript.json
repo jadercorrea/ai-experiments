@@ -1,0 +1,261 @@
+[
+  {
+    "request_sha256": "01aab6e281ba86ab36f2f1b897555ab807f876218946517700682c53bef8ec9b",
+    "response_sha256": "feea2cb929917decce826f3d13c9d8a3d269cc032ac482016ad76a6cf5ad63c2",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 298,
+          "content": "# Task\n\nAfter a normalized lookup misses, perform exactly one second lookup with the original identifier and return the first user found.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/raw-id-retry-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a3b83a79cc96c72a04f52ccfb1e7abac7ebc783c71052c342d8f97936c51379e"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_NAa5rar3cBezOh8rSspb2O"
+      },
+      {
+        "result": {
+          "bytes": 3350,
+          "content": "{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v0\",\n  \"program_id\": \"program:context-v1-raw-id-retry-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-raw-id-retry-001-lookup-user\",\n    \"name\": \"resolveWithRetry\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:context-v1-raw-id-retry-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:context-v1-raw-id-retry-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:context-v1-raw-id-retry-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:context-v1-raw-id-retry-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:context-v1-raw-id-retry-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:context-v1-raw-id-retry-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:context-v1-raw-id-retry-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:context-v1-raw-id-retry-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:context-v1-raw-id-retry-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-raw-id-retry-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:context-v1-raw-id-retry-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:context-v1-raw-id-retry-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:context-v1-raw-id-retry-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:context-v1-raw-id-retry-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:context-v1-raw-id-retry-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:context-v1-raw-id-retry-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:context-v1-raw-id-retry-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:context-v1-raw-id-retry-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:context-v1-raw-id-retry-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:context-v1-raw-id-retry-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:context-v1-raw-id-retry-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-raw-id-retry-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "handle": "context://state/program",
+          "path": "tasks/raw-id-retry-001/base/program.json",
+          "role": "persistent_state",
+          "sha256": "f44a61389c9027171b7778088f9843db71156b21848cc6ae5356dd19c4a7c1dc"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_NXVTslPEqprUbL9iNoZxnM"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1725,
+              "path": "src/lookup-user.ts",
+              "sha256": "6f1f22bd14046b2c76306c98e80c8e0cc2f1a4bcc78c40fe233991a33bd62b14"
+            },
+            {
+              "bytes": 995,
+              "path": "tests/public.test.ts",
+              "sha256": "519ce494fa41fd30af2b948669ea0aa3059ca9196c1d4272d16e2a4201e5539d"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_YDNwl30jvUMwlGpoc8VndK"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "e4835a5aa7fa2cd29821e0e24e230382f66093c4332de802d0817846ed66019f",
+    "response_sha256": "85aa0dd27502b47e6a1f655dba14c16087d89de3ec9c71464a0c85dd5c8f18e3",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { resolveWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(resolveWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(resolveWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "519ce494fa41fd30af2b948669ea0aa3059ca9196c1d4272d16e2a4201e5539d"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_SzRrjItMwXDPabw7IKA0aw"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function resolveWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:context-v1-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:context-v1-raw-id-retry-001-trim */ (/* ir:node:context-v1-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:context-v1-raw-id-retry-001-validity-if */ (/* ir:node:context-v1-raw-id-retry-001-is-empty */ (/* ir:node:context-v1-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:context-v1-raw-id-retry-001-invalid-id */ { error: /* ir:node:context-v1-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:context-v1-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:context-v1-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:context-v1-raw-id-retry-001-not-found */ { error: /* ir:node:context-v1-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:context-v1-raw-id-retry-001-found */ { ok: /* ir:node:context-v1-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "6f1f22bd14046b2c76306c98e80c8e0cc2f1a4bcc78c40fe233991a33bd62b14"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_BbdYxa71kqNXldM7jdq8AZ"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "33960c89be6b4118b6940b88880b2f3e09ada8129e34bcfe9c824dd99690a803",
+    "response_sha256": "52db0c83e16375cfd970749638a19dbf2db53d58f0f74074023a517c627b563b",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... FAILED (1ms)\ndoes not retry a normalized hit ... ok (0ms)\n\n ERRORS \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/06/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/06/workspace/tests/public.test.ts:14:3\n\n FAILURES \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (5ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_uFDO98KzpcBIbItbcWrt1F"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "0682eaae50e26b67ee890fd9195227519fb243fd3e7bf23ea5f32367147e7799",
+    "response_sha256": "87b45efedceb59e4f1be39688fb95d5c914b0b23b63f664e6cd7b40f6abf9d66",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: base program digest mismatch: expected 00422dad2f36e33be3c40e71031906840b0267396110fef8921a76f65a9651f1, got f44a61389c9027171b7778088f9843db71156b21848cc6ae5356dd19c4a7c1dc"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_9794oeP9Q5GqQB2XAmp4u3"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "31d171a002b1ea79be61e33cc4786dc861e3113a95be28d249a856dd53be7280",
+    "response_sha256": "b4ac584755d471759366b746e45d8378f6f709f6a3d7a38f2348945fbcf75533",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: replacement must preserve target node identity: node:context-v1-raw-id-retry-001-not-found"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_STSYlt2VNdRWzNSF1E5vC7"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "d5df6e14c5f4b84c2d1895630e7e94be5af5c4db2bcb4382684a445290373a34",
+    "response_sha256": "e4b42842bf72b5cf15c157958ab539c01222204e7e5f33a5347667c2d5ef4151",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "semantic patch rejected: subtree digest mismatch for node:context-v1-raw-id-retry-001-not-found: expected e08f899217eb45f28b16d08df61d477158bdb8328bc56341a54c454b2648bd6d, got 0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_WKurXjkvJxkAiNm9dLgDKN"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "7e68b7c161d1e25083f701ebb30522c86c9573cc4a73a75e8cd20435a5de188f",
+    "response_sha256": "40d5be162eec21499b66eb46ca5118209acda2c2428d1d68d868ec2309a60a90",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_eAMfx43t8ZlZUGay1VDfQ3"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "f30980f5b79720a9da8b167afbc0ce1b6315800fbad4d076a011cc955d4af1d8",
+    "response_sha256": "dfc4a8544db85ebb4eaa7ff1f47befbd01f726b358d42b56261398d8b16cad5c",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_grDFUqWMQtuXLSroXoOeXi"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "7ff060648c52109ecbc001fd06a4e2874e6d3f9a1fed32846609a32ee1f3e1c6",
+    "response_sha256": "8d1256c87f684ac33a57315f1e444fdbd8ab80e64b4f2b306899139d84a84626",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_JYCGWASgLYIpQjnSi09aB6"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "request_sha256": "1df9190d2d22e6c3b6c6bd4b40c18dfe8fecc2e890fd195474e1cb97d30c6314",
+    "response_sha256": "e4aa79a26ee6b35fd9fb09597e366d4a34bcf54cb81bd2844a69315507778a14",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_jxkCim1ehpU1qCwXMzNomY"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "request_sha256": "07558af88a1bfdf0efc2986301a79f6df166250523017f79d8026a4cf2c6f3ab",
+    "response_sha256": "c9b28d562ffa34256d0f7d6ae28beab18c51f5e49df122b3dc759466f3024fd8",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_Hljg5xCyh2zHJyUwZUZubL"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "request_sha256": "80b2c770f21aea1c4d5d1f5a40589b4d03872d5e6d015840b39738ae4932d584",
+    "response_sha256": "19d2aa7c29835fa9cae17869f621dd363180903f3ff1722db9185d75aac592c2",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "semantic_patch_submit",
+        "tool_call_id": "tooluse_DGycTTqOZ8j8BWZpJQ0TL8"
+      }
+    ],
+    "turn": 12
+  }
+]

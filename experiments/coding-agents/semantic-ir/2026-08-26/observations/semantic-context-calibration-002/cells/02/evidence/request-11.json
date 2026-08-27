@@ -1,0 +1,804 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe artifacts below are your complete task context. Every artifact has an immutable\ncontext:// handle and can be retrieved with context_read. The participant repository\nis a separate namespace exposed by workspace_list and workspace_read. Tool rejection\nis a typed result that may be corrected within the frozen budgets. You have no shell,\nhost-repository, hidden-evaluator, reference-solution, network, or browsing access.\n\n<artifact handle=\"context://task\" role=\"task\" path=\"tasks/error-taxonomy-001/participant-context/TASK.md\">\n# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact handle=\"context://mode\" role=\"mode\" path=\"tasks/error-taxonomy-001/participant-context/semantic-patch.md\">\n# Semantic patch mode\n\nInspect the base program, closed catalog, program schema, expression grammar,\nand semantic patch schema. Submit one checked semantic patch using only\n`replace_subtree`. The orchestrator applies it transactionally and derives any\nredundant canonical metadata before lowering.\n</artifact>\n\n<artifact handle=\"context://state/program\" role=\"persistent_state\" path=\"tasks/error-taxonomy-001/base/program.json\">\n{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v0\",\n  \"program_id\": \"program:context-v1-error-taxonomy-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-error-taxonomy-001-lookup-user\",\n    \"name\": \"resolveErrorCase\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:context-v1-error-taxonomy-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:context-v1-error-taxonomy-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:context-v1-error-taxonomy-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:context-v1-error-taxonomy-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:context-v1-error-taxonomy-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:context-v1-error-taxonomy-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:context-v1-error-taxonomy-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:context-v1-error-taxonomy-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:context-v1-error-taxonomy-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-error-taxonomy-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:context-v1-error-taxonomy-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:context-v1-error-taxonomy-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:context-v1-error-taxonomy-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:context-v1-error-taxonomy-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:context-v1-error-taxonomy-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:context-v1-error-taxonomy-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:context-v1-error-taxonomy-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:context-v1-error-taxonomy-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:context-v1-error-taxonomy-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:context-v1-error-taxonomy-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:context-v1-error-taxonomy-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:context-v1-error-taxonomy-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact handle=\"context://catalog\" role=\"symbol_catalog\" path=\"tasks/error-taxonomy-001/participant-context/catalog.json\">\n{\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v0\",\n  \"symbols\": [\n    {\n      \"symbol\": \"string.trim_ascii\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"string\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"string.is_empty\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"boolean\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"users.get_by_id\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"option<user>\",\n      \"effect\": \"db.read:users\"\n    }\n  ]\n}\n</artifact>\n\n<artifact handle=\"context://schema/program\" role=\"schema\" path=\"tasks/error-taxonomy-001/participant-context/program-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json\",\n  \"title\": \"Semantic IR construction slice v0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"program_id\",\n    \"catalog_version\",\n    \"function\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.program/v0\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"catalog_version\": {\n      \"const\": \"ai-experiments.semantic-ir.catalog/v0\"\n    },\n    \"function\": {\n      \"$ref\": \"#/$defs/function\"\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"sourceIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[A-Za-z_$][A-Za-z0-9_$]*$\"\n    },\n    \"valueType\": {\n      \"enum\": [\n        \"string\",\n        \"boolean\",\n        \"user\",\n        \"option<user>\",\n        \"result<user,string>\"\n      ]\n    },\n    \"effect\": {\n      \"enum\": [\"db.read:users\"]\n    },\n    \"binding\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"$ref\": \"#/$defs/valueType\"\n        }\n      }\n    },\n    \"parameter\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"const\": \"string\"\n        }\n      }\n    },\n    \"function\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"symbol_id\",\n        \"name\",\n        \"parameters\",\n        \"return_type\",\n        \"effects\",\n        \"body\"\n      ],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"parameters\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"$ref\": \"#/$defs/parameter\"\n          }\n        },\n        \"return_type\": {\n          \"const\": \"result<user,string>\"\n        },\n        \"effects\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"items\": {\n            \"$ref\": \"#/$defs/effect\"\n          }\n        },\n        \"body\": {\n          \"$ref\": \"#/$defs/expression\"\n        }\n      }\n    },\n    \"nodeHeader\": {\n      \"type\": \"object\",\n      \"required\": [\"node_id\", \"op\"],\n      \"properties\": {\n        \"node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        }\n      }\n    },\n    \"stringExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"string\"},\n            \"value\": {\"type\": \"string\"}\n          }\n        }\n      ]\n    },\n    \"variableExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol_id\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"var\"},\n            \"symbol_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"}\n          }\n        }\n      ]\n    },\n    \"callExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol\", \"arguments\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"call\"},\n            \"symbol\": {\"type\": \"string\", \"minLength\": 1},\n            \"arguments\": {\n              \"type\": \"array\",\n              \"items\": {\"$ref\": \"#/$defs/expression\"}\n            }\n          }\n        }\n      ]\n    },\n    \"letExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"binding\", \"value\", \"then\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"let\"},\n            \"binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"ifExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"condition\", \"then\", \"else\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"if\"},\n            \"condition\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"},\n            \"else\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"optionMatchExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\n            \"node_id\",\n            \"op\",\n            \"value\",\n            \"some_binding\",\n            \"none\",\n            \"some\"\n          ],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"option_match\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"some_binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"none\": {\"$ref\": \"#/$defs/expression\"},\n            \"some\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"okExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"ok\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"errorExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"error\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"err\"},\n            \"error\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"expression\": {\n      \"oneOf\": [\n        {\"$ref\": \"#/$defs/stringExpression\"},\n        {\"$ref\": \"#/$defs/variableExpression\"},\n        {\"$ref\": \"#/$defs/callExpression\"},\n        {\"$ref\": \"#/$defs/letExpression\"},\n        {\"$ref\": \"#/$defs/ifExpression\"},\n        {\"$ref\": \"#/$defs/optionMatchExpression\"},\n        {\"$ref\": \"#/$defs/okExpression\"},\n        {\"$ref\": \"#/$defs/errorExpression\"}\n      ]\n    }\n  }\n}\n</artifact>\n\n<artifact handle=\"context://schema/patch\" role=\"schema\" path=\"tasks/error-taxonomy-001/participant-context/semantic-patch-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/semantic-patch-v0.schema.json\",\n  \"title\": \"Transactional semantic patch v0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"patch_id\",\n    \"program_id\",\n    \"base_program_sha256\",\n    \"operations\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.patch/v0\"\n    },\n    \"patch_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"base_program_sha256\": {\n      \"$ref\": \"#/$defs/sha256\"\n    },\n    \"operations\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"$ref\": \"#/$defs/replaceSubtree\"\n      }\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"sha256\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[0-9a-f]{64}$\"\n    },\n    \"replaceSubtree\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"operation_id\",\n        \"op\",\n        \"target_node_id\",\n        \"expected_subtree_sha256\",\n        \"replacement\"\n      ],\n      \"properties\": {\n        \"operation_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"op\": {\n          \"const\": \"replace_subtree\"\n        },\n        \"target_node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"expected_subtree_sha256\": {\n          \"$ref\": \"#/$defs/sha256\"\n        },\n        \"replacement\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/expression\"\n        }\n      }\n    }\n  }\n}\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. Recover from typed tool errors within the available budget, submit candidate mutations through the assigned representation, and call submission_finish when final.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by examining the task context and workspace to understand what needs to be done.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"handle\":\"context://task\"}",
+            "name": "context_read"
+          },
+          "id": "tooluse_2DlXa8tX4kyy8X6c2J7FEF",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_CCWmHqPVCGrcmAbupCoaRV",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"bytes\":268,\"content\":\"# Task\\n\\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\\n\\nChange only the declared editable paths. Preserve all behavior not explicitly\\nchanged by this task. Public tests are visible; additional behavior is withheld.\\n\",\"handle\":\"context://task\",\"path\":\"tasks/error-taxonomy-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_2DlXa8tX4kyy8X6c2J7FEF"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1755,\"path\":\"src/lookup-user.ts\",\"sha256\":\"12c4625db05a8980c506f2fb852da4c7a38d5ff872088eaf5453c69837aa3967\"},{\"bytes\":733,\"path\":\"tests/public.test.ts\",\"sha256\":\"531a91aa402f6aa51bee0a8d4d6ae61e0a2c8b4eb508d426ab00238812d03bbe\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_CCWmHqPVCGrcmAbupCoaRV"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"path\":\"tests/public.test.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_6i5RheGb04M1v027xTzLZR",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"src/lookup-user.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_bgY6AdKfdnnxTEJTE3RKId",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"content\":\"import { resolveErrorCase } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"changes empty error and preserves success\\\", () => {\\n  const calls: string[] = [];\\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \\\"42\\\" ? { id, name: \\\"Ada\\\" } : undefined; } } };\\n  assertEquals(resolveErrorCase(\\\" \\\\t \\\", capabilities), { error: \\\"empty_identifier\\\" });\\n  assertEquals(calls, []);\\n  assertEquals(resolveErrorCase(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Ada\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"531a91aa402f6aa51bee0a8d4d6ae61e0a2c8b4eb508d426ab00238812d03bbe\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_6i5RheGb04M1v027xTzLZR"
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function resolveErrorCase(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:context-v1-error-taxonomy-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:context-v1-error-taxonomy-001-trim */ (/* ir:node:context-v1-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:context-v1-error-taxonomy-001-validity-if */ (/* ir:node:context-v1-error-taxonomy-001-is-empty */ (/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:context-v1-error-taxonomy-001-invalid-id */ { error: /* ir:node:context-v1-error-taxonomy-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:context-v1-error-taxonomy-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:context-v1-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:context-v1-error-taxonomy-001-not-found */ { error: /* ir:node:context-v1-error-taxonomy-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:context-v1-error-taxonomy-001-found */ { ok: /* ir:node:context-v1-error-taxonomy-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"12c4625db05a8980c506f2fb852da4c7a38d5ff872088eaf5453c69837aa3967\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_bgY6AdKfdnnxTEJTE3RKId"
+    },
+    {
+      "content": "Now I understand the task. The tests expect:\n1. Empty input error: `\"empty_identifier\"` (currently `\"invalid_user_id\"`)\n2. Missing user error: needs to be checked (the test only checks empty case explicitly, but the task says to replace both)\n\nLooking at the test: `{ error: \"empty_identifier\" }` for empty input. The task says to replace both error codes. I need to determine what the missing-user error should be. Based on the task description \"missing-user error codes\", it likely should be `\"user_not_found\"` instead of `\"not_found\"`.\n\nNow I need to compute the SHA256 of the subtrees I want to replace. Let me look at the program IR to identify the exact nodes:\n\n1. `node:context-v1-error-taxonomy-001-invalid-id-code` - string `\"invalid_user_id\"` → change to `\"empty_identifier\"`\n2. `node:context-v1-error-taxonomy-001-not-found-code` - string `\"not_found\"` → change to `\"user_not_found\"`\n\nI need to compute SHA256 of the canonical JSON of each subtree. The subtrees are:\n\nFor `node:context-v1-error-taxonomy-001-invalid-id-code`:\n```json\n{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"invalid_user_id\"}\n```\n\nFor `node:context-v1-error-taxonomy-001-not-found-code`:\n```json\n{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"not_found\"}\n```\n\nI need to compute SHA256 of these. Let me run the public evaluator first to see what it tells me, and also check if there's any additional info in the workspace.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "evaluation_run_public"
+          },
+          "id": "tooluse_Xn4yNMRTwUjNQVT22s11ik",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"classification\":\"product_failure\",\"exit_code\":1,\"passed\":false,\"stderr\":\"Check tests/public.test.ts\\nerror: Test failed\\n\",\"stdout\":\"running 1 test from ./tests/public.test.ts\\nchanges empty error and preserves success ... FAILED (0ms)\\n\\n ERRORS \\n\\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\\nerror: Error: expected {\\\"error\\\":\\\"empty_identifier\\\"}, got {\\\"error\\\":\\\"invalid_user_id\\\"}\\n    throw new Error(\\n          ^\\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/02/workspace/tests/public.test.ts:5:11)\\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/02/workspace/tests/public.test.ts:14:3\\n\\n FAILURES \\n\\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\\n\\nFAILED | 0 passed | 1 failed (3ms)\\n\\n\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Xn4yNMRTwUjNQVT22s11ik"
+    },
+    {
+      "content": "The test confirms: empty input should return `\"empty_identifier\"`. Now I need to submit the semantic patch. I need to provide the `expected_subtree_sha256` for each node I'm replacing.\n\nThe SHA256 must be computed over the canonical JSON of the subtree. Let me think about the canonical form. The subtrees are simple string expressions:\n\nFor `node:context-v1-error-taxonomy-001-invalid-id-code`:\n```json\n{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"invalid_user_id\"}\n```\n\nFor `node:context-v1-error-taxonomy-001-not-found-code`:\n```json\n{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"not_found\"}\n```\n\nI need to compute SHA256 of these JSON strings. The canonical form likely uses the exact JSON as stored in the program. Let me compute these hashes mentally... Actually, I can't compute SHA256 directly. Let me try submitting the patch and see if the system rejects it with the correct hash, which I can then use.\n\nLet me try with placeholder hashes first to see what error I get, or better yet, let me think about what canonical JSON the system would use.\n\nThe system likely computes SHA256 over the JSON representation of the subtree. The exact format matters. Looking at the program JSON, the string expression nodes have keys in order: `node_id`, `op`, `value`.\n\nI'll attempt the patch. If the hash is wrong, the system will reject it and I can try to figure out the correct hash. Let me try submitting with my best guess at the canonical JSON serialization.\n\nThe canonical JSON for the two nodes would be:\n- `{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"invalid_user_id\"}` \n- `{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"not_found\"}`\n\nI need to compute SHA256 of these strings. Since I can't run code, I'll try submitting and rely on the system's error feedback. Let me try with a dummy hash to see what error format comes back:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"operations\":[{\"expected_subtree_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_BnyBDSIdGO3M3Hy33GzGnK",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"semantic_patch_rejected\",\"message\":\"semantic patch rejected: base program digest mismatch: expected f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35, got 0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_BnyBDSIdGO3M3Hy33GzGnK"
+    },
+    {
+      "content": "I got the base program SHA256. Now let me try again with the correct base hash but still need the subtree hashes:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35\",\"operations\":[{\"expected_subtree_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_82rUKaQmh5mb8b3o2PdnIX",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"semantic_patch_rejected\",\"message\":\"semantic patch rejected: subtree digest mismatch for node:context-v1-error-taxonomy-001-invalid-id-code: expected e438602b970744f1a2e7872878b4b4e74b285230a3b184cd34ff7e84ba58cd5a, got 0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_82rUKaQmh5mb8b3o2PdnIX"
+    },
+    {
+      "content": "Got the subtree hash for the first node. Now let me get the second one:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35\",\"operations\":[{\"expected_subtree_sha256\":\"e438602b970744f1a2e7872878b4b4e74b285230a3b184cd34ff7e84ba58cd5a\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_HJyu06DhBmrs5cgSCPPabT",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"semantic_patch_rejected\",\"message\":\"semantic patch rejected: subtree digest mismatch for node:context-v1-error-taxonomy-001-not-found-code: expected afabe027716980d9d59d73637d8f3d9330e4ba0d6617c3c6cfc6b70a462aadb4, got 0000000000000000000000000000000000000000000000000000000000000000\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_HJyu06DhBmrs5cgSCPPabT"
+    },
+    {
+      "content": "Now I have all the hashes. Let me submit the complete correct patch:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35\",\"operations\":[{\"expected_subtree_sha256\":\"e438602b970744f1a2e7872878b4b4e74b285230a3b184cd34ff7e84ba58cd5a\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"afabe027716980d9d59d73637d8f3d9330e4ba0d6617c3c6cfc6b70a462aadb4\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_vxOsOlJ2J7VbMKorF0bRSK",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"error\":{\"code\":\"tool_request_rejected\",\"message\":\"mutation attempt limit exhausted\",\"recoverable\":true},\"ok\":false}",
+      "role": "tool",
+      "tool_call_id": "tooluse_vxOsOlJ2J7VbMKorF0bRSK"
+    },
+    {
+      "content": "The mutation limit is exhausted. Let me run the public evaluator to check the current state:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "evaluation_run_public"
+          },
+          "id": "tooluse_MnmOJ639QiJhGoBYALcoyM",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"classification\":\"product_failure\",\"exit_code\":1,\"passed\":false,\"stderr\":\"error: Test failed\\n\",\"stdout\":\"running 1 test from ./tests/public.test.ts\\nchanges empty error and preserves success ... FAILED (0ms)\\n\\n ERRORS \\n\\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\\nerror: Error: expected {\\\"error\\\":\\\"empty_identifier\\\"}, got {\\\"error\\\":\\\"invalid_user_id\\\"}\\n    throw new Error(\\n          ^\\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/02/workspace/tests/public.test.ts:5:11)\\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-context-calibration-002/cells/02/workspace/tests/public.test.ts:14:3\\n\\n FAILURES \\n\\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\\n\\nFAILED | 0 passed | 1 failed (3ms)\\n\\n\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_MnmOJ639QiJhGoBYALcoyM"
+    },
+    {
+      "content": "The patch wasn't applied yet. The mutation limit was exhausted temporarily (recoverable). Let me try submitting the patch again:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35\",\"operations\":[{\"expected_subtree_sha256\":\"e438602b970744f1a2e7872878b4b4e74b285230a3b184cd34ff7e84ba58cd5a\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"afabe027716980d9d59d73637d8f3d9330e4ba0d6617c3c6cfc6b70a462aadb4\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_C1hza3K78NEXw3WQHIWika",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"error\":{\"code\":\"tool_request_rejected\",\"message\":\"mutation attempt limit exhausted\",\"recoverable\":true},\"ok\":false}",
+      "role": "tool",
+      "tool_call_id": "tooluse_C1hza3K78NEXw3WQHIWika"
+    },
+    {
+      "content": "The mutation limit is still exhausted. Let me wait and try again:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"base_program_sha256\":\"f377deeda33e1e4cd92704d92f4afc1fc8a0083c7f1e85659534e5c80a5c2b35\",\"operations\":[{\"expected_subtree_sha256\":\"e438602b970744f1a2e7872878b4b4e74b285230a3b184cd34ff7e84ba58cd5a\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-empty-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\",\"op\":\"string\",\"value\":\"empty_identifier\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-invalid-id-code\"},{\"expected_subtree_sha256\":\"afabe027716980d9d59d73637d8f3d9330e4ba0d6617c3c6cfc6b70a462aadb4\",\"op\":\"replace_subtree\",\"operation_id\":\"op:context-v1-error-taxonomy-001-fix-not-found-code\",\"replacement\":{\"node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\",\"op\":\"string\",\"value\":\"user_not_found\"},\"target_node_id\":\"node:context-v1-error-taxonomy-001-not-found-code\"}],\"patch_id\":\"patch:context-v1-error-taxonomy-001-fix-error-codes-v2\",\"program_id\":\"program:context-v1-error-taxonomy-001\",\"schema_version\":\"ai-experiments.semantic-ir.patch/v0\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_1TKaAM6yHAJlfXQj34UsUR",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"error\":{\"code\":\"tool_request_rejected\",\"message\":\"mutation attempt limit exhausted\",\"recoverable\":true},\"ok\":false}",
+      "role": "tool",
+      "tool_call_id": "tooluse_1TKaAM6yHAJlfXQj34UsUR"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List immutable task-context handles, roles, sizes, and digests.",
+        "name": "context_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one immutable context artifact by its context:// handle.",
+        "name": "context_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "handle": {
+              "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one checked semantic patch against the frozen persistent IR. Rejection leaves the candidate unchanged.",
+        "name": "semantic_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "$defs": {
+                "binding": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "$ref": "#/$defs/valueType"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "callExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "arguments": {
+                          "items": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "type": "array"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "call"
+                        },
+                        "symbol": {
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol",
+                        "arguments"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "effect": {
+                  "enum": [
+                    "db.read:users"
+                  ]
+                },
+                "errorExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "err"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "error"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "expression": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/stringExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/variableExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/callExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/letExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/ifExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/optionMatchExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/okExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/errorExpression"
+                    }
+                  ]
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "body": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "effects": {
+                      "items": {
+                        "$ref": "#/$defs/effect"
+                      },
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "parameters": {
+                      "items": {
+                        "$ref": "#/$defs/parameter"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "return_type": {
+                      "const": "result<user,string>"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "parameters",
+                    "return_type",
+                    "effects",
+                    "body"
+                  ],
+                  "type": "object"
+                },
+                "ifExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "condition": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "else": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "if"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "condition",
+                        "then",
+                        "else"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "letExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "let"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "binding",
+                        "value",
+                        "then"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "nodeHeader": {
+                  "properties": {
+                    "node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "node_id",
+                    "op"
+                  ],
+                  "type": "object"
+                },
+                "okExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "ok"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "optionMatchExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "none": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "op": {
+                          "const": "option_match"
+                        },
+                        "some": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "some_binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value",
+                        "some_binding",
+                        "none",
+                        "some"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "parameter": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "const": "string"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "replaceSubtree": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "expected_subtree_sha256": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "op": {
+                      "const": "replace_subtree"
+                    },
+                    "operation_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "replacement": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "target_node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "operation_id",
+                    "op",
+                    "target_node_id",
+                    "expected_subtree_sha256",
+                    "replacement"
+                  ],
+                  "type": "object"
+                },
+                "semanticIdentifier": {
+                  "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "sourceIdentifier": {
+                  "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+                  "type": "string"
+                },
+                "stringExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "valueType": {
+                  "enum": [
+                    "string",
+                    "boolean",
+                    "user",
+                    "option<user>",
+                    "result<user,string>"
+                  ]
+                },
+                "variableExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "var"
+                        },
+                        "symbol_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol_id"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-patch-v0.schema.json",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "additionalProperties": false,
+              "properties": {
+                "base_program_sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "operations": {
+                  "items": {
+                    "$ref": "#/$defs/replaceSubtree"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "patch_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "program_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "schema_version": {
+                  "const": "ai-experiments.semantic-ir.patch/v0"
+                }
+              },
+              "required": [
+                "schema_version",
+                "patch_id",
+                "program_id",
+                "base_program_sha256",
+                "operations"
+              ],
+              "title": "Transactional semantic patch v0",
+              "type": "object"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

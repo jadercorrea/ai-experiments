@@ -5,11 +5,12 @@
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
 break-even curve, one local semantic-patch observation, one completed but
-invalidated heterogeneous calibration, and a frozen successor protocol with
-fresh exact task instances, addressable context, and recoverable tool errors.
-Five semantic tasks are supported and one is explicitly unsupported. The v1
-freeze authorizes zero model calls and supports no efficacy or token-efficiency
-claim before a separate explicit launch.**
+invalidated heterogeneous calibration, and a completed successor calibration
+with fresh exact task instances, addressable context, and recoverable tool
+errors. Context v1 fixed the first infrastructure defect but exposed a second:
+semantic patches required canonical digest preconditions unavailable to the
+model. Both paired representation comparisons are invalid; neither supports an
+efficacy or token-efficiency winner.**
 
 Snapshot date: **2026-08-26**
 
@@ -176,6 +177,13 @@ different Unicode definitions from their host languages.
   deterministic freezing, and the launch-gated runner.
 - [`CONTEXT_PROTOCOL_V1_FREEZE.md`](CONTEXT_PROTOCOL_V1_FREEZE.md) records the
   experimental-TDD sequence, fresh-instance boundary, and remaining claim gate.
+- [`semantic-context-calibration-002`](observations/semantic-context-calibration-002)
+  retains the complete 12-cell v1 execution: 102 provider responses, USD
+  3.606831 estimated cost, workspaces, transcripts, evaluators, invalidation
+  record, and content lock.
+- [`CALIBRATION_002_OBSERVATION.md`](CALIBRATION_002_OBSERVATION.md) records why
+  context v1 succeeded operationally while unavailable canonical program and
+  subtree preconditions invalidate the next representation comparison.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
