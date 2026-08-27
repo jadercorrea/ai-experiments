@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:context-v1-raw-id-retry-001",
+  "program_id": "program:context-v1-raw-id-retry-001",
+  "base_program_sha256": "00422dad2f36e33be3c40e71031906840b0267396110fef8921a76f65a9651f1",
+  "operations": [
+    {
+      "operation_id": "operation:final-raw-identifier-retry",
+      "op": "replace_subtree",
+      "target_node_id": "node:context-v1-raw-id-retry-001-user-match",
+      "expected_subtree_sha256": "5da8d5aa82caa354cd6cd5b479d923aa49c392e464c8b7b08bbf29917099feec",
+      "replacement": {
+        "node_id": "node:context-v1-raw-id-retry-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:context-v1-raw-id-retry-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:context-v1-raw-id-retry-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:context-v1-raw-id-retry-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:context-v1-raw-id-retry-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:context-v1-raw-id-retry-001-raw-retry-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:context-v1-raw-id-retry-001-get-user-raw-retry",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:context-v1-raw-id-retry-001-raw-ref-for-retry",
+                "op": "var",
+                "symbol_id": "param:context-v1-raw-id-retry-001-raw-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:context-v1-raw-id-retry-001-retry-user",
+            "name": "retryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:context-v1-raw-id-retry-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:context-v1-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:context-v1-raw-id-retry-001-retry-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:context-v1-raw-id-retry-001-retry-user-ref",
+              "op": "var",
+              "symbol_id": "local:context-v1-raw-id-retry-001-retry-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:context-v1-raw-id-retry-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:context-v1-raw-id-retry-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:context-v1-raw-id-retry-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

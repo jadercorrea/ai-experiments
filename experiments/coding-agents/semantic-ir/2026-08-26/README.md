@@ -4,11 +4,12 @@
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
-break-even curve, one local semantic-patch observation, a sealed six-task
-heterogeneous suite, and one completed but invalidated heterogeneous calibration.
-Five semantic tasks are supported and one is explicitly unsupported. The first
-paired run exposed a treatment-asymmetric context-addressability defect and
-supports no efficacy or token-efficiency claim.**
+break-even curve, one local semantic-patch observation, one completed but
+invalidated heterogeneous calibration, and a frozen successor protocol with
+fresh exact task instances, addressable context, and recoverable tool errors.
+Five semantic tasks are supported and one is explicitly unsupported. The v1
+freeze authorizes zero model calls and supports no efficacy or token-efficiency
+claim before a separate explicit launch.**
 
 Snapshot date: **2026-08-26**
 
@@ -161,6 +162,20 @@ different Unicode definitions from their host languages.
   why all five supported semantic trajectories were early-censored by an
   unreadable context-artifact path and why the raw 3/6 versus 0/6 counts cannot
   support a representation comparison.
+- [`context-recovery-tasks-v1`](construction/context-recovery-tasks-v1) contains
+  six fresh exact instances with changed identities, symbols, repository and
+  hidden-evaluator bytes, locally revalidated before any new model call.
+- [`context-execution-freeze-v1`](construction/context-execution-freeze-v1),
+  [`context-execution-freeze-v1.schema.json`](protocol/context-execution-freeze-v1.schema.json),
+  and [`context-execution-launch-v1.schema.json`](protocol/context-execution-launch-v1.schema.json)
+  freeze the successor context protocol and its separate explicit-launch gate.
+- [`semantic_context_protocol.py`](scripts/semantic_context_protocol.py),
+  [`semantic_context_execution_freeze.py`](scripts/semantic_context_execution_freeze.py),
+  and [`semantic_context_calibration.py`](scripts/semantic_context_calibration.py)
+  implement immutable `context://` addressing, recoverable subject tool errors,
+  deterministic freezing, and the launch-gated runner.
+- [`CONTEXT_PROTOCOL_V1_FREEZE.md`](CONTEXT_PROTOCOL_V1_FREEZE.md) records the
+  experimental-TDD sequence, fresh-instance boundary, and remaining claim gate.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.

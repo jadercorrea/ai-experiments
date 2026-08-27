@@ -427,3 +427,47 @@ and failure; do not replace or rerun any cell under the same freeze.
   tool calls as recoverable observations within the trajectory budget.
 - A new paired claim requires fresh sealed task instances because the provider
   has now seen the exact calibration-001 inputs.
+
+## Recoverable addressable-context execution lock v1
+
+### Context
+
+Calibration 001 exposed embedded task artifacts under path-like labels that the
+participant workspace could not read. A rejected read terminated the cell, so
+all five supported semantic trajectories were censored before mutation. The old
+instances were also no longer fresh after 43 provider responses.
+
+### Decision
+
+Create six new exact task instances from the same frozen strata while changing
+identity namespaces, exported symbols, repository bytes, hidden evaluators, and
+all content locks. Revalidate source references for all six tasks and semantic
+reference convergence for the five supported tasks without calling a model.
+
+Give every model-visible context artifact one allowlisted `context://` handle.
+Expose immutable context only through `context_list` and `context_read`; keep
+participant repository files in a disjoint workspace-relative namespace.
+
+Return subject-originated tool protocol errors as typed recoverable results and
+preserve every tool-call response inside the trajectory. Continue to classify
+context drift, unexpected evaluator failures, and orchestrator failures as
+infrastructure-invalid. Preserve the original schedule, model, sampling,
+budgets, spend reservation, hidden-evaluation, unsupported-task, isolation, and
+analysis rules.
+
+Require a separately content-bound v1 launch record. The freeze itself
+authorizes zero provider calls.
+
+### Consequences
+
+- The exact v0 calibration is neither rerun nor overwritten.
+- The failure mode that invalidated calibration 001 is now executable as a
+  passing recovery test.
+- Wrong namespace, malformed tool input, and frozen-budget rejection consume
+  trajectory opportunity but do not automatically terminate the experimental
+  cell.
+- Integrity failures remain distinguishable from correctable subject errors.
+- The v1 suite remains calibration-grade: exact bytes are fresh, while its
+  requirements and development lineage are deliberately disclosed.
+- One gate remains before any new inference: explicit launch against the final
+  v1 freeze and its artifact lock.

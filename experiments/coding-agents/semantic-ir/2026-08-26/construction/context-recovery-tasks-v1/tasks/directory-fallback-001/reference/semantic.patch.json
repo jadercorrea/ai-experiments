@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:context-v1-directory-fallback-001",
+  "program_id": "program:context-v1-directory-fallback-001",
+  "base_program_sha256": "4e13085ccf2686e1c1094d6c729024a0e549a6dd66f21ad75c7c6df28b3db6e0",
+  "operations": [
+    {
+      "operation_id": "operation:final-directory-fallback",
+      "op": "replace_subtree",
+      "target_node_id": "node:context-v1-directory-fallback-001-user-match",
+      "expected_subtree_sha256": "0f1927ff842a00e40cfc60ae5544383b72d47a599fb1a6835c509b7b4d5ee293",
+      "replacement": {
+        "node_id": "node:context-v1-directory-fallback-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:context-v1-directory-fallback-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:context-v1-directory-fallback-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:context-v1-directory-fallback-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:context-v1-directory-fallback-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:context-v1-directory-fallback-001-directory-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:context-v1-directory-fallback-001-get-directory-user",
+            "op": "call",
+            "symbol": "directory.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:context-v1-directory-fallback-001-normalized-ref-for-directory",
+                "op": "var",
+                "symbol_id": "local:context-v1-directory-fallback-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:context-v1-directory-fallback-001-directory-user",
+            "name": "directoryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:context-v1-directory-fallback-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:context-v1-directory-fallback-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:context-v1-directory-fallback-001-directory-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:context-v1-directory-fallback-001-directory-user-ref",
+              "op": "var",
+              "symbol_id": "local:context-v1-directory-fallback-001-directory-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:context-v1-directory-fallback-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:context-v1-directory-fallback-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:context-v1-directory-fallback-001-user"
+          }
+        }
+      }
+    }
+  ]
+}
