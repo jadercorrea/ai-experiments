@@ -522,3 +522,50 @@ Require fresh exact task instances before the next paired run.
   must move from model-generated payload to deterministic infrastructure.
 - Calibration 002 remains a completed, auditable infrastructure observation;
   it is not discarded or silently corrected.
+
+## Capability-mediated semantic preconditions lock v2
+
+### Context
+
+Calibration 002 proved that addressable context and recoverable tool errors were
+necessary but insufficient. Semantic subjects still had to submit canonical
+program and subtree digests that were neither visible nor computable through
+their frozen tool surface. Rejection feedback became a digest oracle and spent
+the mutation budget asymmetrically.
+
+### Decision
+
+Replace model-generated digest preconditions with opaque infrastructure-issued
+capabilities. Add a read-only `semantic_state_inspect` operation that accepts
+selected stable node IDs and returns one state token plus node-bound target
+tokens. Keep inspection outside the mutation budget. Require the semantic patch
+wire format to carry those tokens and no digest fields.
+
+Bind tokens to the issuer, canonical program state, target node identity, and
+canonical subtree state. Resolve tokens only inside trusted infrastructure,
+then translate to and reuse the existing atomic semantic patch implementation
+for program IR v0, v1, or v2. A rejected submit remains atomic and consumes one
+mutation attempt.
+
+Create six fresh exact capability-v2 instances, revalidate all source and
+supported semantic references locally, and freeze the unchanged paired
+schedule, model, budgets, stopping rules, evaluator policy, and isolation
+controls around the new interface. Do not authorize a provider call in this
+checkpoint.
+
+### Consequences
+
+- The subject selects semantic intent by stable node identity but never computes
+  a cryptographic digest.
+- The model-facing patch schema contains no `sha256` or digest field.
+- Cross-node replay, cross-store use, and stale state are rejected before
+  persistent state changes.
+- One wire format covers the v0/v1/v2 program backends in the frozen suite.
+- The synthetic inspect-submit-finish trajectory passes hidden evaluation with
+  exactly one mutation attempt.
+- The fresh suite digest is
+  `be3a565ac4aba5a618062dc2feb69cd8cc5f8b849c125ea72825dc19a6c9d3ab`.
+- The execution freeze digest is
+  `d8a3083ad2a08c5e66c5b10d61c390df6d75f42b7419a61f7906fe1896e8eab1`.
+- Experimental subject calls remain zero. A separate explicit launch is the
+  only remaining gate before calibration 003.

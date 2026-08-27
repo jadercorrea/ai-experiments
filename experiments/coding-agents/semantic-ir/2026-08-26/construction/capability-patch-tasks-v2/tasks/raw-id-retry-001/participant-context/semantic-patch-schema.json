@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/capability-semantic-patch-v1.schema.json",
+  "title": "Capability-mediated semantic patch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "patch_id",
+    "program_id",
+    "state_token",
+    "operations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.capability-patch/v1"
+    },
+    "patch_id": {
+      "$ref": "#/$defs/semanticIdentifier"
+    },
+    "program_id": {
+      "$ref": "#/$defs/semanticIdentifier"
+    },
+    "state_token": {
+      "type": "string",
+      "pattern": "^cap:v1:state:[0-9a-f]{32}$"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/replaceSubtree"
+      }
+    }
+  },
+  "$defs": {
+    "semanticIdentifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$"
+    },
+    "replaceSubtree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation_id",
+        "op",
+        "target_node_id",
+        "target_token",
+        "replacement"
+      ],
+      "properties": {
+        "operation_id": {
+          "$ref": "#/$defs/semanticIdentifier"
+        },
+        "op": {
+          "const": "replace_subtree"
+        },
+        "target_node_id": {
+          "$ref": "#/$defs/semanticIdentifier"
+        },
+        "target_token": {
+          "type": "string",
+          "pattern": "^cap:v1:target:[0-9a-f]{32}$"
+        },
+        "replacement": {
+          "$ref": "https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/expression"
+        }
+      }
+    }
+  }
+}

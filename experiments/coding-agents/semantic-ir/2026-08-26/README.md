@@ -4,13 +4,13 @@
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
-break-even curve, one local semantic-patch observation, one completed but
-invalidated heterogeneous calibration, and a completed successor calibration
-with fresh exact task instances, addressable context, and recoverable tool
-errors. Context v1 fixed the first infrastructure defect but exposed a second:
-semantic patches required canonical digest preconditions unavailable to the
-model. Both paired representation comparisons are invalid; neither supports an
-efficacy or token-efficiency winner.**
+break-even curve, one local semantic-patch observation, and two completed but
+invalidated heterogeneous calibrations. Context v1 fixed addressability and
+exposed unavailable digest preconditions. Capability v2 now moves those
+preconditions into deterministic infrastructure, seals six fresh exact
+instances, and freezes the next launch-gated comparison with zero new model
+calls. Neither earlier paired run supports an efficacy or token-efficiency
+winner.**
 
 Snapshot date: **2026-08-26**
 
@@ -184,6 +184,24 @@ different Unicode definitions from their host languages.
 - [`CALIBRATION_002_OBSERVATION.md`](CALIBRATION_002_OBSERVATION.md) records why
   context v1 succeeded operationally while unavailable canonical program and
   subtree preconditions invalidate the next representation comparison.
+- [`capability-semantic-patch-v1.schema.json`](protocol/capability-semantic-patch-v1.schema.json)
+  and [`semantic_capability_protocol.py`](scripts/semantic_capability_protocol.py)
+  replace model-generated canonical digests with store- and node-bound opaque
+  precondition tokens resolved inside trusted infrastructure.
+- [`capability-patch-tasks-v2`](construction/capability-patch-tasks-v2) contains
+  six fresh exact task instances with locally verified source references and
+  five supported semantic capability references.
+- [`capability-execution-freeze-v2`](construction/capability-execution-freeze-v2),
+  [`capability-execution-freeze-v2.schema.json`](protocol/capability-execution-freeze-v2.schema.json),
+  and [`capability-execution-launch-v2.schema.json`](protocol/capability-execution-launch-v2.schema.json)
+  freeze the capability interface and its separate explicit-launch gate.
+- [`semantic_capability_execution_freeze.py`](scripts/semantic_capability_execution_freeze.py)
+  and [`semantic_capability_calibration.py`](scripts/semantic_capability_calibration.py)
+  provide deterministic freezing, preflight, and launch-gated execution without
+  changing the prior context-v1 artifacts.
+- [`CAPABILITY_PROTOCOL_V2_FREEZE.md`](CAPABILITY_PROTOCOL_V2_FREEZE.md) records
+  the next experimental-TDD failure, the version-neutral fix, exact digests, and
+  construction-only claim boundary.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -348,6 +366,23 @@ Run the focused construction checks:
   tests.test_semantic_directory_extension \
   tests.test_semantic_interface_freeze
 ```
+
+Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
+
+```bash
+.venv/bin/python -m unittest \
+  tests.test_semantic_capability_protocol \
+  tests.test_semantic_capability_task_suite \
+  tests.test_semantic_capability_execution
+
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/capability-execution-freeze-v2 \
+  --preflight
+```
+
+The preflight performs no provider call. Execution remains blocked until a
+separate capability-v2 launch record is explicitly authorized.
 
 Verify the checked model-facing interface freeze:
 

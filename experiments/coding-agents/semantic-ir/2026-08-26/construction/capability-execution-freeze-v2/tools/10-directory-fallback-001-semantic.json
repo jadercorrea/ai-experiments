@@ -1,0 +1,594 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "context_list",
+      "description": "List immutable task-context handles, roles, sizes, and digests.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "context_read",
+      "description": "Read one immutable context artifact by its context:// handle.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "pattern": "^context://[a-z0-9][a-z0-9._/-]*$"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "semantic_state_inspect",
+      "description": "Issue opaque precondition tokens for selected semantic node IDs. This read-only operation does not consume a mutation attempt.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "node_ids"
+        ],
+        "properties": {
+          "node_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "workspace_list",
+      "description": "List every file in the ephemeral participant repository, sorted by path.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "workspace_read",
+      "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "evaluation_run_public",
+      "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "submission_finish",
+      "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "semantic_patch_submit",
+      "description": "Submit one checked semantic patch against the frozen persistent IR. Rejection leaves the candidate unchanged.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "patch"
+        ],
+        "properties": {
+          "patch": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://gptcode.dev/schemas/semantic-ir/capability-semantic-patch-v1.schema.json",
+            "title": "Capability-mediated semantic patch v1",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema_version",
+              "patch_id",
+              "program_id",
+              "state_token",
+              "operations"
+            ],
+            "properties": {
+              "schema_version": {
+                "const": "ai-experiments.semantic-ir.capability-patch/v1"
+              },
+              "patch_id": {
+                "$ref": "#/$defs/semanticIdentifier"
+              },
+              "program_id": {
+                "$ref": "#/$defs/semanticIdentifier"
+              },
+              "state_token": {
+                "type": "string",
+                "pattern": "^cap:v1:state:[0-9a-f]{32}$"
+              },
+              "operations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/$defs/replaceSubtree"
+                }
+              }
+            },
+            "$defs": {
+              "semanticIdentifier": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$"
+              },
+              "sourceIdentifier": {
+                "type": "string",
+                "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$"
+              },
+              "valueType": {
+                "enum": [
+                  "string",
+                  "boolean",
+                  "user",
+                  "option<user>",
+                  "result<user,string>"
+                ]
+              },
+              "effect": {
+                "enum": [
+                  "db.read:users"
+                ]
+              },
+              "binding": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "symbol_id",
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "symbol_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "name": {
+                    "$ref": "#/$defs/sourceIdentifier"
+                  },
+                  "type": {
+                    "$ref": "#/$defs/valueType"
+                  }
+                }
+              },
+              "parameter": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "symbol_id",
+                  "name",
+                  "type"
+                ],
+                "properties": {
+                  "symbol_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "name": {
+                    "$ref": "#/$defs/sourceIdentifier"
+                  },
+                  "type": {
+                    "const": "string"
+                  }
+                }
+              },
+              "function": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "symbol_id",
+                  "name",
+                  "parameters",
+                  "return_type",
+                  "effects",
+                  "body"
+                ],
+                "properties": {
+                  "symbol_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "name": {
+                    "$ref": "#/$defs/sourceIdentifier"
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/$defs/parameter"
+                    }
+                  },
+                  "return_type": {
+                    "const": "result<user,string>"
+                  },
+                  "effects": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "$ref": "#/$defs/effect"
+                    }
+                  },
+                  "body": {
+                    "$ref": "#/$defs/expression"
+                  }
+                }
+              },
+              "nodeHeader": {
+                "type": "object",
+                "required": [
+                  "node_id",
+                  "op"
+                ],
+                "properties": {
+                  "node_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  }
+                }
+              },
+              "stringExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "value"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              },
+              "variableExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "symbol_id"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "var"
+                      },
+                      "symbol_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      }
+                    }
+                  }
+                ]
+              },
+              "callExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "symbol",
+                      "arguments"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "call"
+                      },
+                      "symbol": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "arguments": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "letExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "binding",
+                      "value",
+                      "then"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "let"
+                      },
+                      "binding": {
+                        "$ref": "#/$defs/binding"
+                      },
+                      "value": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "then": {
+                        "$ref": "#/$defs/expression"
+                      }
+                    }
+                  }
+                ]
+              },
+              "ifExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "condition",
+                      "then",
+                      "else"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "if"
+                      },
+                      "condition": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "then": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "else": {
+                        "$ref": "#/$defs/expression"
+                      }
+                    }
+                  }
+                ]
+              },
+              "optionMatchExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "value",
+                      "some_binding",
+                      "none",
+                      "some"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "option_match"
+                      },
+                      "value": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "some_binding": {
+                        "$ref": "#/$defs/binding"
+                      },
+                      "none": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "some": {
+                        "$ref": "#/$defs/expression"
+                      }
+                    }
+                  }
+                ]
+              },
+              "okExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "value"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "ok"
+                      },
+                      "value": {
+                        "$ref": "#/$defs/expression"
+                      }
+                    }
+                  }
+                ]
+              },
+              "errorExpression": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/nodeHeader"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_id",
+                      "op",
+                      "error"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "op": {
+                        "const": "err"
+                      },
+                      "error": {
+                        "$ref": "#/$defs/expression"
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "oneOf": [
+                  {
+                    "$ref": "#/$defs/stringExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/variableExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/callExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/letExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/ifExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/optionMatchExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/okExpression"
+                  },
+                  {
+                    "$ref": "#/$defs/errorExpression"
+                  }
+                ]
+              },
+              "replaceSubtree": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "operation_id",
+                  "op",
+                  "target_node_id",
+                  "target_token",
+                  "replacement"
+                ],
+                "properties": {
+                  "operation_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "op": {
+                    "const": "replace_subtree"
+                  },
+                  "target_node_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "target_token": {
+                    "type": "string",
+                    "pattern": "^cap:v1:target:[0-9a-f]{32}$"
+                  },
+                  "replacement": {
+                    "$ref": "#/$defs/expression"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]
