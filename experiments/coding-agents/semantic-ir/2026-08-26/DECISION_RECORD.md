@@ -276,3 +276,63 @@ and execute the projected fallback as part of construction verification.
 - Program/catalog v0 and v1 remain unchanged and reproducible.
 - Both predeclared extensions are construction-supported, but final support
   dispositions still require fresh sealed task instances before model use.
+
+## Final heterogeneous task lock v0
+
+### Context
+
+The candidate matrix fixed six semantic requirements and the all-task analysis
+before concrete fixtures existed. Catalog v1 and v2 subsequently satisfied the
+two permitted extension gates, but construction support alone did not establish
+that fresh repositories, hidden evaluators, source patches, and semantic patches
+formed matched tasks. The repository-scope family also needed an honest terminal
+outcome rather than silent exclusion.
+
+The frozen gate additionally required retained rejected candidates and a
+contamination audit. Because hidden evaluators and references must remain
+auditable in this repository, secrecy cannot be claimed against an unconstrained
+process with host-repository or network access.
+
+### Decision
+
+Construct one content-addressed instance for every frozen family without
+changing its candidate identity or analysis policy. Use the same repository,
+objective, public evaluator, and external hidden evaluator for both arms. Keep
+references, hidden evaluators, and publication metadata outside the participant
+allowlist.
+
+Require every unchanged baseline to fail hidden evaluation and every source
+reference to pass public and hidden evaluation. For the five supported semantic
+tasks, require the semantic reference to pass those same evaluators and lower to
+editable files byte-identical to the source reference. Retain one deliberately
+incomplete source candidate per task that passes public evaluation and fails
+hidden evaluation.
+
+Lock final semantic support at five tasks. Record
+`cross-module-rename-001` as `semantic_unsupported`, mutate no workspace, and
+count it as failure in all-task utility. Preserve the five-task conditional
+estimand only as a companion to the six-task result and applicability rate.
+
+Record contamination as `conditional_pre_model_clearance`: zero experimental
+subject calls on the exact instances, known coding-agent development exposure,
+known overlap with the public construction lineage, and no claim of universal
+cleanliness. Require fresh subject contexts without the development thread and
+an eventual runner that exposes only the assigned participant surface, denies
+host-repository traversal and browsing, records exact context digests, and
+repeats the model/provider audit before the first call.
+
+### Consequences
+
+- The concrete task, evaluator, and semantic applicability boundaries can no
+  longer move in response to model outcomes.
+- Applicability is 5/6; unsupported repository work remains visible in the
+  primary all-task denominator.
+- Public/hidden discrimination is executable rather than asserted: all six
+  retained incomplete candidates pass public and fail hidden evaluation.
+- Source and semantic references converge at the target byte boundary for all
+  five supported tasks.
+- Checked-in hidden material is auditable but only hidden under an isolated
+  allowlisted runner; the suite does not claim otherwise.
+- Model identity, inference parameters, budgets, exact arm contexts, execution
+  order, stopping rule, and the runner itself remain deferred. This lock
+  authorizes zero model calls and no efficacy claim.

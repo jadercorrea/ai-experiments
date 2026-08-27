@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:final-raw-id-retry-001",
+  "program_id": "program:final-raw-id-retry-001",
+  "base_program_sha256": "b6eb112ecdd6ba32e608c38a2dc0e35a9b0c7e3f6315176a3bf00d5c952dc0fb",
+  "operations": [
+    {
+      "operation_id": "operation:final-raw-identifier-retry",
+      "op": "replace_subtree",
+      "target_node_id": "node:final-raw-id-retry-001-user-match",
+      "expected_subtree_sha256": "32cbf6b89fc3b240bb0e9fce67679892cbc4fe1e601d245bad4979361179b84a",
+      "replacement": {
+        "node_id": "node:final-raw-id-retry-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:final-raw-id-retry-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:final-raw-id-retry-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:final-raw-id-retry-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:final-raw-id-retry-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:final-raw-id-retry-001-raw-retry-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:final-raw-id-retry-001-get-user-raw-retry",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:final-raw-id-retry-001-raw-ref-for-retry",
+                "op": "var",
+                "symbol_id": "param:final-raw-id-retry-001-raw-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:final-raw-id-retry-001-retry-user",
+            "name": "retryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:final-raw-id-retry-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:final-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:final-raw-id-retry-001-retry-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:final-raw-id-retry-001-retry-user-ref",
+              "op": "var",
+              "symbol_id": "local:final-raw-id-retry-001-retry-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:final-raw-id-retry-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:final-raw-id-retry-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:final-raw-id-retry-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

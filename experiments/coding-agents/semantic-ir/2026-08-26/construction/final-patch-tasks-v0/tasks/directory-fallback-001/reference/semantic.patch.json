@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:final-directory-fallback-001",
+  "program_id": "program:final-directory-fallback-001",
+  "base_program_sha256": "1048f4c883c7ca9fd6cf3a89afcea60194eb3522de8df69d9f7fe22226122853",
+  "operations": [
+    {
+      "operation_id": "operation:final-directory-fallback",
+      "op": "replace_subtree",
+      "target_node_id": "node:final-directory-fallback-001-user-match",
+      "expected_subtree_sha256": "cea3255851cc37dc5c57ac1aa780902e835337933aa77c21946ff9c94f0a69b5",
+      "replacement": {
+        "node_id": "node:final-directory-fallback-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:final-directory-fallback-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:final-directory-fallback-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:final-directory-fallback-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:final-directory-fallback-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:final-directory-fallback-001-directory-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:final-directory-fallback-001-get-directory-user",
+            "op": "call",
+            "symbol": "directory.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:final-directory-fallback-001-normalized-ref-for-directory",
+                "op": "var",
+                "symbol_id": "local:final-directory-fallback-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:final-directory-fallback-001-directory-user",
+            "name": "directoryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:final-directory-fallback-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:final-directory-fallback-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:final-directory-fallback-001-directory-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:final-directory-fallback-001-directory-user-ref",
+              "op": "var",
+              "symbol_id": "local:final-directory-fallback-001-directory-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:final-directory-fallback-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:final-directory-fallback-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:final-directory-fallback-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

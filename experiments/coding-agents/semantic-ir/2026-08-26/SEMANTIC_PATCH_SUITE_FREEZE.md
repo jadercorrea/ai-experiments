@@ -2,8 +2,10 @@
 
 ## Status
 
-**Six task families and their analysis policy are frozen before construction of
-fresh task instances. No model calls or efficacy claims are authorized.**
+**Six task families and their analysis policy were frozen before construction.
+Their concrete instances, evaluators, and final 5/6 semantic applicability
+boundary are now separately sealed. No model calls or efficacy claims are
+authorized.**
 
 This is a candidate-matrix freeze, not a final experiment lock. It fixes what
 types of work must be represented and how unsupported work will be counted. It
@@ -35,9 +37,9 @@ objectives cannot be changed after seeing model behavior.
 
 Post-freeze construction status: the pure equality gate is implemented in
 catalog v1 and the directory capability/effect gate is implemented in catalog
-v2. These additions do not rewrite the table's historical dispositions or task
-digests. Final support dispositions remain deferred until fresh task instances
-and shared evaluators are sealed.
+v2. These additions did not rewrite the table's historical dispositions or task
+digests. The final task lock records five supported tasks and keeps the
+cross-module family unsupported.
 
 There are exactly two small, two medium, and two large families. Every family
 has a content digest over its objective, semantic requirements, size,
@@ -95,10 +97,10 @@ state, schemas and catalogs, all tool traffic, repair turns, and the terminal
 submission. Applicability, validation failures, public evaluator runs, repair
 cycles, time, and terminal payload bytes are mandatory secondary metrics.
 
-## What remains before model use
+## Final gate outcome and what remains before model use
 
-Each family still needs one fresh concrete repository task. The final gate
-requires:
+The separate final suite now provides one concrete repository task per family
+and satisfies the gate with:
 
 - baseline failure and reference-solution success on the hidden evaluator;
 - a public evaluator that does not duplicate the entire hidden contract;
@@ -107,8 +109,17 @@ requires:
   trees;
 - predeclared rejection reasons, retained rejected candidates, and a
   contamination audit;
-- final support dispositions, contexts, model, inference parameters, budgets,
-  execution order, and stopping rule locked before any model call.
+- final support dispositions locked before any model call.
+
+The task/evaluator/support portion is complete. The contamination audit is
+conditional because the auditable repository contains hidden and reference
+material outside the participant allowlist; the later runner must deny access to
+that host tree and to external browsing, then repeat the model/provider audit.
+
+Still deferred are model identity, inference parameters, exact arm-context
+digests, tool and retry budgets, execution order, calibration stopping rule, and
+the isolated runner. The sealed suite is documented in
+[`FINAL_TASK_SUITE_OBSERVATION.md`](FINAL_TASK_SUITE_OBSERVATION.md).
 
 The machine-readable freeze is
 [`semantic-patch-suite-v0.json`](construction/semantic-patch-suite-v0.json),

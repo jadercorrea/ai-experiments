@@ -1,0 +1,11 @@
+--- a/src/lookup-user.ts
++++ b/src/lookup-user.ts
+@@ -9,7 +9,7 @@
+   rawId: string, capabilities: SemanticCapabilities
+ ): Result<User, string> {
+   return /* ir:node:final-normalization-policy-001-normalize-let */ (() => {
+-    const normalizedId: string = /* ir:node:final-normalization-policy-001-trim */ (/* ir:node:final-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\t\n\v\f\r ]+|[\t\n\v\f\r ]+$/g, "");
++    const normalizedId: string = /* ir:node:final-normalization-policy-001-trim */ rawId;
+     return /* ir:node:final-normalization-policy-001-validity-if */ (/* ir:node:final-normalization-policy-001-is-empty */ (/* ir:node:final-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)
+       ? (/* ir:node:final-normalization-policy-001-invalid-id */ { error: /* ir:node:final-normalization-policy-001-invalid-id-code */ "invalid_user_id" })
+       : (/* ir:node:final-normalization-policy-001-user-match */ (() => {

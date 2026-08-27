@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:final-reserved-id-guard-001",
+  "program_id": "program:final-reserved-id-guard-001",
+  "base_program_sha256": "ddaf6d4b1cece30c96afb5fb8edeae368c384687189567026fdd4791515eb7e9",
+  "operations": [
+    {
+      "operation_id": "operation:final-reserved-identifier-guard",
+      "op": "replace_subtree",
+      "target_node_id": "node:final-reserved-id-guard-001-user-match",
+      "expected_subtree_sha256": "d32df8ab2355652eb1624e3457d775fbd8db1259840b6f8e928a8d472229f62a",
+      "replacement": {
+        "node_id": "node:final-reserved-id-guard-001-user-match",
+        "op": "if",
+        "condition": {
+          "node_id": "node:final-reserved-id-guard-001-reserved-id-equals",
+          "op": "call",
+          "symbol": "string.equals",
+          "arguments": [
+            {
+              "node_id": "node:final-reserved-id-guard-001-normalized-ref-for-reserved",
+              "op": "var",
+              "symbol_id": "local:final-reserved-id-guard-001-normalized-id"
+            },
+            {
+              "node_id": "node:final-reserved-id-guard-001-reserved-id-literal",
+              "op": "string",
+              "value": "root"
+            }
+          ]
+        },
+        "then": {
+          "node_id": "node:final-reserved-id-guard-001-reserved-error",
+          "op": "err",
+          "error": {
+            "node_id": "node:final-reserved-id-guard-001-reserved-error-code",
+            "op": "string",
+            "value": "reserved_user_id"
+          }
+        },
+        "else": {
+          "node_id": "node:final-reserved-id-guard-001-user-match-after-guard",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:final-reserved-id-guard-001-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:final-reserved-id-guard-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:final-reserved-id-guard-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:final-reserved-id-guard-001-user",
+            "name": "user",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:final-reserved-id-guard-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:final-reserved-id-guard-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:final-reserved-id-guard-001-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:final-reserved-id-guard-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:final-reserved-id-guard-001-user"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
