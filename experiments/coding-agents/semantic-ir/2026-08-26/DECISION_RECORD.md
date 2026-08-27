@@ -385,3 +385,45 @@ continues to authorize no inference.
 - One gate remains: explicit launch after all launch assertions are checked
   again. Until then, experimental subject calls remain zero and no efficacy
   claim is authorized.
+
+## Calibration 001 invalidation
+
+### Context
+
+The explicit prelaunch checks passed and calibration 001 completed the exact
+12-cell schedule with 43 provider responses and USD 0.699015 estimated cost.
+The frozen summarizer recorded three source hidden passes and zero semantic
+hidden passes. All five supported semantic cells, however, ended before a
+single mutation attempt.
+
+### Finding
+
+Each supported semantic subject called `workspace_read` with an artifact label
+shown in its system context. Four requested `tasks/.../base/program.json`; one
+first requested `tasks/.../participant-context/TASK.md`. Those artifacts were
+embedded in the system message but were not mounted in the ephemeral repository
+accepted by `workspace_read`.
+
+The runner classified the unavailable path as terminal `tool_protocol_failure`
+instead of returning the error to the subject for repair. The semantic arm
+depended on embedded program, catalog, and schema artifacts while source files
+were addressable through the workspace tool. The mismatch therefore censored
+the treatment arm asymmetrically.
+
+### Decision
+
+Invalidate paired efficacy, semantic Pass@1, and cross-arm token comparisons.
+Retain the raw 3/6 source and 0/6 semantic counts only as descriptions of this
+frozen execution. Retain every request, response, cost, workspace, evaluator,
+and failure; do not replace or rerun any cell under the same freeze.
+
+### Consequences
+
+- The lower semantic token total is early-censored and is not efficiency
+  evidence.
+- The run supports an interface finding: model-visible state needs an
+  unambiguous addressable representation, not merely an embedded serialization.
+- The next protocol must expose a read-only context surface and return invalid
+  tool calls as recoverable observations within the trajectory budget.
+- A new paired claim requires fresh sealed task instances because the provider
+  has now seen the exact calibration-001 inputs.

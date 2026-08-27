@@ -1,5 +1,10 @@
 # Semantic patch calibration — execution freeze observation
 
+> Post-launch update: calibration 001 executed this freeze on 2026-08-27 and
+> was invalidated for paired efficacy and token comparison. See
+> [`CALIBRATION_001_OBSERVATION.md`](CALIBRATION_001_OBSERVATION.md). This file
+> remains the contemporaneous pre-execution record.
+
 ## Status
 
 The heterogeneous semantic-patch calibration is now completely specified but

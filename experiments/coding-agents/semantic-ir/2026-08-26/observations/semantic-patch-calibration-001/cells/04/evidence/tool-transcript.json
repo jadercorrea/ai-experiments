@@ -1,0 +1,124 @@
+[
+  {
+    "request_sha256": "a9cff729c97266bf2a2899957c0b12f4c1078d3e8ce7d3495d7cb08006739cc3",
+    "response_sha256": "bb98a20f52a069e199c898593556ac15cd7bedf546105724d0d90c3b5fe3d9ce",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1773,
+              "path": "src/lookup-user.ts",
+              "sha256": "1ceb2f66a70dc250f434df04df0ef5145f644c7319610ac2f07483aa1b300466"
+            },
+            {
+              "bytes": 798,
+              "path": "tests/public.test.ts",
+              "sha256": "c3626d67c6a93c27e4c459058033482dfd7aa4e9161a4d6734d3f53defe4e0bc"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_lKSlxtAbZ8SBtWWn8Vwg50"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "dca4018548ec25088cafd788bd771fc950d3926b2af8eadbcf7ca411501f8869",
+    "response_sha256": "dfc8a05e52d98d435a0b520b1d5955b71cca2bcefae38211c2698cc0730a8d9a",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function lookupRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:final-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:final-normalization-policy-001-trim */ (/* ir:node:final-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:final-normalization-policy-001-validity-if */ (/* ir:node:final-normalization-policy-001-is-empty */ (/* ir:node:final-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:final-normalization-policy-001-invalid-id */ { error: /* ir:node:final-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:final-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:final-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:final-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:final-normalization-policy-001-not-found */ { error: /* ir:node:final-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:final-normalization-policy-001-found */ { ok: /* ir:node:final-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1ceb2f66a70dc250f434df04df0ef5145f644c7319610ac2f07483aa1b300466"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_BjTdplC5DoaUdoHsFjbGTV"
+      },
+      {
+        "result": {
+          "content": "import { lookupRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(lookupRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(lookupRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "c3626d67c6a93c27e4c459058033482dfd7aa4e9161a4d6734d3f53defe4e0bc"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_q3HvSv9MStEeXhSvZc2MKn"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "a36e2c3b18ced301eebd455118d617ffe6c42c85e525ba079f02163ddb9f6445",
+    "response_sha256": "16e5da14e2bac776dff2b04651ccef8de026a7be9f9e2b0273edd5a839581c18",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 17"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_2MAyY8FOFEfMqzT5slkgmn"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "d48bd0e246460b2065d261f4896717037f78fcf317d490c78e5be40d557f74ee",
+    "response_sha256": "241b82610e0d2fd4b2e599658b84ff900f7ea0f1b72abce35eb6c7cee52039b1",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "eb3bfc307743141f3f6bb5ea3678b4b83d920fae5e71d309043aa4519a89096b"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_kkTwSs18NmJEmX7XrC3Doj"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "a20b911c2da3e452452a16822bb28aa937e0d1a05b4bfaf3d3c2b93bb942d74b",
+    "response_sha256": "d12480219799791062d37c99a21f43cafc2f961423c56098047fd54e2be02d03",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nuses raw identifier and exact empty ... ok (1ms)\n\nok | 1 passed | 0 failed (6ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_ZtdRZdNMvSAywVdprd4lzr"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "0789eab2c58279ec6bd0e2660f429226f71540052e206995ec44bacf440cf9cb",
+    "response_sha256": "785bd6909378f525051899cbfa069a72043951ab216e59be35a4cd1d97cddf1b",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "45fa44418468acf65d81e317acd5b5b892c793d59d84665259a9e3752cc52d47"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_bWWypihXCWJTp5MNrleiHz"
+      }
+    ],
+    "turn": 6
+  }
+]

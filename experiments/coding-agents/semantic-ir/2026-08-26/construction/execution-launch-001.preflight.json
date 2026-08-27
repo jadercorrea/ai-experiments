@@ -1,0 +1,55 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.prelaunch-audit/v0",
+  "launch_id": "semantic-ir-calibration-001",
+  "audited_at": "2026-08-27T10:00:16-03:00",
+  "repository_revision": "68736f9f8f3c8c8265651c8708c434f471736361",
+  "explicit_user_authorization": {
+    "observed": true,
+    "message": "Pode seguir."
+  },
+  "freeze": {
+    "freeze_sha256": "02bb16238584057e809d8bd2655a13b8b5d163a2317774735e4e636d18a83c05",
+    "freeze_file_sha256": "93b54eb04ce883f9ad84c370f592e30f51fbc491145e2fb7ffcd84b45f8ddf53",
+    "artifact_lock_sha256": "734cec6662d95b08de126aec3b29013ae8a2d17f48de34249f51f47aef12ea00",
+    "model_lock_sha256": "b4147d513b82837a6a21b3f649cfe4ef3968f80c18ce69920dcbdeceafcaef31",
+    "digests_reverified": true,
+    "deterministic_preflight_passed": true
+  },
+  "contamination": {
+    "status": "conditional_pre_model_clearance",
+    "experimental_subject_calls_before_launch": 0,
+    "exact_instances_used_as_experimental_inputs_before_launch": false,
+    "fresh_subject_context_without_development_history": true,
+    "development_agent_exposure_observed": true,
+    "provider_weight_snapshot_immutability_verifiable": false,
+    "participant_context_excludes_hidden_and_reference_material": true,
+    "host_repository_shell_network_and_browser_tools_exposed": false
+  },
+  "credential_and_identity": {
+    "credential_present_in_macos_keychain": true,
+    "credential_value_recorded": false,
+    "credential_may_enter_model_context": false,
+    "runtime_endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "provider_model": "us.anthropic.claude-sonnet-4-6",
+    "region": "us-east-1",
+    "identity_policy": "endpoint_locked_model_and_iam_scope",
+    "prior_exact_model_admission": "experiments/coding-agents/local-first-routing/2026-07-30/calibration/cloud-admission-bedrock-sonnet-4-6/result.json",
+    "prior_exact_model_admission_passed": true,
+    "control_plane_retention_read_http_status": 403,
+    "control_plane_read_interpretation": "The frozen bearer credential can access the inference path but is not authorized to read account-level retention configuration; no account-level retention mode is claimed."
+  },
+  "provider_policy": {
+    "checked": true,
+    "checked_at": "2026-08-27T10:00:16-03:00",
+    "sources": [
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/data-retention.html",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/abuse-detection.html",
+      "https://aws.amazon.com/bedrock/faqs/"
+    ],
+    "basis": "AWS documents that model providers cannot access Bedrock deployment accounts, logs, prompts, or completions; inputs and outputs are not used to train base models. The 2026 retention documentation states that Claude models released before Claude Fable 5 retain their previous behavior, while the listed Claude-specific mandatory retention exception applies to Fable 5, not Sonnet 4.6.",
+    "limitation": "The account-level effective retention mode could not be read with the deliberately inference-scoped credential. This launch claims a checked public service policy, not independently verified zero retention for the account."
+  },
+  "launch_clear": true,
+  "efficacy_claim_authorized": false
+}

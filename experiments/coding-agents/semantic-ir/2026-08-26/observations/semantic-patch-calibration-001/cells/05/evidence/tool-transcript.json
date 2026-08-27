@@ -1,0 +1,108 @@
+[
+  {
+    "request_sha256": "644c0c82ba542ab86cd0b0758764e1ddfa7608c9a1ba14f25345c2bda4a9b174",
+    "response_sha256": "c665a40c942289d336092521a451b2c5e0cbd616850809245e0d2fac5bfab5a4",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1649,
+              "path": "src/lookup-user.ts",
+              "sha256": "c9462377d2c5aaf21c304e47d0f2cf79764571f5098af7b2c2ed57cf680f618a"
+            },
+            {
+              "bytes": 992,
+              "path": "tests/public.test.ts",
+              "sha256": "70183683d8f1894c1283d4248b1cf47d651555a00281fd09a5a7fe7311b87409"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_E5LQ2ikb9815iO2KPwwHBL"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "4b5f30e3b43b11dd7ad245a8718ab8260dc35c46c14faaeeb2da83a829fa241f",
+    "response_sha256": "4de978dccece3a1dbb10d00268c8b8af3558841ad4d399af4f61689d02e8510c",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function lookupWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:final-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:final-raw-id-retry-001-trim */ (/* ir:node:final-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:final-raw-id-retry-001-validity-if */ (/* ir:node:final-raw-id-retry-001-is-empty */ (/* ir:node:final-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:final-raw-id-retry-001-invalid-id */ { error: /* ir:node:final-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:final-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:final-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:final-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:final-raw-id-retry-001-not-found */ { error: /* ir:node:final-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:final-raw-id-retry-001-found */ { ok: /* ir:node:final-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "c9462377d2c5aaf21c304e47d0f2cf79764571f5098af7b2c2ed57cf680f618a"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_CCJ2Nmo5XY8SogUx9OB3LY"
+      },
+      {
+        "result": {
+          "content": "import { lookupWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(lookupWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(lookupWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "70183683d8f1894c1283d4248b1cf47d651555a00281fd09a5a7fe7311b87409"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_P0jLGPP6l8jo8uM8QDDElL"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "59e5a4ff2dc7a0c37e7bf1de1dde390147057e967cf08c5a86c322fced64352a",
+    "response_sha256": "ddefb6dd259145f05b3420411990b320cd45120b698c771b68a45a7c37625d49",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "83fe508622b9cab7a4cf9297df806e946b430fb521199c194a980d236b821178"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_qcTsybEYIme6tB9Ed7teZq"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "dbb29a08486c3a4d07b737365c66ba0307fd24d76c9775aef033bcc88bbf36bb",
+    "response_sha256": "4e7a4398abb681e2d90fb40936176bfcec1768526c0af6148320afeff090081f",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... ok (0ms)\ndoes not retry a normalized hit ... ok (0ms)\n\nok | 2 passed | 0 failed (3ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_x3z1zCOBVDGBtmcjT3Ud2j"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "f64096be49608280108fcb7805cda281d53678bb6cd036efe4bb0a024d290ae5",
+    "response_sha256": "faefe9d2c4f7ad4878b75a617c88f6071a43938fee4870cdc865b749ea782f22",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "0cf8dc5b8c8622417154919a3419596076174b2b1a883d438795e94756ab00fc"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_e4msvzF7K7yUVwdHrNHYru"
+      }
+    ],
+    "turn": 5
+  }
+]

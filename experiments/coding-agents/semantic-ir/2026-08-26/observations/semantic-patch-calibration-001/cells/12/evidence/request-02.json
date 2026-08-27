@@ -1,0 +1,116 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe following artifacts are your complete task context. You can inspect and mutate\nonly the ephemeral participant workspace through the provided tools. You have no\nshell, host-repository, hidden-evaluator, reference-solution, network, or browsing\naccess. Tool limits are enforced by the orchestrator. Hidden evaluation occurs once\nafter submission_finish and is never returned to you.\n\n<artifact path=\"tasks/cross-module-rename-001/participant-context/TASK.md\">\n# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact path=\"tasks/cross-module-rename-001/participant-context/source-patch.md\">\n# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Inspect only what you need, submit candidate mutations through the assigned representation, use the public evaluator if useful, and call submission_finish when the candidate is final. Do not return source code, a diff, or semantic IR as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the repository structure to understand what needs to be changed.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_iqln3ylOeL33mOrGrSR1yg",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":111,\"path\":\"src/contracts.ts\",\"sha256\":\"2811a33d123e6290b398c6e3f3033c52f3b648800c0f741c877e09ffe9d1984c\"},{\"bytes\":107,\"path\":\"src/lookup-user.ts\",\"sha256\":\"f9aeb4d14f74b4f5885b2f17f10788d39cf87a66353ca728a343430508c9f386\"},{\"bytes\":114,\"path\":\"src/mod.ts\",\"sha256\":\"30cbafdca4e0e524e43fca0ee70fc100e17a4d64169357da1ba0d0e36bb85fc8\"},{\"bytes\":379,\"path\":\"tests/public.test.ts\",\"sha256\":\"9b26df1beff5618b182af076b4f706b21fa8b6516f3cf2d3b822266d426f0d64\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_iqln3ylOeL33mOrGrSR1yg"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one unified diff against the frozen base repository. Only declared editable paths may change.",
+        "name": "source_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

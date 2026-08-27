@@ -1,0 +1,65 @@
+[
+  {
+    "request_sha256": "e984eeac40d88b131f303adf08dbff129d2867e419bcd046876311875341f296",
+    "response_sha256": "effeda6e86782845b9c591bba037a4b3799529084252ecfb9a0092d7d618595a",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1726,
+              "path": "src/lookup-user.ts",
+              "sha256": "6108b87a3ef6eace468c9b22c9d9516c329edf282f83ed69c6345fe9997bc0ac"
+            },
+            {
+              "bytes": 845,
+              "path": "tests/public.test.ts",
+              "sha256": "f5861f529b02d8f9b53e0fb00b9ead16e402937773df21fedb401f050a53dcd0"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_u68NMuxk6ha7ZqveO7a5Jm"
+      },
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... FAILED (1ms)\npreserves an ordinary local hit ... ok (0ms)\n\n ERRORS \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"reserved_user_id\"}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-patch-calibration-001/cells/07/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-patch-calibration-001/cells/07/workspace/tests/public.test.ts:14:3\n\n FAILURES \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (4ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_ozoUi7AVEGINEC9aToMmVR"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "005024a1b8c9444286f9c5568115ad938dd5477c23e47c048d2b231ff88058c2",
+    "response_sha256": "fc3a4d2d85a9f67b12926c0045549d1aed521c6702ee26c352a6035fedfca570",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { lookupGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(lookupGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(lookupGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "f5861f529b02d8f9b53e0fb00b9ead16e402937773df21fedb401f050a53dcd0"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_iKo6XkwYijxsSs1ztWyWgv"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "b4ffb635a956d311d102901473076d6f177c307ba24ec9a88af2d070d3fb7aec",
+    "response_sha256": "47ce4040ab655fb5dcbe41f7f7cd2e908e1cac24a5d25a5312a479b2313d74f8",
+    "tool_results": [],
+    "turn": 3
+  }
+]

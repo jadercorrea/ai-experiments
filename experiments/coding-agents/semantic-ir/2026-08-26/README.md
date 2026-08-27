@@ -5,9 +5,10 @@
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
 break-even curve, one local semantic-patch observation, a sealed six-task
-heterogeneous suite, and its complete pre-execution lock. Five semantic tasks
-are supported and one is explicitly unsupported. No calibration cell has run
-and no efficacy claim is supported.**
+heterogeneous suite, and one completed but invalidated heterogeneous calibration.
+Five semantic tasks are supported and one is explicitly unsupported. The first
+paired run exposed a treatment-asymmetric context-addressability defect and
+supports no efficacy or token-efficiency claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -152,6 +153,14 @@ different Unicode definitions from their host languages.
   provider call.
 - [`EXECUTION_FREEZE_OBSERVATION.md`](EXECUTION_FREEZE_OBSERVATION.md) records
   the isolation and claim boundaries and the final explicit-launch gate.
+- [`semantic-patch-calibration-001`](observations/semantic-patch-calibration-001)
+  retains the complete 12-cell execution, launch record, USD 0.699015 cost,
+  provider payloads, workspaces, evaluators, artifact lock, and explicit
+  invalidation record.
+- [`CALIBRATION_001_OBSERVATION.md`](CALIBRATION_001_OBSERVATION.md) explains
+  why all five supported semantic trajectories were early-censored by an
+  unreadable context-artifact path and why the raw 3/6 versus 0/6 counts cannot
+  support a representation comparison.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -470,10 +479,12 @@ The synthetic repeated-body curve crossed at eight bodies and remained below
 source at sixteen, but it does not represent heterogeneous repository work. The
 local patch task and sealed heterogeneous suite prove mechanics, fixture
 discrimination, and the 5/6 representation boundary, not model performance.
-The execution lock now fixes model identity, inference parameters, tool/retry
+The execution lock fixed model identity, inference parameters, tool/retry
 budgets, exact arm contexts, execution order, calibration stopping rule, and the
-closed-tool runner. It still authorizes zero model calls. The only remaining
-gate is an explicit launch document after the contamination, endpoint/IAM,
-provider-policy, credential, and digest checks are repeated. A later execution
-may report provider-native tokens, hidden Pass@1, repair cycles, validation
-failures, and unsupported-task rate only inside the frozen descriptive boundary.
+closed-tool runner. Calibration 001 then completed all twelve cells, but all
+five supported semantic trajectories terminated before mutation when they
+tried to reread task-prefixed artifacts that were embedded in context but absent
+from the participant workspace. Because invalid reads were fatal rather than
+recoverable, this was a treatment-asymmetric early-censoring defect. The next
+gate is a separately identified protocol with an addressable read-only context
+surface, recoverable tool errors, and fresh sealed task instances.

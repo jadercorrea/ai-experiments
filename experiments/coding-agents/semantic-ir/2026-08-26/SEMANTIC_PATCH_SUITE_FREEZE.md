@@ -1,5 +1,10 @@
 # Heterogeneous semantic-patch candidate matrix v0
 
+> Post-launch update: the first heterogeneous calibration completed and was
+> invalidated by a treatment-asymmetric context-addressability defect. The
+> frozen suite and execution remain preserved; see
+> [`CALIBRATION_001_OBSERVATION.md`](CALIBRATION_001_OBSERVATION.md).
+
 ## Status
 
 **Six task families and their analysis policy were frozen before construction.

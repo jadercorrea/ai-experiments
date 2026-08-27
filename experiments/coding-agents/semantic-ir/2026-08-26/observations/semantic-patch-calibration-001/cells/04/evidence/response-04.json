@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Let me fix the patch format:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -9,14 +9,13 @@ export function lookupRawIdentifier(\\n   rawId: string, capabilities: SemanticCapabilities\\n ): Result<User, string> {\\n   return /* ir:node:final-normalization-policy-001-normalize-let */ (() => {\\n-    const normalizedId: string = /* ir:node:final-normalization-policy-001-trim */ (/* ir:node:final-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n-    return /* ir:node:final-normalization-policy-001-validity-if */ (/* ir:node:final-normalization-policy-001-is-empty */ (/* ir:node:final-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n+    return /* ir:node:final-normalization-policy-001-validity-if */ (/* ir:node:final-normalization-policy-001-is-empty */ (/* ir:node:final-normalization-policy-001-raw-id-ref */ rawId).length === 0)\\n       ? (/* ir:node:final-normalization-policy-001-invalid-id */ { error: /* ir:node:final-normalization-policy-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n       : (/* ir:node:final-normalization-policy-001-user-match */ (() => {\\n-          const __semantic_ir_option_1 = /* ir:node:final-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:final-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\\n+          const __semantic_ir_option_1 = /* ir:node:final-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:final-normalization-policy-001-normalized-ref-for-lookup */ rawId);\\n           if (__semantic_ir_option_1 === undefined) {\\n             return /* ir:node:final-normalization-policy-001-not-found */ { error: /* ir:node:final-normalization-policy-001-not-found-code */ \\\"not_found\\\" };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:final-normalization-policy-001-found */ { ok: /* ir:node:final-normalization-policy-001-user-ref */ user };\\n         })());\\n-  })();\\n-}\\n+  })();\\n+}\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_kkTwSs18NmJEmX7XrC3Doj",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-29722c9b00f117e22b06670d",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 741,
+    "prompt_tokens": 3371,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4112
+  }
+}
