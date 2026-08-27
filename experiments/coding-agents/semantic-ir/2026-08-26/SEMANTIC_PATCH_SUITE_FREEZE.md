@@ -116,10 +116,12 @@ conditional because the auditable repository contains hidden and reference
 material outside the participant allowlist; the later runner must deny access to
 that host tree and to external browsing, then repeat the model/provider audit.
 
-Still deferred are model identity, inference parameters, exact arm-context
-digests, tool and retry budgets, execution order, calibration stopping rule, and
-the isolated runner. The sealed suite is documented in
-[`FINAL_TASK_SUITE_OBSERVATION.md`](FINAL_TASK_SUITE_OBSERVATION.md).
+Those formerly deferred execution variables are now frozen, together with the
+closed-tool runner and a repeated conditional contamination audit, in
+[`execution-freeze-v0`](construction/execution-freeze-v0). The freeze authorizes
+zero model calls. Only an explicit launch tied to its exact digests remains; the
+boundary is documented in
+[`EXECUTION_FREEZE_OBSERVATION.md`](EXECUTION_FREEZE_OBSERVATION.md).
 
 The machine-readable freeze is
 [`semantic-patch-suite-v0.json`](construction/semantic-patch-suite-v0.json),

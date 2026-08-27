@@ -336,3 +336,52 @@ repeats the model/provider audit before the first call.
 - Model identity, inference parameters, budgets, exact arm contexts, execution
   order, stopping rule, and the runner itself remain deferred. This lock
   authorizes zero model calls and no efficacy claim.
+
+## Calibration execution lock v0
+
+### Context
+
+The final heterogeneous suite fixed task content, evaluator behavior, semantic
+applicability, and the analysis denominator, but it intentionally left the
+experimental subject and orchestration policy unspecified. Running even one
+cell before model identity, context construction, capabilities, budgets, order,
+and stopping were fixed would permit outcome-dependent protocol changes.
+
+### Decision
+
+Reuse the locally locked Amazon Bedrock Sonnet 4.6 treatment identity, but not
+the earlier one-request admission budget. Freeze a new calibration policy at
+temperature zero with exact rendered context and tool-schema digests for each
+cell. Give each subject only a fresh ephemeral workspace and a closed tool
+surface; expose neither shell, host repository, external network, browsing,
+hidden evaluator, nor references.
+
+Execute six fixed pairs in a balanced nonadaptive order. Treat the unsupported
+semantic repository task as an automatic zero-call terminal failure in the
+all-task denominator. Allow at most 11 provider-call cells, 12 turns per such
+cell, 132 requests globally, and USD 10 total estimated spend, reserving the
+worst-case next request before dispatch. Do not retry provider failures, replace
+runs, or stop for efficacy. Stop only for the spend rule or two consecutive
+infrastructure-invalid cells.
+
+Require a separate schema-valid launch record to bind explicit authorization,
+the exact freeze and model-lock digests, a repeated contamination audit, fresh
+context, credential and endpoint/IAM preflight, provider-retention-policy basis,
+and zero prior experimental subject calls. The pre-execution freeze itself
+continues to authorize no inference.
+
+### Consequences
+
+- The execution policy is content-addressed at
+  `02bb16238584057e809d8bd2655a13b8b5d163a2317774735e4e636d18a83c05`.
+- Eleven model-bearing cells and one automatic unsupported terminal are fixed;
+  ordering and stopping cannot adapt to observed quality.
+- Usage already incurred survives later cell interruption, and unsuccessful
+  provider attempts consume the global request budget.
+- The isolation claim is an allowlisted capability boundary, not an OS-process
+  sandbox claim.
+- The repeated contamination result remains conditional because the development
+  agent saw host-side material and provider weight immutability is unverifiable.
+- One gate remains: explicit launch after all launch assertions are checked
+  again. Until then, experimental subject calls remain zero and no efficacy
+  claim is authorized.

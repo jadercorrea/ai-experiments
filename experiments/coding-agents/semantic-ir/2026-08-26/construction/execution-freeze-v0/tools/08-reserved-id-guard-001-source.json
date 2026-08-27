@@ -1,0 +1,79 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "workspace_list",
+      "description": "List every file in the ephemeral participant repository, sorted by path.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "workspace_read",
+      "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "evaluation_run_public",
+      "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "submission_finish",
+      "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "source_patch_submit",
+      "description": "Submit one unified diff against the frozen base repository. Only declared editable paths may change.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "patch"
+        ],
+        "properties": {
+          "patch": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+]

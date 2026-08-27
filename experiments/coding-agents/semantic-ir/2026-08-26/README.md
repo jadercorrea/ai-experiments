@@ -4,9 +4,10 @@
 
 **Executable construction artifact with matched whole-program and patch task
 fixtures, two valid single-task model observations, one valid five-point
-break-even curve, one local semantic-patch observation, and a sealed six-task
-heterogeneous pre-model suite. Five semantic tasks are supported and one is
-explicitly unsupported. No efficacy claim is supported.**
+break-even curve, one local semantic-patch observation, a sealed six-task
+heterogeneous suite, and its complete pre-execution lock. Five semantic tasks
+are supported and one is explicitly unsupported. No calibration cell has run
+and no efficacy claim is supported.**
 
 Snapshot date: **2026-08-26**
 
@@ -139,6 +140,18 @@ different Unicode definitions from their host languages.
 - [`FINAL_TASK_SUITE_OBSERVATION.md`](FINAL_TASK_SUITE_OBSERVATION.md) records
   the 5/6 applicability boundary, construction controls, and remaining
   pre-execution lock.
+- [`execution-freeze-v0.schema.json`](protocol/execution-freeze-v0.schema.json),
+  [`execution-launch-v0.schema.json`](protocol/execution-launch-v0.schema.json),
+  and [`execution-freeze-v0`](construction/execution-freeze-v0) freeze the
+  model, inference policy, exact contexts and tools, budgets, schedule, stopping
+  rule, runner, analysis, and conditional contamination status.
+- [`semantic_execution_freeze.py`](scripts/semantic_execution_freeze.py)
+  deterministically builds and verifies that content-addressed package.
+- [`semantic_patch_calibration.py`](scripts/semantic_patch_calibration.py)
+  provides the launch-gated closed-tool runner. Its preflight path makes no
+  provider call.
+- [`EXECUTION_FREEZE_OBSERVATION.md`](EXECUTION_FREEZE_OBSERVATION.md) records
+  the isolation and claim boundaries and the final explicit-launch gate.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -457,9 +470,10 @@ The synthetic repeated-body curve crossed at eight bodies and remained below
 source at sixteen, but it does not represent heterogeneous repository work. The
 local patch task and sealed heterogeneous suite prove mechanics, fixture
 discrimination, and the 5/6 representation boundary, not model performance.
-The next slice must freeze model identity, inference parameters, tool/retry
+The execution lock now fixes model identity, inference parameters, tool/retry
 budgets, exact arm contexts, execution order, calibration stopping rule, and the
-isolated runner. It must also repeat the contamination audit immediately before
-the first call. Only that execution lock may authorize paired source and
-semantic runs on provider-native tokens, hidden Pass@1, repair cycles,
-validation failures, and unsupported-task rate.
+closed-tool runner. It still authorizes zero model calls. The only remaining
+gate is an explicit launch document after the contamination, endpoint/IAM,
+provider-policy, credential, and digest checks are repeated. A later execution
+may report provider-native tokens, hidden Pass@1, repair cycles, validation
+failures, and unsupported-task rate only inside the frozen descriptive boundary.
