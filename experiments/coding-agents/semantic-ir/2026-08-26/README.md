@@ -33,7 +33,11 @@ semantic emitted 18.0% less output but consumed 78.6% more total tokens and
 55.5% more estimated cost. Explicit Session State Replay v1 now replaces
 accumulated history with bounded state, reproduces 131/131 recorded action
 results, and reduces canonical request bytes by 17.73% overall, but only 4.56%
-for semantic because inspection subtrees dominate retained state. Neither
+for semantic because inspection subtrees dominate retained state. Semantic
+Working-Set Replay v1 now splits persistent capabilities from an LRU of full
+subtrees: capacity two reconstructs 24/24 semantic submissions with five local
+re-fetches, while reducing the effective semantic surface by 21.42% against the
+explicit-state baseline and 25.00% against transcript requests. Neither
 calibration authorizes an inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
@@ -316,6 +320,17 @@ different Unicode definitions from their host languages.
 - [`SESSION_STATE_REPLAY_V1_OBSERVATION.md`](SESSION_STATE_REPLAY_V1_OBSERVATION.md)
   records the 17.73% aggregate byte reduction, turn-four break-even, 41.64%
   source reduction, 4.56% semantic reduction, and inspection-state bottleneck.
+- [`semantic-working-set-state-v1.schema.json`](protocol/semantic-working-set-state-v1.schema.json)
+  and [`semantic_working_set.py`](scripts/semantic_working_set.py) split compact
+  capabilities from LRU-managed subtrees and perform current-action `I`
+  re-fetch without future-action input.
+- [`semantic-working-set-v1`](construction/semantic-working-set-v1) contains the
+  five-capacity curve, five exact semantic trajectories, re-fetch evidence, and
+  an eight-file content lock.
+- [`SEMANTIC_WORKING_SET_V1_OBSERVATION.md`](SEMANTIC_WORKING_SET_V1_OBSERVATION.md)
+  records capacity two as the smallest viable point, 61/61 replayed action
+  results, five re-fetches, and a 21.42% effective-byte reduction against the
+  preceding explicit-state checkpoint.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -497,7 +512,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_session_task_suite_v3 \
   tests.test_matched_session_execution_freeze_v1 \
   tests.test_semantic_session_calibration_observation \
-  tests.test_semantic_session_state_replay_v1
+  tests.test_semantic_session_state_replay_v1 \
+  tests.test_semantic_working_set_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -690,13 +706,22 @@ semantic cells versus two source cells exhausted the turn limit. The exact
 shared tool removed the transport-schema confound, but denser instructions did
 not make model-driven trajectories cheaper or more reliable.
 
-The next gate returns to construction and replay, not another model call. It
-first established that explicit bounded state can reproduce all 131 recorded
-action results while removing 17.73% of canonical request bytes. The aggregate
-curve crosses break-even at turn four, but semantic improves only 4.56% because
-full inspection subtrees occupy 394,439 repeated snapshot bytes.
+The construction replay first established that explicit bounded state can
+reproduce all 131 recorded action results while removing 17.73% of canonical
+request bytes. The aggregate curve crosses break-even at turn four, but
+semantic improves only 4.56% because full inspection subtrees occupy 394,439
+repeated snapshot bytes.
 
-The next red test splits persistent semantic capabilities from an evictable
-subtree working set. It must reconstruct every recorded semantic submission
-through retained live state plus deterministic inspection re-fetch, without
-using oracle knowledge of the next action and before any new model call.
+Semantic Working-Set Replay v1 now splits those inspections into persistent
+capabilities and an evictable LRU. Capacity two is the smallest tested viable
+point: it reconstructs all 24 recorded semantic submissions with five
+current-action `I` re-fetches and reduces effective bytes by 21.42% against the
+explicit-state baseline. Capacity one is an explicit negative control with
+three unsatisfied width-two submissions; capacity sixteen avoids re-fetch but
+is 2.83% larger than explicit state.
+
+The next red test remains construction-only. Freeze a matched compacted-session
+execution in which source uses Explicit Session State v1 and semantic uses the
+capacity-two working-set policy. The freeze must bind runtime transitions,
+paired scheduling, byte accounting, and a separate launch authorization before
+any Calibration 005 model call.
