@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The patch hasn't been applied yet. The issue is the hunk header line count. The hunk `@@ -17,7 +17,12 @@` says 7 context+removed lines from line 17, but I only have 1 context line before the change. Let me count carefully:\n\nLine 17: `          if (__semantic_ir_option_1 === undefined) {`  (context)\nLine 18: `            return ...not_found...` (removed)\nLine 19: `          }` (context)\nLine 20: `          const user: User = ...` (context)\nLine 21: `          return ...found...` (context)\n\nSo old: 5 lines starting at 17, new: 5 - 1 + 6 = 10 lines. Hunk should be `@@ -17,5 +17,10 @@`.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -17,5 +17,10 @@ export function executeWithRetry(\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.users.getById(rawId);\\n+            if (__semantic_ir_option_2 !== undefined) {\\n+              const userRaw: User = __semantic_ir_option_2;\\n+              return { ok: userRaw };\\n+            }\\n+            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_n3Y6xELMcbQv9FffCKKMuG",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-af3069d9fb68812766c7a2d4",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 615,
+    "prompt_tokens": 7027,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 7642
+  }
+}

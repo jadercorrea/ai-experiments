@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "All tests pass. Here's a summary of what was changed across the three editable files:\n\n| File | Change |\n|---|---|\n| `src/contracts.ts` | Renamed `EXECUTE_CONTRACT` → `LOAD_CONTRACT` (value `\"loadUser\"`), renamed type `ExecuteUser` → `LoadUser` |\n| `src/lookup-user.ts` | Updated type import to `LoadUser`, renamed exported function `executeUser` → `loadUser` |\n| `src/mod.ts` | Updated re-exports to `LOAD_CONTRACT`, `LoadUser`, and `loadUser` |\n\nThe test `exports the renamed lookup` now resolves `loadUser` from `src/mod.ts` and confirms it returns `{ id: \"42\" }` for input `\"42\"` — runtime behavior is fully preserved.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[],\"i\":\"F\"}",
+              "name": "x"
+            },
+            "id": "tooluse_OvaiZvDbuyn3k3pJTDM9Lk",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-7e630392ba701bab9be84f79",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 259,
+    "prompt_tokens": 3822,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4081
+  }
+}

@@ -1,0 +1,1057 @@
+[
+  {
+    "request_sha256": "ce48c1775c5e05901a3bf4c38b6106f362e80fe1f19d7eb0637eeec19d6fdce4",
+    "response_sha256": "61c28f5b9f6afc6b54b305d70c3af70dc12f7f74944d91478c60fbff03830dcd",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-directory-fallback-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:477473531acee4b6df2d651cff024979",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-directory-fallback-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-directory-fallback-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-directory-fallback-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-directory-fallback-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-directory-fallback-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-directory-fallback-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-directory-fallback-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-directory-fallback-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-directory-fallback-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-directory-fallback-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-directory-fallback-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-directory-fallback-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-directory-fallback-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-directory-fallback-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:fc9d691d2560920557a439fda226bfb0"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-directory-fallback-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-directory-fallback-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-directory-fallback-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-directory-fallback-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:2053b9b3c294e2a54713362090ebc3c9"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-directory-fallback-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-directory-fallback-001-raw-id"
+              },
+              "target_token": "cap:v1:target:d52413e403d968dd8b1bbbdeaa652e10"
+            },
+            {
+              "handle": "n3",
+              "node_id": "node:session-v3-directory-fallback-001-validity-if",
+              "op": "if",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-directory-fallback-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-directory-fallback-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-directory-fallback-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-directory-fallback-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-directory-fallback-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-directory-fallback-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-directory-fallback-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-directory-fallback-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-directory-fallback-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "target_token": "cap:v1:target:42b98158f5db5ed7dc37e812c409162b"
+            },
+            {
+              "handle": "n4",
+              "node_id": "node:session-v3-directory-fallback-001-is-empty",
+              "op": "call",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "condition",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-directory-fallback-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "target_token": "cap:v1:target:36b7e2d766d69e97d1c2bb9153467512"
+            },
+            {
+              "handle": "n5",
+              "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+              "op": "var",
+              "parent": "n4",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+                "op": "var",
+                "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:a97e414b2e868b33982e1fa082063290"
+            },
+            {
+              "handle": "n6",
+              "node_id": "node:session-v3-directory-fallback-001-invalid-id",
+              "op": "err",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-invalid-id",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:da027791d94d002317166e86b1fbccef"
+            },
+            {
+              "handle": "n7",
+              "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+              "op": "string",
+              "parent": "n6",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "error",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+                "op": "string",
+                "value": "invalid_user_id"
+              },
+              "target_token": "cap:v1:target:4e89543a3cb8185d5b9648ed2915ea0a"
+            },
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-directory-fallback-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-directory-fallback-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-directory-fallback-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-directory-fallback-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-directory-fallback-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-directory-fallback-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:467ad2ef5f6a0dbc39f0811573e2f434"
+            },
+            {
+              "handle": "n9",
+              "node_id": "node:session-v3-directory-fallback-001-get-user",
+              "op": "call",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-directory-fallback-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              },
+              "target_token": "cap:v1:target:b8eb203dc6e4325a380dfbfe1d982e71"
+            },
+            {
+              "handle": "n10",
+              "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+              "op": "var",
+              "parent": "n9",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:7162430df3c156da557b4eaf977061ab"
+            },
+            {
+              "handle": "n11",
+              "node_id": "node:session-v3-directory-fallback-001-not-found",
+              "op": "err",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "none",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-not-found",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:9683360e0ad89108379444ce67540b0c"
+            },
+            {
+              "handle": "n12",
+              "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+              "op": "string",
+              "parent": "n11",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "error",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "target_token": "cap:v1:target:af5dfde8b57fd03dec1d3ec93154ee9d"
+            },
+            {
+              "handle": "n13",
+              "node_id": "node:session-v3-directory-fallback-001-found",
+              "op": "ok",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "some",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-directory-fallback-001-user"
+                }
+              },
+              "target_token": "cap:v1:target:a20ad4803d2745d402e89ca6a4d0eb13"
+            },
+            {
+              "handle": "n14",
+              "node_id": "node:session-v3-directory-fallback-001-user-ref",
+              "op": "var",
+              "parent": "n13",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-directory-fallback-001-user"
+              },
+              "target_token": "cap:v1:target:3e467d117cbe0e69919b79d69f8093e3"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_O7bvx1aHZHHMF9QDl5Cc33"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "3b5e5b06c0b5fe3db6b8802281b3a141bbb5f5df2e6754b8450d4707bbf17f9a",
+    "response_sha256": "96255047aafdbd2402713f810dc26aa18b62bb4da85d7621af0dd00a66567df2",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 365,
+              "handle": "context://mode",
+              "path": "tasks/directory-fallback-001/participant-context/semantic-patch.md",
+              "role": "mode",
+              "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+            },
+            {
+              "bytes": 298,
+              "handle": "context://task",
+              "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_hyxHAGN1KVdQOZhThkKbED"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "7a781d1d4860fa9b511838f6defdfcb9c9447d324775dfe9821521a57edfa786",
+    "response_sha256": "e988e2fc01e7fcf39d6ecf8a4e46cd7bfa66b1f1f967fb40aab33c96aeb9fe72",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 365,
+          "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+          "handle": "context://mode",
+          "path": "tasks/directory-fallback-001/participant-context/semantic-patch.md",
+          "role": "mode",
+          "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Q4KaBM3RF4s6gSRNG5y3kA"
+      },
+      {
+        "result": {
+          "bytes": 298,
+          "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Nr6Fv59xWwMKcev5nvGp5b"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "dfda5328415139a03c92f51407f58b372fb4b90f915a9423965a9ea8089586f0",
+    "response_sha256": "2cabc600d3695e0c838a939f4bf618a4bc31ab4382982743e44ce45a86d21dcf",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at patch_id: 'patch-directory-fallback' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ysMxsYJs86Z4WNLtMOaJZW"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "b2892f58eb2b2e2f80da93c97e687ae80c228837a5134b0292f42f634432381c",
+    "response_sha256": "050606691686cdfe66afd0441c9de50dc48d3b4bb4e03dc80f6f0c0d0e5ed914",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at operations/0/operation_id: 'op-replace-none-branch' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_TZPrmq6iz57EDXKUOlgEal"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "d260d3f04cd12924be99ffecf2007d36c68178b434a7e11262c2a22a237925a0",
+    "response_sha256": "725113ba7e5ad9de7405d648d9e24efc673b630a74e48d3b3f679634fe27a6b3",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "projection_sha256": "43361c244bc95522dd24f7ce276c953ce8dafed82edd644683c875e7e832777a",
+          "target": "src/lookup-user.ts"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_qN6uaX3eyd9LRWBK9vCuCP"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "b8741051fa8d9a939af45666d64aa2e54459b699bab099bfa919c2e9ca31655e",
+    "response_sha256": "34097ffea717aeefa3ce642ae6546825da47b6ca5c0b076e0496c52a3317da4f",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (0ms)\npreserves a local hit ... ok (0ms)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"ok\":{\"id\":\" 42 \",\"name\":\"Directory\"}}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/10/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/10/workspace/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (4ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_gjptiK4UHLHdQWLBTVA1kb"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "3c9f0c3421c45cc9a21f8254a7126ac8022647633fbde6f0a52b621e653369ff",
+    "response_sha256": "887b8999a164354cb70255711a9191d2a888a58ff16103235675ba24b3c362fc",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-directory-fallback-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:477473531acee4b6df2d651cff024979",
+          "targets": [
+            {
+              "handle": "n11",
+              "node_id": "node:session-v3-directory-fallback-001-not-found",
+              "op": "err",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "none",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-not-found",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:9683360e0ad89108379444ce67540b0c"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_NBaqWe0HsiHc3kgGMlEpuC"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "9647bfe7c8613d9a42b7e945ccdcd83e14083f690a62da3b3a61a9a9b314bb2c",
+    "response_sha256": "08dcc5947fa8893b0601ccc0db8914ee38a489202c6230508a027b24ba6bfa51",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-directory-fallback-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:477473531acee4b6df2d651cff024979",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-directory-fallback-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-directory-fallback-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-directory-fallback-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-directory-fallback-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-directory-fallback-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-directory-fallback-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-directory-fallback-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-directory-fallback-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-directory-fallback-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-directory-fallback-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-directory-fallback-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-directory-fallback-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-directory-fallback-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-directory-fallback-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-directory-fallback-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:fc9d691d2560920557a439fda226bfb0"
+            },
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-directory-fallback-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-directory-fallback-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-directory-fallback-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-directory-fallback-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-directory-fallback-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-directory-fallback-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-directory-fallback-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-directory-fallback-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:467ad2ef5f6a0dbc39f0811573e2f434"
+            },
+            {
+              "handle": "n11",
+              "node_id": "node:session-v3-directory-fallback-001-not-found",
+              "op": "err",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-directory-fallback-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-directory-fallback-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "none",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-directory-fallback-001-not-found",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:9683360e0ad89108379444ce67540b0c"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_zOyrZRPtxZ3JEYTqPxbtOi"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "request_sha256": "23f515191de7121e7bb5578a9e885ed80137a8c5cc4298e892fb127dbfc0a954",
+    "response_sha256": "3e636a4db4cb7c0f7c9cc821c6afe4fdf6b1ad31269e0e6e89f5805b5914b9a1",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_jXUIfhBQfTaUakJi0AO6hq"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "request_sha256": "914219ea27816841be4af30474578bb800e1b786a0f0775442f1982f5556e88e",
+    "response_sha256": "b35e7c5eb3c3d2bdabe25b4fd1d16c7365a34144a15ec07403256b8a78b74209",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "error: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (0ms)\npreserves a local hit ... ok (0ms)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"ok\":{\"id\":\" 42 \",\"name\":\"Directory\"}}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/10/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/10/workspace/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (3ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_vZ09Gd56s68hBfqN2yL2F4"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "request_sha256": "212520b52e6a3247fc34e63b9b5150e2941a6b613d8a909c6062f9e20cdb010f",
+    "response_sha256": "21ca35dc4f3743a13f8f57d16024cf5d24d485de02b7735e24c7d2e41703a99e",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 2350,
+              "path": "src/lookup-user.ts",
+              "sha256": "43361c244bc95522dd24f7ce276c953ce8dafed82edd644683c875e7e832777a"
+            },
+            {
+              "bytes": 942,
+              "path": "tests/public.test.ts",
+              "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_B7GDpRr85jElwRl2YGEnGo"
+      }
+    ],
+    "turn": 12
+  }
+]

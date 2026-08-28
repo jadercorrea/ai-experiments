@@ -111,3 +111,14 @@ handles, instructions, and repairs. Until that separately authorized run, the
 sequence ends at:
 
 `matched observation surface -> fresh execution freeze -> explicit launch`.
+
+## Subsequent result
+
+The separately authorized Calibration 004 completed all twelve cells with 101
+successful provider responses and no infrastructure-invalid outcome. Source
+passed 2/6 hidden evaluations and semantic passed 1/6; on supported tasks the
+counts were 2/5 and 1/5. Semantic generated less output but required more turns
+and accumulated substantially more input, total tokens, and cost. The freeze
+therefore served its purpose: it preserved a negative result that the
+known-reference construction could not predict. See
+[`CALIBRATION_004_OBSERVATION.md`](CALIBRATION_004_OBSERVATION.md).

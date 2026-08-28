@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "All tests pass. The fix:\n\n1. **Removed the trim step** — the `normalizedId` variable (which applied `.replace(...)` to strip whitespace) is gone entirely.\n2. **Empty check uses `rawId` directly** — only the exact empty string `\"\"` has `.length === 0`, so `\" \"` or `\" 42 \"` are treated as nonempty.\n3. **Lookup uses `rawId` directly** — `getById` is called with the raw, untrimmed identifier, exactly one time per nonempty input.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[],\"i\":\"F\"}",
+              "name": "x"
+            },
+            "id": "tooluse_25yjoUaM37nr1p0TDBj9wD",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-7165f47e64b4825128af8c0f",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 198,
+    "prompt_tokens": 4918,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5116
+  }
+}

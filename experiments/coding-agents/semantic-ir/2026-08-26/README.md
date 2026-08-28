@@ -27,9 +27,11 @@ semantic under a favorable one-file source-read policy, with the same direction
 in all five pairs. Matched Session Execution Freeze v1 now seals six fresh task
 instances, an exact shared one-tool interface, twelve paired cells, and a
 separate explicit launch gate; all local references pass, but no model call has
-occurred or is authorized. Neither construction nor the small calibration
-authorizes an inferential, provider-token, whole-trajectory, or general efficacy
-claim.**
+occurred under the freeze checkpoint. Calibration 004 subsequently completed:
+source passed 2/6 hidden evaluations and semantic 1/6. On supported pairs,
+semantic emitted 18.0% less output but consumed 78.6% more total tokens and
+55.5% more estimated cost. Neither calibration authorizes an inferential or
+general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -295,6 +297,12 @@ different Unicode definitions from their host languages.
 - [`MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md`](MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md)
   records 6/6 source and 5/5 supported semantic local reference passes, zero
   model calls, and the explicit-launch-only boundary for Calibration 004.
+- [`semantic-session-calibration-004`](observations/semantic-session-calibration-004)
+  contains 101 provider trajectories, workspaces, evaluations, results, and a
+  279-file evidence lock for the complete matched Session ISA run.
+- [`CALIBRATION_004_OBSERVATION.md`](CALIBRATION_004_OBSERVATION.md) records the
+  negative descriptive result: source 2/6 versus semantic 1/6 hidden passes,
+  semantic output reduction, and semantic input/total-token/cost increase.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -474,7 +482,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_matched_session_isa_control_v1 \
   tests.test_matched_observation_surface_v1 \
   tests.test_semantic_session_task_suite_v3 \
-  tests.test_matched_session_execution_freeze_v1
+  tests.test_matched_session_execution_freeze_v1 \
+  tests.test_semantic_session_calibration_observation
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -659,11 +668,15 @@ known-reference observation surfaces. Semantic then measured 23,256 bytes
 against 27,762 targeted-source bytes, a 16.23% construction advantage shared by
 all five supported pairs. These remain local bytes, not provider tokens.
 
-The fresh matched execution package is now frozen over six new exact instances:
-twelve paired cells, eleven possible provider calls, balanced order, one shared
-tool, recoverable instruction errors, complete trajectory accounting, and
-unchanged all-task applicability rules. Local references pass 6/6 source and
-5/5 supported semantic tasks. No launch record exists and no inference has
-occurred. The next gate is no longer another representation change: it is a
-separately authorized Calibration 004 launch preceded by repeated contamination,
-digest, credential, endpoint/IAM, and provider-retention checks.
+The fresh matched execution package then ran over six new exact instances. The
+complete Calibration 004 result was source 2/6 versus semantic 1/6 hidden
+passes. On the five supported pairs, semantic used 18.0% fewer output tokens but
+86.8% more input, 78.6% more total tokens, and 55.5% more estimated cost. Three
+semantic cells versus two source cells exhausted the turn limit. The exact
+shared tool removed the transport-schema confound, but denser instructions did
+not make model-driven trajectories cheaper or more reliable.
+
+The next gate returns to construction and replay, not another model call. It
+must determine whether explicit bounded session state can remove accumulated
+transcript history while preserving the next valid action in the frozen failed
+trajectories.

@@ -883,3 +883,45 @@ contamination, digest, credential, endpoint/IAM, and retention checks.
   `c2e49b3b32c2e9af6c577cab70c425a6ab74637744a01b9557535c6eca3f6232`.
 - No launch record was created and no model call is authorized. The only next
   gate is explicit Calibration 004 launch after repeated prelaunch checks.
+
+## Calibration 004 descriptive acceptance
+
+### Context
+
+The matched execution freeze pre-registered fresh exact instances, one shared
+Session ISA tool, balanced order, budgets, accounting, and a separate launch.
+The user subsequently authorized the eleven provider-call cells. Prelaunch
+checks reverified every digest, fresh-context boundary, credential presence,
+endpoint/model identity, and current public provider policy. The inference-
+scoped credential again could not read the effective account retention mode;
+the launch records that limitation and makes no account-specific ZDR claim.
+
+### Decision
+
+Accept Calibration 004 as a valid and complete descriptive observation. Bind
+the result to freeze
+`c2e49b3b32c2e9af6c577cab70c425a6ab74637744a01b9557535c6eca3f6232`
+and retain all twelve scheduled outcomes without replacement or rerun.
+
+Report both all-task and supported-task comparisons. Treat the unsupported
+semantic cross-module cell as a failure in all-task utility and as zero-call
+resource use. Use the five supported pairs for treatment resource ratios. Keep
+inferential and general efficacy claims unauthorized.
+
+### Consequences
+
+- All twelve cells completed with 101 successful responses from the locked
+  model, no infrastructure-invalid cell, and USD 2.006349 estimated cost.
+- Source passed 2/6 hidden evaluations and semantic 1/6; supported-task counts
+  were 2/5 and 1/5.
+- On supported pairs, semantic used 20.9% more requests, 86.8% more input,
+  18.0% less output, 78.6% more total tokens, and 55.5% more cost.
+- Semantic reached two supported terminals and exhausted three turn budgets;
+  source reached three supported terminals and exhausted two.
+- Semantic recorded more recoverable errors, rejected instructions, rejected
+  mutations, and repair cycles. The run does not isolate the causal share of
+  instruction opacity versus repeated state and transcript growth.
+- The prior 16.23% known-reference byte advantage is retained as a construction
+  fact and rejected as a predictor of model-driven whole-trajectory efficiency.
+- The next red test uses the frozen trajectories for deterministic session-state
+  replay and transcript compaction before considering another model call.

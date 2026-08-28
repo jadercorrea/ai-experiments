@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The file has 24 lines. Let me construct the diff carefully with correct line numbers:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -16,8 +16,13 @@\\n       : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.users.getById(rawId);\\n+            if (__semantic_ir_option_2 !== undefined) {\\n+              const userRaw: User = __semantic_ir_option_2;\\n+              return { ok: userRaw };\\n+            }\\n+            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_FiOnIXNS9kfzXaTqt0wSPD",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-22b9f4a574c3f25fb7d1e91d",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 523,
+    "prompt_tokens": 4207,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4730
+  }
+}
