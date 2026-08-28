@@ -620,3 +620,50 @@ confirmatory task set.
 - The observed tension separates mutation efficiency from context efficiency.
 - Calibration 003 advances the experimental-TDD sequence from context
   correctness to context density; it does not establish a language winner.
+
+## Compact semantic context v1 construction
+
+### Context
+
+Calibration 003 used fewer semantic provider requests and output tokens but
+more total tokens because each turn carried a complete canonical program,
+catalog, program schema, patch schema, and sometimes a separate expression
+grammar. State disclosure and mutation grammar were bundled into one large
+input surface.
+
+Three realistic options were considered: compress the entire canonical JSON,
+introduce another compact AST as persistent state, or retain canonical state and
+project only an addressable outline with exact expansion on demand.
+
+### Decision
+
+Keep canonical program IR as the sole persistent source of truth. Project a
+deterministic preorder topology whose short handles carry operation, parent,
+slot, and lexical hint but no canonical subtree or stable node ID. Add a
+read-only `semantic_context_inspect` operation that maps selected handles to the
+exact canonical subtree, lexical scope, stable node identity, and existing
+opaque capability tokens.
+
+Do not change `semantic_patch_submit`, its recursive expression schema,
+capability resolution, validators, effects, or lowering in this slice. Measure
+context and structured tools as canonical UTF-8 bytes, explicitly excluding any
+provider-token claim.
+
+### Consequences
+
+- All five supported reference patches still pass their existing hidden
+  evaluators through the compact projection.
+- Initial semantic context falls from 81,171 to 13,647 bytes, an 83.19%
+  reduction across the five tasks.
+- Context plus tool definitions falls 56.63%, from 119,501 to 51,832 bytes.
+- Compact semantic input remains 3.18 times the corresponding source surface;
+  no task reaches local initial-surface break-even.
+- Progressive inspection responses grow from 1,897 to 6,418 aggregate bytes
+  because exact subtrees and scope move from eager to on-demand disclosure.
+- Unchanged tool definitions now account for 73.67% of the compact surface,
+  isolating recursive patch grammar as the next dominant cost.
+- Deterministic construction issuer keys make fixture tokens reproducible and
+  are not treated as authorization credentials.
+- The next red test is a compact finite motion/patch instruction surface that
+  deterministically reconstructs the same canonical replacement and preserves
+  all validation boundaries.

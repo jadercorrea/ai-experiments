@@ -8,7 +8,10 @@ break-even curve, one local semantic-patch observation, two invalidated
 heterogeneous calibrations, and one valid descriptive capability-v2
 calibration. Calibration 003 observed semantic hidden passes of 4/6 versus 2/6
 for source, with fewer calls and output tokens but more total tokens and cost.
-The sample does not authorize an inferential or general efficacy claim.**
+Compact Context v1 now preserves all five supported references while reducing
+initial semantic context by 83.19%; the unchanged recursive patch tool schema
+still prevents whole-surface source break-even. Neither construction nor the
+small calibration authorizes an inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -212,6 +215,18 @@ different Unicode definitions from their host languages.
 - [`CALIBRATION_003_OBSERVATION.md`](CALIBRATION_003_OBSERVATION.md) records the
   valid descriptive comparison, the resolved capability defect, the opposing
   output- and input-token results, and the next compact-context red test.
+- [`compact-semantic-outline-v1.schema.json`](protocol/compact-semantic-outline-v1.schema.json),
+  [`compact-semantic-inspection-v1.schema.json`](protocol/compact-semantic-inspection-v1.schema.json),
+  and [`semantic_compact_context.py`](scripts/semantic_compact_context.py)
+  define a short-handle topology over canonical semantic state and exact
+  progressive subtree/scope recovery.
+- [`compact-context-v1`](construction/compact-context-v1) is the deterministic
+  five-task construction bundle and byte-surface measurement. Its 21-file lock
+  has tree digest
+  `fab0f9be5d526b44b1f4849620846d32d602512ae712da092ec127fec9a62bb9`.
+- [`COMPACT_CONTEXT_V1_OBSERVATION.md`](COMPACT_CONTEXT_V1_OBSERVATION.md)
+  records the 83.19% context reduction, five hidden-reference passes, failed
+  total-surface break-even, and next motion-lexicalization red test.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -384,7 +399,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_capability_protocol \
   tests.test_semantic_capability_task_suite \
   tests.test_semantic_capability_execution \
-  tests.test_semantic_capability_calibration_observation
+  tests.test_semantic_capability_calibration_observation \
+  tests.test_semantic_compact_context_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -556,7 +572,14 @@ Calibration 003 is valid descriptive evidence, not a confirmatory result. On
 six frozen tasks, semantic hidden passes were 4/6 versus 2/6 for source. The
 semantic arm used 30.4% fewer provider requests and 54.2% fewer output tokens,
 but 57.3% more total tokens and 28.4% more estimated cost because its input
-surface was larger. The next gate is a compact, progressively disclosed
-semantic context that preserves checked state and opaque preconditions. It must
-cross local whole-trajectory input-token break-even before a fresh, larger
-confirmatory suite is frozen.
+surface was larger.
+
+Compact Context v1 preserves checked state and opaque preconditions while
+reducing the five-task initial semantic context from 81,171 to 13,647 canonical
+UTF-8 bytes. Including tool definitions, the reduction is 56.63%, but the
+compact semantic surface remains 3.18 times the corresponding source surface.
+The recursively expanded expression grammar now occupies 73.67% of compact
+input. These are local byte measurements, not provider tokens. The next gate is
+a compact, finite patch instruction surface that lowers to the unchanged
+canonical patch and crosses local source break-even before any new model call or
+fresh confirmatory freeze.
