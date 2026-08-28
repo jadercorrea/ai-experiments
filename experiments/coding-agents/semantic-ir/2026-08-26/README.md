@@ -10,8 +10,12 @@ calibration. Calibration 003 observed semantic hidden passes of 4/6 versus 2/6
 for source, with fewer calls and output tokens but more total tokens and cost.
 Compact Context v1 now preserves all five supported references while reducing
 initial semantic context by 83.19%; the unchanged recursive patch tool schema
-still prevents whole-surface source break-even. Neither construction nor the
-small calibration authorizes an inferential or general efficacy claim.**
+still prevented whole-surface source break-even. Motion Lexicalization v1 now
+replaces that recursive grammar with eight flat words, passes the same five
+hidden references, cuts tool definitions by 50.15%, and deliberately records
+that the complete semantic surface still misses source break-even by 2.09×.
+Neither construction nor the small calibration authorizes an inferential or
+general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -227,6 +231,16 @@ different Unicode definitions from their host languages.
 - [`COMPACT_CONTEXT_V1_OBSERVATION.md`](COMPACT_CONTEXT_V1_OBSERVATION.md)
   records the 83.19% context reduction, five hidden-reference passes, failed
   total-surface break-even, and next motion-lexicalization red test.
+- [`motion-semantic-patch-v1.schema.json`](protocol/motion-semantic-patch-v1.schema.json)
+  and [`semantic_motion_patch.py`](scripts/semantic_motion_patch.py) define the
+  flat `str/var/call/let/if/match/ok/err` realization, lexical scope slots, and
+  deterministic reconstruction of canonical replacement trees.
+- [`motion-lexicalization-v1`](construction/motion-lexicalization-v1) contains
+  five generated motion patches, resolved canonical patches, model-facing
+  contexts and tools, hidden-evaluator evidence, and a 21-file content lock.
+- [`MOTION_LEXICALIZATION_V1_OBSERVATION.md`](MOTION_LEXICALIZATION_V1_OBSERVATION.md)
+  records the 61.27% patch-payload reduction, 50.15% tool-definition reduction,
+  five hidden passes, and failed 2.09× whole-surface break-even gate.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -400,7 +414,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_capability_task_suite \
   tests.test_semantic_capability_execution \
   tests.test_semantic_capability_calibration_observation \
-  tests.test_semantic_compact_context_v1
+  tests.test_semantic_compact_context_v1 \
+  tests.test_semantic_motion_lexicalization_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \

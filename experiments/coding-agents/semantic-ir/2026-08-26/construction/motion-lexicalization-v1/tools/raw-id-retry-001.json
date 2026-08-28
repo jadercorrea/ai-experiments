@@ -1,0 +1,264 @@
+[
+  {
+    "function": {
+      "description": "List immutable task-context handles, roles, sizes, and digests.",
+      "name": "context_list",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Read one immutable context artifact by its context:// handle.",
+      "name": "context_read",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "handle": {
+            "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Expand selected compact node handles and issue exact opaque precondition tokens. Read-only; does not consume mutation budget.",
+      "name": "semantic_context_inspect",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "handles": {
+            "items": {
+              "pattern": "^n[0-9]+$",
+              "type": "string"
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "handles"
+        ],
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "List every file in the ephemeral participant repository, sorted by path.",
+      "name": "workspace_list",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+      "name": "workspace_read",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "minLength": 1,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+      "name": "evaluation_run_public",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+      "name": "submission_finish",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  {
+    "function": {
+      "description": "Submit a flat finite-vocabulary semantic motion tree. Rejection leaves canonical state unchanged.",
+      "name": "semantic_motion_submit",
+      "parameters": {
+        "$defs": {
+          "binding": {
+            "items": false,
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/bindingReference"
+              },
+              {
+                "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+                "type": "string"
+              },
+              {
+                "enum": [
+                  "string",
+                  "boolean",
+                  "user",
+                  "option<user>",
+                  "result<user,string>"
+                ]
+              }
+            ],
+            "type": "array"
+          },
+          "bindingReference": {
+            "pattern": "^b[0-9]+$",
+            "type": "string"
+          },
+          "motion": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 6,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "enum": [
+                  "str",
+                  "var",
+                  "call",
+                  "let",
+                  "if",
+                  "match",
+                  "ok",
+                  "err"
+                ]
+              },
+              {
+                "$ref": "#/$defs/reference"
+              }
+            ],
+            "type": "array"
+          },
+          "operation": {
+            "additionalProperties": false,
+            "properties": {
+              "bindings": {
+                "items": {
+                  "$ref": "#/$defs/binding"
+                },
+                "type": "array"
+              },
+              "motions": {
+                "items": {
+                  "$ref": "#/$defs/motion"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "operation_id": {
+                "$ref": "#/$defs/semanticIdentifier"
+              },
+              "root": {
+                "$ref": "#/$defs/reference"
+              },
+              "target": {
+                "items": false,
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "pattern": "^n[0-9]+$",
+                    "type": "string"
+                  },
+                  {
+                    "pattern": "^cap:v1:target:[0-9a-f]{32}$",
+                    "type": "string"
+                  }
+                ],
+                "type": "array"
+              }
+            },
+            "required": [
+              "operation_id",
+              "target",
+              "root",
+              "bindings",
+              "motions"
+            ],
+            "type": "object"
+          },
+          "reference": {
+            "pattern": "^r[0-9]+$",
+            "type": "string"
+          },
+          "semanticIdentifier": {
+            "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "properties": {
+          "operations": {
+            "items": {
+              "$ref": "#/$defs/operation"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "patch_id": {
+            "$ref": "#/$defs/semanticIdentifier"
+          },
+          "schema_version": {
+            "const": "ai-experiments.semantic-ir.motion-patch/v1"
+          },
+          "state_token": {
+            "pattern": "^cap:v1:state:[0-9a-f]{32}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema_version",
+          "patch_id",
+          "state_token",
+          "operations"
+        ],
+        "type": "object"
+      }
+    },
+    "type": "function"
+  }
+]

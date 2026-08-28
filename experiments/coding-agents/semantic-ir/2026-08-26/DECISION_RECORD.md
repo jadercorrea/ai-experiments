@@ -667,3 +667,44 @@ provider-token claim.
 - The next red test is a compact finite motion/patch instruction surface that
   deterministically reconstructs the same canonical replacement and preserves
   all validation boundaries.
+
+## Semantic motion lexicalization v1 construction
+
+### Context
+
+Compact Context v1 reduced state disclosure by 83.19%, but its unchanged
+recursive patch grammar occupied 5,613 canonical bytes per task. The next red
+test required a finite mutation surface, semantic round-trip for all five
+references, unchanged validation boundaries, and local source break-even.
+
+### Decision
+
+Keep canonical program IR and capability-mediated patch application unchanged.
+Represent replacement intent as a flat tree of eight words:
+`str`, `var`, `call`, `let`, `if`, `match`, `ok`, and `err`.
+
+Address motion nodes with short `r` references, inspected external symbols with
+ordered `s` slots, and lexical bindings with `b` slots. Derive the replacement
+root identity from the inspected target and generate descendant node and symbol
+identities deterministically inside trusted infrastructure. Reject malformed
+graphs, invalid words and arity, scope escapes, catalog mismatches, stale
+capabilities, types, and effects before applying the unchanged atomic patch.
+
+Measure both the flat output payload and the complete initial context/tool
+surface. Preserve a failed break-even assertion as a result rather than widening
+the language or removing required protocol disclosure.
+
+### Consequences
+
+- All five supported references reconstruct semantically equivalent canonical
+  patches and pass their existing hidden evaluators.
+- Patch payloads fall from 7,828 to 3,032 aggregate bytes, a 61.27% reduction.
+- Tool definitions fall from 38,185 to 19,035 bytes, a 50.15% reduction.
+- Full semantic initial surface falls 34.46%, from 51,832 to 33,972 bytes.
+- The 16,277-byte source break-even gate still fails; motion v1 is 2.09 times
+  the source surface.
+- Context plus non-submission tools alone occupy 25,052 bytes, proving that no
+  further optimization of only the motion schema can satisfy the frozen gate.
+- No model call is authorized. The next red test moves to a session-level
+  instruction ISA that reduces repeated prose and tool-contract disclosure
+  without weakening the semantic decoder or checked backend.

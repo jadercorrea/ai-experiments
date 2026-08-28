@@ -1,0 +1,31 @@
+You are the experimental subject in a locked coding-agent construction.
+The compact outline is a read-only topology over canonical semantic state. Select short
+node handles from the outline and expand only required targets with
+semantic_context_inspect. Inspection returns exact node identities, lexical scope,
+canonical subtrees, and opaque precondition tokens. The canonical program remains the
+sole persistent state; handles and omitted context are resolved by trusted infrastructure.
+
+<artifact handle="context://task" role="task">
+# Task
+
+Use the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.
+
+Change only the declared editable paths. Preserve all behavior not explicitly
+changed by this task. Public tests are visible; additional behavior is withheld.
+</artifact>
+
+<artifact handle="context://mode" role="mode">
+# Lexicalized semantic motion mode
+
+Use short outline handles to locate likely targets, then call
+`semantic_context_inspect` once. Submit directly through `semantic_motion_submit`.
+Each replacement is a flat motion tree: refs are r0.., external scope slots are s0..,
+and local bindings are b0... Words are str(value), var(symbol), call(symbol,args...),
+let(binding,value,then), if(condition,then,else), match(value,binding,none,some),
+ok(value), and err(error). Trusted infrastructure restores canonical identities,
+checks scope, types, effects, catalog calls, and opaque preconditions before mutation.
+</artifact>
+
+<artifact handle="context://state/outline" role="semantic_outline">
+{"catalog":[["string.trim_ascii",["string"],"string",null],["string.is_empty",["string"],"boolean",null],["users.get_by_id",["string"],"option<user>","db.read:users"]],"catalog_fields":["symbol","arguments","result","effect"],"node_fields":["handle","op","parent","slot","hint"],"nodes":[["n0","let",null,"body","bind=normalizedId:string"],["n1","call","n0","value","call=string.trim_ascii"],["n2","var","n1","arguments[0]","ref=rawId:string"],["n3","if","n0","then",null],["n4","call","n3","condition","call=string.is_empty"],["n5","var","n4","arguments[0]","ref=normalizedId:string"],["n6","err","n3","then",null],["n7","string","n6","error","literal=\"invalid_user_id\""],["n8","option_match","n3","else","some=user:user"],["n9","call","n8","value","call=users.get_by_id"],["n10","var","n9","arguments[0]","ref=normalizedId:string"],["n11","err","n8","none",null],["n12","string","n11","error","literal=\"not_found\""],["n13","ok","n8","some",null],["n14","var","n13","value","ref=user:user"]],"program":{"catalog":"ai-experiments.semantic-ir.catalog/v0","function":{"effects":["db.read:users"],"name":"processRawIdentifier","parameters":[["rawId","string"]],"returns":"result<user,string>"},"id":"program:capability-v2-normalization-policy-001","ir":"ai-experiments.semantic-ir.program/v0"},"root":"n0","schema_version":"ai-experiments.semantic-ir.compact-outline/v1"}
+</artifact>
