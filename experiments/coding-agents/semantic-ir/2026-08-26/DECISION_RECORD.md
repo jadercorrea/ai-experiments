@@ -755,3 +755,39 @@ conversation history, dynamic responses, and decoder implementation bytes.
 - No model call is authorized. The next red test applies the same session
   transport to the source arm; only a matched pair may proceed to a fresh
   execution freeze and separately authorized Calibration 004.
+
+## Matched source session-ISA control v1
+
+### Context
+
+Session ISA v1 crossed the old source initial-surface gate, but 90.58% of its
+Motion-to-Session reduction came from collapsing shared tool definitions. The
+frozen source comparator still used seven verbose tools. Launching that pair
+would confound representation with infrastructure compression.
+
+### Decision
+
+Wrap source operation in the exact same `x({i,a})` schema, system line, common
+opcodes, and dispatcher as the semantic arm. Define only the source-specific
+submit operand as `S[unified-diff]`; retain semantic `I` and Motion `S` as its
+treatment-specific path. Route the source payload through the unchanged staged,
+editable-path-restricted, atomic source patch backend.
+
+Measure context/tool and reference-submit bytes separately. Also publish a
+partial reference transport proxy, but label it explicitly as a source lower
+bound because it includes semantic inspection and excludes source workspace
+reads.
+
+### Consequences
+
+- The two arms share the exact 269-byte tool definition and common dispatcher.
+- All five source and five semantic references pass hidden evaluation.
+- Semantic initial surface is 14,442 versus 6,405 source bytes, a 125.48%
+  overhead under matched static infrastructure.
+- Semantic submits are 2,290 versus 9,337 source bytes, a 75.47% reduction.
+- The asymmetric partial proxy is 23,256 semantic versus 15,742 source bytes,
+  but cannot support a treatment claim because source observation is uncharged.
+- The prior 11.27% win is retained as an engineering result against the verbose
+  interface and withdrawn as a candidate matched comparison.
+- No model call is authorized. The next red test must match `L/W` source
+  observation against semantic `I` before any execution freeze.

@@ -18,9 +18,12 @@ Session Instruction ISA v1 then collapses the complete callable surface into
 one positional instruction and reaches local initial-surface break-even at
 14,442 versus the frozen 16,277-byte source comparator, while preserving the
 five hidden passes. The source comparator has not yet received the same shared
-tool compaction, so this is an engineering gate rather than a treatment effect.
-Neither construction nor the small calibration authorizes an inferential,
-provider-token, whole-trajectory, or general efficacy claim.**
+tool compaction in that checkpoint, so it is an engineering gate rather than a
+treatment effect. Matched Session ISA Control v1 now applies the same transport
+to source: semantic initial state is 125.48% larger, while semantic submissions
+are 75.47% smaller. Observation cost is not yet matched. Neither construction
+nor the small calibration authorizes an inferential, provider-token, whole-
+trajectory, or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -257,6 +260,15 @@ different Unicode definitions from their host languages.
   records five hidden passes and the first local complete-surface break-even:
   14,442 semantic bytes versus the frozen 16,277-byte source comparator, an
   11.27% engineering margin pending a matched source-ISA control.
+- [`source_session_isa.py`](scripts/source_session_isa.py) maps positional source
+  submission to the unchanged staged and atomic unified-diff backend through
+  the same dispatcher used by the semantic arm.
+- [`matched-session-isa-control-v1`](construction/matched-session-isa-control-v1)
+  contains paired contexts/instructions, the shared tool, five source hidden
+  passes, and a 22-file content lock.
+- [`MATCHED_SESSION_ISA_CONTROL_V1_OBSERVATION.md`](MATCHED_SESSION_ISA_CONTROL_V1_OBSERVATION.md)
+  records the matched static trade-off: +125.48% semantic initial surface,
+  −75.47% semantic submit payload, and the still-unmatched observation cost.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -432,7 +444,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_capability_calibration_observation \
   tests.test_semantic_compact_context_v1 \
   tests.test_semantic_motion_lexicalization_v1 \
-  tests.test_semantic_session_isa_v1
+  tests.test_semantic_session_isa_v1 \
+  tests.test_matched_session_isa_control_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \

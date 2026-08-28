@@ -10,7 +10,7 @@ below the corresponding source surface. No provider-token, model-efficacy, or
 whole-trajectory claim is authorized.**
 
 The deterministic construction bundle contains 21 files with tree digest
-`6e2fa6ac16ec29960347ab9e9332670a33abdef9f9d43dd0cea7c0068e4e3641`.
+`1464db33d471ea0ae827649581dbe18f1d36f8caa1965e1ffc953bbd6720b15f`.
 It consumes the Motion Lexicalization v1 bundle with tree digest
 `50257fa1bd03d4f9868e6bf8bd7b791edb2fc9aa3e011c9a01e59edbd4228bac`.
 
@@ -185,3 +185,11 @@ result survives complete trajectories:
 The Experimental TDD sequence is now:
 
 `compact context → motion lexicalization → session ISA → matched source ISA → execution freeze`.
+
+### Subsequent result
+
+The matched source control now exists. It reverses the static result: semantic
+initial surface is 125.48% larger, while semantic reference submissions are
+75.47% smaller. Its first partial transport proxy remains asymmetric because it
+counts semantic inspection but not source workspace reads. The next red test is
+therefore a matched observation surface, not an execution freeze.

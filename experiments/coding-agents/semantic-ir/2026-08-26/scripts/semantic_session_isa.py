@@ -44,7 +44,12 @@ def _read_schema() -> dict[str, Any]:
     return value
 
 
-def validate_instruction(instruction: dict[str, Any]) -> tuple[str, list[Any]]:
+def validate_instruction(
+    instruction: dict[str, Any],
+    *,
+    submit_arity: int = 3,
+    allow_inspect: bool = True,
+) -> tuple[str, list[Any]]:
     """Validate the shared envelope and opcode-specific positional arity."""
 
     try:
@@ -67,6 +72,8 @@ def validate_instruction(instruction: dict[str, Any]) -> tuple[str, list[Any]]:
         if opcode in {"R", "W"} and not isinstance(arguments[0], str):
             raise SessionISAError(f"{opcode} expects one string argument")
     elif opcode == "I":
+        if not allow_inspect:
+            raise SessionISAError("I is unavailable in this session arm")
         if not 1 <= len(arguments) <= 64:
             raise SessionISAError(
                 f"I expects 1 to 64 handle arguments, got {len(arguments)}"
@@ -80,11 +87,43 @@ def validate_instruction(instruction: dict[str, Any]) -> tuple[str, list[Any]]:
             raise SessionISAError("I handle arguments must match n[0-9]+")
         if len(arguments) != len(set(arguments)):
             raise SessionISAError("I handle arguments must be unique")
-    elif opcode == "S" and len(arguments) != 3:
+    elif opcode == "S" and len(arguments) != submit_arity:
+        noun = "argument" if submit_arity == 1 else "arguments"
         raise SessionISAError(
-            f"S expects 3 arguments, got {len(arguments)}"
+            f"S expects {submit_arity} {noun}, got {len(arguments)}"
         )
     return opcode, arguments
+
+
+def dispatch_instruction(
+    instruction: dict[str, Any],
+    handlers: Mapping[str, Callable[[list[Any]], Any]],
+    *,
+    submit_arity: int = 3,
+    allow_inspect: bool = True,
+    inspect_handler: Callable[[list[Any]], Any] | None = None,
+    submit_handler: Callable[[list[Any]], Any] | None = None,
+) -> Any:
+    """Dispatch the shared ISA envelope through arm-specific boundary handlers."""
+
+    opcode, arguments = validate_instruction(
+        instruction,
+        submit_arity=submit_arity,
+        allow_inspect=allow_inspect,
+    )
+    if opcode == "I":
+        if inspect_handler is None:
+            raise SessionISAError("missing handler for I")
+        return inspect_handler(arguments)
+    if opcode == "S":
+        if submit_handler is None:
+            raise SessionISAError("missing handler for S")
+        return submit_handler(arguments)
+    try:
+        handler = handlers[opcode]
+    except KeyError as error:
+        raise SessionISAError(f"missing handler for {opcode}") from error
+    return handler(arguments)
 
 
 def decode_submit_instruction(instruction: dict[str, Any]) -> dict[str, Any]:
@@ -210,13 +249,9 @@ class SessionISAStore:
     ) -> Any:
         """Dispatch one validated instruction through semantic or legacy adapters."""
 
-        opcode, arguments = validate_instruction(instruction)
-        if opcode == "I":
-            return self.inspect_instruction(instruction)
-        if opcode == "S":
-            return self.apply(instruction)
-        try:
-            handler = handlers[opcode]
-        except KeyError as error:
-            raise SessionISAError(f"missing handler for {opcode}") from error
-        return handler(arguments)
+        return dispatch_instruction(
+            instruction,
+            handlers,
+            inspect_handler=lambda _arguments: self.inspect_instruction(instruction),
+            submit_handler=lambda _arguments: self.apply(instruction),
+        )
