@@ -14,8 +14,13 @@ still prevented whole-surface source break-even. Motion Lexicalization v1 now
 replaces that recursive grammar with eight flat words, passes the same five
 hidden references, cuts tool definitions by 50.15%, and deliberately records
 that the complete semantic surface still misses source break-even by 2.09×.
-Neither construction nor the small calibration authorizes an inferential or
-general efficacy claim.**
+Session Instruction ISA v1 then collapses the complete callable surface into
+one positional instruction and reaches local initial-surface break-even at
+14,442 versus the frozen 16,277-byte source comparator, while preserving the
+five hidden passes. The source comparator has not yet received the same shared
+tool compaction, so this is an engineering gate rather than a treatment effect.
+Neither construction nor the small calibration authorizes an inferential,
+provider-token, whole-trajectory, or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -241,6 +246,17 @@ different Unicode definitions from their host languages.
 - [`MOTION_LEXICALIZATION_V1_OBSERVATION.md`](MOTION_LEXICALIZATION_V1_OBSERVATION.md)
   records the 61.27% patch-payload reduction, 50.15% tool-definition reduction,
   five hidden passes, and failed 2.09× whole-surface break-even gate.
+- [`session-instruction-v1.schema.json`](protocol/session-instruction-v1.schema.json)
+  and [`semantic_session_isa.py`](scripts/semantic_session_isa.py) define the
+  one-tool `{i, a}` envelope, eight-opcode decoder, positional Motion v1
+  submission, and dispatch to semantic or legacy operation adapters.
+- [`session-instruction-isa-v1`](construction/session-instruction-isa-v1)
+  contains the five exact contexts, inspection/submit instructions, resolved
+  patches, one-tool definitions, measurements, and a 21-file content lock.
+- [`SESSION_INSTRUCTION_ISA_V1_OBSERVATION.md`](SESSION_INSTRUCTION_ISA_V1_OBSERVATION.md)
+  records five hidden passes and the first local complete-surface break-even:
+  14,442 semantic bytes versus the frozen 16,277-byte source comparator, an
+  11.27% engineering margin pending a matched source-ISA control.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -415,7 +431,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_capability_execution \
   tests.test_semantic_capability_calibration_observation \
   tests.test_semantic_compact_context_v1 \
-  tests.test_semantic_motion_lexicalization_v1
+  tests.test_semantic_motion_lexicalization_v1 \
+  tests.test_semantic_session_isa_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \

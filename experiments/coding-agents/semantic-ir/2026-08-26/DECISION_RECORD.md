@@ -708,3 +708,50 @@ the language or removing required protocol disclosure.
 - No model call is authorized. The next red test moves to a session-level
   instruction ISA that reduces repeated prose and tool-contract disclosure
   without weakening the semantic decoder or checked backend.
+
+## Semantic session instruction ISA v1 construction
+
+### Context
+
+Motion Lexicalization v1 cut replacement payload and schema size, but the model-
+facing interface still repeated eight independently described tools. Even a
+zero-byte semantic submit schema could not cross the source gate because context
+plus the remaining tool definitions already occupied 25,052 aggregate bytes.
+
+### Decision
+
+Preserve Compact Context v1, Motion v1, canonical state, and all validation
+backends. Replace the model-facing tool collection with one session instruction
+`x({i, a})`: a finite opcode plus positional operands.
+
+Assign eight opcodes to the existing context list/read, semantic inspect,
+workspace list/read, public evaluation, semantic submit, and finish operations.
+Disclose the complete opcode, operand, binding, and motion grammar in compact
+context. Keep only the opcode and outer array in the provider-facing schema;
+enforce exact per-opcode shapes and all semantic invariants in the deterministic
+decoder. Dispatch nonsemantic opcodes to their unchanged adapters and route
+inspection/submission through the existing semantic stores.
+
+Count the system line, task, canonical outline, full ISA legend, delimiters, and
+single complete tool definition. Explicitly exclude and report provider wrappers,
+conversation history, dynamic responses, and decoder implementation bytes.
+
+### Consequences
+
+- All eight operations retain an executable dispatch path through one tool.
+- All five semantic references preserve root identity and pass hidden evaluation.
+- Initial surface falls from 33,972 Motion v1 bytes to 14,442 bytes, a 57.49%
+  reduction.
+- The local source comparator is 16,277 bytes; Session ISA v1 crosses the gate
+  by 1,835 bytes, or 11.27%, and every individual task also crosses.
+- The source comparator still uses its frozen verbose tool surface. Because
+  90.58% of the Motion-to-Session reduction is shared tool consolidation, the
+  break-even is an engineering gate and not a matched treatment effect.
+- Positional submit payloads fall another 24.47%, from 3,032 to 2,290 bytes.
+- Provider-side JSON grammar masking is weaker because operand validation moves
+  into the decoder. Whether this increases repair loops is deliberately unknown.
+- Dynamic inspection responses remain outside the initial gate and must be
+  charged in a complete trajectory.
+- No model call is authorized. The next red test applies the same session
+  transport to the source arm; only a matched pair may proceed to a fresh
+  execution freeze and separately authorized Calibration 004.
