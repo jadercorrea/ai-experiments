@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/matched-compacted-session-execution-freeze-v1.schema.json",
+  "title": "Matched compacted-session execution freeze v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "freeze_id", "status", "purpose",
+    "initial_user_message", "claim_boundary", "final_suite", "model_sources",
+    "provider_access", "model", "sampling", "limits", "accounting",
+    "isolation", "tasks", "schedule", "stopping_rule", "analysis_policy",
+    "contamination", "launch_contract", "runner", "memory_policy",
+    "preflight", "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.matched-compacted-session-execution-freeze/v1"
+    },
+    "freeze_id": {
+      "const": "semantic-ir-matched-compacted-session-calibration/heterogeneous-patches-v3"
+    },
+    "status": {"const": "frozen_pre_execution"},
+    "purpose": {"const": "calibration"},
+    "initial_user_message": {"type": "string", "minLength": 1},
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "execution_variables_complete", "model_calls_authorized",
+        "experimental_subject_calls_observed", "efficacy_claim_authorized",
+        "remaining_before_launch"
+      ],
+      "properties": {
+        "execution_variables_complete": {"const": true},
+        "model_calls_authorized": {"const": false},
+        "experimental_subject_calls_observed": {"const": 0},
+        "efficacy_claim_authorized": {"const": false},
+        "remaining_before_launch": {"const": ["explicit_launch_005"]}
+      }
+    },
+    "final_suite": {"$ref": "#/$defs/dependency"},
+    "model_sources": {"type": "object"},
+    "provider_access": {"type": "object"},
+    "model": {"type": "object"},
+    "sampling": {"type": "object"},
+    "limits": {
+      "type": "object",
+      "required": [
+        "model_turns_per_call_cell", "tool_calls_per_turn",
+        "mutation_attempts_per_cell", "public_evaluations_per_cell",
+        "hidden_evaluations_per_cell", "provider_retries",
+        "inference_timeout_seconds", "cell_timeout_seconds",
+        "maximum_provider_requests", "maximum_total_spend_usd"
+      ],
+      "properties": {
+        "tool_calls_per_turn": {"const": 4},
+        "provider_retries": {"const": 0}
+      }
+    },
+    "accounting": {"type": "object"},
+    "isolation": {"type": "object"},
+    "tasks": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {"type": "object"}
+    },
+    "schedule": {
+      "type": "object",
+      "required": [
+        "adaptive_ordering", "adaptive_stopping", "source_first_pairs",
+        "semantic_first_pairs", "provider_call_cells", "cells"
+      ],
+      "properties": {
+        "adaptive_ordering": {"const": false},
+        "adaptive_stopping": {"const": false},
+        "source_first_pairs": {"const": 3},
+        "semantic_first_pairs": {"const": 3},
+        "provider_call_cells": {"const": 11},
+        "cells": {
+          "type": "array", "minItems": 12, "maxItems": 12,
+          "items": {"$ref": "#/$defs/cell"}
+        }
+      }
+    },
+    "stopping_rule": {"type": "object"},
+    "analysis_policy": {"type": "object"},
+    "contamination": {"type": "object"},
+    "launch_contract": {"$ref": "#/$defs/dependency"},
+    "runner": {"$ref": "#/$defs/dependency"},
+    "memory_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["history_policy", "preserved_messages", "source", "semantic"],
+      "properties": {
+        "history_policy": {
+          "const": "replace_prior_assistant_and_tool_messages_after_turn_one"
+        },
+        "preserved_messages": {
+          "const": ["initial_system", "initial_user"]
+        },
+        "source": {"$ref": "#/$defs/sourceMemory"},
+        "semantic": {"$ref": "#/$defs/semanticMemory"}
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "result"],
+      "properties": {
+        "artifact": {"$ref": "#/$defs/dependency"},
+        "result": {"type": "object"}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies", "freeze_sha256"],
+      "properties": {
+        "dependencies": {
+          "type": "array", "minItems": 12,
+          "items": {"$ref": "#/$defs/dependency"}
+        },
+        "freeze_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {
+      "type": "string", "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "cell": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "sequence", "cell_id", "candidate_task_id", "task_root", "arm",
+        "provider_call", "context", "tools", "terminal_policy"
+      ],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 12},
+        "cell_id": {"type": "string", "pattern": "^semantic-ir-compacted-session-calibration-005/"},
+        "candidate_task_id": {"type": "string", "minLength": 1},
+        "task_root": {"$ref": "#/$defs/relativePath"},
+        "arm": {"enum": ["source", "semantic"]},
+        "provider_call": {"type": "boolean"},
+        "context": {"type": ["object", "null"]},
+        "tools": {"type": ["object", "null"]},
+        "terminal_policy": {
+          "enum": ["agent_F_instruction", "orchestrator_semantic_unsupported"]
+        }
+      }
+    },
+    "sourceMemory": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state_schema_version", "state_prefix", "subtree_capacity"],
+      "properties": {
+        "state_schema_version": {"const": "session-state/v1"},
+        "state_prefix": {"const": "SESSION_STATE/v1"},
+        "subtree_capacity": {"const": 0}
+      }
+    },
+    "semanticMemory": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "state_schema_version", "state_prefix", "subtree_capacity",
+        "replacement", "persistent_capability_fields", "evictable_fields",
+        "fault_trigger", "future_action_input", "refetch_instruction",
+        "refetch_provider_calls", "capacity_exhaustion"
+      ],
+      "properties": {
+        "state_schema_version": {"const": "semantic-working-set-state/v1"},
+        "state_prefix": {"const": "SEMANTIC_WORKING_SET_STATE/v1"},
+        "subtree_capacity": {"const": 2},
+        "replacement": {"const": "lru"},
+        "persistent_capability_fields": {"type": "array", "minItems": 8},
+        "evictable_fields": {"const": ["subtree"]},
+        "fault_trigger": {"const": "current_submit_target_miss"},
+        "future_action_input": {"const": false},
+        "refetch_instruction": {"const": "I"},
+        "refetch_provider_calls": {"const": 0},
+        "capacity_exhaustion": {"const": "typed_recoverable_rejection"}
+      }
+    }
+  }
+}

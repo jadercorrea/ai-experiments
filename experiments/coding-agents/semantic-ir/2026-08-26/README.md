@@ -37,8 +37,11 @@ for semantic because inspection subtrees dominate retained state. Semantic
 Working-Set Replay v1 now splits persistent capabilities from an LRU of full
 subtrees: capacity two reconstructs 24/24 semantic submissions with five local
 re-fetches, while reducing the effective semantic surface by 21.42% against the
-explicit-state baseline and 25.00% against transcript requests. Neither
-calibration authorizes an inferential or general efficacy claim.**
+explicit-state baseline and 25.00% against transcript requests. Matched
+Compacted-Session Execution Freeze v1 now binds those arm-specific policies to
+an exact Calibration 005 runner; local preflight passes 6/6 source and 5/5
+semantic references with zero model calls. Neither calibration authorizes an
+inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -331,6 +334,21 @@ different Unicode definitions from their host languages.
   records capacity two as the smallest viable point, 61/61 replayed action
   results, five re-fetches, and a 21.42% effective-byte reduction against the
   preceding explicit-state checkpoint.
+- [`matched-compacted-session-execution-freeze-v1`](construction/matched-compacted-session-execution-freeze-v1)
+  freezes the paired Calibration 005 schedule, exact inherited context/tool
+  bytes, arm-specific memory policies, local preflight, runner, and separate
+  launch boundary under a 27-file content lock.
+- [`matched_compacted_session_execution_freeze.py`](scripts/matched_compacted_session_execution_freeze.py)
+  deterministically derives and validates the freeze from the Calibration 004
+  execution package and both state-replay evidence bundles.
+- [`compacted_session_calibration.py`](scripts/compacted_session_calibration.py)
+  implements history replacement, typed state requests, semantic fault
+  handling, evidence accounting, explicit-launch validation, and the complete
+  frozen execution loop.
+- [`MATCHED_COMPACTED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md`](MATCHED_COMPACTED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md)
+  records 6/6 source and 5/5 semantic local passes, five exercised re-fetches,
+  repeated-instance limits, exact digests, and the unfulfilled
+  `explicit_launch_005` gate.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -513,7 +531,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_matched_session_execution_freeze_v1 \
   tests.test_semantic_session_calibration_observation \
   tests.test_semantic_session_state_replay_v1 \
-  tests.test_semantic_working_set_v1
+  tests.test_semantic_working_set_v1 \
+  tests.test_matched_compacted_session_execution_freeze_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -523,6 +542,11 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_session_calibration.py \
   experiments/coding-agents/semantic-ir/2026-08-26/construction/matched-session-execution-freeze-v1 \
+  --preflight
+
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/compacted_session_calibration.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/matched-compacted-session-execution-freeze-v1 \
   --preflight
 ```
 
@@ -720,8 +744,14 @@ explicit-state baseline. Capacity one is an explicit negative control with
 three unsatisfied width-two submissions; capacity sixteen avoids re-fetch but
 is 2.83% larger than explicit state.
 
-The next red test remains construction-only. Freeze a matched compacted-session
-execution in which source uses Explicit Session State v1 and semantic uses the
-capacity-two working-set policy. The freeze must bind runtime transitions,
-paired scheduling, byte accounting, and a separate launch authorization before
-any Calibration 005 model call.
+Matched Compacted-Session Execution Freeze v1 now binds that exact policy to a
+new runner while preserving Calibration 004's task, context, tool, model,
+sampling, limit, and schedule bytes. Its local preflight builds 22 requests,
+passes 6/6 source and 5/5 supported semantic hidden references, and exercises
+five deterministic semantic faults without a model call.
+
+The next gate is explicit rather than automatic: repeat provider and
+contamination preflight, create a content-bound `explicit_launch_005` only after
+direct authorization, and execute the unchanged eleven-call schedule. Because
+the exact Calibration 004 instances are reused, any result remains a repeated
+within-instance calibration rather than a fresh benchmark.
