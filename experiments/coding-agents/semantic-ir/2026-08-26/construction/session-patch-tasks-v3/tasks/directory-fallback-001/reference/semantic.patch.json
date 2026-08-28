@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-patch/v1",
+  "patch_id": "patch:session-v3-directory-fallback-001",
+  "program_id": "program:session-v3-directory-fallback-001",
+  "state_token": "cap:v1:state:7fc7124f2d27bb47959b7698f4dca0b9",
+  "operations": [
+    {
+      "operation_id": "operation:final-directory-fallback",
+      "op": "replace_subtree",
+      "target_node_id": "node:session-v3-directory-fallback-001-user-match",
+      "target_token": "cap:v1:target:ca9d835ae7492040fcfee3d4cf545fcb",
+      "replacement": {
+        "node_id": "node:session-v3-directory-fallback-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:session-v3-directory-fallback-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:session-v3-directory-fallback-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:session-v3-directory-fallback-001-directory-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:session-v3-directory-fallback-001-get-directory-user",
+            "op": "call",
+            "symbol": "directory.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:session-v3-directory-fallback-001-normalized-ref-for-directory",
+                "op": "var",
+                "symbol_id": "local:session-v3-directory-fallback-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:session-v3-directory-fallback-001-directory-user",
+            "name": "directoryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:session-v3-directory-fallback-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:session-v3-directory-fallback-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:session-v3-directory-fallback-001-directory-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:session-v3-directory-fallback-001-directory-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-directory-fallback-001-directory-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:session-v3-directory-fallback-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:session-v3-directory-fallback-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:session-v3-directory-fallback-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

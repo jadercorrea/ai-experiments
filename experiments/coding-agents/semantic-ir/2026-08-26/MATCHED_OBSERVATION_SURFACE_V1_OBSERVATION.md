@@ -141,3 +141,15 @@ must remain a prior result, not be relabeled as model efficacy.
 The sequence advances to:
 
 `matched source ISA → matched observation surface → fresh execution freeze`.
+
+## Subsequent result
+
+The fresh freeze is now complete. `session-patch-tasks-v3` changes the exact
+repository, identity, reference, and hidden-evaluator bytes for all six task
+families. `matched-session-execution-freeze-v1` binds those tasks into twelve
+paired cells, eleven possible provider calls, the exact shared `x` tool, the
+runtime, model and sampling controls, accounting, stopping rules, and a
+separate launch contract. Local references pass 6/6 source and 5/5 supported
+semantic cells. No inference has occurred; explicit launch remains the only
+open gate. See
+[`MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md`](MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md).

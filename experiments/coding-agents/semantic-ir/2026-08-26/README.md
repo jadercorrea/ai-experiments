@@ -24,8 +24,12 @@ to source: semantic initial state is 125.48% larger, while semantic submissions
 are 75.47% smaller. Matched Observation Surface v1 now charges source `L/W` and
 semantic `I`: the complete known-reference surface is 16.23% smaller for
 semantic under a favorable one-file source-read policy, with the same direction
-in all five pairs. Neither construction nor the small calibration authorizes an
-inferential, provider-token, whole-trajectory, or general efficacy claim.**
+in all five pairs. Matched Session Execution Freeze v1 now seals six fresh task
+instances, an exact shared one-tool interface, twelve paired cells, and a
+separate explicit launch gate; all local references pass, but no model call has
+occurred or is authorized. Neither construction nor the small calibration
+authorizes an inferential, provider-token, whole-trajectory, or general efficacy
+claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -281,6 +285,16 @@ different Unicode definitions from their host languages.
   records 23,256 semantic versus 27,762 targeted-source bytes, a 16.23%
   construction reduction that holds in all five task pairs, and advances the
   experiment to a fresh execution freeze.
+- [`session-patch-tasks-v3`](construction/session-patch-tasks-v3) contains six
+  fresh, family-derived task instances with new repository, identity,
+  reference, hidden-evaluator, and content-lock bytes.
+- [`matched-session-execution-freeze-v1`](construction/matched-session-execution-freeze-v1)
+  binds twelve paired cells, eleven possible provider calls, the exact shared
+  `x` tool, model and resource limits, evidence accounting, and a separate
+  content-bound launch contract.
+- [`MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md`](MATCHED_SESSION_EXECUTION_FREEZE_V1_OBSERVATION.md)
+  records 6/6 source and 5/5 supported semantic local reference passes, zero
+  model calls, and the explicit-launch-only boundary for Calibration 004.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -458,11 +472,18 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_motion_lexicalization_v1 \
   tests.test_semantic_session_isa_v1 \
   tests.test_matched_session_isa_control_v1 \
-  tests.test_matched_observation_surface_v1
+  tests.test_matched_observation_surface_v1 \
+  tests.test_semantic_session_task_suite_v3 \
+  tests.test_matched_session_execution_freeze_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
   experiments/coding-agents/semantic-ir/2026-08-26/construction/capability-execution-freeze-v2 \
+  --preflight
+
+.venv/bin/python \
+  experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_session_calibration.py \
+  experiments/coding-agents/semantic-ir/2026-08-26/construction/matched-session-execution-freeze-v1 \
   --preflight
 ```
 
@@ -632,12 +653,17 @@ semantic arm used 30.4% fewer provider requests and 54.2% fewer output tokens,
 but 57.3% more total tokens and 28.4% more estimated cost because its input
 surface was larger.
 
-Compact Context v1 preserves checked state and opaque preconditions while
-reducing the five-task initial semantic context from 81,171 to 13,647 canonical
-UTF-8 bytes. Including tool definitions, the reduction is 56.63%, but the
-compact semantic surface remains 3.18 times the corresponding source surface.
-The recursively expanded expression grammar now occupies 73.67% of compact
-input. These are local byte measurements, not provider tokens. The next gate is
-a compact, finite patch instruction surface that lowers to the unchanged
-canonical patch and crosses local source break-even before any new model call or
-fresh confirmatory freeze.
+The subsequent construction sequence replaced the recursive patch grammar with
+Motion, collapsed both arms behind a matched Session ISA, and charged their
+known-reference observation surfaces. Semantic then measured 23,256 bytes
+against 27,762 targeted-source bytes, a 16.23% construction advantage shared by
+all five supported pairs. These remain local bytes, not provider tokens.
+
+The fresh matched execution package is now frozen over six new exact instances:
+twelve paired cells, eleven possible provider calls, balanced order, one shared
+tool, recoverable instruction errors, complete trajectory accounting, and
+unchanged all-task applicability rules. Local references pass 6/6 source and
+5/5 supported semantic tasks. No launch record exists and no inference has
+occurred. The next gate is no longer another representation change: it is a
+separately authorized Calibration 004 launch preceded by repeated contamination,
+digest, credential, endpoint/IAM, and provider-retention checks.

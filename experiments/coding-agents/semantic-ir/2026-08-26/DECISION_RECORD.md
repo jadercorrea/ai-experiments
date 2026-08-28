@@ -831,3 +831,55 @@ model calls unauthorized.
   efficacy are established.
 - The local construction gate now passes. The next red test is a fresh matched
   execution freeze with a separate explicit launch gate for Calibration 004.
+
+## Matched Session execution freeze v1
+
+### Context
+
+The matched observation surface crossed local construction break-even, but its
+reference trajectories could not establish whether a model would choose useful
+files, handles, instructions, or repairs. The capability-v2 tasks had already
+been experimental model inputs during Calibration 003 and could not be reused as
+fresh exact instances.
+
+### Decision
+
+Deterministically derive `session-patch-tasks-v3` from the same six frozen task
+families while changing exported names, semantic identities, repository bytes,
+reference tokens, hidden-evaluator bytes, and content locks. Record that these
+instances are exact-byte fresh but remain family-derived and exposed to
+development agents.
+
+Freeze a twelve-cell paired schedule with three source-first and three semantic-
+first pairs. Keep the unsupported cross-module semantic cell as an automatic
+all-task failure, so eleven cells may call the provider. Give every callable
+cell the exact same one-tool `x({i,a})` bytes and preserve the same source diff
+and checked semantic backends behind it. Make invalid envelopes and instructions
+recoverable and count them separately.
+
+Inherit the Calibration 003 model, temperature, output, turn, mutation,
+evaluation, request, timeout, and spend controls. Bind complete evidence and
+provider-native accounting into the runtime. Keep execution authorization in a
+separate schema and require a content-bound launch record that repeats the
+contamination, digest, credential, endpoint/IAM, and retention checks.
+
+### Consequences
+
+- The exact six task instances have zero experimental subject calls, but no
+  universal contamination-clean claim is available.
+- All six source references and all five supported semantic references pass the
+  hidden evaluator through the shared Session ISA runtime; supported projections
+  converge byte-for-byte.
+- The schedule contains twelve cells and eleven possible calls, with balanced
+  pair order and unchanged applicability accounting.
+- Every callable cell uses byte-identical `tools/session.json`; treatment now
+  differs in state and mutation semantics, not in outer tool transport.
+- Opcode use, envelope and instruction rejections, recoverable errors, repairs,
+  provider tokens, requests, latency, cost, and evaluator results are frozen as
+  required outputs.
+- The suite digest is
+  `30e4a58a578b4b18c7a07b43cb04db1d97c0b7f8b93ae06d97b6c8ef28efa1ca`;
+  the freeze digest is
+  `c2e49b3b32c2e9af6c577cab70c425a6ab74637744a01b9557535c6eca3f6232`.
+- No launch record was created and no model call is authorized. The only next
+  gate is explicit Calibration 004 launch after repeated prelaunch checks.
