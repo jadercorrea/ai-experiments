@@ -159,3 +159,13 @@ Only after that local replay gate should new instances or model calls be
 considered. The next hypothesis is not “make the ISA denser.” It is:
 
 `semantic state must replace transcript history, not merely travel inside it`.
+
+## Subsequent result
+
+Explicit Session State Replay v1 reconstructed all 101 requests and reproduced
+131/131 recorded tool-action results without inference. Replacing prior
+assistant/tool messages with bounded state reduced the canonical request
+surface by 17.73% overall and crossed aggregate break-even at turn four. Source
+fell 41.64%, while semantic fell only 4.56% because full inspection subtrees
+became the dominant state component. See
+[`SESSION_STATE_REPLAY_V1_OBSERVATION.md`](SESSION_STATE_REPLAY_V1_OBSERVATION.md).

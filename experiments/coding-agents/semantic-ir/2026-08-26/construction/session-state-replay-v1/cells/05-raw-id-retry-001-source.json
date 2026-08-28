@@ -1,0 +1,1277 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/raw-id-retry-001",
+  "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1884,
+        "message_count": 2,
+        "sha256": "1756809426989f5849adef5a42c3ba561c45bb888496110c3ca2adb564af1257"
+      },
+      "original_request": {
+        "bytes": 1884,
+        "message_count": 2,
+        "sha256": "1756809426989f5849adef5a42c3ba561c45bb888496110c3ca2adb564af1257"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "2d325d3158ac0f936ef5986f7afa06b16be127df9e4d54288654bc24abbd6c14",
+        "mismatch": null,
+        "replayed_results_sha256": "2d325d3158ac0f936ef5986f7afa06b16be127df9e4d54288654bc24abbd6c14",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 6188,
+        "message_count": 3,
+        "sha256": "9c520378ea2f97cf63c728d041117d30e730494bf72849faf8d3d408acdc2f6b"
+      },
+      "original_request": {
+        "bytes": 3234,
+        "message_count": 5,
+        "sha256": "4678ef44a90ea8bc6f3811d0d664851ea3b4529a2b6d1b90b6a1f50dea2bd185"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "05997e5504cffc3e147af9a53646b7e9c2b782384e74575147dfa03de2214ff8",
+        "mismatch": null,
+        "replayed_results_sha256": "05997e5504cffc3e147af9a53646b7e9c2b782384e74575147dfa03de2214ff8",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 6196,
+        "message_count": 3,
+        "sha256": "aba69b20ed834f95e8384516a2f35516f2a52f652fe11b5bd761b2f1b87e6dae"
+      },
+      "original_request": {
+        "bytes": 6937,
+        "message_count": 8,
+        "sha256": "0117eb44c7ee89efce1e5152830e0394459a47b538d1565cb8c1f4ddd26b1581"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "64ceda1c57c190c0b0887981bbb8e9b596346afab1e606908e1cf021229fc5c7",
+        "mismatch": null,
+        "replayed_results_sha256": "64ceda1c57c190c0b0887981bbb8e9b596346afab1e606908e1cf021229fc5c7",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "W": 2
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 4,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 6561,
+        "message_count": 3,
+        "sha256": "8e07278b173039bf9ac94cf87b6a411e50987132d4221452f9a5df159299d2c1"
+      },
+      "original_request": {
+        "bytes": 8754,
+        "message_count": 10,
+        "sha256": "05002f240df9434c226c09869b315dcb2441056d6b46fec264593496862bffe6"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "71fc733d3812c35fd9912b9cb54b943d8d3931b7216c4bb9403c1d9f4f3bd24a",
+        "mismatch": null,
+        "replayed_results_sha256": "71fc733d3812c35fd9912b9cb54b943d8d3931b7216c4bb9403c1d9f4f3bd24a",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 1,
+            "W": 2
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 5,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 17"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 6561,
+        "message_count": 3,
+        "sha256": "12d6e389cb48d826d6d4dd9f9641f293b7f35beefbc14b092a7b81b07db1d04a"
+      },
+      "original_request": {
+        "bytes": 11035,
+        "message_count": 12,
+        "sha256": "eb1a3e207e09bec00133131bf3d03a87dbce8546a723e0d5ff091c684b01a62e"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "998e380c4184785f65c854aa13918247e130bb4b87cc81c477adedc712f7f322",
+        "mismatch": null,
+        "replayed_results_sha256": "998e380c4184785f65c854aa13918247e130bb4b87cc81c477adedc712f7f322",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 1,
+            "W": 3
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 8,
+          "tool_calls": 6,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 17"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 6561,
+        "message_count": 3,
+        "sha256": "4e85618ca80b0a94472aa9210c606dc8c067acc3b50b7374854353c2a2f83fe7"
+      },
+      "original_request": {
+        "bytes": 12703,
+        "message_count": 14,
+        "sha256": "ce34476854da8e2d27462029f347a4a1810c38d89a6d5ff19717c4ded6fdc002"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "0f32694990a36741a74e75b7ff7ce08ceff2771e57b3c1a38340b6940483405e",
+        "mismatch": null,
+        "replayed_results_sha256": "0f32694990a36741a74e75b7ff7ce08ceff2771e57b3c1a38340b6940483405e",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 2,
+            "W": 3
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 7,
+          "tool_calls": 7,
+          "validation_failures": {
+            "source_patch_rejected": 2
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 17"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 6
+    },
+    {
+      "compacted_request": {
+        "bytes": 6714,
+        "message_count": 3,
+        "sha256": "04be1f84bbd725777e1776304fed69cb1434c7e732e4f9bc20d5325225be49a8"
+      },
+      "original_request": {
+        "bytes": 14063,
+        "message_count": 16,
+        "sha256": "1c6b8d09556aceb8369aacb339be160a7644146c70f7e1917688859d491edf13"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "ea08eca103a703e0e32ee41de16a3f25ef58d506e4657382420a1ae2045d46f3",
+        "mismatch": null,
+        "replayed_results_sha256": "ea08eca103a703e0e32ee41de16a3f25ef58d506e4657382420a1ae2045d46f3",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 3,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 6,
+          "tool_calls": 8,
+          "validation_failures": {
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 7,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 15"
+            },
+            "turn": 6
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 7
+    },
+    {
+      "compacted_request": {
+        "bytes": 6875,
+        "message_count": 3,
+        "sha256": "96de0bf5abbca74f888bd6fa54f372de23772ac922c2121e161a30991e18284e"
+      },
+      "original_request": {
+        "bytes": 15480,
+        "message_count": 18,
+        "sha256": "5ce8daa826088a588380d88571243ee1487184cb50f6f63d0a871492d001ef7e"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "beb971eef70b56735c2c3ed2b12873668f9e8dfcae272596bc9cfbfae4fde153",
+        "mismatch": null,
+        "replayed_results_sha256": "beb971eef70b56735c2c3ed2b12873668f9e8dfcae272596bc9cfbfae4fde153",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 4,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 5,
+          "tool_calls": 9,
+          "validation_failures": {
+            "session_instruction_rejected": 1,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 1,
+            "last_turn": 7,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 8,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 7
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 8
+    },
+    {
+      "compacted_request": {
+        "bytes": 7737,
+        "message_count": 3,
+        "sha256": "c42f85085c4659a4aea17dc8485a536b65709a32dc9cacebd271a75bde1ebe0b"
+      },
+      "original_request": {
+        "bytes": 16881,
+        "message_count": 20,
+        "sha256": "2a802a6a43d7cdf0ce95c76bda756936a7af7b862f669c98d9906afeac3f77ca"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "18f5238c19a85a0e2b519b54fbb0860b075c5c73640213a6af67756f6b2c13be",
+        "mismatch": null,
+        "replayed_results_sha256": "18f5238c19a85a0e2b519b54fbb0860b075c5c73640213a6af67756f6b2c13be",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "S": 4,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 4,
+          "tool_calls": 10,
+          "validation_failures": {
+            "session_instruction_rejected": 1,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 1,
+            "last_turn": 7,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... FAILED (<TIME>)\ndoes not retry a normalized hit ... ok (<TIME>)\n\n ERRORS \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 8
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 9,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 7
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 9
+    },
+    {
+      "compacted_request": {
+        "bytes": 7738,
+        "message_count": 3,
+        "sha256": "76ad795bb05b31d5ac8e2c59fd0ee52bf1cab094c67e476074a049a9c0dc725b"
+      },
+      "original_request": {
+        "bytes": 18401,
+        "message_count": 22,
+        "sha256": "c6921440e162904e63f701aca4d1db9beff7054002495ef309ea4e07cdc2da9a"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "7cc19a5890f327dfe86f2807568fb0f397f4b569f5f62e2776bc7bc06b9fda30",
+        "mismatch": null,
+        "replayed_results_sha256": "7cc19a5890f327dfe86f2807568fb0f397f4b569f5f62e2776bc7bc06b9fda30",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "S": 5,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 3,
+          "tool_calls": 11,
+          "validation_failures": {
+            "session_instruction_rejected": 2,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 2,
+            "last_turn": 9,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... FAILED (<TIME>)\ndoes not retry a normalized hit ... ok (<TIME>)\n\n ERRORS \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 8
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 10,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 9
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 10
+    },
+    {
+      "compacted_request": {
+        "bytes": 7739,
+        "message_count": 3,
+        "sha256": "2db13067c494666a8833a0165aad6647ace089ae08e0067f526f01925b3c9393"
+      },
+      "original_request": {
+        "bytes": 19773,
+        "message_count": 24,
+        "sha256": "27430704d77a88ddf8d4ee47dd91bfcf88f9740fe72635784b25f9996c6519fa"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "f9c7fddee74556cb6635f6ee450bde2582f9d0b191320bd2f8ae576cde41d60f",
+        "mismatch": null,
+        "replayed_results_sha256": "f9c7fddee74556cb6635f6ee450bde2582f9d0b191320bd2f8ae576cde41d60f",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 2,
+            "L": 1,
+            "S": 5,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 2,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 0,
+          "remaining_turns": 2,
+          "tool_calls": 12,
+          "validation_failures": {
+            "session_instruction_rejected": 2,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 2,
+            "last_turn": 9,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... FAILED (<TIME>)\ndoes not retry a normalized hit ... ok (<TIME>)\n\n ERRORS \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 10
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 11,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 9
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 11
+    },
+    {
+      "compacted_request": {
+        "bytes": 7741,
+        "message_count": 3,
+        "sha256": "4fbbe1982de648e070da3c8c3dc027f46febd25a27da141bfaa2c9a2fb4748dd"
+      },
+      "original_request": {
+        "bytes": 21703,
+        "message_count": 26,
+        "sha256": "cf74b8f039baaef131add8ed7ee981ca7cdbc3cc6c9ffb1f9b4428ca00d93ee6"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "7107cf340b0e0116e8eab61c4169701f036190f58b7d12ce9441890d2589d707",
+        "mismatch": null,
+        "replayed_results_sha256": "7107cf340b0e0116e8eab61c4169701f036190f58b7d12ce9441890d2589d707",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 2,
+            "L": 1,
+            "S": 6,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 2,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 0,
+          "remaining_turns": 1,
+          "tool_calls": 13,
+          "validation_failures": {
+            "session_instruction_rejected": 3,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 2,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 6,
+            "message": "source patch rejected: error: corrupt patch at line 15",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 3,
+            "last_turn": 11,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... FAILED (<TIME>)\ndoes not retry a normalized hit ... ok (<TIME>)\n\n ERRORS \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\" 42 \",\"name\":\"Raw\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nretries the original identifier after normalized miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 10
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 12,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 11
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 12
+    }
+  ]
+}

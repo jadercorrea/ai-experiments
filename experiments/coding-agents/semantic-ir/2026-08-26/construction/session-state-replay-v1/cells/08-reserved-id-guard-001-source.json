@@ -1,0 +1,576 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/reserved-id-guard-001",
+  "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1874,
+        "message_count": 2,
+        "sha256": "b0abcc704f49bbd39eb12a3da90018516bdee8e5443f195fe72ffa002df2ace8"
+      },
+      "original_request": {
+        "bytes": 1874,
+        "message_count": 2,
+        "sha256": "b0abcc704f49bbd39eb12a3da90018516bdee8e5443f195fe72ffa002df2ace8"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "36f0b48d6b604b1749df8628325fe14b84f389f16768959b16279beb0ac094fc",
+        "mismatch": null,
+        "replayed_results_sha256": "36f0b48d6b604b1749df8628325fe14b84f389f16768959b16279beb0ac094fc",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1802,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 6073,
+        "message_count": 3,
+        "sha256": "5190c0b97babfb9d2957087f5debbe0cc9cc827e0763b2c4eb4c8215b899b6c8"
+      },
+      "original_request": {
+        "bytes": 3234,
+        "message_count": 5,
+        "sha256": "0e85ebd35ec78c1971961f36ebb29a43da7963c5b57f76101223cf4d8da7be64"
+      },
+      "replay": {
+        "exact_action_matches": 3,
+        "exact_result_match": true,
+        "expected_results_sha256": "532b538e77576b2ff4512937d920e1be70fc910eaf9caa96b235ab56f0e53e3b",
+        "mismatch": null,
+        "replayed_results_sha256": "532b538e77576b2ff4512937d920e1be70fc910eaf9caa96b235ab56f0e53e3b",
+        "tool_actions": 3
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1802,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 6618,
+        "message_count": 3,
+        "sha256": "55d76dffff0232ab3c6dfdaf65f55b7248e6259a1de774945c74152b1ac149fe"
+      },
+      "original_request": {
+        "bytes": 7570,
+        "message_count": 9,
+        "sha256": "7315ec9981322a22890e65ef3745734fad529879d0880963e792b25e19e311e9"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "c3f1380d8c60305a014ab66ccc82284e732aa5ebbb486d46140c1cf6f004f308",
+        "mismatch": null,
+        "replayed_results_sha256": "c3f1380d8c60305a014ab66ccc82284e732aa5ebbb486d46140c1cf6f004f308",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [
+          {
+            "bytes": 288,
+            "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "W": 2
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 5,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1802,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 6901,
+        "message_count": 3,
+        "sha256": "a269202e9e0c27732fef86d2aa8eadd41c25d2d59840e38c661e60ce7341b87b"
+      },
+      "original_request": {
+        "bytes": 9825,
+        "message_count": 11,
+        "sha256": "f56bd98d0e6f426b33cb0acc4463da4529a5a5d6992a04dd08538727939f8421"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "ef34a330fba373d9f0b06be99667c66c0b8bdfcd60adfae791a4487ff47a21af",
+        "mismatch": null,
+        "replayed_results_sha256": "ef34a330fba373d9f0b06be99667c66c0b8bdfcd60adfae791a4487ff47a21af",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [
+          {
+            "bytes": 288,
+            "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 2
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 6,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "cf1752ff8d901620ff50a7d149305b79a52d2cefb807f166ec26728d15db65fe"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1872,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : normalizedId === \"root\"\n      ? { error: \"reserved_user_id\" }\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "5fd2252f6f1f01e7198f93e9ade98f402c32cdc025f0e6c253abd9e77a6b0399"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 7207,
+        "message_count": 3,
+        "sha256": "7489aa05d6a74998b9a635e8df2baed9d3fa5f0b4fe25a1b8f1fcf5aef41e659"
+      },
+      "original_request": {
+        "bytes": 10442,
+        "message_count": 13,
+        "sha256": "33ade70aaf607757931e8b86227a46b9f5372548032bf88132a92fe0f4e77cdc"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "0615503ba5366fbb36d45c1abf145679f288f17649093e0856b886fafe84cdaa",
+        "mismatch": null,
+        "replayed_results_sha256": "0615503ba5366fbb36d45c1abf145679f288f17649093e0856b886fafe84cdaa",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [
+          {
+            "bytes": 288,
+            "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 2
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 8,
+          "tool_calls": 7,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (<TIME>)\npreserves an ordinary local hit ... ok (<TIME>)\n\nok | 2 passed | 0 failed (<TIME>)\n\n",
+            "turn": 4
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "cf1752ff8d901620ff50a7d149305b79a52d2cefb807f166ec26728d15db65fe"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1872,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : normalizedId === \"root\"\n      ? { error: \"reserved_user_id\" }\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "5fd2252f6f1f01e7198f93e9ade98f402c32cdc025f0e6c253abd9e77a6b0399"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 7207,
+        "message_count": 3,
+        "sha256": "6d564368912a3adab49d6361d1d441d7525b5ab57e07713175e19d213242dba8"
+      },
+      "original_request": {
+        "bytes": 12883,
+        "message_count": 15,
+        "sha256": "9dfd50e2bb64661c5b6276c10f8ee3afc26232bb0121d2d0e0e0085213dc5a33"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "04265e67d50e6f37d48a34bf3e56498efb47ffab4a6d52f9c23113aa461eaedd",
+        "mismatch": null,
+        "replayed_results_sha256": "04265e67d50e6f37d48a34bf3e56498efb47ffab4a6d52f9c23113aa461eaedd",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/reserved-id-guard-001/source",
+        "context_reads": [
+          {
+            "bytes": 288,
+            "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 3
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 7,
+          "tool_calls": 8,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (<TIME>)\npreserves an ordinary local hit ... ok (<TIME>)\n\nok | 2 passed | 0 failed (<TIME>)\n\n",
+            "turn": 4
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "cf1752ff8d901620ff50a7d149305b79a52d2cefb807f166ec26728d15db65fe"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1872,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : normalizedId === \"root\"\n      ? { error: \"reserved_user_id\" }\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "5fd2252f6f1f01e7198f93e9ade98f402c32cdc025f0e6c253abd9e77a6b0399"
+          },
+          {
+            "bytes": 848,
+            "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+          }
+        ]
+      },
+      "turn": 6
+    }
+  ]
+}

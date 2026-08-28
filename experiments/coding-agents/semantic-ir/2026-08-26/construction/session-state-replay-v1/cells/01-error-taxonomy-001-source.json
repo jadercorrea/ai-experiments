@@ -1,0 +1,713 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/error-taxonomy-001",
+  "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1854,
+        "message_count": 2,
+        "sha256": "6c52b2e7937a10c581166e0e5045522a1fa1d2dc0a2a9f2f09e8d50bf3b66db5"
+      },
+      "original_request": {
+        "bytes": 1854,
+        "message_count": 2,
+        "sha256": "6c52b2e7937a10c581166e0e5045522a1fa1d2dc0a2a9f2f09e8d50bf3b66db5"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "3bd565333ff5be458d2c5170c9b1cb7bcac85833fb7f36e5bdcb35ececbe86ba",
+        "mismatch": null,
+        "replayed_results_sha256": "3bd565333ff5be458d2c5170c9b1cb7bcac85833fb7f36e5bdcb35ececbe86ba",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1755,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 5883,
+        "message_count": 3,
+        "sha256": "117abd25fbc86ad8a91d4ebe001a7a4d215c252dbba02d41213b8568c5aa8381"
+      },
+      "original_request": {
+        "bytes": 3208,
+        "message_count": 5,
+        "sha256": "d5ea3c8859eb146f7ee6e767ef2eb1de4b0f74ee21c02664c1989010e61360e4"
+      },
+      "replay": {
+        "exact_action_matches": 3,
+        "exact_result_match": true,
+        "expected_results_sha256": "64f904f656d05cc8cdfeca3b5a3056f4e2a50e7b595486990ef69781eb4455c1",
+        "mismatch": null,
+        "replayed_results_sha256": "64f904f656d05cc8cdfeca3b5a3056f4e2a50e7b595486990ef69781eb4455c1",
+        "tool_actions": 3
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1755,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 6405,
+        "message_count": 3,
+        "sha256": "7a10b64f2177297fb3cefaebd434b4e27c6233bc38fc94876a68932893ce14e5"
+      },
+      "original_request": {
+        "bytes": 7354,
+        "message_count": 9,
+        "sha256": "c8850894cedeffe8fdea3b92123ceb0efb0d90f29415b533df61609de6c9a7fc"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "3f11fcb36162c82af6a9dfd573cfec04199a1360f5d3780a487a91346a386363",
+        "mismatch": null,
+        "replayed_results_sha256": "3f11fcb36162c82af6a9dfd573cfec04199a1360f5d3780a487a91346a386363",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [
+          {
+            "bytes": 268,
+            "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "W": 2
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 5,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1755,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 7161,
+        "message_count": 3,
+        "sha256": "88a14181d0099d67bd72c29518d2d1c9f02579dd3c089ad633f999a28e311ac8"
+      },
+      "original_request": {
+        "bytes": 9148,
+        "message_count": 11,
+        "sha256": "4394ed32ac6eb87a6a89fbfb88d3df553184d52f46a08ddfcb1987feb318da0c"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "f7201bf7797434f32ecb3b4cd85c7cb520e94cd2f6058a660bd21c82b699818e",
+        "mismatch": null,
+        "replayed_results_sha256": "f7201bf7797434f32ecb3b4cd85c7cb520e94cd2f6058a660bd21c82b699818e",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [
+          {
+            "bytes": 268,
+            "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "W": 2
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 9,
+          "tool_calls": 6,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... FAILED (<TIME>)\n\n ERRORS \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"empty_identifier\"}, got {\"error\":\"invalid_user_id\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\n\nFAILED | 0 passed | 1 failed (<TIME>)\n\n",
+            "turn": 3
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1755,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 7527,
+        "message_count": 3,
+        "sha256": "ee844658e682a1fa48bd1f1c2edad44941c0c14b791e4d6c1457d9ce98c73e21"
+      },
+      "original_request": {
+        "bytes": 11261,
+        "message_count": 13,
+        "sha256": "4cf7b2a565a077a0316b4ef23dce65eadaa000c6c3b7818a8fb71cea6b450117"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "ea42db40cc1552a2fe2d89a549d8d010a599f82ee3dc3993b3947636ba811bf3",
+        "mismatch": null,
+        "replayed_results_sha256": "ea42db40cc1552a2fe2d89a549d8d010a599f82ee3dc3993b3947636ba811bf3",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [
+          {
+            "bytes": 268,
+            "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 2
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 8,
+          "tool_calls": 7,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: corrupt patch at line 13",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... FAILED (<TIME>)\n\n ERRORS \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"empty_identifier\"}, got {\"error\":\"invalid_user_id\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\n\nFAILED | 0 passed | 1 failed (<TIME>)\n\n",
+            "turn": 3
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 13"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1755,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 7544,
+        "message_count": 3,
+        "sha256": "108bc42a6c78bd8972545ceed83e56d658643b81e7454eda14a836da229390c6"
+      },
+      "original_request": {
+        "bytes": 13470,
+        "message_count": 15,
+        "sha256": "0a93aa7300ebd0e8cf59a03d57f53a17ed8639d1fd0d422fcce2e849f98ef89a"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "9f7af5ba94c8d51b0c46e71d836ef12ca6f70ade1553c25230d8f4227ecce9a5",
+        "mismatch": null,
+        "replayed_results_sha256": "9f7af5ba94c8d51b0c46e71d836ef12ca6f70ade1553c25230d8f4227ecce9a5",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [
+          {
+            "bytes": 268,
+            "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 2,
+            "W": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 7,
+          "tool_calls": 8,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: corrupt patch at line 13",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... FAILED (<TIME>)\n\n ERRORS \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"empty_identifier\"}, got {\"error\":\"invalid_user_id\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:14:3\n\n FAILURES \n\nchanges empty error and preserves success => ./tests/public.test.ts:11:6\n\nFAILED | 0 passed | 1 failed (<TIME>)\n\n",
+            "turn": 3
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "8d4f1af865efc3f9089f9fc3a542e5d3eb11252ed56a4a7e68108c13256c70dc"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1761,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 6
+    },
+    {
+      "compacted_request": {
+        "bytes": 7046,
+        "message_count": 3,
+        "sha256": "d6dc7a2f0c9811505bf09896e283e107bb4eb5c30264bee364e5bbf97b027b7e"
+      },
+      "original_request": {
+        "bytes": 14036,
+        "message_count": 17,
+        "sha256": "d917140ed27e34e1cc7ae0f903291b981f262b1e31305f1c86cabd3bf5ef4cf3"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "389c584e59a387a57056e99359a22cedea1e7088e2eb251efd59754f71edd29e",
+        "mismatch": null,
+        "replayed_results_sha256": "389c584e59a387a57056e99359a22cedea1e7088e2eb251efd59754f71edd29e",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/error-taxonomy-001/source",
+        "context_reads": [
+          {
+            "bytes": 268,
+            "content": "# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 2,
+            "L": 1,
+            "R": 1,
+            "S": 2,
+            "W": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 2,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 0,
+          "remaining_turns": 6,
+          "tool_calls": 9,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: corrupt patch at line 13",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... ok (<TIME>)\n\nok | 1 passed | 0 failed (<TIME>)\n\n",
+            "turn": 6
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 7,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "8d4f1af865efc3f9089f9fc3a542e5d3eb11252ed56a4a7e68108c13256c70dc"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1761,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+          },
+          {
+            "bytes": 733,
+            "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+          }
+        ]
+      },
+      "turn": 7
+    }
+  ]
+}

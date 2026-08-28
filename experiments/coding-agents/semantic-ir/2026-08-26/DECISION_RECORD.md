@@ -925,3 +925,48 @@ inferential and general efficacy claims unauthorized.
   fact and rejected as a predictor of model-driven whole-trajectory efficiency.
 - The next red test uses the frozen trajectories for deterministic session-state
   replay and transcript compaction before considering another model call.
+
+## Explicit Session State Replay v1
+
+### Context
+
+Calibration 004 showed that a dense instruction format can still induce an
+expensive transcript. The five supported semantic cells used 86.8% more input
+tokens than source while generating less output. Before another model call, the
+frozen evidence permits a construction question: how much accumulated history
+can be replaced by explicit state without changing the observable result of the
+actions already taken?
+
+### Decision
+
+Replay every provider-call cell from its frozen baseline. Before each of the 101
+requests, derive a typed snapshot containing namespace separation, current
+workspace, read context, inspected semantic handles, bounded errors, latest
+evaluation and submission, and exact budgets/counters. Replace every prior
+assistant/tool message with that snapshot while preserving the initial system,
+initial user, exact tool, model, and sampling fields.
+
+Execute all 131 recorded `x` actions against the reconstructed runtime and
+require result equality. Canonicalize only evaluator workspace paths,
+cache-dependent Deno `Check` lines, and millisecond durations; compare every
+other result byte exactly. Measure complete canonical request bytes and keep
+provider-native tokens explicitly unclaimed.
+
+### Consequences
+
+- All 131 actions reproduce their normalized original results across 101 turns
+  and eleven call cells; no model call occurs.
+- Explicit state removes 260,646 canonical bytes, a 17.73% aggregate reduction.
+- Source falls 41.64%; semantic falls 4.56%. Source state is smaller in 37/43
+  post-initial requests and semantic state in 23/47.
+- State materialization costs 43.14% at turn two. Aggregate break-even arrives
+  at turn four and the reduction reaches 38.64% at turn twelve.
+- Every source cell improves. Three of five semantic cells become larger, so the
+  aggregate result is not a universal compact-state win.
+- Full semantic inspections consume 394,439 repeated snapshot bytes, 2.28 times
+  semantic workspace state, and become the next measured bottleneck.
+- Recorded-action result equivalence does not establish that a model would
+  choose the same action from compact state.
+- The next red test separates persistent capability identity from an evictable
+  semantic subtree working set and requires reconstruction through explicit
+  deterministic re-fetch without next-action oracle knowledge.

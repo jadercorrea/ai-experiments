@@ -1,0 +1,594 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/normalization-policy-001",
+  "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1894,
+        "message_count": 2,
+        "sha256": "4dea24349986583b0e1010ae6c7a2c8681c6b8b20c2c3e37fb382f106e4e2da6"
+      },
+      "original_request": {
+        "bytes": 1894,
+        "message_count": 2,
+        "sha256": "4dea24349986583b0e1010ae6c7a2c8681c6b8b20c2c3e37fb382f106e4e2da6"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "6da40ae2a3a65141f3264196c83fa1d8f3fc4aba12964a7214196f38d88752bd",
+        "mismatch": null,
+        "replayed_results_sha256": "6da40ae2a3a65141f3264196c83fa1d8f3fc4aba12964a7214196f38d88752bd",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1849,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-normalization-policy-001-trim */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f7597bd2bdcd4f88559ae96901919a9f6701bacdf09523a1b1b044506c3cb967"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 6082,
+        "message_count": 3,
+        "sha256": "0d73e5889c1f85ab9bd87af4409955e2cdb906669ec689a4144797d20e36741d"
+      },
+      "original_request": {
+        "bytes": 3256,
+        "message_count": 5,
+        "sha256": "be2b6f35f8cf4787bf829f038a6409d73ce5ee14e78c959cb7ac172f8fce3199"
+      },
+      "replay": {
+        "exact_action_matches": 3,
+        "exact_result_match": true,
+        "expected_results_sha256": "0069cf6f3a01cb50ca7eb63d28de1d2fb5807df04f74c59e4375415dd0370455",
+        "mismatch": null,
+        "replayed_results_sha256": "0069cf6f3a01cb50ca7eb63d28de1d2fb5807df04f74c59e4375415dd0370455",
+        "tool_actions": 3
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1849,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-normalization-policy-001-trim */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f7597bd2bdcd4f88559ae96901919a9f6701bacdf09523a1b1b044506c3cb967"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 6650,
+        "message_count": 3,
+        "sha256": "6a9097465caacb19cf086a7268442adb278f8c17b966b844b20c081cda7e1f6c"
+      },
+      "original_request": {
+        "bytes": 7601,
+        "message_count": 9,
+        "sha256": "c3eef6bb8761b9447a9305a5a1dcad039b310176393f18901de647875a4c014e"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "193980d70472621af51caa076f55dcbfd0d14405610b753b148e77a64d0de92c",
+        "mismatch": null,
+        "replayed_results_sha256": "193980d70472621af51caa076f55dcbfd0d14405610b753b148e77a64d0de92c",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [
+          {
+            "bytes": 308,
+            "content": "# Task\n\nUse the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/normalization-policy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "c3d3300a266f69165ad3ee5e6ab32aa6ea6e5677f73ad3b3ef5a1dbb64a6b67b"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "W": 2
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 5,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1849,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-normalization-policy-001-trim */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f7597bd2bdcd4f88559ae96901919a9f6701bacdf09523a1b1b044506c3cb967"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 7015,
+        "message_count": 3,
+        "sha256": "ce985851653a0e5ef7b43b7ae3a7e67fe6321982967e0d09bc1c0c7b130110f0"
+      },
+      "original_request": {
+        "bytes": 10395,
+        "message_count": 11,
+        "sha256": "7d054e7e493c1609e26937948bbd04445c98f4450de18c97162588f72a364bda"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "ce6ccb169f9f38b38c59d4cb3f5fef70533a3bfaf239201290af7da0df712862",
+        "mismatch": null,
+        "replayed_results_sha256": "ce6ccb169f9f38b38c59d4cb3f5fef70533a3bfaf239201290af7da0df712862",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [
+          {
+            "bytes": 308,
+            "content": "# Task\n\nUse the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/normalization-policy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "c3d3300a266f69165ad3ee5e6ab32aa6ea6e5677f73ad3b3ef5a1dbb64a6b67b"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 2
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 6,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 17"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1849,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-normalization-policy-001-trim */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f7597bd2bdcd4f88559ae96901919a9f6701bacdf09523a1b1b044506c3cb967"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 6750,
+        "message_count": 3,
+        "sha256": "fb10568933cf70d2d1ad3b8c70f6f80d8a157aa9f37e68f1fb97aee2fd9f1b96"
+      },
+      "original_request": {
+        "bytes": 13014,
+        "message_count": 13,
+        "sha256": "b09dd775ad8a62dc79d6fcbd63fa79722df7b1f24c75f8499f6c942752c00465"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "3c311b3df5d4a7d4c017956d39cd072ec4272a8e34c19b2e7ed6f309a2662444",
+        "mismatch": null,
+        "replayed_results_sha256": "3c311b3df5d4a7d4c017956d39cd072ec4272a8e34c19b2e7ed6f309a2662444",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [
+          {
+            "bytes": 308,
+            "content": "# Task\n\nUse the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/normalization-policy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "c3d3300a266f69165ad3ee5e6ab32aa6ea6e5677f73ad3b3ef5a1dbb64a6b67b"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "S": 2,
+            "W": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 8,
+          "tool_calls": 7,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "3d75cdecba74ff5828719fed6756f8111b2e2c6974e8b26bf789b1264c83ea7e"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1611,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-raw-id-ref-for-lookup */ rawId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "0084bf4209920f18cbae54e5772b3b625e3fd0b873c418958107344d7a348e7d"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 7003,
+        "message_count": 3,
+        "sha256": "ab1c2224eef1d82e435f7900e57967566d70c0f5b4f00dd9e1c527a3b4adba2a"
+      },
+      "original_request": {
+        "bytes": 13579,
+        "message_count": 15,
+        "sha256": "46599613e0d020412f08ca74c9552620f84c0a5ccc5f0514d88f7e117bc82984"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "ad02b9d40c10a175d28b65e614bdf2670d81d27f5ab1a256510a94096b49e828",
+        "mismatch": null,
+        "replayed_results_sha256": "ad02b9d40c10a175d28b65e614bdf2670d81d27f5ab1a256510a94096b49e828",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/normalization-policy-001/source",
+        "context_reads": [
+          {
+            "bytes": 308,
+            "content": "# Task\n\nUse the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/normalization-policy-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "c3d3300a266f69165ad3ee5e6ab32aa6ea6e5677f73ad3b3ef5a1dbb64a6b67b"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 2,
+            "W": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 7,
+          "tool_calls": 8,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: corrupt patch at line 17",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 1 test from ./tests/public.test.ts\nuses raw identifier and exact empty ... ok (<TIME>)\n\nok | 1 passed | 0 failed (<TIME>)\n\n",
+            "turn": 5
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/lookup-user.ts"
+              ],
+              "patch_sha256": "3d75cdecba74ff5828719fed6756f8111b2e2c6974e8b26bf789b1264c83ea7e"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1611,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeRawIdentifier(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-normalization-policy-001-normalize-let */ (() => {\n    return /* ir:node:session-v3-normalization-policy-001-validity-if */ (/* ir:node:session-v3-normalization-policy-001-is-empty */ (/* ir:node:session-v3-normalization-policy-001-raw-id-ref */ rawId).length === 0)\n      ? (/* ir:node:session-v3-normalization-policy-001-invalid-id */ { error: /* ir:node:session-v3-normalization-policy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-normalization-policy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-normalization-policy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-normalization-policy-001-raw-id-ref-for-lookup */ rawId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-normalization-policy-001-not-found */ { error: /* ir:node:session-v3-normalization-policy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-normalization-policy-001-found */ { ok: /* ir:node:session-v3-normalization-policy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "0084bf4209920f18cbae54e5772b3b625e3fd0b873c418958107344d7a348e7d"
+          },
+          {
+            "bytes": 801,
+            "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+          }
+        ]
+      },
+      "turn": 6
+    }
+  ]
+}

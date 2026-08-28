@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/session-state-v1.schema.json",
+  "title": "Coding-agent explicit session state v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "cell_id", "arm", "next_turn", "namespaces",
+    "workspace", "context_reads", "semantic_inspections", "errors",
+    "evaluations", "submissions", "counters"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.session-state/v1"
+    },
+    "cell_id": {"type": "string", "minLength": 1},
+    "arm": {"enum": ["source", "semantic"]},
+    "next_turn": {"type": "integer", "minimum": 1, "maximum": 12},
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "workspace", "semantic_handles"],
+      "properties": {
+        "context": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "workspace": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "semantic_handles": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^n[0-9]+$"}
+        }
+      }
+    },
+    "workspace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "bytes", "sha256", "content"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "context_reads": {"type": "array", "items": {"type": "object"}},
+    "semantic_inspections": {"type": "array", "items": {"type": "object"}},
+    "errors": {"type": "array", "maxItems": 8, "items": {"type": "object"}},
+    "evaluations": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "submissions": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "counters": {
+      "type": "object",
+      "required": [
+        "tool_calls", "instructions_by_opcode", "mutation_attempts",
+        "remaining_mutation_attempts", "public_evaluations",
+        "remaining_public_evaluations", "remaining_turns",
+        "validation_failures", "finished"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

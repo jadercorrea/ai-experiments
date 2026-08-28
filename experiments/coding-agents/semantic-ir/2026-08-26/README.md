@@ -30,8 +30,11 @@ separate explicit launch gate; all local references pass, but no model call has
 occurred under the freeze checkpoint. Calibration 004 subsequently completed:
 source passed 2/6 hidden evaluations and semantic 1/6. On supported pairs,
 semantic emitted 18.0% less output but consumed 78.6% more total tokens and
-55.5% more estimated cost. Neither calibration authorizes an inferential or
-general efficacy claim.**
+55.5% more estimated cost. Explicit Session State Replay v1 now replaces
+accumulated history with bounded state, reproduces 131/131 recorded action
+results, and reduces canonical request bytes by 17.73% overall, but only 4.56%
+for semantic because inspection subtrees dominate retained state. Neither
+calibration authorizes an inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -303,6 +306,16 @@ different Unicode definitions from their host languages.
 - [`CALIBRATION_004_OBSERVATION.md`](CALIBRATION_004_OBSERVATION.md) records the
   negative descriptive result: source 2/6 versus semantic 1/6 hidden passes,
   semantic output reduction, and semantic input/total-token/cost increase.
+- [`session-state-v1.schema.json`](protocol/session-state-v1.schema.json) and
+  [`session_state_replay.py`](scripts/session_state_replay.py) define bounded
+  explicit state, history replacement, evaluator-only canonicalization, and
+  deterministic recorded-action replay.
+- [`session-state-replay-v1`](construction/session-state-replay-v1) contains 101
+  state snapshots, 131 exact action-result checks, byte curves and component
+  measurements under a 13-file content lock.
+- [`SESSION_STATE_REPLAY_V1_OBSERVATION.md`](SESSION_STATE_REPLAY_V1_OBSERVATION.md)
+  records the 17.73% aggregate byte reduction, turn-four break-even, 41.64%
+  source reduction, 4.56% semantic reduction, and inspection-state bottleneck.
 - [`program-ir-v1.schema.json`](protocol/program-ir-v1.schema.json) and
   [`semantic_ir_v1.py`](scripts/semantic_ir_v1.py) add exact pure string
   equality without changing the pinned v0 schema or implementation.
@@ -483,7 +496,8 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_matched_observation_surface_v1 \
   tests.test_semantic_session_task_suite_v3 \
   tests.test_matched_session_execution_freeze_v1 \
-  tests.test_semantic_session_calibration_observation
+  tests.test_semantic_session_calibration_observation \
+  tests.test_semantic_session_state_replay_v1
 
 .venv/bin/python \
   experiments/coding-agents/semantic-ir/2026-08-26/scripts/semantic_capability_calibration.py \
@@ -677,6 +691,12 @@ shared tool removed the transport-schema confound, but denser instructions did
 not make model-driven trajectories cheaper or more reliable.
 
 The next gate returns to construction and replay, not another model call. It
-must determine whether explicit bounded session state can remove accumulated
-transcript history while preserving the next valid action in the frozen failed
-trajectories.
+first established that explicit bounded state can reproduce all 131 recorded
+action results while removing 17.73% of canonical request bytes. The aggregate
+curve crosses break-even at turn four, but semantic improves only 4.56% because
+full inspection subtrees occupy 394,439 repeated snapshot bytes.
+
+The next red test splits persistent semantic capabilities from an evictable
+subtree working set. It must reconstruct every recorded semantic submission
+through retained live state plus deterministic inspection re-fetch, without
+using oracle knowledge of the next action and before any new model call.
