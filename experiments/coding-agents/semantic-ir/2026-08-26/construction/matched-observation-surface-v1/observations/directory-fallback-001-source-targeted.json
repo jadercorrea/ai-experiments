@@ -1,0 +1,45 @@
+{
+  "instruction_bytes": 52,
+  "list": {
+    "instruction": {
+      "a": [],
+      "i": "L"
+    },
+    "response": {
+      "files": [
+        {
+          "bytes": 107,
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        {
+          "bytes": 1864,
+          "path": "src/lookup-user.ts",
+          "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+        },
+        {
+          "bytes": 942,
+          "path": "tests/public.test.ts",
+          "sha256": "ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8"
+        }
+      ]
+    }
+  },
+  "observation_bytes": 2433,
+  "reads": [
+    {
+      "instruction": {
+        "a": [
+          "src/lookup-user.ts"
+        ],
+        "i": "W"
+      },
+      "response": {
+        "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+        "path": "src/lookup-user.ts",
+        "sha256": "3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449"
+      }
+    }
+  ],
+  "response_bytes": 2381
+}

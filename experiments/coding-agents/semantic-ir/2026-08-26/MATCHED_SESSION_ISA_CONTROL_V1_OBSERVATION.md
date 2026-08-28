@@ -132,3 +132,12 @@ execution freeze, further state/inspection compaction, or an amortization curve.
 The sequence advances to:
 
 `session ISA → matched source ISA → matched observation surface`.
+
+### Subsequent result
+
+Matched Observation Surface v1 now charges source `L/W` and semantic `I` on
+both sides. Under the favorable source policy of listing once and reading only
+the reference-touched editable file, semantic totals 23,256 versus 27,762
+bytes, a 16.23% reduction, and is smaller in all five pairs. Whole-workspace
+source reading increases the semantic margin to 32.34%. The construction gate
+therefore advances to a fresh execution freeze; no model-efficacy claim follows.

@@ -193,3 +193,9 @@ initial surface is 125.48% larger, while semantic reference submissions are
 75.47% smaller. Its first partial transport proxy remains asymmetric because it
 counts semantic inspection but not source workspace reads. The next red test is
 therefore a matched observation surface, not an execution freeze.
+
+Matched Observation Surface v1 subsequently charged both observation paths.
+The complete known-reference surface is 23,256 semantic versus 27,762 source
+bytes under one targeted source read after listing, a 16.23% semantic reduction
+that holds in all five pairs. The next red test is now a fresh execution freeze,
+still without authorization for model calls.

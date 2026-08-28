@@ -791,3 +791,43 @@ reads.
   interface and withdrawn as a candidate matched comparison.
 - No model call is authorized. The next red test must match `L/W` source
   observation against semantic `I` before any execution freeze.
+
+## Matched observation surface v1
+
+### Context
+
+The matched source Session ISA removed the shared-tool confound, but its partial
+transport proxy charged semantic inspection while assigning zero bytes to
+source workspace observation. That source lower bound favored source by 47.73%
+and could not determine whether to freeze execution or compact the semantic
+state again.
+
+### Decision
+
+Charge both arms for deterministic known-reference observation through the
+frozen one-tool ISA. For the primary source policy, issue `L[]` and read only
+the editable paths parsed from the reference unified diff. Preserve the exact
+path/bytes/SHA-256 listing and path/content/SHA-256 read responses. Compare this
+with the frozen semantic `I[reference handles]` exchange.
+
+Count initial surface, observation instructions and responses, and reference
+submit. Report a separate sensitivity that reads every listed source workspace
+file. Mark both policies as oracle-informed construction trajectories and keep
+model calls unauthorized.
+
+### Consequences
+
+- Source targeted observation costs 12,020 bytes; semantic inspection costs
+  6,524 bytes.
+- The complete targeted known-reference surface is 27,762 source versus 23,256
+  semantic bytes, a 16.23% semantic reduction.
+- Semantic is smaller in all five supported pairs; margins range from 6.73% to
+  23.12%.
+- Reading all three source workspace files raises the source total to 34,370
+  bytes and the semantic construction margin to 32.34%.
+- Semantic still pays an 8,037-byte initial-state penalty. Observation saves
+  5,496 bytes and submit saves 7,047 bytes, producing the 4,506-byte net result.
+- No provider tokens, model choices, repair behavior, latency, cost, or general
+  efficacy are established.
+- The local construction gate now passes. The next red test is a fresh matched
+  execution freeze with a separate explicit launch gate for Calibration 004.
