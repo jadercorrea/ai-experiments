@@ -39,9 +39,11 @@ subtrees: capacity two reconstructs 24/24 semantic submissions with five local
 re-fetches, while reducing the effective semantic surface by 21.42% against the
 explicit-state baseline and 25.00% against transcript requests. Matched
 Compacted-Session Execution Freeze v1 now binds those arm-specific policies to
-an exact Calibration 005 runner; local preflight passes 6/6 source and 5/5
-semantic references with zero model calls. Neither calibration authorizes an
-inferential or general efficacy claim.**
+an exact Calibration 005 runner. Calibration 005 completed with source 3/6 and
+semantic 0/6 hidden passes. Explicit state reduced average provider input per
+request by 37.14% and total tokens by 20.94% against Calibration 004, but the
+five supported semantic cells all exhausted their turn budget. Neither
+calibration authorizes an inferential or general efficacy claim.**
 
 Snapshot date: **2026-08-26**
 
@@ -750,8 +752,14 @@ sampling, limit, and schedule bytes. Its local preflight builds 22 requests,
 passes 6/6 source and 5/5 supported semantic hidden references, and exercises
 five deterministic semantic faults without a model call.
 
-The next gate is explicit rather than automatic: repeat provider and
-contamination preflight, create a content-bound `explicit_launch_005` only after
-direct authorization, and execute the unchanged eleven-call schedule. Because
-the exact Calibration 004 instances are reused, any result remains a repeated
-within-instance calibration rather than a fresh benchmark.
+Calibration 005 then completed the unchanged eleven-call schedule. Explicit
+state reduced input per request by 37.14%, input tokens by 22.82%, total tokens
+by 20.94%, and estimated cost by 15.06% against Calibration 004, despite 22.77%
+more requests. Source passed 3/6 hidden evaluations and semantic 0/6. Across
+the five supported pairs, semantic used 98.2% more total tokens and 76.7% more
+estimated cost; all five semantic cells exhausted their turn budget after 140
+working-set evictions in aggregate. The result validates state compaction as a
+transport optimization while exposing semantic observation churn as the next
+red test. Because the exact Calibration 004 instances are reused, this remains
+a repeated within-instance calibration rather than a fresh benchmark. See
+[`CALIBRATION_005_OBSERVATION.md`](CALIBRATION_005_OBSERVATION.md).

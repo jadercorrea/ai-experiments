@@ -1,0 +1,2331 @@
+[
+  {
+    "automatic_refetches": [],
+    "request_sha256": "8dc073d42a1496749620072a0b1b5da7cb2186ccbdc871fe819c55a4b1fecf94",
+    "response_sha256": "deda9afd7db68497bb8d7671b60ba9d478ecad5c28840fbea0fc4be4ad2f3019",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            },
+            {
+              "handle": "n3",
+              "node_id": "node:session-v3-normalization-policy-001-validity-if",
+              "op": "if",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-normalization-policy-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-normalization-policy-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-normalization-policy-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "target_token": "cap:v1:target:dd95d3f981c215526c7d2e59d7a2c9f4"
+            },
+            {
+              "handle": "n4",
+              "node_id": "node:session-v3-normalization-policy-001-is-empty",
+              "op": "call",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "condition",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "target_token": "cap:v1:target:421da7d24b60c7acdad4f8aeeb5d2c68"
+            },
+            {
+              "handle": "n5",
+              "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+              "op": "var",
+              "parent": "n4",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                "op": "var",
+                "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:d56e946bf427f89b2476a4e45db4dfd1"
+            },
+            {
+              "handle": "n6",
+              "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+              "op": "err",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:016b759ae0f33a001e6a168fc0e68a55"
+            },
+            {
+              "handle": "n7",
+              "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+              "op": "string",
+              "parent": "n6",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "error",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                "op": "string",
+                "value": "invalid_user_id"
+              },
+              "target_token": "cap:v1:target:478bb9b51a1645bdcf6de1f7f89058f7"
+            },
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-normalization-policy-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-normalization-policy-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-normalization-policy-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-normalization-policy-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:ec3245378b1ef18956dd4834dce3bbcd"
+            },
+            {
+              "handle": "n9",
+              "node_id": "node:session-v3-normalization-policy-001-get-user",
+              "op": "call",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              },
+              "target_token": "cap:v1:target:57e902b1f955724026f7064c7d96ca67"
+            },
+            {
+              "handle": "n10",
+              "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+              "op": "var",
+              "parent": "n9",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:df5814e362a4296bf28dcd082f4a836e"
+            },
+            {
+              "handle": "n11",
+              "node_id": "node:session-v3-normalization-policy-001-not-found",
+              "op": "err",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "none",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-not-found",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:3c8847ed23354dda61949e3525e87555"
+            },
+            {
+              "handle": "n12",
+              "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+              "op": "string",
+              "parent": "n11",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "error",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "target_token": "cap:v1:target:11869ecdbd3b9c997225c4bb1a474eca"
+            },
+            {
+              "handle": "n13",
+              "node_id": "node:session-v3-normalization-policy-001-found",
+              "op": "ok",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "some",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-normalization-policy-001-user"
+                }
+              },
+              "target_token": "cap:v1:target:2fec74f9f6982cebf04f29da8feeda08"
+            },
+            {
+              "handle": "n14",
+              "node_id": "node:session-v3-normalization-policy-001-user-ref",
+              "op": "var",
+              "parent": "n13",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-normalization-policy-001-user"
+              },
+              "target_token": "cap:v1:target:5d91333453c5b76a549b70163c6b5ab8"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_sWjxhojNXlYRAQBjpF4D73"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "4babbf1c26ac4491cd9a051abd2032151866c301516eb2f6a80992118d6ccba7",
+    "response_sha256": "36dd840e7a978e07cab93cb612fa327ccf76b7fd4dfc2fa75e22c570bd6efcde",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_i6cIQ8TcgtQ7rx7sa5yCUo"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "1ef3929e6e2b19e38b2bf95bb09f2713db2fe29a9a938eaa6bcf1d56a9ff67d4",
+    "response_sha256": "e97ee274a56477cdf584f01294dd134d227fbee9ebb3f15b3de76ed1541b1f77",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ivSV1ndi6ud0nnFlugncl9"
+      },
+      {
+        "result": {
+          "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_EEo0ONDrdHtxFFBrSsRw14"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "67f68bec81638d1bc69c87a1bc42c8fb3b352136667f7936b8e96bf63e93d01c",
+    "response_sha256": "8e8efcdcec131b8db1716289de9ad2c9d5953ac107ccefa8c1ff8f57623aaeed",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_wglUpCCLF5nK2Vrsa2Ee2w"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "f13d59901e04be5ed2471aba56d9def0065bbf17dd3d9c2ce6bc3946679e3183",
+    "response_sha256": "58c1c7d3424cacf23082ea65756cecef7031232551b86fc89a9511816334a0c9",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_js42gE5zyrEJHVIx0B2qYe"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "0fec4345d5af2268a0c36941db76283ae522e4a3260f831d5b67d8e3a55860b4",
+    "response_sha256": "bbcd67384b27ffa0a133e4838fb71f96efc98a6cfc7864cc68cc975c52cd4281",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n5",
+              "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+              "op": "var",
+              "parent": "n4",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                "op": "var",
+                "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:d56e946bf427f89b2476a4e45db4dfd1"
+            },
+            {
+              "handle": "n10",
+              "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+              "op": "var",
+              "parent": "n9",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-normalization-policy-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:df5814e362a4296bf28dcd082f4a836e"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_b0KXg9BXy5EcLJwgBRKIBT"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "7bd4999b69f12e55ec9c286753b537c0c2905a7e3a33efa349eb255905a0c674",
+    "response_sha256": "975d8e2b670608160138169275f26c2dc578abba740127ceb8db0795a4e3580b",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_qfRgdVnqE8MlvkFt4Khmwv"
+      },
+      {
+        "result": {
+          "content": "import { executeRawIdentifier } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"uses raw identifier and exact empty\", () => {\n  const calls: string[] = [];\n  const raw = \" 42 \";\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === raw ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeRawIdentifier(raw, capabilities), { ok: { id: raw, name: \"Raw\" } });\n  assertEquals(calls, [raw]);\n  calls.length = 0;\n  assertEquals(executeRawIdentifier(\"\", capabilities), { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "fdffb5f8490f35457fe7a7086604a01bc1cd6f0c8b61a1550e629c9a3f2308fd"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_8Ji0odSf3NryHr0YPIKiJ9"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "22054023ac90d88349efd8ddae4ca9042e8b48228da57bd43a737450cf3377ab",
+    "response_sha256": "854b118796ce8e62b9b9bd4db8eade94e6ad570acd4a1d67ff7c65084b8c7271",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_TEUSkvoKfVrK5iWj4U9dVA"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "2ba3d12557966d0109651ea5cc80dbae3291a60939c126b008cdb69fca04491e",
+    "response_sha256": "8ccf630f3a022447553854d7c7affd685d375a890b308b1cb0362994b7e6aac4",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_DC8fUOBIhfJDQR6Z0YSO6N"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "93cfca6706786be1f7fa7a970ab25d07078bdf3f44be1d7a8b01aef1d4bae705",
+    "response_sha256": "c9dad76432a1382289f9582dc1942f5375d08ad238f3a3a967328f6b91c5241a",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_lQ0jnIl5GMU9x8obElKjqE"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "bb61932a284ff342d973a303556bf16f371aef30fb9d7d00c697080b45e622ae",
+    "response_sha256": "4ffd9617f233e3bc3059014f98a14b239af7b114cd707aa50b68fbdc8922d8c7",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_BctbJJCnnpZF0LbQBTmsza"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "28cefc7b793d26fb086bac88609578db1ef9079c4bc89fdd1016e4f87f9e8de8",
+    "response_sha256": "1fae2a1486cb3d2f6f4b810c7261b4628086a2db3908e428d47207657e66bf73",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-normalization-policy-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:36f3ca93c5f2ed739651ef734ebc5607",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-normalization-policy-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-normalization-policy-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-normalization-policy-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-normalization-policy-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-normalization-policy-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-normalization-policy-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-normalization-policy-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-normalization-policy-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-normalization-policy-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-normalization-policy-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-normalization-policy-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-normalization-policy-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-normalization-policy-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-normalization-policy-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-normalization-policy-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-normalization-policy-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-normalization-policy-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:43bd156d7945abecc199643be505ca33"
+            },
+            {
+              "handle": "n1",
+              "node_id": "node:session-v3-normalization-policy-001-trim",
+              "op": "call",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-normalization-policy-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              },
+              "target_token": "cap:v1:target:6cb8c0e62294a184b01273b2cd7c0097"
+            },
+            {
+              "handle": "n2",
+              "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+              "op": "var",
+              "parent": "n1",
+              "scope": [
+                [
+                  "param:session-v3-normalization-policy-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-normalization-policy-001-raw-id-ref",
+                "op": "var",
+                "symbol_id": "param:session-v3-normalization-policy-001-raw-id"
+              },
+              "target_token": "cap:v1:target:fd8182be0885e5736eb7feb941d260dd"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_gf8z4Tlko8BsA5FWLGChiV"
+      }
+    ],
+    "turn": 12
+  }
+]
