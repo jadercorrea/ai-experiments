@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-observation-churn-v1.schema.json",
+  "title": "Coding-agent semantic observation churn replay v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "source_observation", "replay",
+    "observed_churn", "observed_handle_lru", "coverage_curve",
+    "primary_result", "claim_boundary", "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.semantic-observation-churn/v1"
+    },
+    "status": {"const": "local_replay_complete"},
+    "source_observation": {
+      "type": "object",
+      "required": ["path", "sha256", "artifact_lock_sha256", "provider_requests"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_requests": {"const": 124}
+      },
+      "additionalProperties": false
+    },
+    "replay": {
+      "type": "object",
+      "required": ["semantic_call_cells", "turns", "valid_submissions", "model_calls_observed"],
+      "properties": {
+        "semantic_call_cells": {"const": 5},
+        "turns": {"const": 60},
+        "valid_submissions": {"type": "integer", "minimum": 0},
+        "model_calls_observed": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "observed_churn": {"$ref": "#/$defs/churn"},
+    "observed_handle_lru": {"$ref": "#/$defs/observed"},
+    "coverage_curve": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "allOf": [{"$ref": "#/$defs/curve_base"}],
+        "unevaluatedProperties": false
+      }
+    },
+    "primary_result": {"$ref": "#/$defs/primary"},
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "recorded_instruction_sequence_replayed",
+        "recorded_model_choices_preserved_as_inputs",
+        "counterfactual_model_choice_equivalence", "provider_native_token_claim",
+        "future_action_oracle_used", "model_calls_authorized",
+        "model_calls_observed"
+      ],
+      "properties": {
+        "recorded_instruction_sequence_replayed": {"const": true},
+        "recorded_model_choices_preserved_as_inputs": {"const": true},
+        "counterfactual_model_choice_equivalence": {"const": false},
+        "provider_native_token_claim": {"const": false},
+        "future_action_oracle_used": {"const": false},
+        "model_calls_authorized": {"const": false},
+        "model_calls_observed": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nonnegative": {"type": "integer", "minimum": 0},
+    "churn": {
+      "type": "object",
+      "required": [
+        "inspection_calls", "target_transfers", "unique_handles",
+        "repeated_target_transfers", "repeated_signature_calls",
+        "no_new_handle_calls", "structurally_redundant_targets"
+      ],
+      "properties": {
+        "inspection_calls": {"$ref": "#/$defs/nonnegative"},
+        "target_transfers": {"$ref": "#/$defs/nonnegative"},
+        "unique_handles": {"$ref": "#/$defs/nonnegative"},
+        "repeated_target_transfers": {"$ref": "#/$defs/nonnegative"},
+        "repeated_signature_calls": {"$ref": "#/$defs/nonnegative"},
+        "no_new_handle_calls": {"$ref": "#/$defs/nonnegative"},
+        "structurally_redundant_targets": {"$ref": "#/$defs/nonnegative"}
+      },
+      "additionalProperties": false
+    },
+    "observed": {
+      "type": "object",
+      "required": [
+        "evictions", "state_bytes", "observation_component_bytes",
+        "subtree_state_bytes_never_covering_submission"
+      ],
+      "properties": {
+        "evictions": {"const": 140},
+        "state_bytes": {"$ref": "#/$defs/nonnegative"},
+        "observation_component_bytes": {"$ref": "#/$defs/nonnegative"},
+        "subtree_state_bytes_never_covering_submission": {"$ref": "#/$defs/nonnegative"}
+      },
+      "additionalProperties": false
+    },
+    "curve_base": {
+      "type": "object",
+      "required": [
+        "capacity", "capacity_unit", "evictions", "coalescences",
+        "receipt_only_inspections", "admitted_roots", "maximum_resident_roots",
+        "refetches", "unsatisfied_submissions",
+        "all_valid_submissions_reconstructible"
+      ],
+      "properties": {
+        "capacity": {"enum": [1, 2, 4]},
+        "capacity_unit": {"const": "non_overlapping_subtree_root"},
+        "evictions": {"$ref": "#/$defs/nonnegative"},
+        "coalescences": {"$ref": "#/$defs/nonnegative"},
+        "receipt_only_inspections": {"$ref": "#/$defs/nonnegative"},
+        "admitted_roots": {"$ref": "#/$defs/nonnegative"},
+        "maximum_resident_roots": {"$ref": "#/$defs/nonnegative"},
+        "refetches": {"$ref": "#/$defs/nonnegative"},
+        "unsatisfied_submissions": {"$ref": "#/$defs/nonnegative"},
+        "all_valid_submissions_reconstructible": {"type": "boolean"}
+      }
+    },
+    "primary": {
+      "allOf": [
+        {"$ref": "#/$defs/curve_base"},
+        {
+          "type": "object",
+          "required": [
+            "state_bytes", "observation_component_bytes",
+            "subtree_state_bytes_never_covering_submission",
+            "state_bytes_change_vs_observed_percent",
+            "observation_component_bytes_change_vs_observed_percent"
+          ],
+          "properties": {
+            "state_bytes": {"$ref": "#/$defs/nonnegative"},
+            "observation_component_bytes": {"$ref": "#/$defs/nonnegative"},
+            "subtree_state_bytes_never_covering_submission": {"$ref": "#/$defs/nonnegative"},
+            "state_bytes_change_vs_observed_percent": {"type": "number"},
+            "observation_component_bytes_change_vs_observed_percent": {"type": "number"}
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

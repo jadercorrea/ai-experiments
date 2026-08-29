@@ -43,7 +43,10 @@ an exact Calibration 005 runner. Calibration 005 completed with source 3/6 and
 semantic 0/6 hidden passes. Explicit state reduced average provider input per
 request by 37.14% and total tokens by 20.94% against Calibration 004, but the
 five supported semantic cells all exhausted their turn budget. Neither
-calibration authorizes an inferential or general efficacy claim.**
+calibration authorizes an inferential or general efficacy claim. Semantic
+Observation Churn Replay v1 now localizes the 140 semantic evictions to
+overlapping handle-level cache entries: a coverage-aware antichain eliminates
+them at capacity two, while increasing fixed-trace state bytes by 12.85%.**
 
 Snapshot date: **2026-08-26**
 
@@ -763,3 +766,15 @@ transport optimization while exposing semantic observation churn as the next
 red test. Because the exact Calibration 004 instances are reused, this remains
 a repeated within-instance calibration rather than a fresh benchmark. See
 [`CALIBRATION_005_OBSERVATION.md`](CALIBRATION_005_OBSERVATION.md).
+
+Semantic Observation Churn Replay v1 then reprocessed the exact 60 semantic
+turns without inference. Of 167 transferred target records, 128 revisited a
+known handle and 112 were descendants structurally covered by another target
+in the same inspection. Replacing handle-level LRU entries with maximal
+non-overlapping coverage roots reduces the replay from 140 evictions to zero
+at capacity two and keeps all eight valid recorded submissions reconstructible.
+Capacity one remains a negative control with eight unsatisfied submissions;
+capacity four adds nothing. The candidate retains more coherent context rather
+than less: fixed-trace state bytes rise 12.85%, so a future provider test must
+measure whether fewer inspection turns repay the larger state. See
+[`SEMANTIC_OBSERVATION_CHURN_V1_OBSERVATION.md`](SEMANTIC_OBSERVATION_CHURN_V1_OBSERVATION.md).
