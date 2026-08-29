@@ -49,7 +49,9 @@ overlapping handle-level cache entries: a coverage-aware antichain eliminates
 them at capacity two, while increasing fixed-trace state bytes by 12.85%.
 Coverage Working-Set State v2 now implements that policy and passes 5/5 frozen
 semantic references plus 66/66 recorded dispatch results; its executable state
-is 12.77% larger than observed v1.**
+is 12.77% larger than observed v1. Matched Coverage-Session Execution Freeze v2
+now isolates that projection as Calibration 006 and remains call-free pending
+`explicit_launch_006`.**
 
 Snapshot date: **2026-08-26**
 
@@ -794,3 +796,16 @@ the local infrastructure gates but not model-choice equivalence or provider
 efficacy; the next red test is a matched execution freeze that changes only the
 semantic memory policy. See
 [`COVERAGE_WORKING_SET_STATE_V2_OBSERVATION.md`](COVERAGE_WORKING_SET_STATE_V2_OBSERVATION.md).
+
+Matched Coverage-Session Execution Freeze v2 now binds the provider experiment
+that follows. It copies Calibration 005's task, context, and tool bytes and
+preserves its source memory, model, sampling, limits, schedule, accounting, and
+stopping rule while changing the semantic projection to coverage-root state
+v2. Its executable isolation gate rejects drift outside that boundary. The
+local preflight builds
+22 requests, passes 6/6 source and 5/5 supported semantic hidden references,
+and exercises five receipt-only reinspections with zero evictions, re-fetches,
+exceptions, or model calls. The freeze does not inherit any prior launch
+authorization; `explicit_launch_006` remains the only pending state transition.
+See
+[`MATCHED_COVERAGE_SESSION_EXECUTION_FREEZE_V2.md`](MATCHED_COVERAGE_SESSION_EXECUTION_FREEZE_V2.md).
