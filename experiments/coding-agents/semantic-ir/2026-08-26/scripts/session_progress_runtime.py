@@ -275,6 +275,7 @@ def _semantic_reference_submit(
 
 
 def _reference_cell(
+    freeze_root: pathlib.Path,
     freeze: dict[str, Any],
     cell: dict[str, Any],
     workspace: pathlib.Path,
@@ -282,7 +283,7 @@ def _reference_cell(
     task_root = SUITE_ROOT / cell["task_root"]
     task = load_final_task(task_root)
     session = SessionExecutionSession.create(
-        FREEZE_ROOT,
+        freeze_root,
         task_root,
         workspace,
         _task_entry(freeze, cell),
@@ -294,7 +295,7 @@ def _reference_cell(
     work_records = []
     for turn in range(1, 11):
         frozen = build_coverage_compacted_session_request(
-            FREEZE_ROOT,
+            freeze_root,
             freeze,
             cell,
             session,
@@ -302,7 +303,7 @@ def _reference_cell(
             turn=turn,
         )
         projected, contract = build_progress_controlled_session_request(
-            FREEZE_ROOT,
+            freeze_root,
             freeze,
             cell,
             session,
@@ -327,7 +328,7 @@ def _reference_cell(
         submit = _semantic_reference_submit(session, memory, task_root, task)
 
     commit_request, commit_contract = build_progress_controlled_session_request(
-        FREEZE_ROOT,
+        freeze_root,
         freeze,
         cell,
         session,
@@ -357,7 +358,7 @@ def _reference_cell(
         memory.observe(submit, submit_result, turn=11)
 
     finish_request, finish_contract = build_progress_controlled_session_request(
-        FREEZE_ROOT,
+        freeze_root,
         freeze,
         cell,
         session,
@@ -424,6 +425,7 @@ def _reference_cell(
 
 
 def _schema_escape_gate(
+    freeze_root: pathlib.Path,
     freeze: dict[str, Any],
     root: pathlib.Path,
 ) -> dict[str, Any]:
@@ -434,7 +436,7 @@ def _schema_escape_gate(
     )
     task_root = SUITE_ROOT / cell["task_root"]
     session = SessionExecutionSession.create(
-        FREEZE_ROOT,
+        freeze_root,
         task_root,
         root / "schema-escape-workspace",
         _task_entry(freeze, cell),
@@ -443,7 +445,7 @@ def _schema_escape_gate(
     )
     memory = CoverageCompactedSessionMemory(freeze, cell)
     _, contract = build_progress_controlled_session_request(
-        FREEZE_ROOT,
+        freeze_root,
         freeze,
         cell,
         session,
@@ -467,19 +469,12 @@ def _schema_escape_gate(
     }
 
 
-def build_session_progress_runtime(destination: pathlib.Path) -> dict[str, Any]:
-    """Run all local gates and bind the parallel runtime evidence."""
+def preflight_session_progress_runtime(
+    freeze_root: pathlib.Path,
+    freeze: dict[str, Any],
+) -> dict[str, Any]:
+    """Run reference and escape gates against the supplied freeze package."""
 
-    if destination.exists():
-        raise ValueError(f"destination already exists: {destination}")
-    mismatches = verify_lock(
-        FREEZE_ROOT,
-        FREEZE_ROOT / "publication" / "artifact-lock.json",
-    )
-    if mismatches:
-        raise ValueError(f"source freeze artifact lock failed: {mismatches}")
-    freeze = _read_json(FREEZE_ROOT / "freeze.json")
-    destination.mkdir(parents=True)
     callable_cells = [
         cell for cell in freeze["schedule"]["cells"] if cell["provider_call"]
     ]
@@ -487,36 +482,34 @@ def build_session_progress_runtime(destination: pathlib.Path) -> dict[str, Any]:
     with tempfile.TemporaryDirectory() as temporary:
         root = pathlib.Path(temporary)
         for cell in callable_cells:
-            record = _reference_cell(
-                freeze,
-                cell,
-                root / f"{cell['sequence']:02d}-workspace",
+            cell_records.append(
+                _reference_cell(
+                    freeze_root,
+                    freeze,
+                    cell,
+                    root / f"{cell['sequence']:02d}-workspace",
+                )
             )
-            cell_records.append(record)
-            _write_json(
-                destination / "cells" / f"{cell['sequence']:02d}.json",
-                record,
-            )
-        escape = _schema_escape_gate(freeze, root)
+        escape = _schema_escape_gate(freeze_root, freeze, root)
     failures = [
         f"{cell['cell_id']}: {failure}"
         for cell in cell_records
         for failure in cell["failures"]
     ]
-    work_requests = sum(cell["work"]["requests"] for cell in cell_records)
-    work_matches = sum(
-        cell["work"]["byte_identical_requests"] for cell in cell_records
-    )
     source = [cell for cell in cell_records if cell["arm"] == "source"]
     semantic = [cell for cell in cell_records if cell["arm"] == "semantic"]
-    summary = {
+    return {
         "schema_version": (
-            "ai-experiments.semantic-ir.session-progress-runtime/v1"
+            "ai-experiments.semantic-ir.session-progress-runtime-preflight/v1"
         ),
         "status": "local_reference_complete" if not failures else "failed",
         "callable_cells": len(cell_records),
-        "work_phase_requests": work_requests,
-        "work_phase_byte_identical_requests": work_matches,
+        "work_phase_requests": sum(
+            cell["work"]["requests"] for cell in cell_records
+        ),
+        "work_phase_byte_identical_requests": sum(
+            cell["work"]["byte_identical_requests"] for cell in cell_records
+        ),
         "commit_phase_mutations": sum(
             cell["commit"]["mutation_accepted"] for cell in cell_records
         ),
@@ -536,6 +529,40 @@ def build_session_progress_runtime(destination: pathlib.Path) -> dict[str, Any]:
         "reference_failures": failures,
         "schema_escape": escape,
         "model_calls_observed": 0,
+        "cells": cell_records,
+    }
+
+
+def build_session_progress_runtime(destination: pathlib.Path) -> dict[str, Any]:
+    """Run all local gates and bind the parallel runtime evidence."""
+
+    if destination.exists():
+        raise ValueError(f"destination already exists: {destination}")
+    mismatches = verify_lock(
+        FREEZE_ROOT,
+        FREEZE_ROOT / "publication" / "artifact-lock.json",
+    )
+    if mismatches:
+        raise ValueError(f"source freeze artifact lock failed: {mismatches}")
+    freeze = _read_json(FREEZE_ROOT / "freeze.json")
+    destination.mkdir(parents=True)
+    preflight = preflight_session_progress_runtime(FREEZE_ROOT, freeze)
+    for cell in preflight["cells"]:
+        sequence = next(
+            candidate["sequence"]
+            for candidate in freeze["schedule"]["cells"]
+            if candidate["cell_id"] == cell["cell_id"]
+        )
+        _write_json(destination / "cells" / f"{sequence:02d}.json", cell)
+    summary = {
+        "schema_version": (
+            "ai-experiments.semantic-ir.session-progress-runtime/v1"
+        ),
+        **{
+            key: value
+            for key, value in preflight.items()
+            if key not in {"schema_version", "cells"}
+        },
         "claim_boundary": {
             "known_references_used_locally": True,
             "provider_schema_adherence_claimed": False,

@@ -55,7 +55,9 @@ now isolates that projection as Calibration 006 and remains call-free pending
 Runtime v1 now projects a matched terminal reserve through a parallel local
 request/dispatch path: 110/110 open-phase requests remain byte-identical, all
 eleven known references cross commit and finish, and no model call has occurred
-under this new runtime checkpoint.**
+under this runtime checkpoint. Matched Progress-Session Execution Freeze v1
+now seals the same intervention as Calibration 007 and leaves only the separate
+`explicit_launch_007` transition pending.**
 
 Snapshot date: **2026-08-26**
 
@@ -852,3 +854,15 @@ references. A synthetic schema escape is retained as a typed recoverable error
 without dispatch. This remains call-free construction evidence, not provider
 efficacy. See
 [`SESSION_PROGRESS_RUNTIME_V1_OBSERVATION.md`](SESSION_PROGRESS_RUNTIME_V1_OBSERVATION.md).
+
+Matched Progress-Session Execution Freeze v1 now binds that runtime to a
+provider-ready but call-free Calibration 007 package. It preserves the complete
+Calibration 006 task, context, tool, model, sampling, limit, accounting,
+isolation, schedule, stopping, analysis, and memory-policy fields. The only
+model-visible delta is the matched state-dependent opcode enum. Its self-hosted
+preflight reproduces 110/110 work requests byte for byte, accepts 11/11 known
+reference mutations under commit, terminates 11/11 sessions under the reserved
+finish surface, and retains 6/6 source plus 5/5 supported semantic hidden
+passes. Provider execution remains unauthorized; no prior launch is inherited.
+See
+[`MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md`](MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md).

@@ -12,7 +12,7 @@ synthetic finish-phase `I` escape is returned as the typed recoverable error
 No provider or model call occurred.**
 
 The 12-file evidence package is content-locked with tree digest
-`4e3855cdb29651868f6bf321f421e1af894d06f530ba556ab6230e1a572145d1`.
+`8ac3c912a5a3b8ae9eede80305903eb13ad42e75ad186227fe1bd452c74d7d06`.
 It depends on the exact Calibration 006 freeze while leaving its runner and
 all frozen assets unchanged.
 
@@ -105,20 +105,20 @@ record schema escapes separately from ordinary tool-request errors.
 - No Pass@1, token, latency, cost, or convergence improvement is claimed.
 - The source and semantic workspaces are evaluated locally with the existing
   hidden evaluators.
-- Calibration 007 is not yet frozen or authorized.
+- This runtime artifact did not itself freeze or authorize Calibration 007.
 
-## The next red test
+## Subsequent freeze status
 
-Freeze a matched Calibration 007 package around a new runner that consumes
-this adapter. It must preserve Calibration 006 task, context, model, sampling,
-limits, schedule, accounting, memory policies, and stopping rule while changing
-only the progress projection and its typed escape accounting. The 110-request
-work-surface equality gate and all eleven terminal-reference trajectories must
-be repeated from the candidate freeze itself.
+Matched Progress-Session Execution Freeze v1 subsequently completed this gate.
+It preserves Calibration 006 task, context, model, sampling, limits, schedule,
+accounting, memory policies, and stopping rule while changing only the progress
+projection and its typed escape accounting. Its own preflight repeats the
+110-request work-surface equality gate and all eleven terminal-reference
+trajectories. See
+[`MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md`](MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md).
 
-Only after the freeze, contamination audit, artifact lock, and separate launch
-contract pass should a provider execution be considered. The empirical
-question remains narrow:
+Provider execution remains unauthorized pending `explicit_launch_007`. The
+empirical question remains narrow:
 
 `does the provider use a structurally reserved terminal opportunity
 productively?`

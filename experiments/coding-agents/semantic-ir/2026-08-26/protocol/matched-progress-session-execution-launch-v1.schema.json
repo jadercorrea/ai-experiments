@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/matched-progress-session-execution-launch-v1.schema.json",
+  "title": "Matched progress-session Calibration 007 explicit launch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "launch_id", "authorized_at",
+    "explicit_user_authorization", "freeze_sha256",
+    "freeze_artifact_lock_sha256", "model_lock_sha256",
+    "prelaunch_contamination_audit_repeated",
+    "experimental_subject_calls_before_launch",
+    "fresh_subject_context_confirmed", "credential_preflight_passed",
+    "exact_endpoint_and_iam_scope_confirmed",
+    "provider_retention_policy_checked", "provider_retention_policy_basis",
+    "frozen_artifact_digests_reverified"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.matched-progress-session-execution-launch/v1"
+    },
+    "launch_id": {"type": "string", "minLength": 1},
+    "authorized_at": {"type": "string", "format": "date-time"},
+    "explicit_user_authorization": {"const": true},
+    "freeze_sha256": {"$ref": "#/$defs/sha256"},
+    "freeze_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "model_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "prelaunch_contamination_audit_repeated": {"const": true},
+    "experimental_subject_calls_before_launch": {"const": 0},
+    "fresh_subject_context_confirmed": {"const": true},
+    "credential_preflight_passed": {"const": true},
+    "exact_endpoint_and_iam_scope_confirmed": {"const": true},
+    "provider_retention_policy_checked": {"const": true},
+    "provider_retention_policy_basis": {"type": "string", "minLength": 1},
+    "frozen_artifact_digests_reverified": {"const": true}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
