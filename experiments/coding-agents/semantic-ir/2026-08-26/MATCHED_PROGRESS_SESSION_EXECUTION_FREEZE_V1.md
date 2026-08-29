@@ -153,9 +153,17 @@ Exactly one state transition remains:
 
 `explicit_launch_007`
 
-No `launch.json` exists in the freeze. Before provider execution, a new launch
-artifact must bind the freeze and artifact-lock digests, repeat the
-contamination audit, reverify all frozen dependencies, confirm fresh subject
-contexts, credentials, endpoint and IAM scope, provider retention policy, and
-record explicit new user authorization. No previous authorization is
-inherited.
+The prelaunch audit was repeated on 2026-08-29. It reverified all 19 frozen
+dependencies and all 26 freeze artifacts, reproduced 110/110 work-phase
+requests byte for byte, completed all eleven local commit/finish references,
+confirmed the exact Keychain credential is readable without recording it, and
+rechecked current official provider policy. It observed zero model calls.
+
+The audit is recorded in
+`construction/matched-progress-session-execution-launch-007.preflight.json`.
+It deliberately records `launch_clear=false`: the user's authorization covered
+preparation and audit, not provider execution. No launch artifact exists.
+
+Before provider execution, a new launch artifact must bind the freeze and
+artifact-lock digests and record explicit new authorization for the informed
+execution scope. No previous authorization is inherited.

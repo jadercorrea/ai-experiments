@@ -56,8 +56,10 @@ Runtime v1 now projects a matched terminal reserve through a parallel local
 request/dispatch path: 110/110 open-phase requests remain byte-identical, all
 eleven known references cross commit and finish, and no model call has occurred
 under this runtime checkpoint. Matched Progress-Session Execution Freeze v1
-now seals the same intervention as Calibration 007 and leaves only the separate
-`explicit_launch_007` transition pending.**
+now seals the same intervention as Calibration 007. Its repeated prelaunch
+audit passes locally with zero model calls, but remains explicitly
+`launch_clear=false`; only a new, informed authorization for provider execution
+can perform the separate `explicit_launch_007` transition.**
 
 Snapshot date: **2026-08-26**
 
