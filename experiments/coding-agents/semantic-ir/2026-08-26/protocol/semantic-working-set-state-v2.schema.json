@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-working-set-state-v2.schema.json",
+  "title": "Coding-agent semantic coverage working-set state v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "cell_id", "arm", "next_turn", "namespaces",
+    "workspace", "context_reads", "semantic_capability_index",
+    "semantic_working_set", "working_set_policy", "errors", "evaluations",
+    "submissions", "counters"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.semantic-working-set-state/v2"
+    },
+    "cell_id": {"type": "string", "minLength": 1},
+    "arm": {"const": "semantic"},
+    "next_turn": {"type": "integer", "minimum": 1, "maximum": 12},
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "workspace", "semantic_handles"],
+      "properties": {
+        "context": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "workspace": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "semantic_handles": {
+          "type": "array", "uniqueItems": true,
+          "items": {"$ref": "#/$defs/handle"}
+        }
+      }
+    },
+    "workspace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "bytes", "sha256", "content"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "context_reads": {"type": "array", "items": {"type": "object"}},
+    "semantic_capability_index": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "handle", "node_id", "op", "parent", "scope", "slot",
+          "state_token", "target_token", "covered_by"
+        ],
+        "properties": {
+          "handle": {"$ref": "#/$defs/handle"},
+          "node_id": {"type": "string", "minLength": 1},
+          "op": {"type": "string", "minLength": 1},
+          "parent": {"type": ["string", "null"]},
+          "scope": {"type": "array"},
+          "slot": {"type": ["string", "null"]},
+          "state_token": {"type": "string", "minLength": 1},
+          "target_token": {"type": "string", "minLength": 1},
+          "covered_by": {
+            "oneOf": [
+              {"$ref": "#/$defs/handle"},
+              {"type": "null"}
+            ]
+          }
+        }
+      }
+    },
+    "semantic_working_set": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["handle", "subtree"],
+        "properties": {
+          "handle": {"$ref": "#/$defs/handle"},
+          "subtree": {"type": "object"}
+        }
+      }
+    },
+    "working_set_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capacity", "capacity_unit", "replacement", "fault_trigger",
+        "resident_roots", "covered_handles", "refetches",
+        "refetched_targets", "admitted_roots", "receipt_only_inspections",
+        "coalescences", "evictions", "unsatisfied_submissions"
+      ],
+      "properties": {
+        "capacity": {"type": "integer", "minimum": 1},
+        "capacity_unit": {"const": "non_overlapping_subtree_root"},
+        "replacement": {"const": "coverage_antichain_lru"},
+        "fault_trigger": {"const": "current_submit_target_miss"},
+        "resident_roots": {
+          "type": "array", "uniqueItems": true,
+          "items": {"$ref": "#/$defs/handle"}
+        },
+        "covered_handles": {"type": "integer", "minimum": 0},
+        "refetches": {"type": "integer", "minimum": 0},
+        "refetched_targets": {"type": "integer", "minimum": 0},
+        "admitted_roots": {"type": "integer", "minimum": 0},
+        "receipt_only_inspections": {"type": "integer", "minimum": 0},
+        "coalescences": {"type": "integer", "minimum": 0},
+        "evictions": {"type": "integer", "minimum": 0},
+        "unsatisfied_submissions": {"type": "integer", "minimum": 0}
+      }
+    },
+    "errors": {"type": "array", "maxItems": 8, "items": {"type": "object"}},
+    "evaluations": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "submissions": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "counters": {"type": "object"}
+  },
+  "$defs": {
+    "handle": {"type": "string", "pattern": "^n[0-9]+$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

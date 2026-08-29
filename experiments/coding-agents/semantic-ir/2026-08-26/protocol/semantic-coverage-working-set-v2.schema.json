@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-coverage-working-set-v2.schema.json",
+  "title": "Semantic coverage working-set runtime evidence v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "known_reference_preflight",
+    "recorded_action_replay", "runtime_projection", "claim_boundary",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.semantic-coverage-working-set/v2"
+    },
+    "status": {"const": "local_runtime_projection_complete"},
+    "known_reference_preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semantic_supported_cells", "semantic_hidden_passes",
+        "satisfied_submissions", "reference_failures", "model_calls_observed"
+      ],
+      "properties": {
+        "semantic_supported_cells": {"const": 5},
+        "semantic_hidden_passes": {"type": "integer", "minimum": 0, "maximum": 5},
+        "satisfied_submissions": {"type": "integer", "minimum": 0, "maximum": 5},
+        "reference_failures": {"type": "array", "items": {"type": "string"}},
+        "model_calls_observed": {"const": 0}
+      }
+    },
+    "recorded_action_replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semantic_cells", "turns", "tool_actions", "exact_result_matches",
+        "result_mismatches", "automatic_refetches", "model_calls_observed"
+      ],
+      "properties": {
+        "semantic_cells": {"const": 5},
+        "turns": {"const": 60},
+        "tool_actions": {"$ref": "#/$defs/nonnegative"},
+        "exact_result_matches": {"$ref": "#/$defs/nonnegative"},
+        "result_mismatches": {"$ref": "#/$defs/nonnegative"},
+        "automatic_refetches": {"$ref": "#/$defs/nonnegative"},
+        "model_calls_observed": {"const": 0}
+      }
+    },
+    "runtime_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capacity", "capacity_unit", "state_bytes", "observed_v1_state_bytes",
+        "change_vs_observed_v1_percent", "evictions", "coalescences",
+        "admitted_roots", "receipt_only_inspections", "refetches",
+        "refetch_exchange_bytes", "unsatisfied_submissions"
+      ],
+      "properties": {
+        "capacity": {"const": 2},
+        "capacity_unit": {"const": "non_overlapping_subtree_root"},
+        "state_bytes": {"$ref": "#/$defs/nonnegative"},
+        "observed_v1_state_bytes": {"$ref": "#/$defs/nonnegative"},
+        "change_vs_observed_v1_percent": {"type": "number"},
+        "evictions": {"$ref": "#/$defs/nonnegative"},
+        "coalescences": {"$ref": "#/$defs/nonnegative"},
+        "admitted_roots": {"$ref": "#/$defs/nonnegative"},
+        "receipt_only_inspections": {"$ref": "#/$defs/nonnegative"},
+        "refetches": {"$ref": "#/$defs/nonnegative"},
+        "refetch_exchange_bytes": {"$ref": "#/$defs/nonnegative"},
+        "unsatisfied_submissions": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known_reference_hidden_equivalence",
+        "recorded_action_result_equivalence", "model_choice_equivalence",
+        "provider_native_token_claim", "future_action_oracle_used",
+        "model_calls_authorized", "model_calls_observed",
+        "provider_launch_authorized"
+      ],
+      "properties": {
+        "known_reference_hidden_equivalence": {"type": "boolean"},
+        "recorded_action_result_equivalence": {"type": "boolean"},
+        "model_choice_equivalence": {"const": false},
+        "provider_native_token_claim": {"const": false},
+        "future_action_oracle_used": {"const": false},
+        "model_calls_authorized": {"const": false},
+        "model_calls_observed": {"const": 0},
+        "provider_launch_authorized": {"const": false}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array", "minItems": 9, "maxItems": 9,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonnegative": {"type": "integer", "minimum": 0},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

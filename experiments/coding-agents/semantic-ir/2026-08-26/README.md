@@ -46,7 +46,10 @@ five supported semantic cells all exhausted their turn budget. Neither
 calibration authorizes an inferential or general efficacy claim. Semantic
 Observation Churn Replay v1 now localizes the 140 semantic evictions to
 overlapping handle-level cache entries: a coverage-aware antichain eliminates
-them at capacity two, while increasing fixed-trace state bytes by 12.85%.**
+them at capacity two, while increasing fixed-trace state bytes by 12.85%.
+Coverage Working-Set State v2 now implements that policy and passes 5/5 frozen
+semantic references plus 66/66 recorded dispatch results; its executable state
+is 12.77% larger than observed v1.**
 
 Snapshot date: **2026-08-26**
 
@@ -778,3 +781,16 @@ capacity four adds nothing. The candidate retains more coherent context rather
 than less: fixed-trace state bytes rise 12.85%, so a future provider test must
 measure whether fewer inspection turns repay the larger state. See
 [`SEMANTIC_OBSERVATION_CHURN_V1_OBSERVATION.md`](SEMANTIC_OBSERVATION_CHURN_V1_OBSERVATION.md).
+
+Coverage Working-Set State v2 then moved the candidate policy into a parallel
+runtime without changing the frozen v1 sources. Every capability carries an
+explicit `covered_by` relation, while full subtrees occupy only maximal
+non-overlapping roots. The local reference gate passed all five supported
+semantic patches and hidden evaluations. Replaying Calibration 005 through the
+real dispatcher reproduced all 66 action results across 60 turns with zero
+evictions, automatic re-fetches, or unsatisfied submissions. The executable v2
+projection used 506,758 state bytes, 12.77% more than observed v1. This clears
+the local infrastructure gates but not model-choice equivalence or provider
+efficacy; the next red test is a matched execution freeze that changes only the
+semantic memory policy. See
+[`COVERAGE_WORKING_SET_STATE_V2_OBSERVATION.md`](COVERAGE_WORKING_SET_STATE_V2_OBSERVATION.md).
