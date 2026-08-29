@@ -161,14 +161,16 @@ general efficacy claims remain unauthorized.
 ## The next red test
 
 Before another provider launch, replay Calibration 006 locally and make turn
-spending observable. The next candidate should add an explicit progress state
-to the session ISA, including at least:
+spending enforceable. A request audit performed in the next slice confirmed
+that remaining model turns and mutation/evaluation budgets were already
+present in the compact state. The next candidate must therefore promote those
+passive counters into an explicit phase contract, including at least:
 
-- remaining model turns and mutation/evaluation budgets;
-- the current phase (`observe`, `mutate`, `validate`, or `finish`);
-- evidence that justifies another inspection rather than a submission;
-- a deterministic terminal reserve that prevents the last available turn from
-  being consumed by observation.
+- a state-dependent legal opcode surface;
+- a commit phase that excludes passive observation and effects whose budgets
+  are already exhausted;
+- a deterministic terminal reserve that advertises only `F` on the final turn;
+- a runtime backstop for providers that escape the advertised schema.
 
 The next hypothesis is:
 

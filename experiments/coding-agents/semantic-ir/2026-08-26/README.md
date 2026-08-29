@@ -821,3 +821,16 @@ deltas remain descriptive rather than causal. This turns the memory-policy
 test green while leaving action convergence red: the next slice must add
 explicit progress and terminal-budget semantics to the Session ISA. See
 [`CALIBRATION_006_OBSERVATION.md`](CALIBRATION_006_OBSERVATION.md).
+
+Session Progress Control v1 then corrected the next diagnosis: Calibration 006
+already exposed remaining turns, mutation attempts, and evaluation budgets in
+every compact state after turn one. Those counters were passive. A local
+fixed-trace replay now projects the existing budget into a matched dynamic ISA
+surface: both arms retain their frozen vocabulary through turn ten, narrow to
+the still-budgeted subset of `E/S` plus `F` with two turns remaining, and
+expose only `F` on the final turn. The candidate conflicts with 26 recorded
+instructions across all ten turn-limit cells and first diverges at turn eleven
+in every one. This establishes that
+the policy reaches the observed failure before exhaustion, not what the model
+would choose afterward. No model call or outcome improvement is claimed. See
+[`SESSION_PROGRESS_CONTROL_V1_OBSERVATION.md`](SESSION_PROGRESS_CONTROL_V1_OBSERVATION.md).
