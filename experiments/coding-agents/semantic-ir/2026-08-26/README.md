@@ -809,3 +809,15 @@ exceptions, or model calls. The freeze does not inherit any prior launch
 authorization; `explicit_launch_006` remains the only pending state transition.
 See
 [`MATCHED_COVERAGE_SESSION_EXECUTION_FREEZE_V2.md`](MATCHED_COVERAGE_SESSION_EXECUTION_FREEZE_V2.md).
+
+Calibration 006 then executed the complete frozen schedule. Coverage-root
+state eliminated the intended memory churn: the five supported semantic cells
+recorded zero evictions and zero automatic re-fetches, versus 140 and one in
+Calibration 005. The behavioral result did not improve. All five semantic
+cells again exhausted twelve turns without `F`, hidden Pass@1 remained 0/5,
+semantic total tokens rose 1.60%, and semantic cost rose 4.71%. The unchanged
+source arm also varied from three hidden passes to one, so cross-run efficacy
+deltas remain descriptive rather than causal. This turns the memory-policy
+test green while leaving action convergence red: the next slice must add
+explicit progress and terminal-budget semantics to the Session ISA. See
+[`CALIBRATION_006_OBSERVATION.md`](CALIBRATION_006_OBSERVATION.md).

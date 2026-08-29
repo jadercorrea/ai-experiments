@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I can see the issue clearly from the session state. The test expects `\"empty_identifier\"` but the code returns `\"invalid_user_id\"`. I need to change that error code in `src/lookup-user.ts`.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -15,7 +15,7 @@\\n     return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n-      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n+      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \\\"empty_identifier\\\" })\\n       : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_8wCE2SkAZxDg4wM9ijWa9d",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-f94419394239969afeba69ad",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 385,
+    "prompt_tokens": 2620,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3005
+  }
+}

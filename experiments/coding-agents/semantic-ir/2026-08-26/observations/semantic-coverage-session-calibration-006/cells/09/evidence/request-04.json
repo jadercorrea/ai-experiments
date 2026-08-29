@@ -1,0 +1,56 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. After turn one, prior assistant and tool messages are replaced by an authoritative typed state snapshot. Semantic S target misses are re-fetched deterministically by the runtime. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "SESSION_STATE/v1\n{\"arm\":\"source\",\"cell_id\":\"semantic-ir-coverage-session-calibration-006/directory-fallback-001/source\",\"context_reads\":[],\"counters\":{\"finished\":false,\"instructions_by_opcode\":{\"C\":1,\"L\":1,\"W\":3},\"mutation_attempts\":0,\"public_evaluations\":0,\"remaining_mutation_attempts\":3,\"remaining_public_evaluations\":2,\"remaining_turns\":9,\"tool_calls\":5,\"validation_failures\":{}},\"errors\":[],\"evaluations\":[],\"namespaces\":{\"context\":[\"context://mode\",\"context://task\"],\"semantic_handles\":[],\"workspace\":[\"deno.json\",\"src/lookup-user.ts\",\"tests/public.test.ts\"]},\"next_turn\":4,\"schema_version\":\"ai-experiments.semantic-ir.session-state/v1\",\"semantic_inspections\":[],\"submissions\":[],\"workspace\":[{\"bytes\":107,\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1819,\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function executeWithDirectory(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc\"},{\"bytes\":942,\"content\":\"import { executeWithDirectory } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"returns a directory hit after local miss\\\", () => {\\n  const capabilities = {\\n    users: { getById(_id: string) { return undefined; } },\\n    directory: { getById(id: string) { return { id, name: \\\"Directory\\\" }; } },\\n  };\\n  assertEquals(executeWithDirectory(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Directory\\\" } });\\n});\\n\\nDeno.test(\\\"preserves a local hit\\\", () => {\\n  const capabilities = {\\n    users: { getById(id: string) { return { id, name: \\\"Local\\\" }; } },\\n    directory: { getById(_id: string) { return undefined; } },\\n  };\\n  assertEquals(executeWithDirectory(\\\"42\\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Local\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e\"}]}",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}
