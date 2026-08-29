@@ -37,7 +37,7 @@ STATE_PREFIXES = (
     "SESSION_STATE/v1\n",
     "SEMANTIC_WORKING_SET_STATE/v2\n",
 )
-SOURCE_OPCODES = ("C", "R", "L", "W", "E", "S", "F")
+SOURCE_OPCODES = ("C", "R", "I", "L", "W", "E", "S", "F")
 SEMANTIC_OPCODES = ("C", "R", "I", "L", "W", "E", "S", "F")
 COMMIT_OPCODES = ("E", "S", "F")
 FINISH_OPCODES = ("F",)
@@ -50,6 +50,10 @@ from build_artifact_lock import sha256, verify_lock, write_lock  # noqa: E402
 
 class ProgressControlError(ValueError):
     """Raised when a progress contract or masked instruction is invalid."""
+
+
+class ProgressInstructionUnavailable(ProgressControlError):
+    """Raised when a valid contract excludes the sampled opcode."""
 
 
 def _read_json(path: pathlib.Path) -> dict[str, Any]:
@@ -206,7 +210,7 @@ def validate_progress_instruction(
     _validate_contract(contract)
     opcode = instruction.get("i")
     if opcode not in contract["allowed_opcodes"]:
-        raise ProgressControlError(
+        raise ProgressInstructionUnavailable(
             f"opcode {opcode} is unavailable during {contract['phase']}"
         )
 

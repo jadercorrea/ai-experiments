@@ -51,7 +51,11 @@ Coverage Working-Set State v2 now implements that policy and passes 5/5 frozen
 semantic references plus 66/66 recorded dispatch results; its executable state
 is 12.77% larger than observed v1. Matched Coverage-Session Execution Freeze v2
 now isolates that projection as Calibration 006 and remains call-free pending
-`explicit_launch_006`.**
+`explicit_launch_006`. Calibration 006 later completed, and Session Progress
+Runtime v1 now projects a matched terminal reserve through a parallel local
+request/dispatch path: 110/110 open-phase requests remain byte-identical, all
+eleven known references cross commit and finish, and no model call has occurred
+under this new runtime checkpoint.**
 
 Snapshot date: **2026-08-26**
 
@@ -834,3 +838,17 @@ in every one. This establishes that
 the policy reaches the observed failure before exhaustion, not what the model
 would choose afterward. No model call or outcome improvement is claimed. See
 [`SESSION_PROGRESS_CONTROL_V1_OBSERVATION.md`](SESSION_PROGRESS_CONTROL_V1_OBSERVATION.md).
+
+Session Progress Runtime v1 then moved the candidate from fixed-trace analysis
+into an executable parallel adapter without changing the Calibration 006
+runner. Its first equality gate corrected a descriptive bug in the replay: the
+matched source and semantic requests share the same complete `C/R/I/L/W/E/S/F`
+wire enum through turn ten, even though source rejects `I` at dispatch. After
+that correction, all 110 work-phase requests are byte-identical to the freeze.
+All eleven known-reference mutations are accepted under the turn-eleven
+`E/S/F` surface; all eleven sessions terminate under the turn-twelve `F`-only
+surface; source passes 6/6 hidden references and semantic passes 5/5 supported
+references. A synthetic schema escape is retained as a typed recoverable error
+without dispatch. This remains call-free construction evidence, not provider
+efficacy. See
+[`SESSION_PROGRESS_RUNTIME_V1_OBSERVATION.md`](SESSION_PROGRESS_RUNTIME_V1_OBSERVATION.md).

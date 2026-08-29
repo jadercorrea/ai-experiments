@@ -19,7 +19,18 @@ The replay is bound to Calibration 006's result and 333-file evidence lock. It
 reads all 128 recorded provider turns, makes no model call, uses neither hidden
 evaluator output nor reference patches, and writes a 13-file evidence package
 with tree digest
-`1be4425581976344a0b1949823140d4fba0e1d3af87c39d1bfa87cdc8eac8dbe`.
+`08a3a11f0d41e5a88f1a8ba54427e4c068a2a4f1f1d4b1f3a45b70db36cbf5af`.
+
+### Post-construction surface correction
+
+The parallel-runtime gate exposed one descriptive error in the first replay
+artifact. The exact matched tool schema is shared by both arms and advertises
+`I` to source as well as semantic. Source rejects that instruction at runtime,
+but removing it during the open work phase would change the frozen wire
+surface. The v1 artifact was rebuilt so both arms preserve the complete shared
+enum through turn ten. The correction changes the source contract description
+and evidence digest; it changes none of the 26 fixed-trace conflict counts or
+first-divergence turns.
 
 ## The corrected diagnosis
 
@@ -60,7 +71,7 @@ Terminal Reserve v1 applies identically to both matched arms:
 
 | Remaining turns, including current | Phase | Allowed opcodes |
 | ---: | --- | --- |
-| 3 or more | `work` | Frozen arm-specific surface |
+| 3 or more | `work` | Complete frozen shared surface |
 | 2 | `commit` | budgeted subset of `E`/`S`, plus `F` |
 | 1 | `finish` | `F` |
 

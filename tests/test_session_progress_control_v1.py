@@ -60,7 +60,8 @@ class SessionProgressContractTest(unittest.TestCase):
 
         self.assertEqual(source["phase"], "work")
         self.assertEqual(
-            source["allowed_opcodes"], ["C", "R", "L", "W", "E", "S", "F"]
+            source["allowed_opcodes"],
+            ["C", "R", "I", "L", "W", "E", "S", "F"],
         )
         self.assertEqual(
             semantic["allowed_opcodes"],
