@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/provider-schema-capability-probe-authorization-v2.schema.json",
+  "title": "Provider schema capability probe authorization v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authorization_id",
+    "authorized_at",
+    "explicit_user_authorization",
+    "scope",
+    "maximum_provider_requests",
+    "calibration_launch_authorized",
+    "execution_freeze_sha256",
+    "grammar_artifact_lock_sha256",
+    "commit_schema_sha256",
+    "finish_schema_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.provider-schema-capability-probe-authorization/v2"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._/-]+$"
+    },
+    "authorized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "explicit_user_authorization": {"const": true},
+    "scope": {"const": "provider_schema_capability_probe_v2_only"},
+    "maximum_provider_requests": {"const": 2},
+    "calibration_launch_authorized": {"const": false},
+    "execution_freeze_sha256": {"$ref": "#/$defs/sha256"},
+    "grammar_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "commit_schema_sha256": {"$ref": "#/$defs/sha256"},
+    "finish_schema_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

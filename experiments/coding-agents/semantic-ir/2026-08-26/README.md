@@ -81,7 +81,12 @@ proves the same local instance language over all seven opcode subsets, preserves
 110/110 work requests byte for byte, binds the exact v2 schema to request and
 pre-dispatch validation, and makes no provider call. A separately authorized v2
 capability probe remains the next red test; Calibration 008 is still
-unauthorized.**
+unauthorized. Provider Schema Capability Probe 002 then consumed that bounded
+authorization. Both exact v2 schemas advanced past the root check and were
+rejected because the endpoint does not support a top-level `oneOf`, `allOf`, or
+`anyOf` in tool input schemas. No generation occurred; tokens and cost remained
+zero. A classification spelling defect was corrected offline without repeating
+either request. A nested target lowering is now the next local red test.**
 
 Snapshot date: **2026-08-26**
 
@@ -953,3 +958,15 @@ pre-dispatch backstop, and rejects an extra-argument `F` without dispatch. The
 Bedrock adapter preserves the new declaration, but provider admission of the
 inner keywords remains unobserved. No launch or provider call occurred. See
 [`PROVIDER_ADMISSIBLE_SESSION_INSTRUCTION_GRAMMAR_V2_OBSERVATION.md`](PROVIDER_ADMISSIBLE_SESSION_INSTRUCTION_GRAMMAR_V2_OBSERVATION.md).
+
+Provider Schema Capability Probe 002 then exercised those two exact v2 schemas
+under a new authorization bound to the execution freeze, Grammar v2 lock, and
+both schema hashes. The endpoint advanced beyond the explicit root declaration
+but rejected both requests because their tool input schemas place `oneOf` at
+the top level. Neither request reached model generation, leaving tokens and
+cost at zero and the remaining branch keywords unobserved. The initial derived
+result misclassified the snake-case `input_schema` error as infrastructure;
+classification revision 2 corrected it offline while preserving both raw
+responses and exactly two gateway events. Calibration 008 remains unauthorized.
+See
+[`PROVIDER_SCHEMA_CAPABILITY_PROBE_002_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_002_OBSERVATION.md).
