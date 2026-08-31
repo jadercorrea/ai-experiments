@@ -91,7 +91,13 @@ target lowering with `{"v": instruction}`. It proves a bijection with v2 over
 all seven opcode subsets, preserves 110/110 work requests, removes top-level
 union from all 22 reserved schemas, and adds 83 canonical bytes per schema. A
 semantic `$ref` regression was caught and fixed by hoisting `$defs` to the root.
-No provider call occurred; Probe 003 is the next gate.**
+Provider Schema Capability Probe 003 then exercised the two exact v3 schemas.
+Both reached model generation with HTTP 200, and both sampled calls validated;
+the adversarial finish sample discarded the forbidden extra argument. The two
+requests consumed 2,380 total tokens at an estimated USD 0.008148. This proves
+admission of these nested-union schema objects and records two adherence
+samples, not constrained decoding or independent keyword enforcement.
+Calibration 008 remains unauthorized and unexecuted.**
 
 Snapshot date: **2026-08-26**
 
@@ -985,5 +991,19 @@ hoists `$defs` to the document root and reconstructs v2 exactly. All 110 work
 requests remain byte-identical, zero of 22 reserved schemas retain a top-level
 union, valid `F[]` unwraps once, and malformed envelopes never dispatch. The
 envelope adds 83 canonical bytes to both commit and finish schemas. Provider
-acceptance remains unobserved and Probe 003 is not authorized. See
+acceptance remained a separate red test. See
 [`NESTED_SESSION_INSTRUCTION_GRAMMAR_V3_OBSERVATION.md`](NESTED_SESSION_INSTRUCTION_GRAMMAR_V3_OBSERVATION.md).
+
+Provider Schema Capability Probe 003 then sent exactly two synthetic requests
+under a new authorization bound to the execution freeze, Grammar v3 lock, and
+both exact schema hashes. Bedrock accepted the complete commit and finish
+schemas with HTTP 200, establishing that this endpoint admits the instruction
+union beneath the required `v` property. Both responses called the expected
+tool with `{"v":{"i":"F","a":[]}}`; the adversarial finish sample ignored the
+request for a forbidden extra item and remained schema-valid. The probe used
+2,296 input and 84 output tokens, with estimated cost USD 0.008148. These two
+samples do not prove constrained decoding, independent inner-keyword
+enforcement, or future adherence. The retained evidence contains exactly two
+gateway events and no task content. Calibration 008 remains unauthorized and
+unexecuted. See
+[`PROVIDER_SCHEMA_CAPABILITY_PROBE_003_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_003_OBSERVATION.md).
