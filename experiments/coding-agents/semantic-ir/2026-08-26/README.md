@@ -75,7 +75,13 @@ Bedrock adapter. Provider acceptance and behavior remain unobserved pending
 two exact reserved-phase schemas with synthetic requests. Bedrock rejected both
 before generation because the schema root omitted its required explicit
 `type: object`; zero task requests, tokens, or cost were incurred. Inner-keyword
-support remains untested, and Calibration 008 is still unauthorized.**
+support remains untested. Provider-Admissible Session Instruction Grammar v2
+now adds only that redundant root declaration in a parallel construction. It
+proves the same local instance language over all seven opcode subsets, preserves
+110/110 work requests byte for byte, binds the exact v2 schema to request and
+pre-dispatch validation, and makes no provider call. A separately authorized v2
+capability probe remains the next red test; Calibration 008 is still
+unauthorized.**
 
 Snapshot date: **2026-08-26**
 
@@ -936,3 +942,14 @@ unobserved. The v1 freeze is unchanged. The next construction must add a
 provider-target root invariant in parallel before any new capability probe or
 Calibration 008 launch. See
 [`PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md).
+
+Provider-Admissible Session Instruction Grammar v2 now implements the target
+lowering in parallel. It adds explicit root `type: object` while preserving
+every v1 branch; removing that declaration reproduces the exact v1 schema for
+all seven nonempty `E/S/F` subsets. The change costs 16 canonical bytes per
+schema. Its local runtime keeps all 110 work-phase requests byte-identical,
+places the v2 schema in all 22 reserved requests, uses the same object as the
+pre-dispatch backstop, and rejects an extra-argument `F` without dispatch. The
+Bedrock adapter preserves the new declaration, but provider admission of the
+inner keywords remains unobserved. No launch or provider call occurred. See
+[`PROVIDER_ADMISSIBLE_SESSION_INSTRUCTION_GRAMMAR_V2_OBSERVATION.md`](PROVIDER_ADMISSIBLE_SESSION_INSTRUCTION_GRAMMAR_V2_OBSERVATION.md).
