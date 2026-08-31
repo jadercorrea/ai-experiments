@@ -86,7 +86,12 @@ authorization. Both exact v2 schemas advanced past the root check and were
 rejected because the endpoint does not support a top-level `oneOf`, `allOf`, or
 `anyOf` in tool input schemas. No generation occurred; tokens and cost remained
 zero. A classification spelling defect was corrected offline without repeating
-either request. A nested target lowering is now the next local red test.**
+either request. Nested Session Instruction Grammar v3 now implements the next
+target lowering with `{"v": instruction}`. It proves a bijection with v2 over
+all seven opcode subsets, preserves 110/110 work requests, removes top-level
+union from all 22 reserved schemas, and adds 83 canonical bytes per schema. A
+semantic `$ref` regression was caught and fixed by hoisting `$defs` to the root.
+No provider call occurred; Probe 003 is the next gate.**
 
 Snapshot date: **2026-08-26**
 
@@ -970,3 +975,15 @@ classification revision 2 corrected it offline while preserving both raw
 responses and exactly two gateway events. Calibration 008 remains unauthorized.
 See
 [`PROVIDER_SCHEMA_CAPABILITY_PROBE_002_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_002_OBSERVATION.md).
+
+Nested Session Instruction Grammar v3 now moves the unchanged discriminated
+instruction below a single required `v` property. Its exhaustive structural
+gate proves a bijection with Grammar v2 for all seven opcode subsets, including
+valid source and semantic `S` shapes. The first draft exposed an absolute
+`$ref` defect when definitions moved with the nested schema; the final form
+hoists `$defs` to the document root and reconstructs v2 exactly. All 110 work
+requests remain byte-identical, zero of 22 reserved schemas retain a top-level
+union, valid `F[]` unwraps once, and malformed envelopes never dispatch. The
+envelope adds 83 canonical bytes to both commit and finish schemas. Provider
+acceptance remains unobserved and Probe 003 is not authorized. See
+[`NESTED_SESSION_INSTRUCTION_GRAMMAR_V3_OBSERVATION.md`](NESTED_SESSION_INSTRUCTION_GRAMMAR_V3_OBSERVATION.md).
