@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I can see the state clearly. The task requires changing the error codes:\n- `\"invalid_user_id\"` → `\"empty_identifier\"` (n7)\n- `\"not_found\"` → `\"user_not_found\"` (n12)\n\nThe workspace already shows these values in the TypeScript file. I need to submit the semantic IR patch. Let me check the capability index for the correct tokens and format the submission properly.\n\nFrom the state:\n- n7: target_token `cap:v1:target:8fbcc8b656d2b3050748baaea58232d9`, state_token `cap:v1:state:9c3b0950b28e9a6c3fe22645765ef717`\n- n12: target_token `cap:v1:target:72133e3e18c11d6ce4e091357ca39b57`, state_token `cap:v1:state:9c3b0950b28e9a6c3fe22645765ef717`\n\nBoth nodes are `string` ops under `err` nodes. I'll submit both in one patch with two operations.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"patch:session:error-taxonomy-001\",\"cap:v1:state:9c3b0950b28e9a6c3fe22645765ef717\",[[\"op:change-invalid-id-code\",[\"n7\",\"cap:v1:target:8fbcc8b656d2b3050748baaea58232d9\"],\"r0\",[],[[\"str\",\"r0\",\"empty_identifier\"]]],[\"op:change-not-found-code\",[\"n12\",\"cap:v1:target:72133e3e18c11d6ce4e091357ca39b57\"],\"r0\",[],[[\"str\",\"r0\",\"user_not_found\"]]]]],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_QWG56dlJWj6eDlCCx0Ff5D",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-c226b552434794e276c3cf1e",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 542,
+    "prompt_tokens": 4056,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4598
+  }
+}

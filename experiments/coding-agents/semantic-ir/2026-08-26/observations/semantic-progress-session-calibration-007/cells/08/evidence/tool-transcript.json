@@ -1,0 +1,264 @@
+[
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "b3f654c66b52461787c01c5eb77bd3831ff7501e38d8c827bf3d7fa6e2b6f9cc",
+    "progress_phase": "work",
+    "request_sha256": "3ae9448b10b0615038e5981cd7c03f681f629b2de5fc31e122a5f9eaac37fb33",
+    "response_sha256": "4e172ee8f7500c6a4fa0d177a8fe8aac0c31559fa52670a79cc1e8b0ba3d7987",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1802,
+              "path": "src/lookup-user.ts",
+              "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_rc9JhsM1ExG9iDZXHtj7eB"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 258,
+              "handle": "context://mode",
+              "path": "tasks/reserved-id-guard-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b"
+            },
+            {
+              "bytes": 288,
+              "handle": "context://task",
+              "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_sEZeBzZXNZE7sZmxmNSqGb"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "9b2f5b102c9ec8b130b2f3e53e39d8e6c87812cce6cd16dd91f3dfe46f834f3c",
+    "progress_phase": "work",
+    "request_sha256": "89b1dbec20a4edc5afd6c4d7b2247283d0f2af4f8561a1ab36e4823218a1dd0f",
+    "response_sha256": "0ef253d638ad05c7f04d71c6a3cebacb2943c77d0c0b4549285e093d1b87d2d4",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_nU4H9AmaDMwUUxNJuBfNeF"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_qMfoY13TRHd031oOK8NPf6"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "102d5e6842f427a275444f5fe68f3334fdaf9125fa639d87ca39b41775366b80",
+    "progress_phase": "work",
+    "request_sha256": "f711049d4cf29e0662e8f89181067e0093331732e1887a53cbcd7db6d1e6665d",
+    "response_sha256": "99009677a8882a37703fdc2f743e0d3059ae0e54da4780eaa48e55c5e80eca18",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_c9vZc6BROlqTmzmJdX05d1"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_OzWoZvxcJA4ZotiIdmb61o"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "58c3540f3abc9b36aa5d316430cd3ac1486f4bfb2dca43378c2cfc7e74bdcfc5",
+    "progress_phase": "work",
+    "request_sha256": "34a156881d9b25c4cb55fd36965b2a48278b01a99206909f2890e997b12cc37d",
+    "response_sha256": "83f54cf83eb3780c8ad1c1475f0c3af2e702e1827a1dffeed42dbb62b63ebcf0",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "5c76574686026902ca26bb47caa39ad164182fd204cb1b805fcad9bf4851958a"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_dFtBFDobCh2Z0skUZXUh6f"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "b0f30d11aae2ae2df114aeb627367dac5e938c2608c026b0962346b44ec69adf",
+    "progress_phase": "work",
+    "request_sha256": "70cc41c286f7283d5f413102e747ea75db4c4979fc96daf94862c50257e09aad",
+    "response_sha256": "694f705b9456a9e3fdc3a0031a0f966950309e1a86e59de736f201cf534458a6",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (4ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_RLKnquLftDkcQW47EcvLsl"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "c77b7e49f2fbf6be6baf35c64e16ec20afb5d325ef11f2e1d46acf2ce17937f3",
+    "progress_phase": "work",
+    "request_sha256": "44ec3609f7a7c74a925a42799c0f4ec1c9e9c8e4c99075ce13509ae5126e748e",
+    "response_sha256": "5d5625e4757afa8d26027384697cebeeb0bf99f9742d01bf4d75f8a5ab8710bc",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (5ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_31lgQQ4diB1Js6akNjfmV6"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "progress_contract_sha256": "478fffe4ecc22a9c4074e9dcea9fa0abebf4747d0969bed86be2aeb770fa79e8",
+    "progress_phase": "work",
+    "request_sha256": "70a6c86f84ff45d80752f0217e3038506a6cbac24895e6fdfacf8387fecc1fa4",
+    "response_sha256": "045d7a30d3980c1b733dbe6f4d319bb4bae2b5e90a9e7d695bfa3e5f5860c746",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "15e43b9dd19b162a2ded6eaa848495bbd8f0e4ce3d27cb032ac0b79b75308d18"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ih3o2v2dgVbhlf5rsXxbEC"
+      }
+    ],
+    "turn": 7
+  }
+]

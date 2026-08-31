@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I'll analyze the task and current state carefully.\n\n**Task**: Use the raw identifier without trimming, treat only the exact empty string as empty, and preserve one lookup for every nonempty identifier.\n\n**Current IR**: The `let` binds `normalizedId = string.trim_ascii(rawId)`, then checks `string.is_empty(normalizedId)`, and looks up `normalizedId`. The test expects the raw (untrimmed) `\" 42 \"` to be passed directly to `getById`.\n\n**Required changes**:\n1. Remove the `trim_ascii` call — bind `normalizedId = rawId` directly (or just use `rawId` throughout)\n2. Check emptiness on the raw string (exact empty string `\"\"`)\n3. Look up using the raw identifier\n\nThe cleanest semantic change: replace `n1` (the `trim_ascii` call) with a `var` referencing `rawId` directly, so `normalizedId = rawId`. Everything else stays the same.\n\nLet me inspect the capability for `n1` to get the right target token, then submit.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"n1\"],\"i\":\"I\"}",
+              "name": "x"
+            },
+            "id": "tooluse_3aX6Je1opXLObBtnDP1olX",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-1423b647776e8fa64894ac2d",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 322,
+    "prompt_tokens": 4971,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5293
+  }
+}

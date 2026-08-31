@@ -56,10 +56,12 @@ Runtime v1 now projects a matched terminal reserve through a parallel local
 request/dispatch path: 110/110 open-phase requests remain byte-identical, all
 eleven known references cross commit and finish, and no model call has occurred
 under this runtime checkpoint. Matched Progress-Session Execution Freeze v1
-now seals the same intervention as Calibration 007. Its repeated prelaunch
-audit passes locally with zero model calls, but remains explicitly
-`launch_clear=false`; only a new, informed authorization for provider execution
-can perform the separate `explicit_launch_007` transition.**
+then sealed the same intervention as Calibration 007. Calibration 007 later
+completed: `F` calls rose from one to seven and valid terminals from one to
+four, but semantic remained 0/5 hidden passes, total tokens rose 8.72%, and
+cost rose 9.26%. Three forced `F` calls failed because opcode lexicalization
+did not encode the instruction's zero-argument shape. The next red test is
+full instruction-shape lexicalization.**
 
 Snapshot date: **2026-08-26**
 
@@ -868,3 +870,16 @@ finish surface, and retains 6/6 source plus 5/5 supported semantic hidden
 passes. Provider execution remains unauthorized; no prior launch is inherited.
 See
 [`MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md`](MATCHED_PROGRESS_SESSION_EXECUTION_FREEZE_V1.md).
+
+Calibration 007 then executed the complete frozen schedule. Terminal Reserve
+v1 changed action selection: `F` calls rose from one in Calibration 006 to
+seven, valid provider-call terminals rose from one to four, and source hidden
+passes rose from one to two. The five supported semantic cells still produced
+zero valid terminals and zero hidden passes. Of ten cells reaching the forced
+final turn, six selected `F`; three succeeded and three were rejected because
+the model attached arguments to the zero-argument instruction. Three other
+cells selected blocked opcodes and one produced a malformed envelope. Total
+tokens rose 8.72% and estimated cost rose 9.26%. The terminal opportunity is
+now operational, but the next failure is sharper: motion lexicalization must
+encode opcode-specific arity and payload, not only the opcode enum. See
+[`CALIBRATION_007_OBSERVATION.md`](CALIBRATION_007_OBSERVATION.md).
