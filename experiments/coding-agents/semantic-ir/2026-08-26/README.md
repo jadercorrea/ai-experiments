@@ -65,7 +65,13 @@ Grammar v1 now passes that local red test: all eleven known commit/finish
 references remain valid, and replay rejects the seven invalid final-turn
 instructions while retaining the three exact `F[]` terminals. The complete
 commit schema grows from 130 to 1,901 canonical bytes, exposing a measured
-reliability-versus-disclosure trade-off before any Calibration 008 freeze.**
+reliability-versus-disclosure trade-off. Matched Instruction-Grammar Session
+Execution Freeze v1 now binds the complete grammar to both request construction
+and a pre-dispatch runtime backstop. Its call-free preflight preserves all 110
+work requests, passes all eleven references, rejects an extra-argument `F`
+without dispatch, and confirms structural schema identity through the local
+Bedrock adapter. Provider acceptance and behavior remain unobserved pending
+`explicit_launch_008`.**
 
 Snapshot date: **2026-08-26**
 
@@ -901,3 +907,16 @@ opcodes and one malformed envelope remain rejected. The commit schema costs
 1,901 canonical bytes versus 130 for the coarse mask; finish costs 160 versus
 122. No provider call or counterfactual choice claim is made. See
 [`SESSION_INSTRUCTION_GRAMMAR_V1_OBSERVATION.md`](SESSION_INSTRUCTION_GRAMMAR_V1_OBSERVATION.md).
+
+Matched Instruction-Grammar Session Execution Freeze v1 now carries that
+candidate into a parallel Calibration 008 package. It leaves all 110 work-phase
+requests byte-identical, uses the exact advertised request schema as the
+pre-dispatch validator, accepts 11/11 reference mutations and terminals, and
+retains 6/6 source plus 5/5 supported semantic hidden passes. Its negative gate
+rejects an extra-argument `F` with zero underlying dispatches. The local Bedrock
+adapter preserves the complete schema object and its `oneOf`, `const`,
+`prefixItems`, and `items` keywords, but this proves transport only—not provider
+acceptance, constrained decoding, or model adherence. The repeated instances
+already produced 127 provider responses, no launch artifact exists, and
+`explicit_launch_008` remains required. See
+[`MATCHED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V1.md`](MATCHED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V1.md).
