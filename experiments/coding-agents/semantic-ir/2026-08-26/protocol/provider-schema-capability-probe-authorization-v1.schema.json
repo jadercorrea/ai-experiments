@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/provider-schema-capability-probe-authorization-v1.schema.json",
+  "title": "Provider schema capability probe authorization v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authorization_id",
+    "authorized_at",
+    "explicit_user_authorization",
+    "scope",
+    "maximum_provider_requests",
+    "calibration_launch_authorized",
+    "freeze_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.provider-schema-capability-probe-authorization/v1"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._/-]+$"
+    },
+    "authorized_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "explicit_user_authorization": {
+      "const": true
+    },
+    "scope": {
+      "const": "provider_schema_capability_probe_only"
+    },
+    "maximum_provider_requests": {
+      "const": 2
+    },
+    "calibration_launch_authorized": {
+      "const": false
+    },
+    "freeze_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

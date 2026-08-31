@@ -71,7 +71,11 @@ and a pre-dispatch runtime backstop. Its call-free preflight preserves all 110
 work requests, passes all eleven references, rejects an extra-argument `F`
 without dispatch, and confirms structural schema identity through the local
 Bedrock adapter. Provider acceptance and behavior remain unobserved pending
-`explicit_launch_008`.**
+`explicit_launch_008`. Provider Schema Capability Probe 001 then exercised the
+two exact reserved-phase schemas with synthetic requests. Bedrock rejected both
+before generation because the schema root omitted its required explicit
+`type: object`; zero task requests, tokens, or cost were incurred. Inner-keyword
+support remains untested, and Calibration 008 is still unauthorized.**
 
 Snapshot date: **2026-08-26**
 
@@ -920,3 +924,15 @@ acceptance, constrained decoding, or model adherence. The repeated instances
 already produced 127 provider responses, no launch artifact exists, and
 `explicit_launch_008` remains required. See
 [`MATCHED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V1.md`](MATCHED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V1.md).
+
+Provider Schema Capability Probe 001 then tested endpoint admission without
+launching Calibration 008. Two synthetic requests used the exact frozen commit
+and finish schema hashes, the same Bedrock Converse endpoint, and no task or
+Session state. Both received HTTP 400 because Bedrock requires an explicit
+top-level `type: object`; the locally sound schemas expressed that constraint
+only inside every `oneOf` branch. No generation occurred, so tokens and cost
+were zero and `oneOf`, `const`, `prefixItems`, and `items: false` support remain
+unobserved. The v1 freeze is unchanged. The next construction must add a
+provider-target root invariant in parallel before any new capability probe or
+Calibration 008 launch. See
+[`PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md).

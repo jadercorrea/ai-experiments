@@ -130,3 +130,12 @@ Before launch, verify provider-side schema acceptance on the selected path
 without weakening the frozen grammar. If that capability gate passes, only an
 explicit `explicit_launch_008` transition may create the launch artifact and
 run the unchanged twelve-cell schedule.
+
+## Subsequent capability result
+
+Provider Schema Capability Probe 001 later exercised both exact schema objects
+with synthetic requests. Bedrock rejected them before generation because the
+root omitted its required explicit `type: object`. Inner-keyword acceptance
+therefore remains unobserved, and this freeze cannot advance to launch on the
+selected endpoint. See
+[`PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_001_OBSERVATION.md).
