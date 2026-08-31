@@ -1,0 +1,16 @@
+{
+  "arm": "source",
+  "candidate_rejection": "opcode_unavailable",
+  "candidate_schema_error": "<root>: {'a': ['--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,9 +1,10 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n });\\n \\n export function executeWithDirectory(\\n   rawId: string, capabilities: SemanticCapabilities\\n@@ -20,9 +21,14 @@\\n       : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\\n         })());\\n'], 'i': 'S'} is not valid under any of the given schemas",
+  "candidate_schema_valid": false,
+  "cell_id": "semantic-ir-coverage-session-calibration-006/directory-fallback-001/source",
+  "contract_path": "observations/semantic-progress-session-calibration-007/cells/09/evidence/progress-contract-12.json",
+  "old_schema_error": "i: 'S' is not one of ['F']",
+  "old_schema_valid": false,
+  "opcode": "S",
+  "phase": "finish",
+  "request_path": "observations/semantic-progress-session-calibration-007/cells/09/evidence/request-12.json",
+  "response_path": "observations/semantic-progress-session-calibration-007/cells/09/evidence/response-12.json",
+  "sequence": 9,
+  "turn": 12
+}

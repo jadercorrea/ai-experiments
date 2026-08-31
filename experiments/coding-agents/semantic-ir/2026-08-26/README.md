@@ -60,8 +60,12 @@ then sealed the same intervention as Calibration 007. Calibration 007 later
 completed: `F` calls rose from one to seven and valid terminals from one to
 four, but semantic remained 0/5 hidden passes, total tokens rose 8.72%, and
 cost rose 9.26%. Three forced `F` calls failed because opcode lexicalization
-did not encode the instruction's zero-argument shape. The next red test is
-full instruction-shape lexicalization.**
+did not encode the instruction's zero-argument shape. Session Instruction
+Grammar v1 now passes that local red test: all eleven known commit/finish
+references remain valid, and replay rejects the seven invalid final-turn
+instructions while retaining the three exact `F[]` terminals. The complete
+commit schema grows from 130 to 1,901 canonical bytes, exposing a measured
+reliability-versus-disclosure trade-off before any Calibration 008 freeze.**
 
 Snapshot date: **2026-08-26**
 
@@ -545,6 +549,7 @@ Verify the capability protocol, fresh suite, and frozen synthetic trajectory:
   tests.test_semantic_compact_context_v1 \
   tests.test_semantic_motion_lexicalization_v1 \
   tests.test_semantic_session_isa_v1 \
+  tests.test_session_instruction_grammar_v1 \
   tests.test_matched_session_isa_control_v1 \
   tests.test_matched_observation_surface_v1 \
   tests.test_semantic_session_task_suite_v3 \
@@ -883,3 +888,16 @@ tokens rose 8.72% and estimated cost rose 9.26%. The terminal opportunity is
 now operational, but the next failure is sharper: motion lexicalization must
 encode opcode-specific arity and payload, not only the opcode enum. See
 [`CALIBRATION_007_OBSERVATION.md`](CALIBRATION_007_OBSERVATION.md).
+
+Session Instruction Grammar v1 now implements the resulting local red test in
+parallel with the frozen runtime. Work-phase tools remain unchanged. Commit
+uses a shared opcode-discriminated `E/S/F` union with exact arity and source or
+semantic `S` payload shape; exhausted budgets remove the complete unreachable
+branch. Finish exposes only exact `F[]`. All eleven known commit and finish
+references validate. Replaying the ten recorded final-turn instructions reduces
+schema-valid outcomes from six to the three exact terminals: three
+extra-argument `F` calls become structural rejections, while the three blocked
+opcodes and one malformed envelope remain rejected. The commit schema costs
+1,901 canonical bytes versus 130 for the coarse mask; finish costs 160 versus
+122. No provider call or counterfactual choice claim is made. See
+[`SESSION_INSTRUCTION_GRAMMAR_V1_OBSERVATION.md`](SESSION_INSTRUCTION_GRAMMAR_V1_OBSERVATION.md).
