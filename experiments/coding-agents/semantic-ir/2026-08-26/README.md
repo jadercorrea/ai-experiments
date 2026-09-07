@@ -101,7 +101,12 @@ Matched Nested Instruction-Grammar Session Execution Freeze v2 now binds those
 accepted schemas to the unchanged Calibration 008 subjects, preserves all
 local references and 110/110 work requests, records the later Representational
 Dependence Hypothesis outside the current estimand, and remains unauthorized
-and unexecuted pending `explicit_launch_008`.**
+and unexecuted pending `explicit_launch_008`. Calibration 008 subsequently
+completed: Grammar v3 rejected sixteen invalid reserved-phase calls before
+dispatch and valid provider-call terminals rose from four to five, but the
+supported hidden outcome remained source 1/5 versus semantic 0/5. Total tokens
+and estimated cost were nearly unchanged. The grammar establishes a runtime
+safety boundary, not constrained decoding, adherence, or task efficacy.**
 
 Snapshot date: **2026-08-26**
 
@@ -1024,3 +1029,17 @@ explicitly adds no variable to this calibration. The freeze digest is
 `e72c87ff0141913dfa48f391c63ada9a6669e410a302c690da778c958a48d943`;
 no launch exists and `explicit_launch_008` remains required. See
 [`MATCHED_NESTED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V2.md`](MATCHED_NESTED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V2.md).
+
+Calibration 008 then executed the complete frozen schedule after a new launch
+bound the exact external payload scope, 132-request ceiling, zero-retry rule,
+USD 10 cost ceiling, and the unverified account-retention limitation. All
+twelve cells completed with 126 provider responses and USD 1.914876 estimated
+cost. Grammar v3 rejected sixteen reserved-phase calls before dispatch, evenly
+split between commit and finish. Five provider-call cells reached a valid
+terminal, but only the source reserved-ID cell passed hidden evaluation. On the
+five supported pairs, source remained 1/5 and semantic 0/5; three semantic
+cells finalized without submitting a mutation. Total tokens fell 0.67% and
+cost fell 1.36% relative to Calibration 007, which does not support an
+efficiency claim under independent sampling. The safety test is green;
+provider adherence and task efficacy remain red. See
+[`CALIBRATION_008_OBSERVATION.md`](CALIBRATION_008_OBSERVATION.md).

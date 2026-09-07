@@ -1,0 +1,239 @@
+[
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b3f654c66b52461787c01c5eb77bd3831ff7501e38d8c827bf3d7fa6e2b6f9cc",
+    "progress_phase": "work",
+    "request_sha256": "3ae9448b10b0615038e5981cd7c03f681f629b2de5fc31e122a5f9eaac37fb33",
+    "response_sha256": "60386843ef4eea15d36cafe0e04c231d336819dfc3cdbb0dbd259a1e38c49aec",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1802,
+              "path": "src/lookup-user.ts",
+              "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_piaFPsxoiKh1qfbCC8gcEF"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 258,
+              "handle": "context://mode",
+              "path": "tasks/reserved-id-guard-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b"
+            },
+            {
+              "bytes": 288,
+              "handle": "context://task",
+              "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_S1HdBpLR0qq6Sc2DclbAtm"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "9b2f5b102c9ec8b130b2f3e53e39d8e6c87812cce6cd16dd91f3dfe46f834f3c",
+    "progress_phase": "work",
+    "request_sha256": "52f61dc787e30f2d3b8f5f000223d162abc980079df106df4cfe0ba52be1f42b",
+    "response_sha256": "51e568e4874e05cf134efefdd1cc99ef2851c4bf5889cd387caf95a2cf094241",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_IDUz3AFuoLe0O5e73iZCf6"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_lIZu8TWyF3NM1EFQpVNE58"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "102d5e6842f427a275444f5fe68f3334fdaf9125fa639d87ca39b41775366b80",
+    "progress_phase": "work",
+    "request_sha256": "e3b0ea66b0df505ec3acb60c6f3d0e5b197096b8c6b0b146f84f9684c3c78acd",
+    "response_sha256": "75fe90ccc64b96410e3fc33c6a7fc4e8d6cf55f2b5e467f1f9c2291b39ba6d93",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_px2jiPMmQsMuxhd6uvxDR4"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_yRFVaJRvjPCfLrDB7e7VAv"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "58c3540f3abc9b36aa5d316430cd3ac1486f4bfb2dca43378c2cfc7e74bdcfc5",
+    "progress_phase": "work",
+    "request_sha256": "4e8758859151d8e172cfafd416dc6f19342abbda57b1ac357a0f39c82579b310",
+    "response_sha256": "da528612eb8977baebff08c963d68db8aadc1bec7d9150466637029faac1e060",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "5c76574686026902ca26bb47caa39ad164182fd204cb1b805fcad9bf4851958a"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_iczXBLdX6BiHmOK11j34Uz"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b0f30d11aae2ae2df114aeb627367dac5e938c2608c026b0962346b44ec69adf",
+    "progress_phase": "work",
+    "request_sha256": "2e235df2b05dba9437ff65465baa33abf4dee93ec2ac2687f56d2312f9c2bc7a",
+    "response_sha256": "bafe5f2a8a56d9337965b6450a352a558e2de07a0757234146424c36938092a8",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... ok (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\nok | 2 passed | 0 failed (4ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_K38mcFlOXQxbBB7HttKJPG"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "c77b7e49f2fbf6be6baf35c64e16ec20afb5d325ef11f2e1d46acf2ce17937f3",
+    "progress_phase": "work",
+    "request_sha256": "96da00eb70f4bc44f5d1d2e587c8028a38749a82e01e2bccb8e538454181b4db",
+    "response_sha256": "47ff85b7f8004852c3e183aa26ee9659aa3d922f42f1edd51e8043b605f67379",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "15e43b9dd19b162a2ded6eaa848495bbd8f0e4ce3d27cb032ac0b79b75308d18"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_tZPqxHVHvyrW6IvTip33Jm"
+      }
+    ],
+    "turn": 6
+  }
+]

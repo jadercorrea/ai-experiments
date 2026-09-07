@@ -1032,3 +1032,53 @@ artifact and create none during the freeze.
   `e72c87ff0141913dfa48f391c63ada9a6669e410a302c690da778c958a48d943`.
 - No launch record exists, no Calibration 008 subject call occurred, and the
   only next execution gate is `explicit_launch_008`.
+
+## Calibration 008 descriptive acceptance
+
+### Context
+
+The provider-admissible freeze bound Nested Grammar v3 to the unchanged
+Calibration 008 subjects after Probe 003 established endpoint admission. The
+user subsequently authorized transmission of synthetic participant contexts
+and artifacts, excluding references and hidden evaluators, across at most 132
+Bedrock requests with zero retries and USD 10 maximum estimated spend.
+Prelaunch checks repeated content, credential, endpoint, model, contamination,
+and current public service-policy controls. The inference-scoped credential
+could not read effective account retention, so no account-specific ZDR claim is
+made.
+
+### Decision
+
+Accept Calibration 008 as a valid and complete repeated within-instance
+descriptive observation. Bind the result to freeze
+`e72c87ff0141913dfa48f391c63ada9a6669e410a302c690da778c958a48d943`
+and launch
+`b021e97e3284caa2b586327fabc8bec56c0f0f923e6f8e4dcd3eb4f45a9235fa`.
+Retain all twelve scheduled outcomes without replacement or rerun.
+
+Interpret Grammar v3 as a pre-dispatch safety boundary. Do not interpret
+provider admission as constrained decoding, the five valid terminals as five
+completed tasks, or realized differences from Calibration 007 as a causal
+effect. Keep inferential and general efficacy claims unauthorized.
+
+### Consequences
+
+- All twelve cells completed with 126 successful responses from the locked
+  model, no infrastructure-invalid cell, and USD 1.914876 estimated cost.
+- Source passed 1/6 hidden evaluations and semantic 0/6; supported-task counts
+  were 1/5 and 0/5.
+- Sixteen reserved-phase calls failed exact grammar validation before dispatch:
+  eight during commit and eight during finish. No missing `v` envelope was
+  observed; two samples used a string-valued `v`, and fourteen object-valued
+  instructions violated the active opcode, arity, or payload union.
+- Valid provider-call terminals rose from four to five relative to Calibration
+  007, but four failed hidden evaluation and three semantic terminals contained
+  no mutation.
+- Provider requests fell by one, total tokens by 0.67%, and estimated cost by
+  1.36%. Independent sampling and changed trajectories preclude an efficiency
+  attribution.
+- The supported semantic arm still used 126.0% more total tokens and 108.7%
+  more estimated cost than source while producing no hidden pass.
+- Grammar v3 has satisfied its runtime-safety purpose. The next call-free red
+  test is design of the registered Representational Dependence calibration,
+  with lexical and structural factors isolated over one decoded canonical IR.

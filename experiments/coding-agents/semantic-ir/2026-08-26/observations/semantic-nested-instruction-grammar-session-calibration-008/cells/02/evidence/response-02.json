@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I can see the task clearly from the state. I need to:\n\n1. Change `n7` (string literal `\"invalid_user_id\"`) → `\"empty_identifier\"`\n2. Change `n12` (string literal `\"not_found\"`) → `\"user_not_found\"` ... wait, let me check the test first.\n\nThe test expects:\n- `{ error: \"empty_identifier\" }` for empty input\n- The missing-user case isn't tested publicly, but the task says \"missing-user error codes\"\n\nLet me check the test more carefully: it only tests `\"empty_identifier\"` for the empty case. The missing-user error isn't shown in the public test. Let me read the task again: \"Replace the empty-input and missing-user error codes.\"\n\nThe test shows `\"empty_identifier\"` for empty input. For missing-user, I'll need to infer — the task says \"missing-user error codes\" and the current value is `\"not_found\"`. A reasonable replacement would be `\"user_not_found\"`. Let me submit both changes now.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"patch-1\",\"cap:v1:state:c4867a757c88a8b0490ce34f8319e04b\",[[\"op-1\",[\"n7\",\"cap:v1:target:d08b4d496dd89a598fafe097a9fa5462\"],\"n7\",[],[\"str[\\\"empty_identifier\\\"]\"]],[\"op-2\",[\"n12\",\"cap:v1:target:bc000db894f8dddd5ff2fdd72710f6e7\"],\"n12\",[],[\"str[\\\"user_not_found\\\"]\"]]]],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_A9tEKaD9icaEAJmMNFojbS",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-ab9ad868d6aabe228e119b77",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 460,
+    "prompt_tokens": 3793,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4253
+  }
+}

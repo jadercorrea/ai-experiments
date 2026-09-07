@@ -1,0 +1,481 @@
+[
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b3f654c66b52461787c01c5eb77bd3831ff7501e38d8c827bf3d7fa6e2b6f9cc",
+    "progress_phase": "work",
+    "request_sha256": "3fc8f7aa4b6e6b65677c708b12b26c265d901438fe21714c071da11924d388ff",
+    "response_sha256": "4174bfe23473b788eb585b70731a0e4c69c16a182b80db922ef90c0f9b5b5177",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 258,
+              "handle": "context://mode",
+              "path": "tasks/error-taxonomy-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b"
+            },
+            {
+              "bytes": 268,
+              "handle": "context://task",
+              "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_3l18Ti3O6j8nbz4GMWbvJP"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1755,
+              "path": "src/lookup-user.ts",
+              "sha256": "849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1"
+            },
+            {
+              "bytes": 733,
+              "path": "tests/public.test.ts",
+              "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ykZtrL8VblKfipLfY6K0jT"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "9b2f5b102c9ec8b130b2f3e53e39d8e6c87812cce6cd16dd91f3dfe46f834f3c",
+    "progress_phase": "work",
+    "request_sha256": "21bffbace5e595e4f1fb76d54b42f1718b94c24f51a2b3be6934e54767db84ca",
+    "response_sha256": "2cfc8b4d31242193e8546da732a30977cbcc2fe48a79bb7da73c6d98953ed410",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "1fb349c5a4e06620d05ad43eba75a46d7d4a32b0993925e5a94f146543635f5f"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_oyZlofNCm8QudMpdEKiN0M"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "34b8259fda7c8bb168881f162b87e0c91d219fd90939002430e441d589d7e373",
+    "progress_phase": "work",
+    "request_sha256": "319b5ded44792296f0ac8ffb1ae3e0e77955a95297ae919d4648dd58c7327ed4",
+    "response_sha256": "7d21166d88ff00a3fe373a91e9fe8d884457d1ecc17222e8f13b1b41163e81c1",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mfFEOm7fReHVPHF8u7wtsi"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_vBwPJWeYhztvmggXPtCmQk"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "45af16f5cab3f770695ba3620684e635aaeff1b7bb51b0926410340e7c38626b",
+    "progress_phase": "work",
+    "request_sha256": "e234199d602b6d55e315ddef80a7c2007308d1a35d32af2bf00db69df92b8b3d",
+    "response_sha256": "8228f5159d6b7a1ef42921351bcb23e78c06a556da083d616c7c629b11a10f1b",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_3SGnMIM5dDnyGvvGnbl073"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_pp5SxyR8JwUL3VzotgqVCS"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b0f30d11aae2ae2df114aeb627367dac5e938c2608c026b0962346b44ec69adf",
+    "progress_phase": "work",
+    "request_sha256": "3f588f0556694e9727f41f5912583d5036b8e7cc6cdaf97cccafad38634d19e6",
+    "response_sha256": "d18bd73053b42fbb08204e0387917ba6d8169e7b191005ca2b33d81d25d59cb6",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_2uSkgFSqkdVWY9bOkgS64H"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_IXps7ANVctEGnnSFeeYul9"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "9b50d126633593e107841caa90532efe6de2d2f9ed2c66571228d4ab5942e556",
+    "progress_phase": "work",
+    "request_sha256": "dbade8f21e75b224feeb7693930098b024630761353a3994fb5e0eab472c215f",
+    "response_sha256": "54b6df521ae96666776d7530a4ee9cedf9eabd55694a8e682cd8aeb69a5bc6ee",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_jkQRL0rTkPVxZKENzHQRmo"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "7947ffc5d91fe6407de437280282371883b8b26f96cd875191dcbfdb90aa89a2",
+    "progress_phase": "work",
+    "request_sha256": "1dee91128c7c1df9196a771750311596f5ddaf0894c4ed43ba5dab90d74b90a7",
+    "response_sha256": "3c65e917b421bb3361a74f7136cef055d1d6c130edd22e448faf65331886a783",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_kNceb2nvCfY4v4ZVNnoSsU"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_wVQf7LTk6SlaRmdlxYqDnk"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "54211ed1fc1f4607e2a3a4100f3b3426881637ef400c8f0a5d89a756f0bf5496",
+    "progress_phase": "work",
+    "request_sha256": "6045d81fd3f3c1fb1b66f0f8bd20831c7556032cf4ed50d9542f9314f218fd7d",
+    "response_sha256": "e85e317ba947b4fac82ec488c9a1638cfaf6182e51d500297fe485f87bf77964",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ONW9b3fxIWMjGHTDLIMGnR"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_XdsXGQhv3argyfcrnitydJ"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "17752d80341b16eef415ed68ecda8f55a6fe358a5ccadec4a73cdbee4f2d76cb",
+    "progress_phase": "work",
+    "request_sha256": "0df4e9ab79643f021daa0e8fba407caa64841a42ec257884f27e5a0221b4837a",
+    "response_sha256": "60fe066098c0d4ee6b3a425a72c279398c02c36c5b23ec5c845491ba9b880892",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_tMzUREcVvVupMCAPH5JK9G"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mtKe0Vj9Bv7ABgVX4sruOJ"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "ba8e4c2d8d3f87efc3f0b4aa5564c049503752410e4b5e13e75827b1a678e466",
+    "progress_phase": "work",
+    "request_sha256": "3dd69ebf1311025e3d800534fa5a7a9a1b568c7b9624eed9a36493db31d01e1c",
+    "response_sha256": "532d3bd391b6041c4fdc10b7b19a910adadc77b5dc550b9f1e73ff11c922e417",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(executeErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(executeErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_kuJIpGcPdvsXovOcVppckE"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-error-taxonomy-001-trim */ (/* ir:node:session-v3-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-error-taxonomy-001-validity-if */ (/* ir:node:session-v3-error-taxonomy-001-is-empty */ (/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-error-taxonomy-001-invalid-id */ { error: /* ir:node:session-v3-error-taxonomy-001-invalid-id-code */ \"empty_identifier\" })\n      : (/* ir:node:session-v3-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-error-taxonomy-001-not-found */ { error: /* ir:node:session-v3-error-taxonomy-001-not-found-code */ \"user_not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-error-taxonomy-001-found */ { ok: /* ir:node:session-v3-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "1c40dd781ad1a8814b2524c56ce28a52b1a9c5bfc24ba08fdbf1b2bb3faad348"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_2ycWwYehzqqtPPD0hSVbsc"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "allowed_opcodes": [
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "bc482f59403f07e1174683c839a60571b8e042dd04981ebeb0774038aabc225d",
+    "progress_contract_sha256": "9bc897212c6bd7b58610aefb665dfb1324f3817deeb62f581dafee6ef34cf345",
+    "progress_phase": "commit",
+    "request_sha256": "e1a2029bfede92ae98e8ad9e395e7aa3131084fb1bf5acb06f8e857a8454ffcb",
+    "response_sha256": "45a86d70c585a5cc4fe8b06cd623c63f1649cb49803d3934571fcc1eaf4095ae",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "session_instruction_grammar_invalid",
+            "message": "request instruction grammar failed at v: {'a': ['tests/public.test.ts'], 'i': 'W'} is not valid under any of the given schemas",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_vYDDAJGucZoUtKVWqpJB0P"
+      },
+      {
+        "result": {
+          "error": {
+            "code": "session_instruction_grammar_invalid",
+            "message": "request instruction grammar failed at v: {'a': ['src/lookup-user.ts'], 'i': 'W'} is not valid under any of the given schemas",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_1iE9jBmg50fIVeuO69Pxf7"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "allowed_opcodes": [
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "cb1ce59a749115ddb203dc2588ab6ac8db914f85a48aa05619cafd13a3c63a83",
+    "progress_contract_sha256": "dbee16f0502d270c3995eacd3e289835064e39642c8e7d529d7e8c1b73f1d949",
+    "progress_phase": "finish",
+    "request_sha256": "235f3d410be5cb45a5f47dd253419a098a2e1b9cf1c23fc0c27afe3feb26b75e",
+    "response_sha256": "e700ffddaa6240bcb80a73ca8d521ad0fe18b1ec246abf691bf8dc9914dde9fe",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "session_instruction_grammar_invalid",
+            "message": "request instruction grammar failed at v: {'a': ['tests/public.test.ts'], 'i': 'W'} is not valid under any of the given schemas",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_z39yHccUvUWQEYANFqpSuv"
+      },
+      {
+        "result": {
+          "error": {
+            "code": "session_instruction_grammar_invalid",
+            "message": "request instruction grammar failed at v: {'a': ['src/lookup-user.ts'], 'i': 'W'} is not valid under any of the given schemas",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_QoKGH7nBepegDbx4ciF8xo"
+      }
+    ],
+    "turn": 12
+  }
+]
