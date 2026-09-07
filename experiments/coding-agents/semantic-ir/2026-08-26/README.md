@@ -106,7 +106,11 @@ completed: Grammar v3 rejected sixteen invalid reserved-phase calls before
 dispatch and valid provider-call terminals rose from four to five, but the
 supported hidden outcome remained source 1/5 versus semantic 0/5. Total tokens
 and estimated cost were nearly unchanged. The grammar establishes a runtime
-safety boundary, not constrained decoding, adherence, or task efficacy.**
+safety boundary, not constrained decoding, adherence, or task efficacy.
+Representational Dependence Design v0 now isolates detailed semantic-
+observation lexicon from packaging in a call-free 2x2 construction. Its 20/20
+realizations round-trip to canonical byte equality, while fresh-instance,
+power, cost, freeze, and launch gates deliberately remain red.**
 
 Snapshot date: **2026-08-26**
 
@@ -454,6 +458,17 @@ different Unicode definitions from their host languages.
 - [`SINGLE_SHOT_REPRESENTATION_OBSERVATION.md`](SINGLE_SHOT_REPRESENTATION_OBSERVATION.md)
   reports that compact IR reduced output tokens by 55.04% versus source while
   total tokens remained within 0.65% on this small task.
+- [`representational_observation_codec.py`](scripts/representational_observation_codec.py)
+  implements the closed, lossless meaningful/opaque and nested/table
+  observation realizations.
+- [`build_representational_dependence_design.py`](scripts/build_representational_dependence_design.py)
+  materializes the 2x2 construction, equivalence evidence, balanced schedule,
+  cost basis, and explicit red launch gates.
+- [`representational-dependence-design-v0`](construction/representational-dependence-design-v0)
+  retains five canonical coverage observations and their twenty realizations.
+- [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
+  records the factorial boundary and why power, fresh-instance, cost, and
+  launch decisions remain unresolved.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -485,6 +500,9 @@ different Unicode definitions from their host languages.
 - [`test_semantic_interface_freeze.py`](../../../../tests/test_semantic_interface_freeze.py)
   proves that the only arm-specific mutation operation is the intended output
   representation boundary.
+- [`test_representational_dependence_design_v0.py`](../../../../tests/test_representational_dependence_design_v0.py)
+  proves factorial round-trip, lexical skeleton equality, malformed-reference
+  rejection, deterministic construction, and launch-gate status.
 
 ## Reproduce
 
@@ -1043,3 +1061,17 @@ cost fell 1.36% relative to Calibration 007, which does not support an
 efficiency claim under independent sampling. The safety test is green;
 provider adherence and task efficacy remain red. See
 [`CALIBRATION_008_OBSERVATION.md`](CALIBRATION_008_OBSERVATION.md).
+
+Representational Dependence Design v0 now turns the separately registered
+hypothesis into an executable 2x2 construction. It varies only detailed
+semantic inspection results: meaningful versus opaque control labels crossed
+with nested versus table packaging. Session ISA actions, mutation semantics,
+capabilities, evaluators, and execution policy remain fixed. All 20
+realizations across five construction fixtures decode to byte-identical
+canonical observations, and each lexical pair becomes structurally identical
+after applying the frozen evaluator-only codebook. The generic typed carrier is
+larger than canonical JSON and is an experimental instrument, not a proposed
+wire optimization. All five fixtures were already provider-exposed, so fresh
+instances, power, cost ceiling, freeze, launch, and authorization remain
+required. No model call occurred. See
+[`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md).

@@ -2,8 +2,10 @@
 
 ## Status
 
-**Registered for a future calibration. It is not part of Calibration 008, does
-not alter any frozen estimand, and authorizes no model or provider call.**
+**Registered independently of Calibration 008 and now instantiated as a
+call-free 2x2 observation-realization design. The construction proves lossless
+decoding over current fixtures but leaves fresh-instance, power, cost, freeze,
+launch, and authorization gates red. It authorizes no model or provider call.**
 
 ## Motivation
 
@@ -89,3 +91,18 @@ confound the next comparison.
 A later calibration may be designed only after Calibration 008 is completed or
 formally abandoned, its evidence is frozen, and a separate power, contamination,
 cost, and launch decision is recorded.
+
+## Current construction decision
+
+Calibration 008 is complete and frozen. Design v0 narrows the first empirical
+study to detailed semantic inspection results: meaningful versus opaque control
+labels crossed with nested versus table packaging. The compact outline, Session
+ISA, mutation backend, capabilities, evaluators, and execution policy remain
+fixed. Source is omitted from the first factorial because it identifies neither
+main effect.
+
+The five existing supported tasks serve only as lossless-codec coverage. They
+were already exposed to the provider and are ineligible as confirmatory units.
+The next gate is a call-free power-sensitivity curve, followed by fresh-instance
+construction and contamination audit. See
+[`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md).

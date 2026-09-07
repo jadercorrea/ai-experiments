@@ -1082,3 +1082,62 @@ effect. Keep inferential and general efficacy claims unauthorized.
 - Grammar v3 has satisfied its runtime-safety purpose. The next call-free red
   test is design of the registered Representational Dependence calibration,
   with lexical and structural factors isolated over one decoded canonical IR.
+
+## Representational Dependence factorial design v0
+
+### Context
+
+Calibration 008 established pre-dispatch grammar safety but left semantic
+representation use unreliable. Comparing source with semantic IR cannot
+identify whether model behavior depends on operator labels, structural
+packaging, action grammar, or mutation semantics because those surfaces move
+together.
+
+### Options
+
+1. Cross lexicalization and packaging across the entire input and output
+   language, accepting multiple simultaneous treatment changes.
+2. Hold detailed observation structure fixed and test lexicalization alone.
+3. Cross lexicalization and packaging only for detailed semantic inspection
+   results while keeping outline, action, mutation, and evaluation surfaces
+   fixed.
+
+### Decision
+
+Choose option 3 as the thinnest identifiable first study. Define four
+conditions: meaningful/nested, opaque/nested, meaningful/table, and
+opaque/table. Apply treatment only after semantic inspection. Keep the compact
+outline, handle-selection interface, Session ISA, Grammar v3 runtime backstop,
+semantic mutation backend, capabilities, evaluators, and future execution
+policy fixed.
+
+Use the five supported Calibration 008 tasks only as codec-coverage fixtures.
+Materialize their function bodies and reference targets in all four conditions,
+require exact canonical round-trip, and keep the codebook outside participant
+visibility. Do not include source in the first factorial because it identifies
+neither main effect.
+
+### Consequences
+
+- All 20 realizations decode to canonical byte equality and all ten lexical
+  pairs share an exact normalized structural skeleton.
+- The fixtures cover all eight current expression operators. Duplicate,
+  dangling, repeated, cyclic, unreachable, wrong-condition, and reserved-label
+  failures are rejected locally.
+- The carrier costs 36,288 to 45,427 bytes across the five fixtures versus
+  16,905 canonical bytes. It is an auditable experimental instrument, not a
+  wire-format optimization.
+- The experimental unit is a fresh task instance. Repeated requests cannot
+  substitute for task-level sample size.
+- The primary estimands are marginal lexical and packaging effects on hidden
+  Pass@1, with Holm correction across both at familywise alpha 0.05 and target
+  power 0.80. Interaction is secondary.
+- Power remains blocked until smallest effects of interest, baseline success,
+  within-task correlation, and task-family mixture are specified.
+- The five construction fixtures are provider-exposed and confirmatory-
+  ineligible. Fresh instances and a prior-request equality audit are required.
+- Calibration 008 rates project approximately USD 4.91 at the mean and USD
+  5.90 at its observed maximum for a five-task, four-condition illustration;
+  no powered cell count or spend ceiling exists.
+- No execution freeze, launch, authorization, or model call exists. The next
+  call-free red test is a deterministic power-sensitivity curve.

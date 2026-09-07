@@ -1,0 +1,162 @@
+{
+  "program_id": "program:session-v3-error-taxonomy-001",
+  "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+  "scope_fields": [
+    "symbol_id",
+    "name",
+    "type"
+  ],
+  "state_token": "cap:v1:state:409774a4c20307c2556eff6ba794c3ae",
+  "targets": [
+    {
+      "handle": "n0",
+      "node_id": "node:session-v3-error-taxonomy-001-normalize-let",
+      "op": "let",
+      "parent": null,
+      "scope": [
+        [
+          "param:session-v3-error-taxonomy-001-raw-id",
+          "rawId",
+          "string"
+        ]
+      ],
+      "slot": "body",
+      "subtree": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:session-v3-error-taxonomy-001-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:session-v3-error-taxonomy-001-normalize-let",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:session-v3-error-taxonomy-001-normalized-ref-for-empty",
+                "op": "var",
+                "symbol_id": "local:session-v3-error-taxonomy-001-normalized-id"
+              }
+            ],
+            "node_id": "node:session-v3-error-taxonomy-001-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:session-v3-error-taxonomy-001-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:session-v3-error-taxonomy-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-error-taxonomy-001-not-found",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:session-v3-error-taxonomy-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-error-taxonomy-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-error-taxonomy-001-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:session-v3-error-taxonomy-001-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:session-v3-error-taxonomy-001-normalized-ref-for-lookup",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-error-taxonomy-001-normalized-id"
+                }
+              ],
+              "node_id": "node:session-v3-error-taxonomy-001-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:session-v3-error-taxonomy-001-validity-if",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:session-v3-error-taxonomy-001-invalid-id-code",
+              "op": "string",
+              "value": "invalid_user_id"
+            },
+            "node_id": "node:session-v3-error-taxonomy-001-invalid-id",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:session-v3-error-taxonomy-001-raw-id-ref",
+              "op": "var",
+              "symbol_id": "param:session-v3-error-taxonomy-001-raw-id"
+            }
+          ],
+          "node_id": "node:session-v3-error-taxonomy-001-trim",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "target_token": "cap:v1:target:9087c07f47fc100c6bdf0ee4ae4417dd"
+    },
+    {
+      "handle": "n7",
+      "node_id": "node:session-v3-error-taxonomy-001-invalid-id-code",
+      "op": "string",
+      "parent": "n6",
+      "scope": [
+        [
+          "param:session-v3-error-taxonomy-001-raw-id",
+          "rawId",
+          "string"
+        ],
+        [
+          "local:session-v3-error-taxonomy-001-normalized-id",
+          "normalizedId",
+          "string"
+        ]
+      ],
+      "slot": "error",
+      "subtree": {
+        "node_id": "node:session-v3-error-taxonomy-001-invalid-id-code",
+        "op": "string",
+        "value": "invalid_user_id"
+      },
+      "target_token": "cap:v1:target:40c58f0deb2ee7f1fd63dbcb23626e4e"
+    },
+    {
+      "handle": "n12",
+      "node_id": "node:session-v3-error-taxonomy-001-not-found-code",
+      "op": "string",
+      "parent": "n11",
+      "scope": [
+        [
+          "param:session-v3-error-taxonomy-001-raw-id",
+          "rawId",
+          "string"
+        ],
+        [
+          "local:session-v3-error-taxonomy-001-normalized-id",
+          "normalizedId",
+          "string"
+        ]
+      ],
+      "slot": "error",
+      "subtree": {
+        "node_id": "node:session-v3-error-taxonomy-001-not-found-code",
+        "op": "string",
+        "value": "not_found"
+      },
+      "target_token": "cap:v1:target:01c9015470b2071a293ac3418252d0f4"
+    }
+  ]
+}
