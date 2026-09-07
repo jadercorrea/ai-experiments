@@ -970,3 +970,65 @@ provider-native tokens explicitly unclaimed.
 - The next red test separates persistent capability identity from an evictable
   semantic subtree working set and requires reconstruction through explicit
   deterministic re-fetch without next-action oracle knowledge.
+
+## Representational Dependence Hypothesis registration
+
+### Context
+
+Discussion of motion lexicalization exposed a broader question: even when two
+model-facing surfaces decode to one canonical semantic object, lexical labels
+and structural packaging may change what a language model attends to, selects,
+or repairs. Adding that question to Calibration 008 would change its estimand
+after its instruction grammar and provider-admission probes were already built.
+
+### Decision
+
+Register the Representational Dependence Hypothesis as a future calibration.
+Separate lexical cues from structural packaging, require deterministic equality
+of the decoded canonical IR, and hold capabilities, evidence, budgets,
+verification, model, and sampling constant. Do not add any such condition or
+model-visible variable to Calibration 008.
+
+### Consequences
+
+- The hypothesis will not be lost, but it cannot contaminate the current test.
+- A later design must isolate lexical and structural factors rather than treat
+  source versus semantic representation as a causal identification strategy.
+- Calibration 008 must complete or be formally abandoned before power, cost,
+  contamination, and launch decisions for the new hypothesis are made.
+
+## Matched Nested Instruction-Grammar Session execution freeze v2
+
+### Context
+
+Grammar v3 proved local bijection with Grammar v2 and moved the complete union
+below `{"v": instruction}`. Probe 003 then established that the exact commit
+and finish schema objects are accepted by the frozen Bedrock endpoint. The
+previous Calibration 008 freeze still referenced the provider-rejected
+top-level union and could not be launched as written.
+
+### Decision
+
+Derive a parallel Calibration 008 freeze from the previous instruction-grammar
+freeze. Preserve every task, context, static tool, model, sampling, limit,
+accounting, isolation, schedule, stopping, analysis, memory, and progress
+variable. Keep work requests unchanged. In commit and finish, advertise the
+exact Grammar v3 schemas, validate the envelope before dispatch, and pass only
+the inner instruction to the frozen Session runtime.
+
+Bind Probe 003 as admission evidence while explicitly denying a constrained-
+decoding claim. Distinguish its two synthetic requests from the 127 earlier
+experimental-subject responses. Retain launch as a separate, content-bound
+artifact and create none during the freeze.
+
+### Consequences
+
+- The local preflight preserves 110/110 work requests byte for byte, accepts
+  11/11 reference mutations and terminals, and passes 6/6 source plus 5/5
+  supported semantic hidden references.
+- Zero of 22 reserved schemas has a top-level union. Missing envelopes and an
+  extra-argument finish instruction are rejected before underlying dispatch.
+- The freeze digest is
+  `e72c87ff0141913dfa48f391c63ada9a6669e410a302c690da778c958a48d943`.
+- No launch record exists, no Calibration 008 subject call occurred, and the
+  only next execution gate is `explicit_launch_008`.

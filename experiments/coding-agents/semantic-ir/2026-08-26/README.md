@@ -97,7 +97,11 @@ the adversarial finish sample discarded the forbidden extra argument. The two
 requests consumed 2,380 total tokens at an estimated USD 0.008148. This proves
 admission of these nested-union schema objects and records two adherence
 samples, not constrained decoding or independent keyword enforcement.
-Calibration 008 remains unauthorized and unexecuted.**
+Matched Nested Instruction-Grammar Session Execution Freeze v2 now binds those
+accepted schemas to the unchanged Calibration 008 subjects, preserves all
+local references and 110/110 work requests, records the later Representational
+Dependence Hypothesis outside the current estimand, and remains unauthorized
+and unexecuted pending `explicit_launch_008`.**
 
 Snapshot date: **2026-08-26**
 
@@ -1007,3 +1011,16 @@ enforcement, or future adherence. The retained evidence contains exactly two
 gateway events and no task content. Calibration 008 remains unauthorized and
 unexecuted. See
 [`PROVIDER_SCHEMA_CAPABILITY_PROBE_003_OBSERVATION.md`](PROVIDER_SCHEMA_CAPABILITY_PROBE_003_OBSERVATION.md).
+
+Matched Nested Instruction-Grammar Session Execution Freeze v2 now binds that
+accepted Grammar v3 surface to Calibration 008 without changing its experimental
+subjects. All 110 work requests remain byte-identical; all eleven reference
+mutations and terminals pass; source retains 6/6 and supported semantic retains
+5/5 hidden-reference passes. The exact commit and finish schemas are validated
+before the runtime unwraps `v`, and malformed envelopes dispatch nothing. The
+audit distinguishes 127 prior subject responses from two synthetic probe
+requests. A future Representational Dependence Hypothesis is registered but
+explicitly adds no variable to this calibration. The freeze digest is
+`e72c87ff0141913dfa48f391c63ada9a6669e410a302c690da778c958a48d943`;
+no launch exists and `explicit_launch_008` remains required. See
+[`MATCHED_NESTED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V2.md`](MATCHED_NESTED_INSTRUCTION_GRAMMAR_SESSION_EXECUTION_FREEZE_V2.md).
