@@ -114,7 +114,11 @@ Sensitivity v0 now exposes 64 explicit planning scenarios spanning 16 to 920
 fresh tasks without selecting one. Power Selection Freeze v0 now fixes a
 ten-point SESOI for both primary effects, a conservative planning envelope,
 and an equal five-family population, producing a 240-task asymptotic candidate.
-Finite-sample simulation, fresh-instance, cost, execution-freeze, and launch
+Finite-Sample Simulation Protocol v0 now completes the frozen moment model with
+an explicit Beta latent-task generator and fixes thirteen scenarios, 20,000
+replications, task-level tests, Holm correction, Wilson-bound acceptance, and a
+240-to-400 escalation schedule. The protocol is frozen but has not been run;
+finite-sample validation, fresh-instance, cost, execution-freeze, and launch
 gates deliberately remain red.**
 
 Snapshot date: **2026-08-26**
@@ -491,6 +495,16 @@ different Unicode definitions from their host languages.
   retains the canonical pre-outcome selection and its content lock.
 - [`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md)
   records the 240-task asymptotic candidate and the gates it does not satisfy.
+- [`representational_finite_sample_simulation.py`](scripts/representational_finite_sample_simulation.py)
+  implements the frozen latent-task generator and task-level analysis.
+- [`build_representational_finite_sample_simulation_protocol.py`](scripts/build_representational_finite_sample_simulation_protocol.py)
+  freezes scenarios, random streams, Monte Carlo precision, acceptance, and
+  escalation without running the campaign.
+- [`representational-finite-sample-simulation-protocol-v0`](construction/representational-finite-sample-simulation-protocol-v0)
+  retains the canonical protocol and its content lock.
+- [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md)
+  documents why the generator is the explicit distributional completion of the
+  same model used by the power curve, not a replacement model.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -1126,3 +1140,16 @@ descriptive USD 235.89–283.00 scale, not a budget. The candidate has not passe
 finite-sample simulation, no fresh task exists, and no execution is authorized.
 See
 [`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
+
+Representational Finite-Sample Simulation Protocol v0 now makes the pending
+simulation unambiguous before observing its result. The curve's latent-task
+mean/ICC model is completed with a Beta distribution; proportional rescue and
+harm, the task-level lexical and packaging contrasts, and Holm family remain
+unchanged. Nine global-null sentinels and four isolated-primary alternatives
+each receive 20,000 replications from separately derived streams rooted at seed
+24121980. A candidate passes only through Wilson interval bounds for familywise
+Type I behavior, active-primary power, and inactive-primary false positives.
+The immutable schedule advances from 240 through 400 in 20-task blocks. The
+campaign has not run, so the final sample size and power gate remain unresolved.
+See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).

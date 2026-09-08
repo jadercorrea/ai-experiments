@@ -1239,3 +1239,52 @@ common multiple of four counterbalancing sequences and five families.
   ceiling, execution freeze, launch, model call, or provider spend exists.
 - The next red test is a frozen deterministic finite-sample simulation protocol
   that evaluates null type-I behavior and both effect directions.
+
+## Representational finite-sample simulation protocol v0
+
+### Context
+
+The power curve and scientific selection fixed task-level moments and an
+asymptotic candidate, but moments alone do not define a reproducible Monte Carlo
+experiment. Choosing a latent distribution, null sentinels, replication count,
+uncertainty rule, or passing threshold after seeing simulation results would
+reintroduce researcher degrees of freedom before any provider call.
+
+### Options
+
+1. Treat 240 tasks as final from the normal approximation alone.
+2. Simulate from a convenient generator and tune scenarios until 240 passes.
+3. Complete the frozen moment model explicitly and freeze the entire simulation
+   and escalation protocol before observing a Monte Carlo result.
+
+### Decision
+
+Choose option 3. Preserve the latent-task mean/ICC model, conditional Bernoulli
+sampling, proportional rescue/harm alternatives, marginal task contrasts, and
+two-primary Holm family used by the curve. For ICC above zero, complete the
+moments with a Beta latent probability; use the degenerate baseline when ICC is
+zero. Permit only one nonzero primary at a time rather than inventing an
+unidentified interaction/composition rule.
+
+Freeze nine global-null baseline/ICC sentinels and four isolated-primary
+worst-point alternatives. Use 20,000 replications per scenario, independent
+SHA-256-derived streams rooted at seed 24121980, and 95% Wilson intervals. A
+candidate passes only when every global-null familywise Type I upper bound and
+every inactive-primary upper bound are at most 0.06, and every active-primary
+power lower bound is at least 0.80. Evaluate 240 through 400 in ascending
+20-task blocks and select the first complete pass.
+
+### Consequences
+
+- The simulation can no longer silently change the generator, test, scenarios,
+  random streams, uncertainty method, or acceptance rule after seeing output.
+- The Beta family is a declared distributional completion, not evidence that
+  real task difficulty is Beta-distributed.
+- The protocol tests aggregate equal-mixture behavior and does not model
+  family-specific baseline, ICC, or effect heterogeneity.
+- A failure may only increase task count through the frozen schedule; failure
+  at 400 leaves the experiment blocked.
+- Freezing the protocol runs no simulation, constructs no fresh task, and
+  authorizes no model call, provider request, cost, execution freeze, or launch.
+- The next red test is the local campaign aggregator and its execution against
+  this content-locked protocol.

@@ -140,8 +140,9 @@ larger effect size or a friendlier task distribution.
 
 ## Next red test
 
-Construct and freeze a deterministic finite-sample simulation protocol for the
-240-task candidate. It must measure null type-I behavior and power in both
-effect directions under the frozen envelope, use predeclared seeds and
-replication counts, and apply the frozen 20-task escalation rule if the
-candidate fails. This remains call-free and must precede fresh task creation.
+The deterministic finite-sample protocol is now frozen without executing it.
+Its next red test is to implement the campaign aggregator and run the thirteen
+predeclared scenarios from 240 tasks upward. It must preserve the frozen
+20-task escalation rule and record Wilson-bound acceptance or failure before
+fresh task creation. See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).

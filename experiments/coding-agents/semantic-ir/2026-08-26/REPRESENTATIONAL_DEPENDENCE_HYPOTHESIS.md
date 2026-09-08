@@ -112,7 +112,10 @@ baseline Pass@1, absolute SESOI, and null task ICC, producing 16 to 920 fresh
 task units. The subsequent selection freezes both main-effect SESOIs at 0.10,
 a baseline 0.20–0.80/null-ICC 0.00–0.75 planning envelope, and equal allocation
 across five mechanism families. Its 240-task asymptotic candidate must now pass
-deterministic finite-sample simulation before subjects are constructed. See
+deterministic finite-sample simulation before subjects are constructed. The
+simulation protocol now fixes a Beta completion of the same latent-task
+mean/ICC model, thirteen scenarios, 20,000 replications per scenario, and
+Wilson-bound acceptance without yet running the campaign. See
 [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
 and
-[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).
