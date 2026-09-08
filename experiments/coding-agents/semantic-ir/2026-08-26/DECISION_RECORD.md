@@ -1141,3 +1141,50 @@ neither main effect.
   no powered cell count or spend ceiling exists.
 - No execution freeze, launch, authorization, or model call exists. The next
   call-free red test is a deterministic power-sensitivity curve.
+
+## Representational power-sensitivity curve v0
+
+### Context
+
+The factorial design identified task, not request, as the experimental unit but
+left baseline success, smallest relevant effects, within-task dependence, task
+mixture, and sample size unresolved. Choosing a convenient request count would
+create apparent precision without supporting generalization across fresh tasks.
+
+### Options
+
+1. Pick a small affordable task count and report detectable effects afterward.
+2. Choose one unverified point estimate for baseline and correlation, then
+   calculate one nominal sample size.
+3. Freeze a broad deterministic sensitivity grid, make every assumption and
+   cost consequence visible, and leave scientific selection to a later gate.
+
+### Decision
+
+Choose option 3. Cross baseline hidden Pass@1 values 0.20, 0.40, 0.60, and
+0.80 with absolute main-effect SESOIs 0.05, 0.10, 0.15, and 0.20 and null
+within-task ICC values 0.00, 0.25, 0.50, and 0.75. For each of the 64
+scenarios, calculate a task-level paired factorial contrast under proportional
+rescue and harm alternatives, retain the more expensive direction, use the
+smallest two-primary Holm threshold at familywise alpha 0.05, target power
+0.80, and round upward to four-task counterbalancing blocks.
+
+Do not select a row. Treat Calibration 008 cell rates only as descriptive
+linear cost scales. Keep the interaction estimation-first and all provider
+gates red.
+
+### Consequences
+
+- The grid requires 16 to 920 fresh task units, or 64 to 3,680 four-condition
+  cells.
+- At Calibration 008 rates, descriptive mean-cost scale ranges from USD 15.73
+  to USD 904.23 and observed-maximum-rate scale from USD 18.87 to USD 1,084.85.
+- The calculation uses a normal approximation with model-based moments. It is
+  deterministic but not exact or finite-sample validated.
+- Positive null ICC reduces paired-contrast variance in this model; correlated
+  cells are never counted as independent task units.
+- No SESOI, baseline/ICC envelope, task-family mixture, task count, request
+  ceiling, spend ceiling, fresh subject, execution freeze, or launch is chosen.
+- No model call occurred and no provider cost was incurred.
+- The next red test is a pre-outcome scientific selection record followed by
+  deterministic simulation of the selected finite-sample design.

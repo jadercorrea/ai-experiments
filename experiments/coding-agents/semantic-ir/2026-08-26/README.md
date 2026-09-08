@@ -109,8 +109,10 @@ and estimated cost were nearly unchanged. The grammar establishes a runtime
 safety boundary, not constrained decoding, adherence, or task efficacy.
 Representational Dependence Design v0 now isolates detailed semantic-
 observation lexicon from packaging in a call-free 2x2 construction. Its 20/20
-realizations round-trip to canonical byte equality, while fresh-instance,
-power, cost, freeze, and launch gates deliberately remain red.**
+realizations round-trip to canonical byte equality. Representational Power-
+Sensitivity v0 now exposes 64 explicit planning scenarios spanning 16 to 920
+fresh tasks without selecting one. Fresh-instance, scientific selection, cost,
+freeze, and launch gates deliberately remain red.**
 
 Snapshot date: **2026-08-26**
 
@@ -469,6 +471,16 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
   records the factorial boundary and why power, fresh-instance, cost, and
   launch decisions remain unresolved.
+- [`representational_power_sensitivity.py`](scripts/representational_power_sensitivity.py)
+  computes paired task-level main-effect variance under explicit baseline,
+  SESOI, and null-ICC assumptions.
+- [`build_representational_power_sensitivity.py`](scripts/build_representational_power_sensitivity.py)
+  materializes the deterministic 64-scenario curve and descriptive cost scale.
+- [`representational-power-sensitivity-v0`](construction/representational-power-sensitivity-v0)
+  retains the JSON/CSV curve and its content lock.
+- [`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md)
+  records the 16-to-920-task range, approximation boundary, and unresolved
+  scientific selection gate.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -503,6 +515,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_dependence_design_v0.py`](../../../../tests/test_representational_dependence_design_v0.py)
   proves factorial round-trip, lexical skeleton equality, malformed-reference
   rejection, deterministic construction, and launch-gate status.
+- [`test_representational_power_sensitivity_v0.py`](../../../../tests/test_representational_power_sensitivity_v0.py)
+  proves task-level accounting, directional conservatism, grid monotonicity,
+  deterministic materialization, and persistent red launch gates.
 
 ## Reproduce
 
@@ -1075,3 +1090,14 @@ wire optimization. All five fixtures were already provider-exposed, so fresh
 instances, power, cost ceiling, freeze, launch, and authorization remain
 required. No model call occurred. See
 [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md).
+
+Representational Power-Sensitivity v0 now evaluates that design over 64
+call-free planning scenarios. The grid crosses baseline hidden Pass@1 from
+0.20 to 0.80, absolute main effects from 0.05 to 0.20, and null within-task ICC
+from 0.00 to 0.75. Conservative two-sided Holm planning and four-task block
+rounding produce 16 to 920 required fresh tasks, or 64 to 3,680 condition
+cells. Calibration 008 rates imply a descriptive mean-cost scale of USD 15.73
+to USD 904.23, not an approved budget. No scenario is selected: SESOIs,
+planning envelope, fresh task-family mixture, simulation validation, cost
+ceiling, and launch remain red. See
+[`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).

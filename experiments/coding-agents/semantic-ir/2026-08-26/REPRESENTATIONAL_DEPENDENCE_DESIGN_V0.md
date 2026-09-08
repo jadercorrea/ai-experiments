@@ -9,8 +9,9 @@ evaluators, model policy, and budgets fixed. Twenty construction realizations
 decode to byte-identical canonical observations, and meaningful/opaque pairs
 have identical structure after applying the frozen label map. The five fixtures
 already reached the provider during Calibration 008 and are ineligible as
-confirmatory subjects. No sample size, spend ceiling, execution freeze, launch
-artifact, authorization, or model call exists.**
+confirmatory subjects. A separate 64-scenario sensitivity now exposes a
+16-to-920-task range without selecting one. No sample size, spend ceiling,
+execution freeze, launch artifact, authorization, or model call exists.**
 
 The materialized construction contains 28 files with tree digest
 `1ed3881fa29a5b1edb451c16ee80035aa72127841f4936008c4c5247b7cdae0e`.
@@ -141,8 +142,16 @@ Pass@1. The design reserves a familywise alpha of 0.05 with Holm correction
 across those two main effects and targets power of 0.80. The interaction is
 secondary and estimation-first.
 
-A sample size is intentionally not selected because four decision inputs remain
-unset:
+A deterministic sensitivity curve now crosses baseline Pass@1 values 0.20 to
+0.80, absolute effects 0.05 to 0.20, and null within-task ICC values 0.00 to
+0.75. It plans from the more expensive of equal-magnitude rescue and harm
+alternatives, uses the smallest Holm threshold, and rounds upward to four-task
+counterbalancing blocks. Results range from 16 to 920 fresh tasks. This is a
+normal-approximation sensitivity, not a selected or simulation-validated power
+design.
+
+A sample size remains intentionally unselected because scientific decision
+inputs remain unset:
 
 1. the smallest effect size of interest for each main effect;
 2. baseline success probability;
@@ -199,10 +208,10 @@ request ceiling is authorized.
 
 ## Next red test
 
-Build a deterministic power-sensitivity curve before creating fresh tasks.
-Vary the baseline rate, smallest effect of interest, and within-task correlation
-over explicit ranges; report the required fresh task units and four-condition
-cell count without selecting a preferred effect after seeing outcomes. Only
-after that decision should the experiment construct fresh instances, audit
+Freeze both primary SESOIs, a conservative baseline/ICC planning envelope, and
+the target fresh task-family mixture without observing new provider outcomes.
+Then validate the selected finite-sample design deterministically. Only after
+that decision should the experiment construct fresh instances, audit
 contamination, freeze exact contexts and evaluators, project a cost ceiling,
-and request a separate launch authorization.
+and request a separate launch authorization. See
+[`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).

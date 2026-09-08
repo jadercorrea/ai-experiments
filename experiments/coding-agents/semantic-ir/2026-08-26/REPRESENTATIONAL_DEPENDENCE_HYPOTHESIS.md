@@ -3,9 +3,11 @@
 ## Status
 
 **Registered independently of Calibration 008 and now instantiated as a
-call-free 2x2 observation-realization design. The construction proves lossless
-decoding over current fixtures but leaves fresh-instance, power, cost, freeze,
-launch, and authorization gates red. It authorizes no model or provider call.**
+call-free 2x2 observation-realization design plus a 64-scenario power-
+sensitivity curve. The construction proves lossless decoding over current
+fixtures and exposes a 16-to-920-task planning range without selecting a
+scenario. Fresh-instance, scientific selection, cost, freeze, launch, and
+authorization gates remain red. No model or provider call is authorized.**
 
 ## Motivation
 
@@ -103,6 +105,12 @@ main effect.
 
 The five existing supported tasks serve only as lossless-codec coverage. They
 were already exposed to the provider and are ineligible as confirmatory units.
-The next gate is a call-free power-sensitivity curve, followed by fresh-instance
-construction and contamination audit. See
-[`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md).
+The call-free power-sensitivity curve is now complete: 64 scenarios cross
+baseline Pass@1, absolute SESOI, and null task ICC, producing 16 to 920 fresh
+task units without choosing one. The next gate is to freeze the two main-effect
+SESOIs, a conservative baseline/ICC envelope, and the target fresh task-family
+mixture, then validate the selected design by deterministic simulation before
+constructing subjects. See
+[`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
+and
+[`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).
