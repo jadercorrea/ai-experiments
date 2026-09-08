@@ -10,8 +10,9 @@ decode to byte-identical canonical observations, and meaningful/opaque pairs
 have identical structure after applying the frozen label map. The five fixtures
 already reached the provider during Calibration 008 and are ineligible as
 confirmatory subjects. A separate 64-scenario sensitivity now exposes a
-16-to-920-task range without selecting one. No sample size, spend ceiling,
-execution freeze, launch artifact, authorization, or model call exists.**
+16-to-920-task range, and a subsequent scientific freeze selects a 240-task
+asymptotic candidate. Finite-sample validation, spend ceiling, execution
+freeze, launch artifact, authorization, and model calls remain absent.**
 
 The materialized construction contains 28 files with tree digest
 `1ed3881fa29a5b1edb451c16ee80035aa72127841f4936008c4c5247b7cdae0e`.
@@ -150,13 +151,18 @@ counterbalancing blocks. Results range from 16 to 920 fresh tasks. This is a
 normal-approximation sensitivity, not a selected or simulation-validated power
 design.
 
-A sample size remains intentionally unselected because scientific decision
-inputs remain unset:
+A separate pre-outcome selection now fixes these inputs:
 
 1. the smallest effect size of interest for each main effect;
 2. baseline success probability;
 3. within-task cross-condition outcome correlation; and
 4. the mixture of fresh task families to which the result should generalize.
+
+Both primary SESOIs are 0.10; the planning envelope spans baseline 0.20–0.80
+and null ICC 0.00–0.75; five mechanism families receive equal weight. The
+resulting 240-task value remains an asymptotic candidate until finite-sample
+simulation passes. See
+[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
 
 Choosing a convenient number of requests before those inputs would create the
 appearance of power rather than power.
@@ -208,10 +214,9 @@ request ceiling is authorized.
 
 ## Next red test
 
-Freeze both primary SESOIs, a conservative baseline/ICC planning envelope, and
-the target fresh task-family mixture without observing new provider outcomes.
-Then validate the selected finite-sample design deterministically. Only after
-that decision should the experiment construct fresh instances, audit
+Construct and freeze a deterministic finite-sample simulation protocol, then
+validate the selected 240-task candidate under the frozen scientific inputs.
+Only after that decision should the experiment construct fresh instances, audit
 contamination, freeze exact contexts and evaluators, project a cost ceiling,
 and request a separate launch authorization. See
-[`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).
+[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).

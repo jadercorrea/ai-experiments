@@ -2,7 +2,8 @@
 
 ## Status
 
-**Call-free sensitivity valid; scientific and launch decisions remain blocked.**
+**Call-free sensitivity valid; its scientific selection is now frozen in a
+separate artifact, while finite-sample and launch decisions remain blocked.**
 The frozen grid contains 64 scenarios crossing four baseline Pass@1 rates,
 four absolute smallest effects of interest, and four null task-level
 intraclass correlations. It reports the approximate number of fresh tasks,
@@ -114,9 +115,9 @@ in byte size and may change both tokenization and trajectories, so these are
 scale indicators, not budgets or forecasts. No scenario, request ceiling,
 spend ceiling, or launch has been selected.
 
-## Decision now exposed
+## Decision exposed and subsequently frozen
 
-The next decision is scientific rather than computational:
+The sensitivity exposed the following scientific decisions:
 
 1. choose a defensible SESOI separately for lexical and packaging effects;
 2. choose the baseline and ICC planning envelope, including whether to use a
@@ -126,8 +127,13 @@ The next decision is scientific rather than computational:
 5. only then construct fresh instances, audit contamination, and freeze a cost
    ceiling.
 
-Selecting a cheap row because it is cheap would reverse the intended order of
-evidence. The curve makes that temptation visible but does not authorize it.
+Power Selection Freeze v0 subsequently fixed both main-effect SESOIs at 0.10,
+selected baseline 0.20–0.80 and null ICC 0.00–0.75 as the planning envelope,
+and defined an equal five-family task mixture. The continuous-envelope maximum
+and joint rounding produce a 240-task asymptotic candidate. Selecting a cheap
+row because it is cheap would have reversed the intended order of evidence;
+the separate freeze records the choice before new outcomes. See
+[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
 
 ## Evidence
 
@@ -149,7 +155,6 @@ described by [Crowder](https://academic.oup.com/jrsssb/article/41/2/230/7027494)
 
 ## Next red test
 
-Freeze the scientific selection rule before constructing tasks: two main-effect
-SESOIs, a conservative baseline/ICC envelope, and a target mixture of fresh task
-families. Then run a deterministic finite-sample simulation of that selected
-design. The selection must be made without inspecting new provider outcomes.
+Construct and freeze the deterministic finite-sample simulation protocol for
+the selected 240-task candidate. Validate null type-I behavior and both effect
+directions under the frozen envelope before constructing fresh tasks.

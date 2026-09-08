@@ -111,8 +111,11 @@ Representational Dependence Design v0 now isolates detailed semantic-
 observation lexicon from packaging in a call-free 2x2 construction. Its 20/20
 realizations round-trip to canonical byte equality. Representational Power-
 Sensitivity v0 now exposes 64 explicit planning scenarios spanning 16 to 920
-fresh tasks without selecting one. Fresh-instance, scientific selection, cost,
-freeze, and launch gates deliberately remain red.**
+fresh tasks without selecting one. Power Selection Freeze v0 now fixes a
+ten-point SESOI for both primary effects, a conservative planning envelope,
+and an equal five-family population, producing a 240-task asymptotic candidate.
+Finite-sample simulation, fresh-instance, cost, execution-freeze, and launch
+gates deliberately remain red.**
 
 Snapshot date: **2026-08-26**
 
@@ -481,6 +484,13 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md)
   records the 16-to-920-task range, approximation boundary, and unresolved
   scientific selection gate.
+- [`build_representational_power_selection_freeze.py`](scripts/build_representational_power_selection_freeze.py)
+  freezes both SESOIs, the planning envelope, five-family mixture, and
+  simulation failure behavior.
+- [`representational-power-selection-freeze-v0`](construction/representational-power-selection-freeze-v0)
+  retains the canonical pre-outcome selection and its content lock.
+- [`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md)
+  records the 240-task asymptotic candidate and the gates it does not satisfy.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -518,6 +528,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_power_sensitivity_v0.py`](../../../../tests/test_representational_power_sensitivity_v0.py)
   proves task-level accounting, directional conservatism, grid monotonicity,
   deterministic materialization, and persistent red launch gates.
+- [`test_representational_power_selection_freeze_v0.py`](../../../../tests/test_representational_power_selection_freeze_v0.py)
+  proves pre-outcome selection, conservative-envelope maximization, balanced
+  five-family allocation, deterministic locking, and simulation-gate status.
 
 ## Reproduce
 
@@ -1101,3 +1114,15 @@ to USD 904.23, not an approved budget. No scenario is selected: SESOIs,
 planning envelope, fresh task-family mixture, simulation validation, cost
 ceiling, and launch remain red. See
 [`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).
+
+Representational Power Selection Freeze v0 now makes the scientific choice the
+experiment had deliberately deferred. Both lexical and packaging main effects
+use an absolute Pass@1 SESOI of 0.10. Baseline 0.20–0.80 and null task ICC
+0.00–0.75 form the planning envelope; its worst asymptotic point requires
+236.503 tasks before joint rounding. Four counterbalancing sequences crossed
+with five equally weighted mechanism families produce a 240-task candidate,
+48 per family and 960 condition cells. Calibration 008 rates imply a
+descriptive USD 235.89–283.00 scale, not a budget. The candidate has not passed
+finite-sample simulation, no fresh task exists, and no execution is authorized.
+See
+[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).

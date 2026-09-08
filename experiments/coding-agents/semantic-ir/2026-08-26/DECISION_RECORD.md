@@ -1188,3 +1188,54 @@ gates red.
 - No model call occurred and no provider cost was incurred.
 - The next red test is a pre-outcome scientific selection record followed by
   deterministic simulation of the selected finite-sample design.
+
+## Representational power-selection freeze v0
+
+### Context
+
+The sensitivity curve exposed a 16-to-920-task range but intentionally could
+not choose which effect mattered or which tasks defined the population. Leaving
+those choices open until after new provider outcomes would permit post hoc
+movement of the scientific target.
+
+### Options
+
+1. Select the cheapest feasible grid point and accept sensitivity only to large
+   effects.
+2. Use the five provider-exposed construction fixtures to estimate assumptions
+   and extrapolate from them.
+3. Freeze an operationally material SESOI, a broad conservative planning
+   envelope, and a bounded equal task-family mixture before new outcomes.
+
+### Decision
+
+Choose option 3. Set both lexical and packaging absolute Pass@1 SESOIs to 0.10.
+Use baseline 0.20–0.80 and null within-task ICC 0.00–0.75 as the planning
+envelope. Under the frozen proportional rescue/harm model, zero ICC is the
+conservative boundary at this SESOI. Maximize the directional asymptotic task
+count over the continuous baseline interval.
+
+Define five equally weighted task families within the frozen Session ISA and
+semantic inspection vocabulary: capability lookup/fallback, error/option
+taxonomy, guarded retry/control flow, identity/state consistency, and pure
+dataflow normalization. Round the worst envelope result upward to the least
+common multiple of four counterbalancing sequences and five families.
+
+### Consequences
+
+- The worst point is baseline 0.486251052, zero ICC, and an increasing effect,
+  requiring 236.503122 tasks before rounding.
+- The asymptotic candidate is 240 fresh tasks: 48 per family, 960 condition
+  cells, and at most 11,520 requests at the Calibration 008 cell maximum.
+- Descriptive Calibration 008 rates project USD 235.8864 at the mean and USD
+  283.0032 at the observed maximum; neither value is a budget or ceiling.
+- Equal family weights define this bounded target population and make no claim
+  about real-world workload prevalence.
+- The five construction fixtures remain provider-exposed coverage material and
+  contribute no confirmatory unit or empirical parameter estimate.
+- If finite-sample simulation fails, scientific inputs remain frozen and task
+  count may only increase in complete 20-task blocks.
+- The candidate does not establish power. No task, contamination audit, cost
+  ceiling, execution freeze, launch, model call, or provider spend exists.
+- The next red test is a frozen deterministic finite-sample simulation protocol
+  that evaluates null type-I behavior and both effect directions.

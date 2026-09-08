@@ -5,9 +5,11 @@
 **Registered independently of Calibration 008 and now instantiated as a
 call-free 2x2 observation-realization design plus a 64-scenario power-
 sensitivity curve. The construction proves lossless decoding over current
-fixtures and exposes a 16-to-920-task planning range without selecting a
-scenario. Fresh-instance, scientific selection, cost, freeze, launch, and
-authorization gates remain red. No model or provider call is authorized.**
+fixtures and exposes a 16-to-920-task planning range. A separate pre-outcome
+selection now fixes both SESOIs, the planning envelope, and an equal five-family
+population, yielding a 240-task asymptotic candidate. Finite-sample,
+fresh-instance, cost, execution-freeze, launch, and authorization gates remain
+red. No model or provider call is authorized.**
 
 ## Motivation
 
@@ -107,10 +109,10 @@ The five existing supported tasks serve only as lossless-codec coverage. They
 were already exposed to the provider and are ineligible as confirmatory units.
 The call-free power-sensitivity curve is now complete: 64 scenarios cross
 baseline Pass@1, absolute SESOI, and null task ICC, producing 16 to 920 fresh
-task units without choosing one. The next gate is to freeze the two main-effect
-SESOIs, a conservative baseline/ICC envelope, and the target fresh task-family
-mixture, then validate the selected design by deterministic simulation before
-constructing subjects. See
+task units. The subsequent selection freezes both main-effect SESOIs at 0.10,
+a baseline 0.20–0.80/null-ICC 0.00–0.75 planning envelope, and equal allocation
+across five mechanism families. Its 240-task asymptotic candidate must now pass
+deterministic finite-sample simulation before subjects are constructed. See
 [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
 and
-[`REPRESENTATIONAL_POWER_SENSITIVITY_V0.md`](REPRESENTATIONAL_POWER_SENSITIVITY_V0.md).
+[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
