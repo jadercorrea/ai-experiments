@@ -1421,3 +1421,57 @@ not conversational carryover.
 - No model call, provider request, task, behavioral claim, or spend occurred.
 - The next red test is implementing and content locking the deterministic
   five-family task generator without materializing the full cohort.
+
+## Representational fresh-task generator freeze v0
+
+### Context
+
+The construction protocol fixed 240 slots and 1,920 attempt seeds, but a seed
+alone does not define task semantics. A generator could still hide arbitrary
+choices in prose, emit invalid IR for untested profiles, depend on treatment
+order, or write the entire cohort before its family contracts were auditable.
+
+### Options
+
+1. Generate repository directories directly for all 240 first attempts.
+2. Freeze only abstract profile names and defer executable semantics.
+3. Implement a pure semantic-blueprint generator, audit every frozen attempt,
+   execute one representative of every profile, and defer persistence.
+
+### Decision
+
+Choose option 3. For each slot and attempt, deterministically produce a complete
+in-memory blueprint: participant objective, typed program IR v2 baseline,
+transactional reference patch, public/hidden value-and-effect cases, and the
+family invariant contract. Derive all variable task material from the already
+frozen seed without a language model or provider response.
+
+Give every family twelve profiles from a `3 × 2 × 2` matrix. Assign one profile
+to four consecutive slots so it crosses all four cyclic counterbalance
+sequences. Do not consume the condition-order field during generation.
+
+Generate all 1,920 blueprints in frozen order and require unique byte and
+semantic-signature digests. Semantically execute attempt zero for the first slot
+of every profile: 60 validations. A profile passes only if the baseline and
+patched programs type/effect check and project, the reference passes every
+public and hidden case, the baseline is discriminated by both evaluator
+partitions, and stale base state rejects the patch.
+
+### Consequences
+
+- The construction-generator gate is green and content locked.
+- The audit produced 384 unique blueprints per family, 1,920 overall, with no
+  semantic-signature collision.
+- Validation spans all 60 profiles rather than only the five family exemplars.
+- The generated population is explicitly synthetic and balanced; it does not
+  estimate naturally occurring task prevalence or contain 1,920 different
+  algorithms.
+- In-memory generation is not task materialization. No participant repository,
+  context, condition realization, persistent reference, provider request, or
+  model call exists.
+- Materialization, complete local eligibility, four-condition equivalence,
+  contamination, cost, execution-freeze, launch, and authorization gates remain
+  red.
+- The next red test is materializing one predeclared attempt-zero smoke task per
+  family and running the complete local eligibility pipeline without provider
+  calls.

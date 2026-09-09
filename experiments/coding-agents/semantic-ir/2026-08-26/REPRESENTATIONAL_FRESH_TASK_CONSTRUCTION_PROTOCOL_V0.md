@@ -136,6 +136,9 @@ empirical outcomes.
 
 ## Next red test
 
-Implement and content lock the deterministic five-family construction
-generator. It must be testable without materializing the full 240-task cohort
-and must not consume provider or participant-model output.
+The deterministic five-family generator is now implemented and content locked.
+It audited all 1,920 blueprints in memory and semantically validated all 60
+family profiles without materializing the cohort. The next red test is a
+persisted five-task local smoke cohort, one predeclared attempt-zero slot per
+family. See
+[`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md).

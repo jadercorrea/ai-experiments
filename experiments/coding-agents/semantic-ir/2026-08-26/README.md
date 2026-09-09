@@ -525,6 +525,16 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md)
   records the deterministic non-LLM constructor boundary, participant-model
   invariance, and why zero tasks exist at this stage.
+- [`representational_fresh_task_generator.py`](scripts/representational_fresh_task_generator.py)
+  generates typed semantic baselines, transactional reference patches, and
+  value/effect evaluator plans without writing participant files.
+- [`build_representational_fresh_task_generator_freeze.py`](scripts/build_representational_fresh_task_generator_freeze.py)
+  audits all 1,920 candidate blueprints and validates the 60 family profiles.
+- [`representational-fresh-task-generator-freeze-v0`](construction/representational-fresh-task-generator-freeze-v0)
+  retains the generator manifest, digest stream, validation summaries, gates,
+  and content lock.
+- [`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md)
+  records what is generated in memory and why task materialization remains red.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -568,6 +578,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_fresh_task_construction_protocol_v0.py`](../../../../tests/test_representational_fresh_task_construction_protocol_v0.py)
   proves the 240-slot schedule, within-family sequence balance, deterministic
   attempt order, constructor/participant separation, and persistent red gates.
+- [`test_representational_fresh_task_generator_freeze_v0.py`](../../../../tests/test_representational_fresh_task_generator_freeze_v0.py)
+  proves seed binding, family invariants, executable semantic discrimination,
+  profile/sequence crossing, exhaustive uniqueness, and zero persistent tasks.
 
 ## Reproduce
 
@@ -1194,3 +1207,14 @@ identical across all four conditions. Equivalence, evaluator, contamination,
 cost, execution, and launch gates remain red. The artifact creates zero tasks
 and makes zero model calls. See
 [`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).
+
+Representational Fresh-Task Generator Freeze v0 now implements that protocol's
+deterministic non-LLM semantic generator. All 1,920 candidate blueprints were
+generated in memory with unique byte and semantic-signature digests. One
+attempt-zero representative of each of the 60 family profiles validates as a
+typed/effect-checked baseline plus transactional reference patch: reference
+green, baseline red in both public and hidden plans, and stale state rejected.
+No repository, participant context, observation realization, model call, or
+provider cost exists. The next red test is a five-task persisted local smoke
+cohort. See
+[`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md).

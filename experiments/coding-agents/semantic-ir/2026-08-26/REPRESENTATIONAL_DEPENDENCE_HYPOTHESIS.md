@@ -7,9 +7,11 @@ call-free 2x2 observation-realization design. Pre-outcome selection and a
 260,000-replication finite-sample campaign select 240 fresh tasks across five
 equal mechanism families. A subsequent pre-construction protocol freezes all
 240 slots, 1,920 ordered candidate seeds, counterbalancing, rejection rules,
-equivalence, isolation, and contamination gates. No fresh task exists;
-construction-generator, cost, execution-freeze, launch, and authorization
-gates remain red. No model or provider call is authorized.**
+equivalence, isolation, and contamination gates. The deterministic five-family
+generator is now content locked after auditing every blueprint and semantically
+validating all 60 profiles. No fresh task exists; materialization, cost,
+execution-freeze, launch, and authorization gates remain red. No model or
+provider call is authorized.**
 
 ## Motivation
 
@@ -131,3 +133,9 @@ construction is explicitly deterministic and non-LLM, while one future
 participant model and inference policy must remain identical across all four
 conditions. See
 [`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).
+The subsequent generator freeze produces typed baselines, transactional
+reference patches, and public/hidden value-and-effect evaluator plans entirely
+in memory. It found unique blueprint and semantic-signature digests across all
+1,920 candidates and validated one representative of every family profile. It
+still creates no participant task. See
+[`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md).
