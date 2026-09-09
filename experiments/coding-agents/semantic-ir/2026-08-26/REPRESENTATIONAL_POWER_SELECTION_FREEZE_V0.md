@@ -2,16 +2,16 @@
 
 ## Status
 
-**Scientific selection frozen; finite-sample validation and every execution
-gate remain blocked.** Both primary effects now have an absolute Pass@1 SESOI
-of 0.10. The planning envelope spans baseline probability 0.20–0.80 and null
-within-task ICC 0.00–0.75. The target population is equally divided across
-five mechanism families within the frozen Session ISA and semantic inspection
-vocabulary.
+**Scientific selection frozen; the subsequent finite-sample campaign selected
+its 240-task candidate.** Both primary effects have an absolute Pass@1 SESOI of
+0.10. The planning envelope spans baseline probability 0.20–0.80 and null
+within-task ICC 0.00–0.75. The target population is equally divided across five
+mechanism families within the frozen Session ISA and semantic inspection
+vocabulary. Fresh-instance and every provider execution gate remain blocked.
 
-The asymptotic candidate contains 240 fresh task units, 48 per family and 960
-four-condition cells. This is a candidate for simulation, not a power claim,
-provider budget, task suite, or launch.
+The freeze produced an asymptotic candidate of 240 fresh task units, 48 per
+family and 960 four-condition cells. The later simulation selected that count;
+neither artifact is a provider budget, task suite, behavioral result, or launch.
 
 The materialized selection contains one data file with tree digest
 `0ed432f41697ff4221c918cb9ddc80a0616d1487f6e61b653412d79287341c2a`.
@@ -140,9 +140,8 @@ larger effect size or a friendlier task distribution.
 
 ## Next red test
 
-The deterministic finite-sample protocol is now frozen without executing it.
-Its next red test is to implement the campaign aggregator and run the thirteen
-predeclared scenarios from 240 tasks upward. It must preserve the frozen
-20-task escalation rule and record Wilson-bound acceptance or failure before
-fresh task creation. See
-[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).
+The deterministic finite-sample campaign is complete. All thirteen scenarios
+passed at the initial 240-task candidate, so the frozen stop rule selected 240
+without escalation. The next red test is the fresh-instance construction
+protocol. See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).

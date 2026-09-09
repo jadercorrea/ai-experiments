@@ -117,9 +117,12 @@ and an equal five-family population, producing a 240-task asymptotic candidate.
 Finite-Sample Simulation Protocol v0 now completes the frozen moment model with
 an explicit Beta latent-task generator and fixes thirteen scenarios, 20,000
 replications, task-level tests, Holm correction, Wilson-bound acceptance, and a
-240-to-400 escalation schedule. The protocol is frozen but has not been run;
-finite-sample validation, fresh-instance, cost, execution-freeze, and launch
-gates deliberately remain red.**
+240-to-400 escalation schedule. The protocol is frozen and its campaign is now
+complete. Its resumable runner checkpoints every completed scenario and refuses
+protocol or checkpoint drift. All thirteen 20,000-replication streams passed at
+240 tasks, including a limiting packaging/decrease power lower bound of 0.80172.
+The finite-sample gate is green; fresh-instance, cost, execution-freeze, and
+launch gates deliberately remain red.**
 
 Snapshot date: **2026-08-26**
 
@@ -505,6 +508,15 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md)
   documents why the generator is the explicit distributional completion of the
   same model used by the power curve, not a replacement model.
+- [`run_representational_finite_sample_simulation.py`](scripts/run_representational_finite_sample_simulation.py)
+  validates the locked inputs, executes or resumes exact scenario streams,
+  applies the frozen stop rule, and seals only a complete result.
+- [`representational-finite-sample-simulation-v0`](observations/representational-finite-sample-simulation-v0)
+  retains 260,000 replications, all event counts and Wilson intervals, the
+  selected 240-task count, and its content lock.
+- [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md)
+  reports the limiting power margin and the remaining non-behavioral claim
+  boundary.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -1136,8 +1148,10 @@ use an absolute Pass@1 SESOI of 0.10. Baseline 0.20–0.80 and null task ICC
 236.503 tasks before joint rounding. Four counterbalancing sequences crossed
 with five equally weighted mechanism families produce a 240-task candidate,
 48 per family and 960 condition cells. Calibration 008 rates imply a
-descriptive USD 235.89–283.00 scale, not a budget. The candidate has not passed
-finite-sample simulation, no fresh task exists, and no execution is authorized.
+descriptive USD 235.89–283.00 scale, not a budget. The candidate had not passed
+finite-sample simulation within this selection artifact; the subsequent
+content-locked campaign selected it. No fresh task exists and no provider
+execution is authorized.
 See
 [`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
 
@@ -1149,7 +1163,12 @@ unchanged. Nine global-null sentinels and four isolated-primary alternatives
 each receive 20,000 replications from separately derived streams rooted at seed
 24121980. A candidate passes only through Wilson interval bounds for familywise
 Type I behavior, active-primary power, and inactive-primary false positives.
-The immutable schedule advances from 240 through 400 in 20-task blocks. The
-campaign has not run, so the final sample size and power gate remain unresolved.
+The immutable schedule could advance from 240 through 400 in 20-task blocks.
+The resumable runner completed all thirteen streams at 240 and stopped because
+every predeclared criterion passed. Null Wilson upper bounds were at most
+0.05665; active-power lower bounds were at least 0.80172; inactive-primary upper
+bounds were at most 0.05100. The design therefore selects 240 fresh tasks under
+the frozen generator. This is not a behavioral effect or real-task distribution
+claim, and no fresh task or provider call exists yet.
 See
-[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).

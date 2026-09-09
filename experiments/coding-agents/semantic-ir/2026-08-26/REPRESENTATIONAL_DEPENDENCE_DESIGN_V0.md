@@ -214,9 +214,8 @@ request ceiling is authorized.
 
 ## Next red test
 
-Construct and freeze a deterministic finite-sample simulation protocol, then
-validate the selected 240-task candidate under the frozen scientific inputs.
-Only after that decision should the experiment construct fresh instances, audit
-contamination, freeze exact contexts and evaluators, project a cost ceiling,
-and request a separate launch authorization. See
-[`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md).
+The deterministic finite-sample campaign later selected 240 tasks under the
+frozen inputs. The next red test is to freeze their construction protocol before
+creating fresh instances, auditing contamination, freezing exact contexts and
+evaluators, projecting a cost ceiling, or requesting launch. See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).

@@ -111,11 +111,15 @@ The call-free power-sensitivity curve is now complete: 64 scenarios cross
 baseline Pass@1, absolute SESOI, and null task ICC, producing 16 to 920 fresh
 task units. The subsequent selection freezes both main-effect SESOIs at 0.10,
 a baseline 0.20–0.80/null-ICC 0.00–0.75 planning envelope, and equal allocation
-across five mechanism families. Its 240-task asymptotic candidate must now pass
-deterministic finite-sample simulation before subjects are constructed. The
-simulation protocol now fixes a Beta completion of the same latent-task
+across five mechanism families. Its 240-task asymptotic candidate was required
+to pass deterministic finite-sample simulation before subjects could be
+constructed. The simulation protocol fixes a Beta completion of the same
+latent-task
 mean/ICC model, thirteen scenarios, 20,000 replications per scenario, and
-Wilson-bound acceptance without yet running the campaign. See
+Wilson-bound acceptance. The resumable runner rejected protocol, dependency,
+checkpoint, or result drift. Its later 260,000-replication campaign passed all
+thirteen scenarios at the first candidate and selected 240 tasks. This remains
+simulation evidence under the frozen generator, not a behavioral result. See
 [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
 and
 [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).

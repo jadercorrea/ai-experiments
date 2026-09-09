@@ -2,16 +2,25 @@
 
 ## Status
 
-**Protocol frozen; Monte Carlo execution remains red.** The protocol fixes the
-joint data generator, thirteen validation scenarios, task-level tests, Holm
+**Protocol frozen and executed; the first candidate selected 240 tasks.** The
+protocol fixes the joint data generator, thirteen validation scenarios,
+task-level tests, Holm
 correction, seed derivation, replication count, Wilson uncertainty intervals,
 candidate escalation schedule, and acceptance criteria before any simulation
 outcome is observed.
 
-The starting candidate remains 240 fresh task units. Each candidate requires
-20,000 replications in each of thirteen scenarios. No simulation campaign,
-model call, fresh-task construction, provider request, or spend occurred while
-freezing this protocol.
+The campaign runner was first locally exercised with synthetic event counts and
+a five-replication generator smoke test. It validates the protocol and its
+dependency hashes before work, writes one atomic checkpoint after every
+completed scenario, resumes only from a canonical campaign prefix,
+and content-locks the result only after selection or exhaustion. This does not
+change the frozen protocol artifact. The later 20,000-replication campaign ran
+all thirteen streams for 240 tasks and stopped there because every criterion
+passed.
+
+The selected count is 240 fresh task units. Each evaluated scenario used 20,000
+replications. No model call, fresh-task construction, provider request, or
+spend occurred while freezing or executing this simulation protocol.
 
 ## Is this the same generator as the power curve?
 
@@ -130,9 +139,9 @@ explicit design decision rather than a friendlier post hoc assumption.
 
 ## Claim boundary
 
-- This is a simulation protocol, not a simulation result.
-- The 240-task count remains an asymptotic candidate, not a final sample size.
-- Passing later would validate this analysis under this generator, not prove
+- The content-locked protocol remains distinct from its later simulation result.
+- The 240-task count has passed the protocol's finite-sample criteria.
+- Its later pass validates this analysis under this generator; it does not prove
   that the generator describes real coding-agent tasks.
 - v0 contains no family-specific baseline, ICC, or effect heterogeneity.
 - No fresh task, contamination audit, execution freeze, budget, or launch
@@ -149,16 +158,19 @@ explicit design decision rather than a friendlier post hoc assumption.
 - [`build_representational_finite_sample_simulation_protocol.py`](scripts/build_representational_finite_sample_simulation_protocol.py)
   derives the scenarios and escalation schedule from the locked scientific
   selection.
+- [`run_representational_finite_sample_simulation.py`](scripts/run_representational_finite_sample_simulation.py)
+  executes or resumes the exact candidate/scenario sequence and emits a final
+  content-locked result only after the frozen stop rule resolves.
 - [`REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md`](REPRESENTATIONAL_POWER_SELECTION_FREEZE_V0.md)
   records the preceding pre-outcome choices.
 
 ## Next red test
 
-Implement the campaign aggregator from this frozen protocol, then execute it
-starting at 240 tasks. Record all event counts and Wilson intervals, select the
-first passing candidate, or preserve the blocked state through 400. This local
-Monte Carlo step requires no model or provider call and must still precede
-fresh task construction.
+The campaign is complete. Freeze the construction protocol for 240 fresh tasks,
+including family allocation, counterbalancing, contamination rejection,
+canonical four-condition equivalence, reference/evaluator isolation, and local
+validation. See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).
 
 ## Method references
 

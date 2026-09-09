@@ -1288,3 +1288,78 @@ power lower bound is at least 0.80. Evaluate 240 through 400 in ascending
   authorizes no model call, provider request, cost, execution freeze, or launch.
 - The next red test is the local campaign aggregator and its execution against
   this content-locked protocol.
+
+## Representational finite-sample campaign runner v0
+
+### Context
+
+One candidate contains thirteen long-running streams. A runner that retained
+results only at process exit could lose hours of deterministic work after an
+interruption, while an informal resume could repeat streams or combine results
+from different protocol or source versions.
+
+### Options
+
+1. Run the entire campaign in memory and write one result at exit.
+2. Parallelize immediately and accept process-local progress as operational
+   state.
+3. Execute sequential independent streams with canonical atomic checkpoints,
+   strict resume validation, and a final content lock.
+
+### Decision
+
+Choose option 3 for v0. Verify the protocol tree and every recorded source
+dependency before simulation. Derive each stream solely from the frozen base
+seed, scenario identity, and task count. After each scenario, atomically store
+its counts, Wilson intervals, criteria, and seed as the next exact campaign
+prefix. On resume, recompute every summary and reject any ordering, source,
+runner, or result mismatch.
+
+Finalize only after the first fully passing candidate or the frozen 400-task
+maximum. A complete checkpoint can repair the narrow crash window before lock
+creation without repeating simulation. A valid final result must match both
+the checkpoint and its artifact lock.
+
+### Consequences
+
+- An interruption loses at most the currently running scenario.
+- Completed streams are never rerun during a valid resume.
+- Code or protocol changes invalidate partial state instead of silently mixing
+  simulation versions.
+- Sequential execution is simpler and deterministic but does not yet exploit
+  independent-stream parallelism.
+- Synthetic aggregation and a five-replication smoke test validate wiring but
+  are not scientific outcomes.
+- The next red test is execution of the unchanged 20,000-replication campaign
+  beginning at 240 tasks.
+
+## Representational finite-sample simulation result v0
+
+### Observation
+
+Execute the thirteen frozen scenario streams at the initial 240-task candidate.
+All nine global-null sentinels satisfy the Type I criterion and all four
+isolated-primary scenarios satisfy both active-power and inactive-primary
+criteria. The stop rule therefore selects 240 without evaluating larger
+candidates.
+
+The largest global-null Wilson upper bound is 0.05665 against a 0.06 ceiling.
+The smallest active-power lower bound is 0.80172 against a 0.80 floor, in the
+packaging/decrease scenario. The largest inactive-primary upper bound is
+0.05100 against a 0.06 ceiling.
+
+### Consequences
+
+- The final finite-sample design contains 240 fresh tasks, 48 in each of five
+  mechanism families and 960 four-condition cells.
+- The simulation gate is green under the exact frozen generator and criteria.
+- The narrowest power margin is 0.00172; no downstream safeguard may be relaxed
+  on the theory that the design is generously overpowered.
+- Individual Wilson intervals were predeclared; simultaneous coverage across
+  all event rates is not claimed.
+- No behavioral effect, empirical task distribution, general prevalence,
+  provider budget, or launch is established.
+- No model call, provider request, fresh task, or spend occurred.
+- The next red test is a pre-construction freeze for the 240 fresh instances,
+  followed by local generation, equivalence, evaluator, and contamination
+  checks before any provider authorization.

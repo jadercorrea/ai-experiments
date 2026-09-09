@@ -155,6 +155,7 @@ described by [Crowder](https://academic.oup.com/jrsssb/article/41/2/230/7027494)
 
 ## Next red test
 
-Construct and freeze the deterministic finite-sample simulation protocol for
-the selected 240-task candidate. Validate null type-I behavior and both effect
-directions under the frozen envelope before constructing fresh tasks.
+The subsequent deterministic finite-sample campaign selected 240 tasks after
+all thirteen scenarios passed. The next red test is their fresh-instance
+construction protocol; no provider call is yet authorized. See
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).
