@@ -124,7 +124,9 @@ synthetic mechanism population, not an estimate of real-world task prevalence.
 
 ## Next red test
 
-Materialize one predeclared attempt-zero smoke task per family and run the whole
-local eligibility pipeline: baseline/reference evaluator discrimination,
-participant isolation, four-condition canonical equivalence, duplicate checks,
-and a provisional contamination inventory. This remains provider-free.
+Completed by
+[`REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md`](REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md):
+five predeclared attempt-zero fixtures passed the whole local eligibility
+pipeline and were content locked without provider calls. Because they are now
+development-exposed, they remain engineering evidence rather than confirmatory
+units. The next red test is the exact participant execution freeze.

@@ -122,7 +122,11 @@ complete. Its resumable runner checkpoints every completed scenario and refuses
 protocol or checkpoint drift. All thirteen 20,000-replication streams passed at
 240 tasks, including a limiting packaging/decrease power lower bound of 0.80172.
 The finite-sample gate is green; fresh-instance, cost, execution-freeze, and
-launch gates deliberately remain red.**
+launch gates deliberately remain red. Fresh-task Smoke v0 now materializes one
+attempt-zero fixture per family and passes the complete local eligibility
+pipeline across twenty lossless condition realizations. These five fixtures are
+development-exposed and therefore excluded from confirmation; no confirmatory
+task, model call, provider request, or spend exists.**
 
 Snapshot date: **2026-08-26**
 
@@ -535,6 +539,15 @@ different Unicode definitions from their host languages.
   and content lock.
 - [`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md)
   records what is generated in memory and why task materialization remains red.
+- [`build_representational_fresh_task_smoke.py`](scripts/build_representational_fresh_task_smoke.py)
+  materializes five development-only fixtures and composes every local
+  eligibility check without a provider call.
+- [`representational-fresh-task-smoke-v0`](construction/representational-fresh-task-smoke-v0)
+  retains the five tasks, twenty condition surfaces, evaluator evidence,
+  provisional contamination inventory, dispositions, and content lock.
+- [`REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md`](REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md)
+  records the green local gate, why the five attempt-zero fixtures are burned,
+  and the remaining execution-freeze boundary.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the

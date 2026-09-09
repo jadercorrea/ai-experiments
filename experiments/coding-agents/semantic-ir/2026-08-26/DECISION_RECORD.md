@@ -1475,3 +1475,40 @@ partitions, and stale base state rejects the patch.
 - The next red test is materializing one predeclared attempt-zero smoke task per
   family and running the complete local eligibility pipeline without provider
   calls.
+
+## Representational fresh-task smoke v0
+
+### Context
+
+The locked generator proved all 1,920 candidate blueprints were deterministic
+and unique, but it had never composed persistent repositories, participant
+boundaries, detailed observation realizations, evaluator evidence, duplicate
+checks, and an artifact lock in one end-to-end construction.
+
+### Decision
+
+Materialize exactly attempt zero of the first frozen slot in each of the five
+families. Run the complete local eligibility pipeline and persist all four
+factorial realizations for each task without making a model or provider call.
+
+Treat persistence and development inspection as exposure. Retain each attempt
+zero as an engineering fixture, mark it ineligible for the confirmatory cohort,
+and require the corresponding slot to resume at its already frozen attempt 1.
+Do not substitute another candidate, revise the family generator, or count the
+fixture among the 240 experimental units.
+
+### Consequences
+
+- Five task repositories and twenty condition realizations pass deterministic
+  materialization, frozen-vocabulary, evaluator, equivalence, isolation,
+  duplicate, and artifact-lock checks.
+- All four realizations per task decode to identical canonical observation
+  bytes, and meaningful/opaque skeletons match within each packaging level.
+- No participant tree matches the provisional inventory of 867 historical
+  provider request artifacts; the audit must be repeated once exact future
+  request framing is frozen.
+- The smoke fixtures establish infrastructure composition only. Confirmatory
+  task count, behavioral evidence, model calls, provider requests, and spend
+  remain zero.
+- The next red test is freezing the exact participant request envelope, model,
+  inference policy, independent-session runner, and provider cost ceiling.
