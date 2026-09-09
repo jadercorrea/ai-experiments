@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/representational-confirmatory-runner-freeze-v0.schema.json",
+  "title": "Representational confirmatory runner freeze v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "runner_id",
+    "status",
+    "source_freezes",
+    "execution_contract",
+    "preflight",
+    "gates",
+    "claim_boundary",
+    "next_red_test",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-runner-freeze/v0"
+    },
+    "runner_id": {"const": "representational-confirmatory-runner-v0"},
+    "status": {
+      "const": "confirmatory_runner_sealed_preflight_passed_launch_blocked"
+    },
+    "source_freezes": {
+      "type": "object",
+      "required": ["cohort_verified", "participant_execution_verified"]
+    },
+    "execution_contract": {
+      "type": "object",
+      "required": [
+        "condition_agnostic_session_path",
+        "fresh_session_per_cell",
+        "fresh_workspace_per_cell",
+        "initial_history",
+        "hidden_evaluator_boundary",
+        "provider_dispatch"
+      ],
+      "properties": {
+        "fresh_session_per_cell": {"const": true},
+        "fresh_workspace_per_cell": {"const": true},
+        "initial_history": {"const": "empty"},
+        "hidden_evaluator_boundary": {"const": "after_F_only_no_subject_feedback"},
+        "provider_dispatch": {"const": "blocked_without_separate_explicit_launch_record"}
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "required": ["path", "sha256", "cell_count", "passed"],
+      "properties": {
+        "path": {"const": "preflight/result.json"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "cell_count": {"const": 960},
+        "passed": {"const": true}
+      }
+    },
+    "gates": {
+      "type": "object",
+      "required": [
+        "runner",
+        "provider_free_preflight",
+        "cost_ceiling",
+        "provider_access_recheck",
+        "provider_rate_recheck",
+        "explicit_launch_record",
+        "launch"
+      ],
+      "properties": {
+        "runner": {"$ref": "#/$defs/greenGate"},
+        "provider_free_preflight": {"$ref": "#/$defs/greenGate"},
+        "cost_ceiling": {"$ref": "#/$defs/greenGate"},
+        "provider_access_recheck": {"$ref": "#/$defs/redGate"},
+        "provider_rate_recheck": {"$ref": "#/$defs/redGate"},
+        "explicit_launch_record": {"$ref": "#/$defs/redGate"},
+        "launch": {"$ref": "#/$defs/redGate"}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "provider_free_reference_trajectories_observed",
+        "behavioral_subject_outcomes_observed",
+        "model_calls_authorized",
+        "model_calls_observed",
+        "provider_requests_observed",
+        "provider_costs_incurred_usd",
+        "behavioral_effect_claimed",
+        "generalization_claimed"
+      ],
+      "properties": {
+        "provider_free_reference_trajectories_observed": {"const": 960},
+        "behavioral_subject_outcomes_observed": {"const": 0},
+        "model_calls_authorized": {"const": false},
+        "model_calls_observed": {"const": 0},
+        "provider_requests_observed": {"const": 0},
+        "provider_costs_incurred_usd": {"const": 0.0},
+        "behavioral_effect_claimed": {"const": false},
+        "generalization_claimed": {"const": false}
+      }
+    },
+    "next_red_test": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/fileReference"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "greenGate": {
+      "type": "object",
+      "required": ["passed", "evidence"],
+      "properties": {
+        "passed": {"const": true},
+        "evidence": {"type": "string", "minLength": 1}
+      }
+    },
+    "redGate": {
+      "type": "object",
+      "required": ["passed", "reason"],
+      "properties": {
+        "passed": {"const": false},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "fileReference": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

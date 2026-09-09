@@ -134,8 +134,11 @@ requests pass the local envelope audit with zero historical matches. The 240
 confirmatory tasks and their 960 exact requests now exist in Representational
 Confirmatory Cohort v0. All selected tasks passed local eligibility on the first
 permitted attempt, and every request passed exact novelty and isolation audits.
-No behavioral outcome, model call, provider request, spend, or launch
-authorization exists.**
+Representational Confirmatory Runner Freeze v0 now replays all 960 cells through
+one provider-free `C/R/I/L/W/S/E/F` boundary, preserving request identity,
+workspace isolation, post-finish hidden evaluation, and four-condition final
+equivalence. No behavioral outcome, model call, provider request, spend, or
+launch authorization exists.**
 
 Snapshot date: **2026-08-26**
 
@@ -1295,7 +1298,15 @@ shared tool schema through Bedrock translation, and match neither 867
 historical request artifacts nor the twenty smoke requests. Full payloads and
 replicated participant trees are reconstructed from locked inputs instead of
 versioned redundantly, reducing the retained artifact from 134,236 to 49,652
-KiB. Construction remains provider-free. The session runner, 960-cell
-preflight, access/rate rechecks, explicit launch, and behavioral evidence remain
-red. See
-[`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md).
+KiB. Construction remains provider-free. Representational Confirmatory Runner
+Freeze v0 now binds those requests to one operational Session ISA path. All 960
+deterministic reference trajectories reconstructed their request identity,
+exercised `C/R/I/L/W/S/E/F`, built 2,880 locally translated turn requests with
+typed state after turn one, passed public and post-finish hidden evaluation,
+and converged across the four conditions in every task. The USD 350
+pre-dispatch stop also passed, with zero provider requests or cost. Access and
+rate rechecks, a separate explicit launch record, the dispatch canary, and all
+behavioral evidence remain red. See
+[`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md)
+and
+[`REPRESENTATIONAL_CONFIRMATORY_RUNNER_FREEZE_V0.md`](REPRESENTATIONAL_CONFIRMATORY_RUNNER_FREEZE_V0.md).
