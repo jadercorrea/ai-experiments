@@ -1512,3 +1512,55 @@ fixture among the 240 experimental units.
   remain zero.
 - The next red test is freezing the exact participant request envelope, model,
   inference policy, independent-session runner, and provider cost ceiling.
+
+## Representational participant execution freeze v0
+
+### Context
+
+The local smoke proved that task generation and four-condition realization
+compose, but participant execution was still underspecified. Model identity,
+request framing, provider translation, session independence, and a binding
+cost stop could otherwise be chosen after seeing confirmatory task bytes or
+outcomes. At the same time, exact requests for unmaterialized tasks cannot be
+honestly frozen in advance.
+
+### Options
+
+1. Materialize the confirmatory cohort first and decide execution details
+   afterward.
+2. Freeze placeholder request hashes for task bytes that do not yet exist.
+3. Freeze the deterministic request constructor and every invariant field,
+   prove it on exact smoke envelopes, schedule independent sessions, and defer
+   confirmatory request hashes until eligible tasks exist.
+
+### Decision
+
+Choose option 3. Reuse the Calibration 008 participant identity through Amazon
+Bedrock: `us.anthropic.claude-sonnet-4-6` in `us-east-1`, temperature zero,
+4,096 output tokens per turn, and no provider substitution. Lock the one-tool
+request surface and local Bedrock adapter. Assemble each initial system message
+from task, outline, observation state, and Session ISA without passing the
+condition identifier to the constructor.
+
+Assign all 960 condition cells unique session and workspace identities with
+empty histories and no cross-condition parent. Preserve the frozen within-task
+condition order only as counterbalancing. Advance the five development-exposed
+slots to attempt 1; retain attempt 0 for the other 235 slots.
+
+Set USD 350 as the hard experiment ceiling. It exceeds the descriptive USD
+283.0032 maximum-observed-rate projection by USD 66.9968 but is not permission
+to spend. Require a rate recheck and reservation guard at launch.
+
+### Consequences
+
+- Twenty exact smoke requests and Bedrock translations prove constructor and
+  tool-schema composition without a provider call.
+- Their non-system fields are invariant, condition labels are absent, and none
+  matches 867 historical request artifacts.
+- Exact confirmatory requests remain correctly nonexistent until their 240
+  task units pass local eligibility.
+- The execution-freeze and cost-ceiling gates are green; confirmatory-task,
+  exact-request, access/rate recheck, explicit-launch, and authorization gates
+  remain red.
+- The next red test is materializing all 240 confirmatory task units and
+  auditing all 960 exact requests before provider execution.

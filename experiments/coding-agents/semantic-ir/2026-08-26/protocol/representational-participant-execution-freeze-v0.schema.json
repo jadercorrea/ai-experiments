@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/representational-participant-execution-freeze-v0.schema.json",
+  "title": "Representational participant execution freeze v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "freeze_id",
+    "status",
+    "model",
+    "sampling",
+    "provider_access",
+    "request_contract",
+    "limits",
+    "accounting",
+    "cost_ceiling",
+    "isolation",
+    "schedule",
+    "smoke_preflight",
+    "gates",
+    "claim_boundary",
+    "next_red_test",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-participant-execution-freeze/v0"
+    },
+    "freeze_id": {"type": "string", "minLength": 1},
+    "status": {"const": "execution_variables_frozen_launch_blocked"},
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "provider_model",
+        "foundation_model",
+        "api_format",
+        "region",
+        "experiment_context_length",
+        "provider_substitution_allowed"
+      ],
+      "properties": {
+        "provider": {"const": "Amazon Bedrock"},
+        "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+        "foundation_model": {"const": "anthropic.claude-sonnet-4-6"},
+        "api_format": {"const": "bedrock-converse"},
+        "region": {"const": "us-east-1"},
+        "experiment_context_length": {"const": 65536},
+        "provider_substitution_allowed": {"const": false}
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature", "maximum_output_tokens_per_turn", "seed"],
+      "properties": {
+        "temperature": {"const": 0},
+        "maximum_output_tokens_per_turn": {"const": 4096},
+        "seed": {"type": "null"}
+      }
+    },
+    "provider_access": {"type": "object"},
+    "request_contract": {
+      "type": "object",
+      "required": [
+        "api_format",
+        "canonical_request_bytes",
+        "model_facing_tool_count",
+        "tool_name",
+        "constructor_content_locked",
+        "provider_adapter_content_locked",
+        "exact_smoke_requests_created",
+        "exact_confirmatory_requests_created"
+      ],
+      "properties": {
+        "api_format": {"const": "bedrock-converse"},
+        "canonical_request_bytes": {"const": "sorted_minified_utf8_json"},
+        "model_facing_tool_count": {"const": 1},
+        "tool_name": {"const": "x"},
+        "constructor_content_locked": {"const": true},
+        "provider_adapter_content_locked": {"const": true},
+        "exact_smoke_requests_created": {"const": true},
+        "exact_confirmatory_requests_created": {"const": false}
+      }
+    },
+    "limits": {
+      "type": "object",
+      "required": ["task_units", "condition_cells", "maximum_provider_requests"],
+      "properties": {
+        "task_units": {"const": 240},
+        "condition_cells": {"const": 960},
+        "maximum_provider_requests": {"const": 11520}
+      }
+    },
+    "accounting": {"type": "object"},
+    "cost_ceiling": {
+      "type": "object",
+      "required": [
+        "maximum_total_spend_usd",
+        "observed_maximum_rate_projection_usd"
+      ],
+      "properties": {
+        "maximum_total_spend_usd": {"const": 350.0},
+        "observed_maximum_rate_projection_usd": {"type": "number"}
+      }
+    },
+    "isolation": {"type": "object"},
+    "schedule": {"$ref": "#/$defs/fileReference"},
+    "smoke_preflight": {"$ref": "#/$defs/fileReference"},
+    "gates": {
+      "type": "object",
+      "required": ["execution_freeze", "confirmatory_requests", "launch"],
+      "properties": {
+        "execution_freeze": {"$ref": "#/$defs/gate"},
+        "confirmatory_requests": {"$ref": "#/$defs/gate"},
+        "launch": {"$ref": "#/$defs/gate"}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": ["model_calls_authorized", "provider_requests_observed"],
+      "properties": {
+        "model_calls_authorized": {"const": false},
+        "provider_requests_observed": {"const": 0}
+      }
+    },
+    "next_red_test": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fileReference"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "fileReference": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "required": ["passed"],
+      "properties": {"passed": {"type": "boolean"}}
+    }
+  }
+}

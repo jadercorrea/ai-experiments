@@ -126,7 +126,13 @@ launch gates deliberately remain red. Fresh-task Smoke v0 now materializes one
 attempt-zero fixture per family and passes the complete local eligibility
 pipeline across twenty lossless condition realizations. These five fixtures are
 development-exposed and therefore excluded from confirmation; no confirmatory
-task, model call, provider request, or spend exists.**
+task, model call, provider request, or spend exists. Representational
+Participant Execution Freeze v0 now fixes one Sonnet 4.6 Bedrock participant,
+the exact request constructor and translation, a 960-cell independent-session
+schedule, inference limits, and a USD 350 hard ceiling. Twenty exact smoke
+requests pass the local envelope audit with zero historical matches. The 240
+confirmatory tasks, their 960 exact requests, and launch authorization remain
+absent.**
 
 Snapshot date: **2026-08-26**
 
@@ -548,6 +554,17 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md`](REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md)
   records the green local gate, why the five attempt-zero fixtures are burned,
   and the remaining execution-freeze boundary.
+- [`representational_participant_execution.py`](scripts/representational_participant_execution.py)
+  constructs canonical participant requests and the no-carryover cell schedule.
+- [`build_representational_participant_execution_freeze.py`](scripts/build_representational_participant_execution_freeze.py)
+  locks the model, provider translation, limits, isolation, accounting, and
+  budget while keeping launch red.
+- [`representational-participant-execution-freeze-v0`](construction/representational-participant-execution-freeze-v0)
+  retains all 960 scheduled cells, twenty exact smoke request translations,
+  contamination evidence, provider basis, and the artifact lock.
+- [`REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md`](REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md)
+  records the execution contract and why task materialization is the next red
+  test.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -594,6 +611,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_fresh_task_generator_freeze_v0.py`](../../../../tests/test_representational_fresh_task_generator_freeze_v0.py)
   proves seed binding, family invariants, executable semantic discrimination,
   profile/sequence crossing, exhaustive uniqueness, and zero persistent tasks.
+- [`test_representational_participant_execution_freeze_v0.py`](../../../../tests/test_representational_participant_execution_freeze_v0.py)
+  proves request-envelope invariance, exact historical novelty, 960 independent
+  sessions, attempt rollover, budget/model binding, and deterministic locking.
 
 ## Reproduce
 
@@ -1231,3 +1251,23 @@ No repository, participant context, observation realization, model call, or
 provider cost exists. The next red test is a five-task persisted local smoke
 cohort. See
 [`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md).
+
+Representational Fresh-Task Smoke v0 subsequently persisted five development
+fixtures, one attempt-zero slot per family, and passed the full local
+eligibility pipeline across twenty condition realizations. Because those bytes
+were inspected during development, all five candidates remain evidence but are
+excluded from confirmation; their slots advance to attempt 1. No model or
+provider call occurred. See
+[`REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md`](REPRESENTATIONAL_FRESH_TASK_SMOKE_V0.md).
+
+Representational Participant Execution Freeze v0 now fixes the participant as
+Bedrock `us.anthropic.claude-sonnet-4-6`, temperature zero, 4,096 output tokens
+per turn, one `x` tool, and the exact initial-request constructor and provider
+adapter. The independent schedule assigns 960 unique sessions and fresh
+workspaces, with no cross-condition history. Twenty exact smoke envelopes and
+their Bedrock translations preserve the tool schema, contain no condition
+labels, and have zero matches among 867 historical request artifacts. A USD
+350 hard stop is frozen above the USD 283.0032 maximum-observed-rate
+projection, but it grants no spending authority. Confirmatory tasks, their 960
+exact requests, rate/access rechecks, and launch remain red. See
+[`REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md`](REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md).

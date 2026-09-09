@@ -82,10 +82,15 @@ does not establish that a model can use any representation effectively.
 - [`test_representational_fresh_task_smoke_v0.py`](../../../../tests/test_representational_fresh_task_smoke_v0.py)
   captures the red-to-green contract and byte-deterministic reconstruction.
 
-## Next red test
+## Resolved next red test
 
-Freeze the exact participant request envelope, one participant model and
-inference policy, the independent-session runner, and a provider cost ceiling.
-Only then can confirmatory construction begin, using attempt 1 for the five
+[`REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md`](REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md)
+now freezes the participant model, request constructor, provider adapter,
+inference policy, 960-cell independent schedule, and USD 350 hard ceiling. Its
+twenty exact smoke requests also complete the formerly provisional historical
+request audit with zero matches.
+
+The next red test is confirmatory construction: use attempt 1 for the five
 development-exposed slots and attempt 0 for the other 235 slots under the
-unchanged first-eligible rule.
+unchanged first-eligible rule, then produce and audit all 960 exact requests
+before any launch authorization.
