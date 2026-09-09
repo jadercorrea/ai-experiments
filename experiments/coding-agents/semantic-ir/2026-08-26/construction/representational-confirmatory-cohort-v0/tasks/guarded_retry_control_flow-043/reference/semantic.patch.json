@@ -1,0 +1,113 @@
+{
+  "base_program_sha256": "59b2442dc6534b0dd68b38208e6bdd4d5dde87282c2cab8d57cae24dcb863881",
+  "operations": [
+    {
+      "expected_subtree_sha256": "245c498df70e7d1db0d990674f6dde907a24b9e345b1080c945d66102c1bc95e",
+      "op": "replace_subtree",
+      "operation_id": "operation:fresh-89ba1c7193baca49-retry",
+      "replacement": {
+        "node_id": "node:fresh-89ba1c7193baca49-user-match",
+        "none": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-89ba1c7193baca49-raw-for-guard",
+                "op": "var",
+                "symbol_id": "param:fresh-89ba1c7193baca49-raw-id"
+              },
+              {
+                "node_id": "node:fresh-89ba1c7193baca49-normalized-for-guard",
+                "op": "var",
+                "symbol_id": "local:fresh-89ba1c7193baca49-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-89ba1c7193baca49-raw-equals-normalized",
+            "op": "call",
+            "symbol": "string.equals"
+          },
+          "else": {
+            "error": {
+              "node_id": "node:fresh-89ba1c7193baca49-missing-code",
+              "op": "string",
+              "value": "not_found_89ba1c7193baca49"
+            },
+            "node_id": "node:fresh-89ba1c7193baca49-missing",
+            "op": "err"
+          },
+          "node_id": "node:fresh-89ba1c7193baca49-retry-guard",
+          "op": "if",
+          "then": {
+            "node_id": "node:fresh-89ba1c7193baca49-retry-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-89ba1c7193baca49-retry-missing-code",
+                "op": "string",
+                "value": "not_found_89ba1c7193baca49"
+              },
+              "node_id": "node:fresh-89ba1c7193baca49-retry-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-89ba1c7193baca49-retry-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-89ba1c7193baca49-retry-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-89ba1c7193baca49-retry-user"
+              }
+            },
+            "some_binding": {
+              "name": "retryUser",
+              "symbol_id": "local:fresh-89ba1c7193baca49-retry-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-89ba1c7193baca49-raw-for-retry",
+                  "op": "var",
+                  "symbol_id": "param:fresh-89ba1c7193baca49-raw-id"
+                }
+              ],
+              "node_id": "node:fresh-89ba1c7193baca49-retry-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          }
+        },
+        "op": "option_match",
+        "some": {
+          "node_id": "node:fresh-89ba1c7193baca49-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:fresh-89ba1c7193baca49-user-ref",
+            "op": "var",
+            "symbol_id": "local:fresh-89ba1c7193baca49-user"
+          }
+        },
+        "some_binding": {
+          "name": "user",
+          "symbol_id": "local:fresh-89ba1c7193baca49-user",
+          "type": "user"
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-89ba1c7193baca49-normalized-for-user",
+              "op": "var",
+              "symbol_id": "local:fresh-89ba1c7193baca49-normalized-id"
+            }
+          ],
+          "node_id": "node:fresh-89ba1c7193baca49-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id"
+        }
+      },
+      "target_node_id": "node:fresh-89ba1c7193baca49-user-match"
+    }
+  ],
+  "patch_id": "patch:fresh-89ba1c7193baca49",
+  "program_id": "program:fresh-89ba1c7193baca49",
+  "schema_version": "ai-experiments.semantic-ir.patch/v0"
+}

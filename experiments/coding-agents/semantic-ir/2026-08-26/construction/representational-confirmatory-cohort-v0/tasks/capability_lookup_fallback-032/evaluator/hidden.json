@@ -1,0 +1,127 @@
+[
+  {
+    "arguments": {
+      "rawId": "  user-817bfe01\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "  user-817bfe01\t": [
+            {
+              "id": "  user-817bfe01\t",
+              "name": "Directory-ac5ec8"
+            }
+          ]
+        }
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-817bfe01": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-817bfe01"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "  user-817bfe01\t"
+          ],
+          "symbol": "directory.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "  user-817bfe01\t",
+          "name": "Directory-ac5ec8"
+        }
+      }
+    },
+    "id": "fallback-hit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "  user-817bfe01\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-817bfe01": [
+            {
+              "id": "user-817bfe01",
+              "name": "Local-ac5ec8"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-817bfe01"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-817bfe01",
+          "name": "Local-ac5ec8"
+        }
+      }
+    },
+    "id": "local-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " \t "
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_817bfe0109ac5ec8"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

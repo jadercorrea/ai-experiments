@@ -1564,3 +1564,57 @@ to spend. Require a rate recheck and reservation guard at launch.
   remain red.
 - The next red test is materializing all 240 confirmatory task units and
   auditing all 960 exact requests before provider execution.
+
+## Representational confirmatory cohort v0
+
+### Context
+
+The scientific design, deterministic task generator, participant execution
+contract, and five exposed attempt-zero slots were frozen. What remained was
+to select and persist the actual 240-task sample without adaptive candidate
+choice, then replace the smoke audit with exact request identities for every
+factorial cell.
+
+A direct implementation also exposed an evidence-storage choice. Persisting
+four complete participant trees plus both request formats for every task
+produced 134,236 KiB and 12,963 files, although those payloads were deterministic
+products of smaller locked inputs.
+
+### Options
+
+1. Commit all replicated trees and 1,920 complete request payloads.
+2. Keep only aggregate counts and discard exact request identity.
+3. Retain canonical task inputs and every exact digest, reconstruct all payloads
+   during verification, and lock each task plus the full cohort.
+
+### Decision
+
+Choose option 3. Traverse the 240 frozen slots in protocol order and accept only
+the first locally eligible predeclared attempt. Start the five smoke-exposed
+slots at attempt 1 and all other slots at attempt 0. Advance an atomic
+checkpoint only after the accepted task's individual artifact lock verifies.
+Reject source drift or a non-prefix resume.
+
+For every accepted task, generate all four exact participant requests through
+the frozen constructor, translate them through the frozen Bedrock adapter, and
+audit historical equality, smoke equality, within-cohort equality, condition
+labels, invariant fields, and tool-schema preservation. Retain canonical
+OpenAI and Bedrock digests. Remove only the derived request bodies and duplicate
+participant trees; reconstruct them from blueprint, canonical outline,
+condition realization, repository, evaluators, and execution freeze in tests.
+
+### Consequences
+
+- All 240 slots selected their first permitted candidate: 235 at attempt 0 and
+  five at attempt 1, with zero rejection or exhaustion.
+- All 960 realizations pass local eligibility and all 960 exact requests are
+  unique, condition-blind, schema-preserving, and novel against both historical
+  and development-smoke requests.
+- Tests reconstruct every request and Bedrock translation and recover the
+  recorded digests.
+- Evidence by reconstruction reduces the retained artifact to 49,652 KiB and
+  4,323 files, 63.01% below the direct materialization size.
+- No model call, provider request, behavioral outcome, or spend occurred.
+- The next red test is a content-locked confirmatory runner and complete
+  provider-free replay of the 960-cell schedule before access/rate checks and a
+  separate explicit launch decision.

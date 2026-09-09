@@ -1,0 +1,264 @@
+{
+  "attempt_index": 0,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-b630e8495cfc918f-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-b630e8495cfc918f-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-b630e8495cfc918f-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-b630e8495cfc918f-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-b630e8495cfc918f-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-b630e8495cfc918f-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-b630e8495cfc918f-missing-code",
+                "op": "string",
+                "value": "not_found_b630e8495cfc918f"
+              },
+              "node_id": "node:fresh-b630e8495cfc918f-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-b630e8495cfc918f-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-b630e8495cfc918f-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-b630e8495cfc918f-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-b630e8495cfc918f-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-b630e8495cfc918f-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-b630e8495cfc918f-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-b630e8495cfc918f-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-b630e8495cfc918f-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-b630e8495cfc918f-invalid-code",
+              "op": "string",
+              "value": "invalid_input_b630e8495cfc918f"
+            },
+            "node_id": "node:fresh-b630e8495cfc918f-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "node_id": "node:fresh-b630e8495cfc918f-normalizer",
+          "op": "var",
+          "symbol_id": "param:fresh-b630e8495cfc918f-raw-id"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserAb630e8495cfc918f",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-b630e8495cfc918f-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-b630e8495cfc918f-lookup"
+    },
+    "program_id": "program:fresh-b630e8495cfc918f",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:pure_dataflow_normalization:b630e8495cfc918f",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 6436865506463896584,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": "  user-b630e849\t"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-b630e849": [
+                {
+                  "id": "user-b630e849",
+                  "name": "Normalized-fc918f"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-b630e849"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-b630e849",
+              "name": "Normalized-fc918f"
+            }
+          }
+        },
+        "id": "padded-identifier",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": " "
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "invalid_input_b630e8495cfc918f"
+          }
+        },
+        "id": "whitespace-identifier",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": "user-b630e849"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-b630e849": [
+                {
+                  "id": "user-b630e849",
+                  "name": "Ordinary-fc918f"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-b630e849"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-b630e849",
+              "name": "Ordinary-fc918f"
+            }
+          }
+        },
+        "id": "ordinary-identifier",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "pure_dataflow_normalization",
+  "family_index": 22,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "Change identifier normalization from raw to trim without adding effects.",
+  "profile": {
+    "dimensions": {
+      "direction": "raw_to_trim",
+      "identifier_shape": "alphabetic",
+      "public_focus": "whitespace_identifier"
+    },
+    "profile_index": 5
+  },
+  "reference_patch": {
+    "base_program_sha256": "1ad0cdf8a04e66dfe9d2762133fe4e2d53ba6ccdf4253c3af7b7081eed14f85c",
+    "operations": [
+      {
+        "expected_subtree_sha256": "93bc5cb0f3c1c5636a0fdd4e008640c3beb3f30744435c20f97f3b2e922f990a",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-b630e8495cfc918f-normalization",
+        "replacement": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-b630e8495cfc918f-raw-after-normalization-patch",
+              "op": "var",
+              "symbol_id": "param:fresh-b630e8495cfc918f-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-b630e8495cfc918f-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        },
+        "target_node_id": "node:fresh-b630e8495cfc918f-normalizer"
+      }
+    ],
+    "patch_id": "patch:fresh-b630e8495cfc918f",
+    "program_id": "program:fresh-b630e8495cfc918f",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "deterministic": true,
+    "direction": "raw_to_trim",
+    "introduced_effects": [],
+    "normalization_symbol": "string.trim_ascii"
+  },
+  "semantic_signature_sha256": "910c92e6c655c634c220b1af250028bd0ac9a6c472fba71ad59a109bae295526",
+  "slot_id": "pure_dataflow_normalization-022"
+}

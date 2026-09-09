@@ -1,0 +1,139 @@
+{
+  "program_id": "program:fresh-d07e7a453166db06",
+  "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+  "scope_fields": [
+    "symbol_id",
+    "name",
+    "type"
+  ],
+  "state_token": "cap:v1:state:e83e3ebfc4b84c25093a0e09b9c5c4aa",
+  "targets": [
+    {
+      "handle": "n0",
+      "node_id": "node:fresh-d07e7a453166db06-body",
+      "op": "let",
+      "parent": null,
+      "scope": [
+        [
+          "param:fresh-d07e7a453166db06-raw-id",
+          "rawId",
+          "string"
+        ]
+      ],
+      "slot": "body",
+      "subtree": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-d07e7a453166db06-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-d07e7a453166db06-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-d07e7a453166db06-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-d07e7a453166db06-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-d07e7a453166db06-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-d07e7a453166db06-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-d07e7a453166db06-missing-code",
+                "op": "string",
+                "value": "not_found_d07e7a453166db06"
+              },
+              "node_id": "node:fresh-d07e7a453166db06-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-d07e7a453166db06-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-d07e7a453166db06-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-d07e7a453166db06-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-d07e7a453166db06-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-d07e7a453166db06-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-d07e7a453166db06-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-d07e7a453166db06-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-d07e7a453166db06-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-d07e7a453166db06-invalid-code",
+              "op": "string",
+              "value": "invalid_input_d07e7a453166db06"
+            },
+            "node_id": "node:fresh-d07e7a453166db06-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-d07e7a453166db06-raw-for-normalizer",
+              "op": "var",
+              "symbol_id": "param:fresh-d07e7a453166db06-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-d07e7a453166db06-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "target_token": "cap:v1:target:dbb177f3dadfd05a56b3fef38d1e00c6"
+    },
+    {
+      "handle": "n1",
+      "node_id": "node:fresh-d07e7a453166db06-normalizer",
+      "op": "call",
+      "parent": "n0",
+      "scope": [
+        [
+          "param:fresh-d07e7a453166db06-raw-id",
+          "rawId",
+          "string"
+        ]
+      ],
+      "slot": "value",
+      "subtree": {
+        "arguments": [
+          {
+            "node_id": "node:fresh-d07e7a453166db06-raw-for-normalizer",
+            "op": "var",
+            "symbol_id": "param:fresh-d07e7a453166db06-raw-id"
+          }
+        ],
+        "node_id": "node:fresh-d07e7a453166db06-normalizer",
+        "op": "call",
+        "symbol": "string.trim_ascii"
+      },
+      "target_token": "cap:v1:target:e44c03d796c13e779e2805ab04b647b6"
+    }
+  ]
+}

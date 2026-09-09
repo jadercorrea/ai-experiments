@@ -1,0 +1,129 @@
+{
+  "base_program_sha256": "71110018d2c10643eb583d6efa21fd0ab06449f09c1237dc63f646c4021fb066",
+  "operations": [
+    {
+      "expected_subtree_sha256": "14ef749f8c8cca6877375a77d1245c67db64a79c5358fd05a4c6d4a8de11faf6",
+      "op": "replace_subtree",
+      "operation_id": "operation:fresh-242689bdb22143e7-identity",
+      "replacement": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-242689bdb22143e7-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-242689bdb22143e7-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-242689bdb22143e7-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-242689bdb22143e7-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-242689bdb22143e7-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "condition": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-242689bdb22143e7-normalized-for-reserved",
+                  "op": "var",
+                  "symbol_id": "local:fresh-242689bdb22143e7-normalized-id"
+                },
+                {
+                  "node_id": "node:fresh-242689bdb22143e7-reserved-literal",
+                  "op": "string",
+                  "value": "reserved-242689bd"
+                }
+              ],
+              "node_id": "node:fresh-242689bdb22143e7-reserved-equals",
+              "op": "call",
+              "symbol": "string.equals"
+            },
+            "else": {
+              "node_id": "node:fresh-242689bdb22143e7-user-match-after-guard",
+              "none": {
+                "error": {
+                  "node_id": "node:fresh-242689bdb22143e7-missing-code",
+                  "op": "string",
+                  "value": "not_found_242689bdb22143e7"
+                },
+                "node_id": "node:fresh-242689bdb22143e7-missing",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:fresh-242689bdb22143e7-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:fresh-242689bdb22143e7-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:fresh-242689bdb22143e7-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:fresh-242689bdb22143e7-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:fresh-242689bdb22143e7-normalized-for-user",
+                    "op": "var",
+                    "symbol_id": "local:fresh-242689bdb22143e7-normalized-id"
+                  }
+                ],
+                "node_id": "node:fresh-242689bdb22143e7-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "node_id": "node:fresh-242689bdb22143e7-user-match",
+            "op": "if",
+            "then": {
+              "error": {
+                "node_id": "node:fresh-242689bdb22143e7-reserved-error-code",
+                "op": "string",
+                "value": "reserved_identifier_242689bd"
+              },
+              "node_id": "node:fresh-242689bdb22143e7-reserved-error",
+              "op": "err"
+            }
+          },
+          "node_id": "node:fresh-242689bdb22143e7-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-242689bdb22143e7-invalid-code",
+              "op": "string",
+              "value": "invalid_input_242689bdb22143e7"
+            },
+            "node_id": "node:fresh-242689bdb22143e7-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-242689bdb22143e7-raw-for-normalizer",
+              "op": "var",
+              "symbol_id": "param:fresh-242689bdb22143e7-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-242689bdb22143e7-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "target_node_id": "node:fresh-242689bdb22143e7-body"
+    }
+  ],
+  "patch_id": "patch:fresh-242689bdb22143e7",
+  "program_id": "program:fresh-242689bdb22143e7",
+  "schema_version": "ai-experiments.semantic-ir.patch/v0"
+}

@@ -1,0 +1,102 @@
+[
+  {
+    "arguments": {
+      "rawId": "\tuser-c374244e\n"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "\tuser-c374244e\n": [
+            null
+          ],
+          "user-c374244e": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-c374244e"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "\tuser-c374244e\n"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "error": "not_found_c374244e5b2b75a2"
+      }
+    },
+    "id": "guarded-retry-miss",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "\tuser-c374244e\n"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-c374244e": [
+            {
+              "id": "user-c374244e",
+              "name": "Primary-2b75a2"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-c374244e"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-c374244e",
+          "name": "Primary-2b75a2"
+        }
+      }
+    },
+    "id": "primary-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " "
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_c374244e5b2b75a2"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

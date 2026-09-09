@@ -94,12 +94,14 @@ binding budget control.
 - [`test_representational_participant_execution_freeze_v0.py`](../../../../tests/test_representational_participant_execution_freeze_v0.py)
   captures the red-to-green contract and byte-deterministic rebuild.
 
-## Next red test
+## Resolved next red test
 
-Materialize all 240 confirmatory tasks through the locked first-eligible rule,
-starting the five exposed slots at attempt 1 and the other 235 at attempt 0.
-For every accepted task, run the complete local eligibility pipeline, construct
-all four exact requests with the now-locked constructor, and repeat the exact
-historical-request and cross-cohort duplicate audits. Provider admission,
-current-rate verification, and explicit launch authorization remain later
-gates.
+[`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md)
+now retains all 240 first-eligible confirmatory tasks and the identities of all
+960 exact initial requests. Every local eligibility, historical-novelty,
+cross-cohort uniqueness, condition-isolation, translation, and nested-lock gate
+passed without a provider call.
+
+The next red test is the sealed confirmatory runner and its complete
+provider-free 960-cell preflight. Current Bedrock access, current rates, and
+explicit launch authorization remain later gates.

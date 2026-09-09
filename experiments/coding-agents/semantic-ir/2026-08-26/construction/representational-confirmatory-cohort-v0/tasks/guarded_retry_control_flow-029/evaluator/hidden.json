@@ -1,0 +1,106 @@
+[
+  {
+    "arguments": {
+      "rawId": "user-4fc1d738"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-4fc1d738": [
+            null,
+            {
+              "id": "user-4fc1d738",
+              "name": "Retry-d4dd0c"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-4fc1d738"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "user-4fc1d738"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-4fc1d738",
+          "name": "Retry-d4dd0c"
+        }
+      }
+    },
+    "id": "guarded-retry-hit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "user-4fc1d738"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-4fc1d738": [
+            {
+              "id": "user-4fc1d738",
+              "name": "Primary-d4dd0c"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-4fc1d738"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-4fc1d738",
+          "name": "Primary-d4dd0c"
+        }
+      }
+    },
+    "id": "primary-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " "
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_4fc1d738cad4dd0c"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

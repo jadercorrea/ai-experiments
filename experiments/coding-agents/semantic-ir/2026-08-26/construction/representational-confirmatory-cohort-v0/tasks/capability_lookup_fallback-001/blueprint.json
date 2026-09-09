@@ -1,0 +1,410 @@
+{
+  "attempt_index": 1,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-942e2fb865b3fa81-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-942e2fb865b3fa81-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-942e2fb865b3fa81-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-942e2fb865b3fa81-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-942e2fb865b3fa81-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-942e2fb865b3fa81-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-942e2fb865b3fa81-missing-code",
+                "op": "string",
+                "value": "not_found_942e2fb865b3fa81"
+              },
+              "node_id": "node:fresh-942e2fb865b3fa81-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-942e2fb865b3fa81-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-942e2fb865b3fa81-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-942e2fb865b3fa81-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-942e2fb865b3fa81-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-942e2fb865b3fa81-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-942e2fb865b3fa81-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-942e2fb865b3fa81-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-942e2fb865b3fa81-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-942e2fb865b3fa81-invalid-code",
+              "op": "string",
+              "value": "invalid_input_942e2fb865b3fa81"
+            },
+            "node_id": "node:fresh-942e2fb865b3fa81-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-942e2fb865b3fa81-raw-for-normalizer",
+              "op": "var",
+              "symbol_id": "param:fresh-942e2fb865b3fa81-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-942e2fb865b3fa81-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserA942e2fb865b3fa81",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-942e2fb865b3fa81-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-942e2fb865b3fa81-lookup"
+    },
+    "program_id": "program:fresh-942e2fb865b3fa81",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:capability_lookup_fallback:942e2fb865b3fa81",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 3358679881583741403,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": "  427934\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "427934": [
+                {
+                  "id": "427934",
+                  "name": "Directory-b3fa81"
+                }
+              ]
+            }
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "427934": [
+                null
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "427934"
+              ],
+              "symbol": "users.get_by_id"
+            },
+            {
+              "arguments": [
+                "427934"
+              ],
+              "symbol": "directory.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "427934",
+              "name": "Directory-b3fa81"
+            }
+          }
+        },
+        "id": "fallback-hit",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": "  427934\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "427934": [
+                null
+              ]
+            }
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "427934": [
+                null
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "427934"
+              ],
+              "symbol": "users.get_by_id"
+            },
+            {
+              "arguments": [
+                "427934"
+              ],
+              "symbol": "directory.get_by_id"
+            }
+          ],
+          "value": {
+            "error": "not_found_942e2fb865b3fa81"
+          }
+        },
+        "id": "fallback-miss",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "  427934\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "427934": [
+                {
+                  "id": "427934",
+                  "name": "Local-b3fa81"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "427934"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "427934",
+              "name": "Local-b3fa81"
+            }
+          }
+        },
+        "id": "local-short-circuit",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": " \t "
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "invalid_input_942e2fb865b3fa81"
+          }
+        },
+        "id": "empty-short-circuit",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "capability_lookup_fallback",
+  "family_index": 1,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "After a local user miss, query the directory lazily with the normalized identifier; preserve local hits, empty-input rejection, and the existing miss error.",
+  "profile": {
+    "dimensions": {
+      "fallback_argument": "normalized",
+      "identifier_shape": "numeric",
+      "public_focus": "fallback_hit"
+    },
+    "profile_index": 0
+  },
+  "reference_patch": {
+    "base_program_sha256": "87386c9427810e4250c2ee94cfc5056d646431f8c573918172a44a9e0bf37f46",
+    "operations": [
+      {
+        "expected_subtree_sha256": "37ee6746688bd7a1fbe424b55ff7647fcf7a1244d640f71dfb4d26d2e2f08617",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-942e2fb865b3fa81-fallback",
+        "replacement": {
+          "node_id": "node:fresh-942e2fb865b3fa81-user-match",
+          "none": {
+            "node_id": "node:fresh-942e2fb865b3fa81-directory-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-942e2fb865b3fa81-missing-code",
+                "op": "string",
+                "value": "not_found_942e2fb865b3fa81"
+              },
+              "node_id": "node:fresh-942e2fb865b3fa81-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-942e2fb865b3fa81-directory-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-942e2fb865b3fa81-directory-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-942e2fb865b3fa81-directory-user"
+              }
+            },
+            "some_binding": {
+              "name": "directoryUser",
+              "symbol_id": "local:fresh-942e2fb865b3fa81-directory-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-942e2fb865b3fa81-identifier-for-directory",
+                  "op": "var",
+                  "symbol_id": "local:fresh-942e2fb865b3fa81-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-942e2fb865b3fa81-get-directory-user",
+              "op": "call",
+              "symbol": "directory.get_by_id"
+            }
+          },
+          "op": "option_match",
+          "some": {
+            "node_id": "node:fresh-942e2fb865b3fa81-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:fresh-942e2fb865b3fa81-user-ref",
+              "op": "var",
+              "symbol_id": "local:fresh-942e2fb865b3fa81-user"
+            }
+          },
+          "some_binding": {
+            "name": "user",
+            "symbol_id": "local:fresh-942e2fb865b3fa81-user",
+            "type": "user"
+          },
+          "value": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-942e2fb865b3fa81-normalized-for-user",
+                "op": "var",
+                "symbol_id": "local:fresh-942e2fb865b3fa81-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-942e2fb865b3fa81-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id"
+          }
+        },
+        "target_node_id": "node:fresh-942e2fb865b3fa81-user-match"
+      }
+    ],
+    "patch_id": "patch:fresh-942e2fb865b3fa81",
+    "program_id": "program:fresh-942e2fb865b3fa81",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "declared_effects_after_patch": [
+      "db.read:users",
+      "network.read:directory"
+    ],
+    "fallback_argument": "normalized",
+    "lazy_fallback": true,
+    "ordered_capabilities": [
+      "users.get_by_id",
+      "directory.get_by_id"
+    ]
+  },
+  "semantic_signature_sha256": "7b30774c31ba251f74003f8f629a26d5de6aab7f100bea198e8e23229e07aabd",
+  "slot_id": "capability_lookup_fallback-001"
+}

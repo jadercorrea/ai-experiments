@@ -131,8 +131,11 @@ Participant Execution Freeze v0 now fixes one Sonnet 4.6 Bedrock participant,
 the exact request constructor and translation, a 960-cell independent-session
 schedule, inference limits, and a USD 350 hard ceiling. Twenty exact smoke
 requests pass the local envelope audit with zero historical matches. The 240
-confirmatory tasks, their 960 exact requests, and launch authorization remain
-absent.**
+confirmatory tasks and their 960 exact requests now exist in Representational
+Confirmatory Cohort v0. All selected tasks passed local eligibility on the first
+permitted attempt, and every request passed exact novelty and isolation audits.
+No behavioral outcome, model call, provider request, spend, or launch
+authorization exists.**
 
 Snapshot date: **2026-08-26**
 
@@ -565,6 +568,14 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md`](REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md)
   records the execution contract and why task materialization is the next red
   test.
+- [`build_representational_confirmatory_cohort.py`](scripts/build_representational_confirmatory_cohort.py)
+  performs resumable first-eligible construction, exact-request auditing,
+  evidence compaction, and nested lock verification.
+- [`representational-confirmatory-cohort-v0`](construction/representational-confirmatory-cohort-v0)
+  retains all 240 confirmatory tasks, 960 request identities, reconstruction
+  inputs, individual task locks, checkpoint, and outer lock.
+- [`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md)
+  reports the complete local cohort and its evidence-by-reconstruction policy.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -614,6 +625,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_participant_execution_freeze_v0.py`](../../../../tests/test_representational_participant_execution_freeze_v0.py)
   proves request-envelope invariance, exact historical novelty, 960 independent
   sessions, attempt rollover, budget/model binding, and deterministic locking.
+- [`test_representational_confirmatory_cohort_v0.py`](../../../../tests/test_representational_confirmatory_cohort_v0.py)
+  proves first-eligible selection, nested locks, resumable construction, and
+  byte reconstruction of all 960 requests and Bedrock translations.
 
 ## Reproduce
 
@@ -1271,3 +1285,17 @@ labels, and have zero matches among 867 historical request artifacts. A USD
 projection, but it grants no spending authority. Confirmatory tasks, their 960
 exact requests, rate/access rechecks, and launch remain red. See
 [`REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md`](REPRESENTATIONAL_PARTICIPANT_EXECUTION_FREEZE_V0.md).
+
+Representational Confirmatory Cohort v0 now materializes the selected sample:
+240 locally eligible tasks, 48 per frozen family, and 960 four-condition
+realizations. The 235 untouched slots select attempt 0 and the five
+development-exposed slots select attempt 1; no candidate is rejected. All 960
+exact request digests are unique, contain no condition label, preserve the
+shared tool schema through Bedrock translation, and match neither 867
+historical request artifacts nor the twenty smoke requests. Full payloads and
+replicated participant trees are reconstructed from locked inputs instead of
+versioned redundantly, reducing the retained artifact from 134,236 to 49,652
+KiB. Construction remains provider-free. The session runner, 960-cell
+preflight, access/rate rechecks, explicit launch, and behavioral evidence remain
+red. See
+[`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md).

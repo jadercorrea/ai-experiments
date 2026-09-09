@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/representational-confirmatory-cohort-v0.schema.json",
+  "title": "Representational confirmatory cohort v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "cohort_id",
+    "status",
+    "source_freezes",
+    "cohort",
+    "selection_audit",
+    "exact_request_audit",
+    "tasks",
+    "gates",
+    "claim_boundary",
+    "next_red_test",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-cohort/v0"
+    },
+    "cohort_id": {"const": "representational-confirmatory-cohort-v0"},
+    "status": {"const": "confirmatory_cohort_materialized_launch_blocked"},
+    "source_freezes": {"type": "object"},
+    "cohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_count",
+        "condition_realization_count",
+        "exact_request_count",
+        "attempt_zero_tasks",
+        "attempt_one_tasks",
+        "later_attempt_tasks",
+        "rejected_candidate_count"
+      ],
+      "properties": {
+        "task_count": {"const": 240},
+        "condition_realization_count": {"const": 960},
+        "exact_request_count": {"const": 960},
+        "attempt_zero_tasks": {"type": "integer", "minimum": 0},
+        "attempt_one_tasks": {"type": "integer", "minimum": 0},
+        "later_attempt_tasks": {"type": "integer", "minimum": 0},
+        "rejected_candidate_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "selection_audit": {"type": "object"},
+    "exact_request_audit": {
+      "type": "object",
+      "required": [
+        "passed",
+        "request_count",
+        "unique_request_sha256",
+        "historical_exact_matches",
+        "development_smoke_exact_matches",
+        "condition_labels_absent_from_request_bytes",
+        "all_bedrock_translations_preserve_tool_schema",
+        "all_non_system_request_fields_equal"
+      ],
+      "properties": {
+        "passed": {"const": true},
+        "request_count": {"const": 960},
+        "unique_request_sha256": {"const": 960},
+        "historical_exact_matches": {"const": 0},
+        "development_smoke_exact_matches": {"const": 0},
+        "condition_labels_absent_from_request_bytes": {"const": true},
+        "all_bedrock_translations_preserve_tool_schema": {"const": true},
+        "all_non_system_request_fields_equal": {"const": true}
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 240,
+      "maxItems": 240,
+      "items": {
+        "type": "object",
+        "required": [
+          "slot_id",
+          "attempt_index",
+          "task_root",
+          "local_eligibility_passed",
+          "requests",
+          "task_lock_sha256"
+        ]
+      }
+    },
+    "gates": {
+      "type": "object",
+      "required": ["confirmatory_tasks", "confirmatory_requests", "launch"]
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": ["model_calls_authorized", "provider_requests_observed"],
+      "properties": {
+        "model_calls_authorized": {"const": false},
+        "provider_requests_observed": {"const": 0}
+      }
+    },
+    "next_red_test": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fileReference"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "fileReference": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

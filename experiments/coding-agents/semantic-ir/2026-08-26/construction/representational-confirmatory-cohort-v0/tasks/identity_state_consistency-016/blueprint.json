@@ -1,0 +1,352 @@
+{
+  "attempt_index": 0,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-568abb19ac35a4a3-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-568abb19ac35a4a3-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-568abb19ac35a4a3-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-568abb19ac35a4a3-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-568abb19ac35a4a3-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-568abb19ac35a4a3-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-568abb19ac35a4a3-missing-code",
+                "op": "string",
+                "value": "not_found_568abb19ac35a4a3"
+              },
+              "node_id": "node:fresh-568abb19ac35a4a3-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-568abb19ac35a4a3-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-568abb19ac35a4a3-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-568abb19ac35a4a3-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-568abb19ac35a4a3-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-568abb19ac35a4a3-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-568abb19ac35a4a3-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-568abb19ac35a4a3-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-568abb19ac35a4a3-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-568abb19ac35a4a3-invalid-code",
+              "op": "string",
+              "value": "invalid_input_568abb19ac35a4a3"
+            },
+            "node_id": "node:fresh-568abb19ac35a4a3-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-568abb19ac35a4a3-raw-for-normalizer",
+              "op": "var",
+              "symbol_id": "param:fresh-568abb19ac35a4a3-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-568abb19ac35a4a3-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserA568abb19ac35a4a3",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-568abb19ac35a4a3-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-568abb19ac35a4a3-lookup"
+    },
+    "program_id": "program:fresh-568abb19ac35a4a3",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:identity_state_consistency:568abb19ac35a4a3",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 13284335397849023158,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": " reserved-568abb19 "
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "reserved-568abb19": [
+                {
+                  "id": "reserved-568abb19",
+                  "name": "Forbidden-35a4a3"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "reserved_identifier_568abb19"
+          }
+        },
+        "id": "reserved-existing-value",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "reserved-568abb19"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "reserved-568abb19": [
+                null
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "reserved_identifier_568abb19"
+          }
+        },
+        "id": "reserved-absent-value",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": "A568a-bb199"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "A568a-bb199": [
+                {
+                  "id": "A568a-bb199",
+                  "name": "Ordinary-35a4a3"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "A568a-bb199"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "A568a-bb199",
+              "name": "Ordinary-35a4a3"
+            }
+          }
+        },
+        "id": "ordinary-value",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "RESERVED-568ABB19"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "RESERVED-568ABB19"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "error": "not_found_568abb19ac35a4a3"
+          }
+        },
+        "id": "case-sensitive-nonmatch",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "identity_state_consistency",
+  "family_index": 16,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "Reject the exact reserved identifier reserved-568abb19 before lookup while preserving the selected target node identity.",
+  "profile": {
+    "dimensions": {
+      "public_focus": "reserved_miss",
+      "stale_probe": "target_subtree",
+      "target_depth": "match"
+    },
+    "profile_index": 3
+  },
+  "reference_patch": {
+    "base_program_sha256": "c937e25a1b3a06f7ded66581e740800e813d8f0ebb03c33f1eae8498b7600ca5",
+    "operations": [
+      {
+        "expected_subtree_sha256": "fc25d455d03ff3fa3ea5686b7fcc648827fd86c79d9bf9263b88da4267c0e2b0",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-568abb19ac35a4a3-identity",
+        "replacement": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-568abb19ac35a4a3-normalized-for-reserved",
+                "op": "var",
+                "symbol_id": "local:fresh-568abb19ac35a4a3-normalized-id"
+              },
+              {
+                "node_id": "node:fresh-568abb19ac35a4a3-reserved-literal",
+                "op": "string",
+                "value": "reserved-568abb19"
+              }
+            ],
+            "node_id": "node:fresh-568abb19ac35a4a3-reserved-equals",
+            "op": "call",
+            "symbol": "string.equals"
+          },
+          "else": {
+            "node_id": "node:fresh-568abb19ac35a4a3-user-match-after-guard",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-568abb19ac35a4a3-missing-code",
+                "op": "string",
+                "value": "not_found_568abb19ac35a4a3"
+              },
+              "node_id": "node:fresh-568abb19ac35a4a3-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-568abb19ac35a4a3-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-568abb19ac35a4a3-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-568abb19ac35a4a3-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-568abb19ac35a4a3-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-568abb19ac35a4a3-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-568abb19ac35a4a3-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-568abb19ac35a4a3-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-568abb19ac35a4a3-user-match",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-568abb19ac35a4a3-reserved-error-code",
+              "op": "string",
+              "value": "reserved_identifier_568abb19"
+            },
+            "node_id": "node:fresh-568abb19ac35a4a3-reserved-error",
+            "op": "err"
+          }
+        },
+        "target_node_id": "node:fresh-568abb19ac35a4a3-user-match"
+      }
+    ],
+    "patch_id": "patch:fresh-568abb19ac35a4a3",
+    "program_id": "program:fresh-568abb19ac35a4a3",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "base_program_digest_required": true,
+    "replacement_preserves_target_node_id": true,
+    "stale_preconditions_rejected": true,
+    "stale_probe": "target_subtree",
+    "target_depth": "match",
+    "target_subtree_digest_required": true
+  },
+  "semantic_signature_sha256": "5b9bf6f8b6433cb9dd810c69ca95a3694c40a74418c7fdc54c062c4db1c67ee5",
+  "slot_id": "identity_state_consistency-016"
+}

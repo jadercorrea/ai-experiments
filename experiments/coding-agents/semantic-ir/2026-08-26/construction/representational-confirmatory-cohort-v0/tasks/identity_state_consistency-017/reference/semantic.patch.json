@@ -1,0 +1,108 @@
+{
+  "base_program_sha256": "86b1934959e53358761a1f5319e90dbc7f5f4c57def753c0cbba34148748f911",
+  "operations": [
+    {
+      "expected_subtree_sha256": "7d668af96fb122b45e73b96bbc2aebc84d730a9d77a1fabf42fc2d3ab6371dd2",
+      "op": "replace_subtree",
+      "operation_id": "operation:fresh-f60b559cf864e2c4-identity",
+      "replacement": {
+        "condition": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-f60b559cf864e2c4-normalized-for-empty",
+              "op": "var",
+              "symbol_id": "local:fresh-f60b559cf864e2c4-normalized-id"
+            }
+          ],
+          "node_id": "node:fresh-f60b559cf864e2c4-is-empty",
+          "op": "call",
+          "symbol": "string.is_empty"
+        },
+        "else": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-f60b559cf864e2c4-normalized-for-reserved",
+                "op": "var",
+                "symbol_id": "local:fresh-f60b559cf864e2c4-normalized-id"
+              },
+              {
+                "node_id": "node:fresh-f60b559cf864e2c4-reserved-literal",
+                "op": "string",
+                "value": "reserved-f60b559c"
+              }
+            ],
+            "node_id": "node:fresh-f60b559cf864e2c4-reserved-equals",
+            "op": "call",
+            "symbol": "string.equals"
+          },
+          "else": {
+            "node_id": "node:fresh-f60b559cf864e2c4-user-match-after-guard",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-f60b559cf864e2c4-missing-code",
+                "op": "string",
+                "value": "not_found_f60b559cf864e2c4"
+              },
+              "node_id": "node:fresh-f60b559cf864e2c4-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-f60b559cf864e2c4-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-f60b559cf864e2c4-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-f60b559cf864e2c4-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-f60b559cf864e2c4-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-f60b559cf864e2c4-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-f60b559cf864e2c4-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-f60b559cf864e2c4-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-f60b559cf864e2c4-user-match",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-f60b559cf864e2c4-reserved-error-code",
+              "op": "string",
+              "value": "reserved_identifier_f60b559c"
+            },
+            "node_id": "node:fresh-f60b559cf864e2c4-reserved-error",
+            "op": "err"
+          }
+        },
+        "node_id": "node:fresh-f60b559cf864e2c4-validation",
+        "op": "if",
+        "then": {
+          "error": {
+            "node_id": "node:fresh-f60b559cf864e2c4-invalid-code",
+            "op": "string",
+            "value": "invalid_input_f60b559cf864e2c4"
+          },
+          "node_id": "node:fresh-f60b559cf864e2c4-invalid",
+          "op": "err"
+        }
+      },
+      "target_node_id": "node:fresh-f60b559cf864e2c4-validation"
+    }
+  ],
+  "patch_id": "patch:fresh-f60b559cf864e2c4",
+  "program_id": "program:fresh-f60b559cf864e2c4",
+  "schema_version": "ai-experiments.semantic-ir.patch/v0"
+}
