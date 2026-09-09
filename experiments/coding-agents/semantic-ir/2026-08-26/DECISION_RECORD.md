@@ -1363,3 +1363,61 @@ packaging/decrease scenario. The largest inactive-primary upper bound is
 - The next red test is a pre-construction freeze for the 240 fresh instances,
   followed by local generation, equivalence, evaluator, and contamination
   checks before any provider authorization.
+
+## Representational fresh-task construction protocol v0
+
+### Context
+
+Finite-sample simulation selected 240 fresh task units, but a sample-size result
+does not define the tasks. Constructing them informally would leave room to
+change family composition, choose convenient candidates, reuse exposed bytes,
+or let a task-generating model introduce uncontrolled lexical and structural
+preferences before the representational comparison begins.
+
+### Options
+
+1. Generate 240 tasks immediately and describe the construction afterward.
+2. Use the future participant model to generate tasks, then evaluate that same
+   model on their four realizations.
+3. Freeze stable slots, deterministic attempt streams, acceptance rules, and
+   red downstream gates before implementing or running a non-LLM constructor.
+
+### Decision
+
+Choose option 3. Create 48 immutable slots in each of the five selected
+mechanism families. Cycle the four already frozen balanced sequences within
+each family, yielding twelve tasks per sequence per family and 60 per sequence
+overall.
+
+Give every slot eight ordered, domain-separated attempt seeds rooted at
+`24121980`. Only the first candidate passing the complete eligibility pipeline
+may occupy a slot. Retain all rejections and reasons. Manual substitution,
+family reallocation, and skipping an eligible candidate are forbidden. Eight
+failures block construction and require an explicit new design decision.
+
+Specify task construction as deterministic and non-LLM. Its family templates
+must be implemented, tested, and content locked before materialization. The
+future participant model remains a separate role: one exact identity, inference
+policy, tool runtime, and accounting policy must be frozen and held equal across
+all four conditions before launch. Each condition runs in a fresh independent
+context with no cross-condition memory; the sequence balances temporal order,
+not conversational carryover.
+
+### Consequences
+
+- The protocol freezes 240 slots and 1,920 attempts while creating zero tasks.
+- Every accepted task must be expressible by the frozen Session ISA and
+  semantic vocabulary; an unsupported candidate is rejected, not patched by an
+  unplanned extension.
+- Baseline/reference discrimination, four-condition canonical byte equality,
+  normalized lexical-skeleton equality, participant-context isolation,
+  contamination checks, duplicate checks, and a task artifact lock are all
+  mandatory eligibility gates.
+- The provider-exposed construction fixtures remain codec coverage and cannot
+  become confirmatory units.
+- Constructor implementation, task materialization, equivalence, evaluator,
+  contamination, cost, execution-freeze, launch, and authorization gates remain
+  red.
+- No model call, provider request, task, behavioral claim, or spend occurred.
+- The next red test is implementing and content locking the deterministic
+  five-family task generator without materializing the full cohort.

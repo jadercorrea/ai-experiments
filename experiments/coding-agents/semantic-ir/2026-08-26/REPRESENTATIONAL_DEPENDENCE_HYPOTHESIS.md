@@ -3,13 +3,13 @@
 ## Status
 
 **Registered independently of Calibration 008 and now instantiated as a
-call-free 2x2 observation-realization design plus a 64-scenario power-
-sensitivity curve. The construction proves lossless decoding over current
-fixtures and exposes a 16-to-920-task planning range. A separate pre-outcome
-selection now fixes both SESOIs, the planning envelope, and an equal five-family
-population, yielding a 240-task asymptotic candidate. Finite-sample,
-fresh-instance, cost, execution-freeze, launch, and authorization gates remain
-red. No model or provider call is authorized.**
+call-free 2x2 observation-realization design. Pre-outcome selection and a
+260,000-replication finite-sample campaign select 240 fresh tasks across five
+equal mechanism families. A subsequent pre-construction protocol freezes all
+240 slots, 1,920 ordered candidate seeds, counterbalancing, rejection rules,
+equivalence, isolation, and contamination gates. No fresh task exists;
+construction-generator, cost, execution-freeze, launch, and authorization
+gates remain red. No model or provider call is authorized.**
 
 ## Motivation
 
@@ -123,3 +123,11 @@ simulation evidence under the frozen generator, not a behavioral result. See
 [`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
 and
 [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).
+The following construction protocol maps that count to 48 immutable slots per
+family and twelve slots per counterbalance sequence within each family. Every
+slot has eight deterministic attempts and a first-eligible-only rule; exhausting
+a slot blocks construction rather than permitting post hoc substitution. Task
+construction is explicitly deterministic and non-LLM, while one future
+participant model and inference policy must remain identical across all four
+conditions. See
+[`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).

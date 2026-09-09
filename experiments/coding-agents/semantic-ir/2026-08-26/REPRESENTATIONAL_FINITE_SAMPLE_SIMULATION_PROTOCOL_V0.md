@@ -166,11 +166,12 @@ explicit design decision rather than a friendlier post hoc assumption.
 
 ## Next red test
 
-The campaign is complete. Freeze the construction protocol for 240 fresh tasks,
-including family allocation, counterbalancing, contamination rejection,
+The campaign is complete and the subsequent construction protocol now freezes
+240 slots, family allocation, counterbalancing, contamination rejection,
 canonical four-condition equivalence, reference/evaluator isolation, and local
-validation. See
-[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).
+validation without materializing a task. The next red test is the deterministic
+five-family generator. See
+[`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).
 
 ## Method references
 

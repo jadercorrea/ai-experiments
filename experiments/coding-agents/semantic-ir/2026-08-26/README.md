@@ -517,6 +517,14 @@ different Unicode definitions from their host languages.
 - [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md)
   reports the limiting power margin and the remaining non-behavioral claim
   boundary.
+- [`build_representational_fresh_task_construction_protocol.py`](scripts/build_representational_fresh_task_construction_protocol.py)
+  freezes 240 stable slot identities, balanced sequence assignments, ordered
+  attempt seeds, non-adaptive rejection, and downstream construction gates.
+- [`representational-fresh-task-construction-protocol-v0`](construction/representational-fresh-task-construction-protocol-v0)
+  retains the canonical pre-construction protocol and its content lock.
+- [`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md)
+  records the deterministic non-LLM constructor boundary, participant-model
+  invariance, and why zero tasks exist at this stage.
 - [`break-even-comparison-v0.json`](construction/break-even-comparison-v0.json)
   freezes a nonadaptive `[1, 2, 4, 8, 16]` repeated-body size grid.
 - [`break_even_comparison.py`](scripts/break_even_comparison.py) implements the
@@ -557,6 +565,9 @@ different Unicode definitions from their host languages.
 - [`test_representational_power_selection_freeze_v0.py`](../../../../tests/test_representational_power_selection_freeze_v0.py)
   proves pre-outcome selection, conservative-envelope maximization, balanced
   five-family allocation, deterministic locking, and simulation-gate status.
+- [`test_representational_fresh_task_construction_protocol_v0.py`](../../../../tests/test_representational_fresh_task_construction_protocol_v0.py)
+  proves the 240-slot schedule, within-family sequence balance, deterministic
+  attempt order, constructor/participant separation, and persistent red gates.
 
 ## Reproduce
 
@@ -1172,3 +1183,14 @@ the frozen generator. This is not a behavioral effect or real-task distribution
 claim, and no fresh task or provider call exists yet.
 See
 [`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_OBSERVATION_V0.md).
+
+Representational Fresh-Task Construction Protocol v0 now maps the selected
+count into 240 immutable slots: 48 in each mechanism family, with twelve per
+counterbalance sequence inside every family. Eight domain-separated candidate
+seeds per slot and a first-eligible-only rule prevent adaptive replacement;
+exhaustion blocks construction. The future family generator is deterministic
+and non-LLM, while the eventual participant model and inference policy must be
+identical across all four conditions. Equivalence, evaluator, contamination,
+cost, execution, and launch gates remain red. The artifact creates zero tasks
+and makes zero model calls. See
+[`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).
