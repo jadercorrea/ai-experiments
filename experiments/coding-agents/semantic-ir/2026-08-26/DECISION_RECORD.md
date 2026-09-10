@@ -1701,3 +1701,43 @@ reference trajectory in a fresh workspace for every cell.
   authorization does not transfer. A content-bound plan for immutable schedule
   sequence 3 is the next red test; canaries 001 and 002 are not retried and the
   remaining 957 cells remain blocked.
+
+## Representational confirmatory canary 003 plan
+
+### Context
+
+Protocol v2 passed exhaustive reachable-node inspection and full provider-free
+replay, but no external observation may inherit canary 002's authorization.
+Selecting a replacement after inspecting prior behavior would also make the
+next cell adaptive.
+
+### Options
+
+1. Retry the infrastructure-invalid sequence 2 observation.
+2. Select a convenient opaque cell after inspecting task contents.
+3. Bind the next immutable schedule entry to protocol v2, both prior evidence
+   locks, and the cell-local provider-free proof while keeping launch absent.
+
+### Decision
+
+Choose option 3. Select immutable schedule sequence 3:
+`capability_lookup_fallback-001 / opaque_table`. Bind its canonical and Bedrock
+request digests, protocol v2 freeze and lock, local full-node realization and
+reference replay, and the evidence locks of canaries 001 and 002.
+
+Record that both prior sequences are observed but non-repeatable, one new cell
+is planned, and 957 cells remain blocked. Freeze only the plan builder and
+schema at this checkpoint; do not label the builder as an execution runner.
+
+### Consequences
+
+- The selected cell is non-adaptive and content-bound before a new observation.
+- The exact runtime is protocol v2 with opaque-table codec v1 realization and
+  `SESSION_STATE/v1` reduction.
+- Provider calls, launch materialization, prior-canary retries, and campaign
+  release are all schema-level false constants.
+- The prospective 12-request, zero-retry, USD 4 ceiling grants no spending
+  authority.
+- No credential was read, no provider request was made, and no cost occurred.
+- The next red test is a sequence-3-only runner and launch schema. Even after
+  those exist, execution requires a separate authorization bound to this plan.

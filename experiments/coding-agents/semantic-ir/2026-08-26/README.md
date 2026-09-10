@@ -1332,3 +1332,14 @@ opaque participant language changed, launch remains blocked pending a new
 content-bound plan and explicit authorization for immutable schedule sequence
 3; neither prior canary is retried. See
 [`REPRESENTATIONAL_CONFIRMATORY_PROTOCOL_FREEZE_V2.md`](REPRESENTATIONAL_CONFIRMATORY_PROTOCOL_FREEZE_V2.md).
+
+Representational Confirmatory Canary 003 Plan now binds the next immutable
+schedule cell, sequence 3 (`capability_lookup_fallback-001 / opaque_table`), to
+protocol v2 and its cell-local full-node and reference-replay evidence. It also
+binds both prior canary evidence locks, prohibits retrying sequences 1 and 2,
+and keeps the remaining 957 cells blocked. The checkpoint freezes a plan
+builder, not an execution runner: launch materialization and provider calls are
+schema-level false, no credential was read, and no cost occurred. The next red
+test is a sequence-3-only runner and launch schema, followed by a separate
+content-bound authorization decision. See
+[`REPRESENTATIONAL_CONFIRMATORY_CANARY_003_PLAN.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003_PLAN.md).

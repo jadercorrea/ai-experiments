@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-canary-plan-v2.schema.json",
+  "title": "Representational confirmatory protocol-v2 canary plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "status",
+    "repository_revision",
+    "provider_call_authorized",
+    "launch_artifact_materialized",
+    "provider_model",
+    "provider_endpoint",
+    "protocol_freeze_file_sha256",
+    "protocol_artifact_lock_sha256",
+    "plan_builder_file_sha256",
+    "plan_schema_file_sha256",
+    "participant_runtime",
+    "selection_rule",
+    "selection_adaptive",
+    "selected_cell",
+    "selected_cell_local_proof",
+    "prior_canaries",
+    "planned_cell_count",
+    "prior_observed_cell_count",
+    "blocked_cell_count",
+    "excluded_retry_sequences",
+    "maximum_provider_requests",
+    "provider_retries",
+    "maximum_total_spend_usd",
+    "behavior_blind_operational_gate",
+    "prior_canary_retries_authorized",
+    "remaining_campaign_release_authorized",
+    "transmission_scope",
+    "next_gate"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-canary-plan/v2"
+    },
+    "plan_id": {"const": "representational-confirmatory-canary-plan-003"},
+    "status": {"const": "protocol_v2_canary_planned_launch_blocked"},
+    "repository_revision": {"type": "string", "minLength": 1},
+    "provider_call_authorized": {"const": false},
+    "launch_artifact_materialized": {"const": false},
+    "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+    "provider_endpoint": {
+      "const": "https://bedrock-runtime.us-east-1.amazonaws.com"
+    },
+    "protocol_freeze_file_sha256": {"$ref": "#/$defs/sha256"},
+    "protocol_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "plan_builder_file_sha256": {"$ref": "#/$defs/sha256"},
+    "plan_schema_file_sha256": {"$ref": "#/$defs/sha256"},
+    "participant_runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "state_schema_version",
+        "observation_codec",
+        "selected_lexicon",
+        "selected_packaging",
+        "lexicon_delta"
+      ],
+      "properties": {
+        "protocol_id": {"const": "representational-confirmatory-protocol-v2"},
+        "state_schema_version": {
+          "const": "ai-experiments.semantic-ir.representational-session-state/v1"
+        },
+        "observation_codec": {"const": "representational_observation_codec_v1"},
+        "selected_lexicon": {"const": "opaque"},
+        "selected_packaging": {"const": "table"},
+        "lexicon_delta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["meaningful", "opaque"],
+          "properties": {
+            "meaningful": {"const": "arguments[0]"},
+            "opaque": {"const": "k32"}
+          }
+        }
+      }
+    },
+    "selection_rule": {
+      "const": "third cell in the immutable confirmatory schedule"
+    },
+    "selection_adaptive": {"const": false},
+    "selected_cell": {"$ref": "#/$defs/selectedCell"},
+    "selected_cell_local_proof": {"$ref": "#/$defs/localProof"},
+    "prior_canaries": {"$ref": "#/$defs/priorCanaries"},
+    "planned_cell_count": {"const": 1},
+    "prior_observed_cell_count": {"const": 2},
+    "blocked_cell_count": {"const": 957},
+    "excluded_retry_sequences": {
+      "type": "array",
+      "prefixItems": [{"const": 1}, {"const": 2}],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "maximum_provider_requests": {"const": 12},
+    "provider_retries": {"const": 0},
+    "maximum_total_spend_usd": {"const": 4.0},
+    "behavior_blind_operational_gate": {"const": true},
+    "prior_canary_retries_authorized": {"const": false},
+    "remaining_campaign_release_authorized": {"const": false},
+    "transmission_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included", "excluded"],
+      "properties": {
+        "included": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "excluded": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "next_gate": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "selectedCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "slot_id",
+        "condition_id",
+        "session_id",
+        "workspace_id",
+        "initial_request_sha256",
+        "initial_request_bytes",
+        "bedrock_request_sha256"
+      ],
+      "properties": {
+        "sequence": {"const": 3},
+        "slot_id": {"const": "capability_lookup_fallback-001"},
+        "condition_id": {"const": "opaque_table"},
+        "session_id": {
+          "const": "representational-confirmatory-v0/session/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "workspace_id": {
+          "const": "representational-confirmatory-v0/workspace/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "initial_request_sha256": {
+          "const": "7ec4c5ad73975bf1a0d6e56ecc71a16c8ecb2c6e1497b3bfdcb43881bc39eb7c"
+        },
+        "initial_request_bytes": {"const": 13920},
+        "bedrock_request_sha256": {
+          "const": "fe7ea7b227b7e281c726ac1f82161a4c786e68406bd5599fdc1280c4c728a610"
+        }
+      }
+    },
+    "localProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_preflight_sha256",
+        "reachable_node_count",
+        "full_node_inspection_passed",
+        "observation_realization_sha256",
+        "observation_decoded_sha256",
+        "reference_replay_passed",
+        "reference_final_state_sha256"
+      ],
+      "properties": {
+        "protocol_preflight_sha256": {"$ref": "#/$defs/sha256"},
+        "reachable_node_count": {"const": 15},
+        "full_node_inspection_passed": {"const": true},
+        "observation_realization_sha256": {
+          "const": "af0a717cfc403e21e89f2cc3aa95711712c24f6393f1a40389e62726022698f3"
+        },
+        "observation_decoded_sha256": {
+          "const": "f16ca22edeeff8e737b5a0b4f9fcfe41ffb640598a339374e5d5f72b7473d6d3"
+        },
+        "reference_replay_passed": {"const": true},
+        "reference_final_state_sha256": {
+          "const": "e866497d36b9dcfb09a1203fbbcb5cf9ae2d25e647aeecaba3f3a7390a5e3146"
+        }
+      }
+    },
+    "priorCanary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "observation_kind",
+        "evidence_sha256",
+        "artifact_lock_sha256",
+        "retry_authorized"
+      ],
+      "properties": {
+        "sequence": {"type": "integer", "minimum": 1, "maximum": 2},
+        "observation_kind": {
+          "enum": ["result", "infrastructure_failure"]
+        },
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "retry_authorized": {"const": false}
+      }
+    },
+    "priorCanaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canary_001", "canary_002"],
+      "properties": {
+        "canary_001": {
+          "allOf": [
+            {"$ref": "#/$defs/priorCanary"},
+            {"properties": {
+              "sequence": {"const": 1},
+              "observation_kind": {"const": "result"}
+            }}
+          ]
+        },
+        "canary_002": {
+          "allOf": [
+            {"$ref": "#/$defs/priorCanary"},
+            {"properties": {
+              "sequence": {"const": 2},
+              "observation_kind": {"const": "infrastructure_failure"}
+            }}
+          ]
+        }
+      }
+    }
+  }
+}
