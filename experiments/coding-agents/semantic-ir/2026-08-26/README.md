@@ -1320,3 +1320,15 @@ historical codec, adds the missing label in a versioned successor, and proves
 frozen tasks and all four conditions. The proof is local and provider-free; it
 does not authorize a new canary. See
 [`REPRESENTATIONAL_LEXICALIZATION_TOTALITY_V0.md`](REPRESENTATIONAL_LEXICALIZATION_TOTALITY_V0.md).
+
+Representational Confirmatory Protocol Freeze v2 now integrates that
+lexically total codec into a versioned successor runtime while preserving
+protocol v1's Session ISA, state reduction, validation, and accounting. One
+legal full-node inspection in each immutable cell round-trips across all 3,552
+reachable nodes, and all 960 provider-free reference trajectories reproduce
+their frozen request identities, evaluations, mutations, and four-condition
+final-state equivalence. No provider request or cost occurred. Because the
+opaque participant language changed, launch remains blocked pending a new
+content-bound plan and explicit authorization for immutable schedule sequence
+3; neither prior canary is retried. See
+[`REPRESENTATIONAL_CONFIRMATORY_PROTOCOL_FREEZE_V2.md`](REPRESENTATIONAL_CONFIRMATORY_PROTOCOL_FREEZE_V2.md).

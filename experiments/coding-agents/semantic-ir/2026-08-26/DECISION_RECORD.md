@@ -1658,3 +1658,46 @@ codebook.
 - The proof is local and deterministic: zero provider requests and zero cost.
 - Canary 002 is not retried. A successor runtime freeze and provider-free replay
   are the next red test before planning a new immutable schedule cell.
+
+## Representational confirmatory protocol freeze v2
+
+### Context
+
+The successor observation codec passed the frozen-cohort totality proof, but
+the confirmatory runtime still used the historical codec that failed canary
+002. Mutating that runtime would rewrite the interpretation of already frozen
+construction and execution evidence.
+
+### Options
+
+1. Replace the codec inside protocol v1 and regenerate its artifacts.
+2. Add a special case only to the next canary execution path.
+3. Preserve protocol v1, integrate the successor codec in protocol v2, and
+   replay every frozen cell through the versioned runtime.
+
+### Decision
+
+Choose option 3. Inherit protocol v1's Session ISA, reducer, validation order,
+and accounting unchanged. Override only inspection encoding and decoding with
+the lexically total codec v1. Bind the new freeze to protocol v1, the
+lexicalization-totality artifact, the cohort, and the participant execution
+freeze.
+
+Require two local gates: one legal full-node inspection and canonical
+round-trip in every condition cell, followed by the complete deterministic
+reference trajectory in a fresh workspace for every cell.
+
+### Consequences
+
+- All 960 full-node inspections pass over 3,552 unique reachable nodes.
+- All 960 reference trajectories reproduce their frozen initial requests,
+  apply one valid mutation, pass public and hidden evaluation, and converge to
+  equivalent final state within each task.
+- No condition label leaks, premature hidden evaluations, or accounting
+  rejections occur.
+- The replay uses zero provider requests and incurs zero cost.
+- The claim remains bounded to the frozen cohort and grammar.
+- Because protocol v2 changes participant-visible opaque bytes, prior canary
+  authorization does not transfer. A content-bound plan for immutable schedule
+  sequence 3 is the next red test; canaries 001 and 002 are not retried and the
+  remaining 957 cells remain blocked.
