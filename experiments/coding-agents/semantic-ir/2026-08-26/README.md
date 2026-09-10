@@ -1310,3 +1310,13 @@ behavioral evidence remain red. See
 [`REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md`](REPRESENTATIONAL_CONFIRMATORY_COHORT_V0.md)
 and
 [`REPRESENTATIONAL_CONFIRMATORY_RUNNER_FREEZE_V0.md`](REPRESENTATIONAL_CONFIRMATORY_RUNNER_FREEZE_V0.md).
+
+Confirmatory canary 002 subsequently exposed a valid inspection trajectory the
+reference replay had not covered: `slot="arguments[0]"` was outside the opaque
+codec's closed vocabulary. The observation remains infrastructure-invalid and
+is not retried. Representational Lexicalization Totality v0 preserves that
+historical codec, adds the missing label in a versioned successor, and proves
+960/960 encode/decode round trips across all 3,552 nodes reachable in the 240
+frozen tasks and all four conditions. The proof is local and provider-free; it
+does not authorize a new canary. See
+[`REPRESENTATIONAL_LEXICALIZATION_TOTALITY_V0.md`](REPRESENTATIONAL_LEXICALIZATION_TOTALITY_V0.md).

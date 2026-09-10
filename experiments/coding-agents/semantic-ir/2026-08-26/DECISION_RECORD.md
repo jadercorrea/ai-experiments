@@ -1618,3 +1618,43 @@ condition realization, repository, evaluators, and execution freeze in tests.
 - The next red test is a content-locked confirmatory runner and complete
   provider-free replay of the 960-cell schedule before access/rate checks and a
   separate explicit launch decision.
+
+## Representational lexicalization totality v0
+
+### Context
+
+Confirmatory canary 002 followed a legal inspection trajectory outside the
+reference replay and reached `slot="arguments[0]"`. The opaque codec lacked
+that scalar label and stopped after three successful provider responses. The
+observation was infrastructure-invalid, and both retry and campaign release
+remained blocked.
+
+### Options
+
+1. Add the label to the existing codec and invalidate the hashes that preserve
+   prior construction and execution evidence.
+2. Patch only the observed canary path and test the same handles again.
+3. Preserve the historical codec, create a one-entry versioned extension, and
+   exhaustively test all nodes of all frozen tasks under all four conditions.
+
+### Decision
+
+Choose option 3. Keep the v0 codec byte-identical and add `arguments[0] -> k32`
+in a successor v1 codec. Enumerate every handle in each of the 240 frozen task
+outlines, request one legal full-node inspection per task, and require all four
+meaningful/opaque by nested/table realizations to decode to the identical
+canonical bytes. Also require each lexical pair to normalize to the same
+surface and every observed structural label to belong to the evaluator-only
+codebook.
+
+### Consequences
+
+- The original red test reproduced the same missing label in all 240 tasks.
+- The successor codec passes 960/960 round trips over 3,552 reachable nodes.
+- All observed keys, slots, scope fields, operations, and schema values are
+  covered; meaningful and opaque skeletons match within each packaging.
+- The claim is totality for the frozen cohort and grammar, not for future ASTs,
+  catalogs, schemas, or positional arities.
+- The proof is local and deterministic: zero provider requests and zero cost.
+- Canary 002 is not retried. A successor runtime freeze and provider-free replay
+  are the next red test before planning a new immutable schedule cell.
