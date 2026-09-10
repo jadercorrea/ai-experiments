@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-canary-launch-v0.schema.json",
+  "title": "Representational confirmatory one-cell canary launch v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "launch_id",
+    "authorized_at",
+    "authorization_message",
+    "explicit_user_authorization",
+    "runner_freeze_file_sha256",
+    "runner_artifact_lock_sha256",
+    "participant_execution_freeze_file_sha256",
+    "participant_execution_artifact_lock_sha256",
+    "cohort_artifact_lock_sha256",
+    "provider_model",
+    "provider_endpoint",
+    "credential_preflight_passed",
+    "pricing_recheck_passed",
+    "rates_usd_per_million_tokens",
+    "selected_cell",
+    "authorized_cell_count",
+    "blocked_cell_count",
+    "maximum_provider_requests",
+    "provider_retries",
+    "maximum_total_spend_usd",
+    "behavior_blind_operational_gate",
+    "remaining_campaign_release_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-canary-launch/v0"
+    },
+    "launch_id": {"const": "representational-confirmatory-canary-001"},
+    "authorized_at": {"type": "string", "format": "date-time"},
+    "authorization_message": {"type": "string", "minLength": 1},
+    "explicit_user_authorization": {"const": true},
+    "runner_freeze_file_sha256": {"$ref": "#/$defs/sha256"},
+    "runner_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "participant_execution_freeze_file_sha256": {"$ref": "#/$defs/sha256"},
+    "participant_execution_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "cohort_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+    "provider_endpoint": {
+      "const": "https://bedrock-runtime.us-east-1.amazonaws.com"
+    },
+    "credential_preflight_passed": {"const": true},
+    "pricing_recheck_passed": {"const": true},
+    "rates_usd_per_million_tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "cached_input", "output"],
+      "properties": {
+        "input": {"const": 3.0},
+        "cached_input": {"const": 0.3},
+        "output": {"const": 15.0}
+      }
+    },
+    "selected_cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "slot_id",
+        "condition_id",
+        "session_id",
+        "workspace_id",
+        "initial_request_sha256"
+      ],
+      "properties": {
+        "sequence": {"const": 1},
+        "slot_id": {"const": "capability_lookup_fallback-001"},
+        "condition_id": {"const": "meaningful_nested"},
+        "session_id": {"type": "string", "minLength": 1},
+        "workspace_id": {"type": "string", "minLength": 1},
+        "initial_request_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "authorized_cell_count": {"const": 1},
+    "blocked_cell_count": {"const": 959},
+    "maximum_provider_requests": {"const": 12},
+    "provider_retries": {"const": 0},
+    "maximum_total_spend_usd": {"const": 4.0},
+    "behavior_blind_operational_gate": {"const": true},
+    "remaining_campaign_release_authorized": {"const": false}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
