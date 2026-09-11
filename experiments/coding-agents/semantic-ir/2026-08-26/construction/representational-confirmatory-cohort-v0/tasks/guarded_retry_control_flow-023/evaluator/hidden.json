@@ -1,0 +1,108 @@
+[
+  {
+    "arguments": {
+      "rawId": "\tuser-0f7a8dcc\n"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "\tuser-0f7a8dcc\n": [
+            {
+              "id": "\tuser-0f7a8dcc\n",
+              "name": "Retry-bceb73"
+            }
+          ],
+          "user-0f7a8dcc": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-0f7a8dcc"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "\tuser-0f7a8dcc\n"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "\tuser-0f7a8dcc\n",
+          "name": "Retry-bceb73"
+        }
+      }
+    },
+    "id": "guarded-retry-hit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "\tuser-0f7a8dcc\n"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-0f7a8dcc": [
+            {
+              "id": "user-0f7a8dcc",
+              "name": "Primary-bceb73"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-0f7a8dcc"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-0f7a8dcc",
+          "name": "Primary-bceb73"
+        }
+      }
+    },
+    "id": "primary-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " "
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_0f7a8dccc7bceb73"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

@@ -1,0 +1,71 @@
+{
+  "instruction_bytes": 117,
+  "list": {
+    "instruction": {
+      "a": [],
+      "i": "L"
+    },
+    "response": {
+      "files": [
+        {
+          "bytes": 107,
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        {
+          "bytes": 1847,
+          "path": "src/lookup-user.ts",
+          "sha256": "e1085fbe98553892dfa61b59509102cc002dc0db9d0b0653e6cfb0dc41876123"
+        },
+        {
+          "bytes": 848,
+          "path": "tests/public.test.ts",
+          "sha256": "3b5bfa122f2c428b76af90edd131978912442722a34960a2cde270bb4bf4e1ca"
+        }
+      ]
+    }
+  },
+  "observation_bytes": 3719,
+  "reads": [
+    {
+      "instruction": {
+        "a": [
+          "deno.json"
+        ],
+        "i": "W"
+      },
+      "response": {
+        "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+        "path": "deno.json",
+        "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+      }
+    },
+    {
+      "instruction": {
+        "a": [
+          "src/lookup-user.ts"
+        ],
+        "i": "W"
+      },
+      "response": {
+        "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-reserved-id-guard-001-trim */ (/* ir:node:capability-v2-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-reserved-id-guard-001-validity-if */ (/* ir:node:capability-v2-reserved-id-guard-001-is-empty */ (/* ir:node:capability-v2-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-reserved-id-guard-001-invalid-id */ { error: /* ir:node:capability-v2-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-reserved-id-guard-001-not-found */ { error: /* ir:node:capability-v2-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-reserved-id-guard-001-found */ { ok: /* ir:node:capability-v2-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+        "path": "src/lookup-user.ts",
+        "sha256": "e1085fbe98553892dfa61b59509102cc002dc0db9d0b0653e6cfb0dc41876123"
+      }
+    },
+    {
+      "instruction": {
+        "a": [
+          "tests/public.test.ts"
+        ],
+        "i": "W"
+      },
+      "response": {
+        "content": "import { processGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(processGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(processGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+        "path": "tests/public.test.ts",
+        "sha256": "3b5bfa122f2c428b76af90edd131978912442722a34960a2cde270bb4bf4e1ca"
+      }
+    }
+  ],
+  "response_bytes": 3602
+}

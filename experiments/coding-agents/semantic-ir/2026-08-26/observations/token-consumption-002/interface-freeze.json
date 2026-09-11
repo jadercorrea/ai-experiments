@@ -1,0 +1,870 @@
+{
+  "arms": {
+    "semantic_ir": {
+      "catalog": {
+        "included_in_context": true,
+        "path": "participant-context/catalog.json",
+        "sha256": "e162125a1cb3a7fe9b4bbdf63d0ee1f455ba71faaa2a367b98d124e74aec6ffa"
+      },
+      "context": {
+        "bytes": 9260,
+        "encoding": "utf-8",
+        "newlines": "lf",
+        "ordered_sources": [
+          "participant-context/TASK.md",
+          "participant-context/semantic-ir.md",
+          "participant-context/catalog.json",
+          "protocol/program-ir-v0.schema.json"
+        ],
+        "sha256": "e308ce92ec353fbfa78255ee756fe6eac31e46e7b71ccc6644ac183dca8cc9fa"
+      },
+      "lowering": {
+        "deterministic": true,
+        "path": "scripts/semantic_ir.py",
+        "sha256": "1ab428bfddcd86c1deb9b788119d7f6e7bbdb817c733de46626986735b41ba5d"
+      },
+      "mutation_scope": [
+        "src/lookup-user.ts"
+      ],
+      "program_schema": {
+        "included_in_context": true,
+        "path": "protocol/program-ir-v0.schema.json",
+        "sha256": "f127184f9c2ec69009bd4f230110c5cd61f0cea59b435be2628e753a8e916ae2"
+      },
+      "submission_type": "semantic_ir_program",
+      "tools": [
+        {
+          "description": "Validate semantic IR and atomically lower it to the frozen target.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "program": {
+                "$defs": {
+                  "binding": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "$ref": "#/$defs/sourceIdentifier"
+                      },
+                      "symbol_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "type": {
+                        "$ref": "#/$defs/valueType"
+                      }
+                    },
+                    "required": [
+                      "symbol_id",
+                      "name",
+                      "type"
+                    ],
+                    "type": "object"
+                  },
+                  "callExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "arguments": {
+                            "items": {
+                              "$ref": "#/$defs/expression"
+                            },
+                            "type": "array"
+                          },
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "call"
+                          },
+                          "symbol": {
+                            "minLength": 1,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "symbol",
+                          "arguments"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "effect": {
+                    "enum": [
+                      "db.read:users"
+                    ]
+                  },
+                  "errorExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "error": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "err"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "error"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/$defs/stringExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/variableExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/callExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/letExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/ifExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/optionMatchExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/okExpression"
+                      },
+                      {
+                        "$ref": "#/$defs/errorExpression"
+                      }
+                    ]
+                  },
+                  "function": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "body": {
+                        "$ref": "#/$defs/expression"
+                      },
+                      "effects": {
+                        "items": {
+                          "$ref": "#/$defs/effect"
+                        },
+                        "type": "array",
+                        "uniqueItems": true
+                      },
+                      "name": {
+                        "$ref": "#/$defs/sourceIdentifier"
+                      },
+                      "parameters": {
+                        "items": {
+                          "$ref": "#/$defs/parameter"
+                        },
+                        "minItems": 1,
+                        "type": "array"
+                      },
+                      "return_type": {
+                        "const": "result<user,string>"
+                      },
+                      "symbol_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      }
+                    },
+                    "required": [
+                      "symbol_id",
+                      "name",
+                      "parameters",
+                      "return_type",
+                      "effects",
+                      "body"
+                    ],
+                    "type": "object"
+                  },
+                  "ifExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "condition": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "else": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "if"
+                          },
+                          "then": {
+                            "$ref": "#/$defs/expression"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "condition",
+                          "then",
+                          "else"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "letExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "binding": {
+                            "$ref": "#/$defs/binding"
+                          },
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "let"
+                          },
+                          "then": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "value": {
+                            "$ref": "#/$defs/expression"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "binding",
+                          "value",
+                          "then"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "nodeHeader": {
+                    "properties": {
+                      "node_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      }
+                    },
+                    "required": [
+                      "node_id",
+                      "op"
+                    ],
+                    "type": "object"
+                  },
+                  "okExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "ok"
+                          },
+                          "value": {
+                            "$ref": "#/$defs/expression"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "value"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "optionMatchExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "none": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "op": {
+                            "const": "option_match"
+                          },
+                          "some": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "some_binding": {
+                            "$ref": "#/$defs/binding"
+                          },
+                          "value": {
+                            "$ref": "#/$defs/expression"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "value",
+                          "some_binding",
+                          "none",
+                          "some"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "parameter": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "name": {
+                        "$ref": "#/$defs/sourceIdentifier"
+                      },
+                      "symbol_id": {
+                        "$ref": "#/$defs/semanticIdentifier"
+                      },
+                      "type": {
+                        "const": "string"
+                      }
+                    },
+                    "required": [
+                      "symbol_id",
+                      "name",
+                      "type"
+                    ],
+                    "type": "object"
+                  },
+                  "semanticIdentifier": {
+                    "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+                    "type": "string"
+                  },
+                  "sourceIdentifier": {
+                    "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+                    "type": "string"
+                  },
+                  "stringExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "value"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "valueType": {
+                    "enum": [
+                      "string",
+                      "boolean",
+                      "user",
+                      "option<user>",
+                      "result<user,string>"
+                    ]
+                  },
+                  "variableExpression": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/nodeHeader"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "node_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          },
+                          "op": {
+                            "const": "var"
+                          },
+                          "symbol_id": {
+                            "$ref": "#/$defs/semanticIdentifier"
+                          }
+                        },
+                        "required": [
+                          "node_id",
+                          "op",
+                          "symbol_id"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  }
+                },
+                "$id": "https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json",
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "additionalProperties": false,
+                "properties": {
+                  "catalog_version": {
+                    "const": "ai-experiments.semantic-ir.catalog/v0"
+                  },
+                  "function": {
+                    "$ref": "#/$defs/function"
+                  },
+                  "program_id": {
+                    "$ref": "#/$defs/semanticIdentifier"
+                  },
+                  "schema_version": {
+                    "const": "ai-experiments.semantic-ir.program/v0"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "program_id",
+                  "catalog_version",
+                  "function"
+                ],
+                "title": "Semantic IR construction slice v0",
+                "type": "object"
+              }
+            },
+            "required": [
+              "program"
+            ],
+            "type": "object"
+          },
+          "mutates_workspace": true,
+          "name": "ir_submit",
+          "output_schema": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "accepted": {
+                    "const": true
+                  },
+                  "projection_sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  },
+                  "target": {
+                    "enum": [
+                      "src/lookup-user.ts"
+                    ]
+                  }
+                },
+                "required": [
+                  "accepted",
+                  "target",
+                  "projection_sha256"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "accepted": {
+                    "const": false
+                  },
+                  "errors": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "message": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "accepted",
+                  "errors"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "semantics": [
+            "Validates the complete program against the frozen structural schema and semantic validator.",
+            "Invalid input returns structured errors and leaves the workspace unchanged.",
+            "Valid input deterministically lowers and atomically replaces only the frozen target.",
+            "The generated target becomes readable through workspace_read.",
+            "A later valid submission may replace the candidate; submission-count policy is deferred."
+          ]
+        }
+      ]
+    },
+    "source": {
+      "context": {
+        "bytes": 894,
+        "encoding": "utf-8",
+        "newlines": "lf",
+        "ordered_sources": [
+          "participant-context/TASK.md",
+          "participant-context/source.md"
+        ],
+        "sha256": "c459060506c3ff31a2fa3d3c7ab99bf5cd61530dcf3d7e20c5b0c7ba0659d504"
+      },
+      "mutation_scope": [
+        "src/lookup-user.ts"
+      ],
+      "submission_type": "typescript_source",
+      "tools": [
+        {
+          "description": "Atomically replace one frozen editable target with UTF-8 TypeScript.",
+          "input_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "content": {
+                "type": "string"
+              },
+              "path": {
+                "enum": [
+                  "src/lookup-user.ts"
+                ]
+              }
+            },
+            "required": [
+              "path",
+              "content"
+            ],
+            "type": "object"
+          },
+          "mutates_workspace": true,
+          "name": "workspace_write_target",
+          "output_schema": {
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "enum": [
+                  "src/lookup-user.ts"
+                ]
+              },
+              "sha256": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "type": "object"
+          },
+          "semantics": [
+            "Rejects every path not present in task.editable_paths.",
+            "Atomically replaces the requested target and leaves protected files unchanged.",
+            "A later write may replace the candidate; write-count policy is deferred."
+          ]
+        }
+      ]
+    }
+  },
+  "claim_boundary": {
+    "contrast": "output_representation",
+    "deferred": [
+      "model_identity",
+      "inference_parameters",
+      "budgets",
+      "retry_limits",
+      "token_accounting_policy",
+      "calibration_stopping_rule"
+    ],
+    "efficacy_claim_authorized": false,
+    "model_calls_authorized": false
+  },
+  "freeze_id": "semantic-ir-construction/output-representation-v0",
+  "integrity": {
+    "builder_path": "scripts/interface_freeze.py",
+    "builder_sha256": "75600415594e69158c025215ab18d498b905dda4cbe99e994ed29b78d2014b60",
+    "freeze_sha256": "7d0b8641cdc328b6629d6d0e4f616feefce7f0e4f070c2913f7bdcd5490208b7",
+    "schema_path": "protocol/interface-freeze-v0.schema.json",
+    "schema_sha256": "5224296c772f01c35a40ca16b3027eb1149c76037119df3a2c11f8a99d2e4305"
+  },
+  "schema_version": "ai-experiments.semantic-ir.interface-freeze/v0",
+  "shared": {
+    "evaluator": {
+      "hidden_runs_after_finish": true,
+      "hidden_withheld": true,
+      "public_available_to_agent": true,
+      "public_path": "tests/public.test.ts",
+      "runtime": {
+        "command": "deno",
+        "network": "denied",
+        "timeout_seconds": 10,
+        "version": "2.7.13"
+      }
+    },
+    "lifecycle": {
+      "initial_state": "materialized_locked_workspace",
+      "public_runs_terminal": false,
+      "terminal_operation": "submission_finish"
+    },
+    "tools": [
+      {
+        "description": "List every file in the materialized participant workspace.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "mutates_workspace": false,
+        "name": "workspace_list",
+        "output_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "files": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "bytes": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "path": {
+                    "minLength": 1,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "path",
+                  "bytes",
+                  "sha256"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "files"
+          ],
+          "type": "object"
+        },
+        "semantics": [
+          "Returns files sorted by path.",
+          "Exposes only the participant workspace, never evaluator or reference material."
+        ]
+      },
+      {
+        "description": "Read one UTF-8 file from the participant workspace.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        },
+        "mutates_workspace": false,
+        "name": "workspace_read",
+        "output_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "content": {
+              "type": "string"
+            },
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            },
+            "sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "content",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "semantics": [
+          "Rejects absolute paths, traversal, directories, and paths outside the participant workspace.",
+          "Returns content decoded as UTF-8 without newline transformation."
+        ]
+      },
+      {
+        "description": "Run the shared public evaluator against the current candidate.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "mutates_workspace": false,
+        "name": "evaluation_run_public",
+        "output_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "classification": {
+              "enum": [
+                "pass",
+                "product_failure",
+                "runtime_infrastructure_failure"
+              ]
+            },
+            "exit_code": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "passed": {
+              "type": "boolean"
+            },
+            "stderr": {
+              "type": "string"
+            },
+            "stdout": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "passed",
+            "classification",
+            "exit_code",
+            "stdout",
+            "stderr"
+          ],
+          "type": "object"
+        },
+        "semantics": [
+          "Uses the same locked runtime, command, timeout, and public test path in both arms.",
+          "Does not reveal or run the hidden evaluator.",
+          "May be invoked before submission_finish; run-count policy is deferred."
+        ]
+      },
+      {
+        "description": "Mark the current candidate as the arm's final submission.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "mutates_workspace": false,
+        "name": "submission_finish",
+        "output_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "accepted": {
+              "const": true
+            },
+            "workspace_tree_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "accepted",
+            "workspace_tree_sha256"
+          ],
+          "type": "object"
+        },
+        "semantics": [
+          "Terminates agent access for the candidate.",
+          "The orchestrator audits the workspace and then runs the withheld evaluator.",
+          "Does not disclose hidden evaluator output to the agent."
+        ]
+      }
+    ],
+    "workspace": {
+      "encoding": "utf-8",
+      "files": [
+        {
+          "bytes": 107,
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        {
+          "bytes": 425,
+          "path": "src/lookup-user.ts",
+          "sha256": "d892721ff1d7be568b4e1bc5da758c57ffd6fdac124fcb6e03447bb617df5c75"
+        },
+        {
+          "bytes": 1154,
+          "path": "tests/public.test.ts",
+          "sha256": "d3e698f6038c742f0dee6957bd04ad18217a65b4d487c07334725b211bb717f2"
+        }
+      ],
+      "newlines": "lf",
+      "source": "repository",
+      "tree_sha256": "4fb522927eee75900e638578b2ac03def347c139217c794f721b58791612db61"
+    }
+  },
+  "status": "frozen_for_construction",
+  "task": {
+    "construction_tree_sha256": "8f725a5e97bcc31603da4128f26613cd557f6bd1649ddc622d35f139ec34c830",
+    "editable_paths": [
+      "src/lookup-user.ts"
+    ],
+    "submission_modes": [
+      "source",
+      "semantic_ir"
+    ],
+    "task_id": "semantic-ir-construction/user-lookup-001"
+  }
+}

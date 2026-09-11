@@ -1,0 +1,105 @@
+{
+  "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+  "function": {
+    "body": {
+      "binding": {
+        "name": "normalizedId",
+        "symbol_id": "local:fresh-56fdda60de32b4d6-normalized-id",
+        "type": "string"
+      },
+      "node_id": "node:fresh-56fdda60de32b4d6-body",
+      "op": "let",
+      "then": {
+        "condition": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-56fdda60de32b4d6-normalized-for-empty",
+              "op": "var",
+              "symbol_id": "local:fresh-56fdda60de32b4d6-normalized-id"
+            }
+          ],
+          "node_id": "node:fresh-56fdda60de32b4d6-is-empty",
+          "op": "call",
+          "symbol": "string.is_empty"
+        },
+        "else": {
+          "node_id": "node:fresh-56fdda60de32b4d6-user-match",
+          "none": {
+            "error": {
+              "node_id": "node:fresh-56fdda60de32b4d6-missing-code",
+              "op": "string",
+              "value": "not_found_56fdda60de32b4d6"
+            },
+            "node_id": "node:fresh-56fdda60de32b4d6-missing",
+            "op": "err"
+          },
+          "op": "option_match",
+          "some": {
+            "node_id": "node:fresh-56fdda60de32b4d6-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:fresh-56fdda60de32b4d6-user-ref",
+              "op": "var",
+              "symbol_id": "local:fresh-56fdda60de32b4d6-user"
+            }
+          },
+          "some_binding": {
+            "name": "user",
+            "symbol_id": "local:fresh-56fdda60de32b4d6-user",
+            "type": "user"
+          },
+          "value": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-56fdda60de32b4d6-normalized-for-user",
+                "op": "var",
+                "symbol_id": "local:fresh-56fdda60de32b4d6-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-56fdda60de32b4d6-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id"
+          }
+        },
+        "node_id": "node:fresh-56fdda60de32b4d6-validation",
+        "op": "if",
+        "then": {
+          "error": {
+            "node_id": "node:fresh-56fdda60de32b4d6-invalid-code",
+            "op": "string",
+            "value": "invalid_input_56fdda60de32b4d6"
+          },
+          "node_id": "node:fresh-56fdda60de32b4d6-invalid",
+          "op": "err"
+        }
+      },
+      "value": {
+        "arguments": [
+          {
+            "node_id": "node:fresh-56fdda60de32b4d6-raw-for-normalizer",
+            "op": "var",
+            "symbol_id": "param:fresh-56fdda60de32b4d6-raw-id"
+          }
+        ],
+        "node_id": "node:fresh-56fdda60de32b4d6-normalizer",
+        "op": "call",
+        "symbol": "string.trim_ascii"
+      }
+    },
+    "effects": [
+      "db.read:users"
+    ],
+    "name": "resolveUserA56fdda60de32b4d6",
+    "parameters": [
+      {
+        "name": "rawId",
+        "symbol_id": "param:fresh-56fdda60de32b4d6-raw-id",
+        "type": "string"
+      }
+    ],
+    "return_type": "result<user,string>",
+    "symbol_id": "fn:fresh-56fdda60de32b4d6-lookup"
+  },
+  "program_id": "program:fresh-56fdda60de32b4d6",
+  "schema_version": "ai-experiments.semantic-ir.program/v2"
+}

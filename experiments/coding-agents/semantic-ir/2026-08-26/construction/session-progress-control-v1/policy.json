@@ -1,0 +1,30 @@
+{
+  "commit_phase": {
+    "effect_budget_filter": {
+      "E": "remaining_public_evaluations > 0",
+      "F": "always",
+      "S": "remaining_mutation_attempts > 0"
+    },
+    "ordered_candidates": [
+      "E",
+      "S",
+      "F"
+    ],
+    "trigger": "turns_remaining_including_current == 2"
+  },
+  "enforcement": [
+    "mask_x_opcode_enum_before_sampling",
+    "validate_sampled_opcode_as_runtime_backstop"
+  ],
+  "finish_phase": {
+    "allowed_opcodes": [
+      "F"
+    ],
+    "trigger": "turns_remaining_including_current == 1"
+  },
+  "future_action_input": false,
+  "model_calls_authorized": false,
+  "schema_version": "ai-experiments.semantic-ir.session-progress-policy/v1",
+  "scope": "both_matched_arms",
+  "work_phase": "preserve_the_frozen_arm_opcode_surface"
+}

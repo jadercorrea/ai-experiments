@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I understand the task. The test imports `readUser` from `../src/mod.ts`, but currently the module exports `processUser`. I need to:\n\n1. Rename `processUser` → `readUser` in `src/lookup-user.ts`\n2. Update the export in `src/mod.ts` to export `readUser` instead of `processUser`\n3. Optionally update `src/contracts.ts` (rename `PROCESS_CONTRACT` and `ProcessUser` type if needed)\n\nThe test only uses `readUser`, so let me focus on what's needed:\n- `src/lookup-user.ts`: rename `processUser` to `readUser`\n- `src/mod.ts`: export `readUser` instead of `processUser`\n- `src/contracts.ts`: rename `ProcessUser` type to `ReadUser` and `PROCESS_CONTRACT` to `LOOKUP_CONTRACT` (or keep compatible)\n\nLooking at the test: it only calls `readUser(\"42\")` and checks the result. The contracts file exports `PROCESS_CONTRACT` and `ProcessUser` type. The test doesn't import those, so I need to be careful about what to rename.\n\nLet me submit the patch:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/contracts.ts\\n+++ b/src/contracts.ts\\n@@ -1,2 +1,2 @@\\n-export const PROCESS_CONTRACT = \\\"processUser\\\" as const;\\n-export type ProcessUser = (id: string) => { id: string };\\n+export const LOOKUP_CONTRACT = \\\"readUser\\\" as const;\\n+export type ReadUser = (id: string) => { id: string };\\n--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,3 +1,3 @@\\n-import type { ProcessUser } from \\\"./contracts.ts\\\";\\n+import type { ReadUser } from \\\"./contracts.ts\\\";\\n \\n-export const processUser: ProcessUser = (id) => ({ id });\\n+export const readUser: ReadUser = (id) => ({ id });\\n--- a/src/mod.ts\\n+++ b/src/mod.ts\\n@@ -1,2 +1,2 @@\\n-export { PROCESS_CONTRACT, type ProcessUser } from \\\"./contracts.ts\\\";\\n-export { processUser } from \\\"./lookup-user.ts\\\";\\n+export { LOOKUP_CONTRACT, type ReadUser } from \\\"./contracts.ts\\\";\\n+export { readUser } from \\\"./lookup-user.ts\\\";\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_BTWyfzXczoYPP3e1wQamZF",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-7261e365c8b0aab9b9049208",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 638,
+    "prompt_tokens": 2820,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3458
+  }
+}

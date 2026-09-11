@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The patch didn't apply the fallback logic correctly - it seems the hunk for the fallback logic didn't apply. The file only has the `directory` type added but not the fallback logic. Let me submit a new patch with the complete file changes:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -16,7 +16,12 @@ export function lookupWithDirectory(\\n       : (/* ir:node:final-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:final-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:final-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:final-directory-fallback-001-not-found */ { error: /* ir:node:final-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:final-directory-fallback-001-not-found */ { error: /* ir:node:final-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:final-directory-fallback-001-found */ { ok: /* ir:node:final-directory-fallback-001-user-ref */ user };\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_1gTSw8Tu9N7Zgkyb71HVgH",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-65d0b69409f5084328232375",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 501,
+    "prompt_tokens": 5672,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 6173
+  }
+}

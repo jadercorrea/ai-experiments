@@ -1,0 +1,121 @@
+[
+  {
+    "arguments": {
+      "rawId": "  user-d802f463\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "  user-d802f463\t": [
+            null
+          ]
+        }
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-d802f463": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-d802f463"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "  user-d802f463\t"
+          ],
+          "symbol": "directory.get_by_id"
+        }
+      ],
+      "value": {
+        "error": "not_found_d802f463908d021c"
+      }
+    },
+    "id": "fallback-miss",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "  user-d802f463\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-d802f463": [
+            {
+              "id": "user-d802f463",
+              "name": "Local-8d021c"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-d802f463"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-d802f463",
+          "name": "Local-8d021c"
+        }
+      }
+    },
+    "id": "local-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " \t "
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_d802f463908d021c"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

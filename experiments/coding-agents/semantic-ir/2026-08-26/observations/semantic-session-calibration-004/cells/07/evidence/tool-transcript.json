@@ -1,0 +1,660 @@
+[
+  {
+    "request_sha256": "1ad2ae12e92877e60cdcb6fcaa4f8407ecbbe4c1caffc1a6f53ca6675dfa8fb5",
+    "response_sha256": "6089d7cb1798b92a3ba2b1404f15f7111a2821b12dd6adec97ba17c39518c753",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 365,
+              "handle": "context://mode",
+              "path": "tasks/reserved-id-guard-001/participant-context/semantic-patch.md",
+              "role": "mode",
+              "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+            },
+            {
+              "bytes": 288,
+              "handle": "context://task",
+              "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_GZlGa1WlR31YFvj6XhOGYR"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1802,
+              "path": "src/lookup-user.ts",
+              "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+            },
+            {
+              "bytes": 848,
+              "path": "tests/public.test.ts",
+              "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_qBZxafj9o6WUzuRLBI8V1d"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "e91532ae985bbdd0a9201dc8eeec556adb3df6a6d6099f4f02ea820f0319d607",
+    "response_sha256": "a1267cdf310ebc7e2f55ae40a0654d2a91262f330ac16ce0665a1817c1cf02c7",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 365,
+          "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+          "handle": "context://mode",
+          "path": "tasks/reserved-id-guard-001/participant-context/semantic-patch.md",
+          "role": "mode",
+          "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Zh2tJ99xhxq96tTgWLWq5Z"
+      },
+      {
+        "result": {
+          "bytes": 288,
+          "content": "# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mgnkcehwxMCTEVT5VH3YW9"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeGuardedUser(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_yeStYFQUDJVA6cRczQoIEo"
+      },
+      {
+        "result": {
+          "content": "import { executeGuardedUser } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"rejects normalized root before lookup\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\n  assertEquals(executeGuardedUser(\" root \", capabilities), { error: \"reserved_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"preserves an ordinary local hit\", () => {\n  const capabilities = { users: { getById(id: string) { return { id, name: \"Ada\" }; } } };\n  assertEquals(executeGuardedUser(\"42\", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_7WHgNLDW5rjhDHBqqSaZN4"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "16a224678a1b66b5cb8c7d3f38bf1eef153ef758754c6abd05c5c5f158ab0cd5",
+    "response_sha256": "cd99007ae4cd3c3c2cfac287e8f90604785f1a51558d3d96ca68e15fe2d56b14",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-reserved-id-guard-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:90fbfca7faa5e093e4bfb63c2582c090",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-reserved-id-guard-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-reserved-id-guard-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-reserved-id-guard-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-reserved-id-guard-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-reserved-id-guard-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-reserved-id-guard-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-reserved-id-guard-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-reserved-id-guard-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-reserved-id-guard-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-reserved-id-guard-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-reserved-id-guard-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-reserved-id-guard-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-reserved-id-guard-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-reserved-id-guard-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-reserved-id-guard-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:6b4623b0e804e976b16f2f53c935c85e"
+            },
+            {
+              "handle": "n3",
+              "node_id": "node:session-v3-reserved-id-guard-001-validity-if",
+              "op": "if",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-reserved-id-guard-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-reserved-id-guard-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-reserved-id-guard-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-reserved-id-guard-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-reserved-id-guard-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-reserved-id-guard-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-reserved-id-guard-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-reserved-id-guard-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "target_token": "cap:v1:target:4cb89e6071f7e428274d1ab656230277"
+            },
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-reserved-id-guard-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-reserved-id-guard-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-reserved-id-guard-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-reserved-id-guard-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:0db6df7642e817f64801de76224c45b2"
+            },
+            {
+              "handle": "n9",
+              "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+              "op": "call",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              },
+              "target_token": "cap:v1:target:9943c234b79ab0f09f6853c8273fd41e"
+            },
+            {
+              "handle": "n10",
+              "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+              "op": "var",
+              "parent": "n9",
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "arguments[0]",
+              "subtree": {
+                "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+              },
+              "target_token": "cap:v1:target:78ef169e782325f6cada77c4c54c77a9"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_0QXh3iro2voqy03CtdTpUx"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "1bd829c7ba7bc5617c76ba5093edb4034068d6dfed0611179104b1bf9b61e45a",
+    "response_sha256": "6b52cd84160d58d80e210652ea737acd7cb3e3b5fece888fd8277d3671e923b1",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at patch_id: 'patch-reserved-root-guard-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_GYVC3Aq9YwVos6QDEea2P1"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "f7ff61a1d69d2ac1aea8a1ad7063ca61c01eff2f123ec13a2d0658561039da7c",
+    "response_sha256": "f7e5285af40e4e4ce03ca925fe3fdbd2a3ba6b883e1d376f098d175607381e2c",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at operations/0/operation_id: 'op-insert-reserved-guard' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_1WuuRcwSgu1G7OqFJLxHYW"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "f7ff22e75e16b3313c71d5553a1cd129360b8145208a1396042fd5f989bdab78",
+    "response_sha256": "4e434f3d429cf1ed193fc88a2e65ff5f0a49132fe55841a1802dfc5cc72492e7",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at operations/0/root: 'n3' does not match '^r[0-9]+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Jc5uNbwIFFNtqkNbvyLiFv"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "request_sha256": "837ce429ce08e18881296e56c1f389a51bc317230f353438cf90aeca7b3c9a5d",
+    "response_sha256": "cbaa5bd7024da03f65537429e774d76ebdae7fcbb920059425e9c59fd1f131fe",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_1oUuhEEchoreT3UOFtwEhT"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "request_sha256": "ade18b43a02ecf5d4f6f4400a1a064945a153337ef79b5d887afdd5e6d2e4952",
+    "response_sha256": "a70b150acbdf18b8aa98cf5f4238111c52d90186fc1899d9d9e834bb878ecd73",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "product_failure",
+          "exit_code": 1,
+          "passed": false,
+          "stderr": "Check tests/public.test.ts\nerror: Test failed\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nrejects normalized root before lookup ... FAILED (0ms)\npreserves an ordinary local hit ... ok (0ms)\n\n ERRORS \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\nerror: Error: expected {\"error\":\"reserved_user_id\"}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/07/workspace/tests/public.test.ts:5:11)\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-session-calibration-004/cells/07/workspace/tests/public.test.ts:14:3\n\n FAILURES \n\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (3ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_RbxsATePkggA6KSZoMW8Ke"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "request_sha256": "592bcc705ab872943a7e359a889b64baeef6ae3e469a2adbdb086a19fd8e2621",
+    "response_sha256": "b3115159b2cc9d3da72d11bc5c02cd944511e36423c06cecc5bea3421dabcd61",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_GiShLyEjHx9baQS3lKnEK1"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "request_sha256": "fd76ed69b2b8c70fde2c4f4999c6250fc6c5b27c95d83fda950299d70bb4d35e",
+    "response_sha256": "9aba004edda7ad83b28873be57b3e6dc9c857aef53cf2ebeb8ca2e4b3c235cd8",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "tool_request_rejected",
+            "message": "mutation attempt limit exhausted",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_lmCyugkG8ehDIT2z3JDcHm"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "request_sha256": "8758650335067db9770d4b4fd66f304d3efcec85f178010b22448792bc8f046f",
+    "response_sha256": "89ccaf4ec50e318568eb9a07b3106b63935331c6e40df02fc8ad3f333e3ad71a",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 365,
+              "handle": "context://mode",
+              "path": "tasks/reserved-id-guard-001/participant-context/semantic-patch.md",
+              "role": "mode",
+              "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+            },
+            {
+              "bytes": 288,
+              "handle": "context://task",
+              "path": "tasks/reserved-id-guard-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_xcMH62Kt3k5rvzDqo0m2l0"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "request_sha256": "7826ef2eef770db7c2f748e4e7b720d9e37154098c1acadfd2405dfaf19a76c1",
+    "response_sha256": "83ff82002c0fe3200b1f6edee7352f35151c8ee31e56d86cdf78c95f56abd10b",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-reserved-id-guard-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:90fbfca7faa5e093e4bfb63c2582c090",
+          "targets": [
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-reserved-id-guard-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-reserved-id-guard-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-reserved-id-guard-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-reserved-id-guard-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-reserved-id-guard-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-reserved-id-guard-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-reserved-id-guard-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:0db6df7642e817f64801de76224c45b2"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_KGoLGTfWRWWYIEkdO9Q7EQ"
+      }
+    ],
+    "turn": 12
+  }
+]

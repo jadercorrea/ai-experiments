@@ -1,0 +1,1399 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/directory-fallback-001",
+  "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1884,
+        "message_count": 2,
+        "sha256": "3d2ecec3ea935b3edafcd741c58f494ca57ddb15d4a3215a2842edb6b79c6c1b"
+      },
+      "original_request": {
+        "bytes": 1884,
+        "message_count": 2,
+        "sha256": "3d2ecec3ea935b3edafcd741c58f494ca57ddb15d4a3215a2842edb6b79c6c1b"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "2ebd7d40121640de3a685bfc5c53d089e9fcdc09e31738ce3038a49097bf7ec2",
+        "mismatch": null,
+        "replayed_results_sha256": "2ebd7d40121640de3a685bfc5c53d089e9fcdc09e31738ce3038a49097bf7ec2",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 6215,
+        "message_count": 3,
+        "sha256": "969b7e6cdb2fa3056d0671bfe1b890f26dcfa3c111d3ac805e338d552338d960"
+      },
+      "original_request": {
+        "bytes": 3246,
+        "message_count": 5,
+        "sha256": "9692762ed6556ea61a5e0ed65568a8ec9d15b7ea254683411e5f57e98882e176"
+      },
+      "replay": {
+        "exact_action_matches": 3,
+        "exact_result_match": true,
+        "expected_results_sha256": "edef8e635d039142dbe27378c6344e46b017b314a46f792b994ef3bedf6d67ba",
+        "mismatch": null,
+        "replayed_results_sha256": "edef8e635d039142dbe27378c6344e46b017b314a46f792b994ef3bedf6d67ba",
+        "tool_actions": 3
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 6223,
+        "message_count": 3,
+        "sha256": "a7bc7127cdce62bd56ed363e9de918463cdc9ca8af4f56dbf4eabdd62c35b725"
+      },
+      "original_request": {
+        "bytes": 7445,
+        "message_count": 9,
+        "sha256": "f99a5eb2f9090b2a806615d1e678749865d5da7d011cfe5950dcd38e4f685ed5"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "a01971209921958da80f1c3b0e19328020a35546724425672ad8e5bf4b4abe2f",
+        "mismatch": null,
+        "replayed_results_sha256": "a01971209921958da80f1c3b0e19328020a35546724425672ad8e5bf4b4abe2f",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "W": 3
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 5,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 6660,
+        "message_count": 3,
+        "sha256": "ce6ce60b672722685c4223d0b182288ce38c9997cc6cd1a168fc878c61fd26f8"
+      },
+      "original_request": {
+        "bytes": 10070,
+        "message_count": 11,
+        "sha256": "f6e8e6ce0cc1e8faa64b3dd0f0701626d19d4c42ecf8b0b5eb05dc567a9a9c45"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "e29a0f5a89ea556859aadc43c2716a9909f7ee2c9a6697a4f1b4d84ea25fb6e2",
+        "mismatch": null,
+        "replayed_results_sha256": "e29a0f5a89ea556859aadc43c2716a9909f7ee2c9a6697a4f1b4d84ea25fb6e2",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 1,
+            "W": 3
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 6,
+          "validation_failures": {
+            "source_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@"
+            },
+            "turn": 3
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 6849,
+        "message_count": 3,
+        "sha256": "ecc89634cbf46f35772d4f3d1f80b04295c8b2ac4d9478083f05f6197fa7a0f9"
+      },
+      "original_request": {
+        "bytes": 12474,
+        "message_count": 13,
+        "sha256": "41deee038db179f33a706b794f8007dfbc9aeb5b8794fea0c9064a559067dbdd"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "e3e87c354b40e97a745517e86abda006ad3f063fa2296d9b518e89e0110e4535",
+        "mismatch": null,
+        "replayed_results_sha256": "e3e87c354b40e97a745517e86abda006ad3f063fa2296d9b518e89e0110e4535",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 2,
+            "W": 3
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 8,
+          "tool_calls": 7,
+          "validation_failures": {
+            "source_patch_rejected": 2
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 6966,
+        "message_count": 3,
+        "sha256": "3b792ac611778cfd81209fa86a4d3eb7a696d54047f1e3afd1899de4f50a510f"
+      },
+      "original_request": {
+        "bytes": 15701,
+        "message_count": 15,
+        "sha256": "d2ce5b519dbf039a0cdb70507e8bc718d41b8c91a4b4a5c905b660886601f2f2"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "de2590718003fea963166a4e085eb2fd22730177a2ba9a466d60f556672bcb9c",
+        "mismatch": null,
+        "replayed_results_sha256": "de2590718003fea963166a4e085eb2fd22730177a2ba9a466d60f556672bcb9c",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "S": 3,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 7,
+          "tool_calls": 8,
+          "validation_failures": {
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 35"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 6
+    },
+    {
+      "compacted_request": {
+        "bytes": 7514,
+        "message_count": 3,
+        "sha256": "af8b54261941a35785d6919f8f590aad63c23857f8d916976952ba22e19e486e"
+      },
+      "original_request": {
+        "bytes": 16602,
+        "message_count": 17,
+        "sha256": "88068dd0fcbca482f89fb5042ea45c59fa5a1cdb12d8475fdea184451a26437b"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "fd323d6aadea262c0f890f74a4365ee1392b2f7c2540984e74afea5d220c4feb",
+        "mismatch": null,
+        "replayed_results_sha256": "fd323d6aadea262c0f890f74a4365ee1392b2f7c2540984e74afea5d220c4feb",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "S": 3,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 6,
+          "tool_calls": 9,
+          "validation_failures": {
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 7,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 35"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 7
+    },
+    {
+      "compacted_request": {
+        "bytes": 8331,
+        "message_count": 3,
+        "sha256": "28384d7513bd1373a1d0507be6e03743031a0338d1104559b54bbd318e624eb4"
+      },
+      "original_request": {
+        "bytes": 18186,
+        "message_count": 19,
+        "sha256": "db0ec8de2d53c4fb32e9575bb15678de15d9bcd81be45d58dbfbad50157be098"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "3bbecc89bc81910fac24a9745fd58709a9d5177a6157ae1f024437b9134626df",
+        "mismatch": null,
+        "replayed_results_sha256": "3bbecc89bc81910fac24a9745fd58709a9d5177a6157ae1f024437b9134626df",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 3,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 5,
+          "tool_calls": 10,
+          "validation_failures": {
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (<TIME>)\npreserves a local hit ... ok (<TIME>)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 7
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 8,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "source_patch_rejected",
+              "message": "source patch rejected: error: corrupt patch at line 35"
+            },
+            "turn": 5
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 8
+    },
+    {
+      "compacted_request": {
+        "bytes": 8492,
+        "message_count": 3,
+        "sha256": "a3f07a4ea5e7f7a3a4612f28abbc17aa05f5130899c192797a67046111a8481f"
+      },
+      "original_request": {
+        "bytes": 20132,
+        "message_count": 21,
+        "sha256": "1b1fe4a786f26e593440255cecf4ceb3f4883fed3197bd0d41120c70149291d7"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "62a328c76bc3f0ec585784249bd46e17563502042a2be031dc2904ca1d219a79",
+        "mismatch": null,
+        "replayed_results_sha256": "62a328c76bc3f0ec585784249bd46e17563502042a2be031dc2904ca1d219a79",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 4,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 4,
+          "tool_calls": 11,
+          "validation_failures": {
+            "session_instruction_rejected": 1,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 1,
+            "last_turn": 8,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (<TIME>)\npreserves a local hit ... ok (<TIME>)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 7
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 9,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 8
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 9
+    },
+    {
+      "compacted_request": {
+        "bytes": 8493,
+        "message_count": 3,
+        "sha256": "4db45dcbdd437f9b19b86f3c1e1d29494165a9e050c234ea1359b50a52780d47"
+      },
+      "original_request": {
+        "bytes": 21839,
+        "message_count": 23,
+        "sha256": "daf90795f5ba3397731ef9095f3fbf519692c05b1c48849f428aa0805675e7c4"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "edad12fe4b3d5b0b0238c8ba20b9c21318f9f98ec800e256e647062afe227a12",
+        "mismatch": null,
+        "replayed_results_sha256": "edad12fe4b3d5b0b0238c8ba20b9c21318f9f98ec800e256e647062afe227a12",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 5,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 3,
+          "tool_calls": 12,
+          "validation_failures": {
+            "session_instruction_rejected": 2,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 2,
+            "last_turn": 9,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (<TIME>)\npreserves a local hit ... ok (<TIME>)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 7
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 10,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 9
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 10
+    },
+    {
+      "compacted_request": {
+        "bytes": 8495,
+        "message_count": 3,
+        "sha256": "ccc2b93f1f8b31a8b03871e63d09c3ceb2e070390ce52f798f22440f085fa1f3"
+      },
+      "original_request": {
+        "bytes": 23546,
+        "message_count": 25,
+        "sha256": "dca6e61fb13b24058c40726b813d0aceef3a5012bdac80ec0fc33e5878684eab"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "9ad734e938f04ef0c2f7331ea06de82a1ef78fa1d474d2099b2f3295debab447",
+        "mismatch": null,
+        "replayed_results_sha256": "9ad734e938f04ef0c2f7331ea06de82a1ef78fa1d474d2099b2f3295debab447",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 6,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 2,
+          "tool_calls": 13,
+          "validation_failures": {
+            "session_instruction_rejected": 3,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 3,
+            "last_turn": 10,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (<TIME>)\npreserves a local hit ... ok (<TIME>)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 7
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 11,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 10
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 11
+    },
+    {
+      "compacted_request": {
+        "bytes": 8495,
+        "message_count": 3,
+        "sha256": "d6da1859fef47f06994f8a90313b0df5b1eb79c75436df64939606a558dc542b"
+      },
+      "original_request": {
+        "bytes": 25253,
+        "message_count": 27,
+        "sha256": "8d118a3f979ac8149bd5e27ba18c488d40c93a5ee8447e033e84399a606bfaf1"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "9612359556b7e42ea77dcc9746727fb87fe90dbffaa111a9a9c1b25faa108370",
+        "mismatch": null,
+        "replayed_results_sha256": "9612359556b7e42ea77dcc9746727fb87fe90dbffaa111a9a9c1b25faa108370",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/directory-fallback-001/source",
+        "context_reads": [
+          {
+            "bytes": 298,
+            "content": "# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 7,
+            "W": 3
+          },
+          "mutation_attempts": 3,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 0,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 1,
+          "tool_calls": 14,
+          "validation_failures": {
+            "session_instruction_rejected": 4,
+            "source_patch_rejected": 3
+          }
+        },
+        "errors": [
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 3,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 4,
+            "message": "source patch rejected: error: patch fragment without header at line 13: @@ -15,9 +16,16 @@",
+            "opcode": "S"
+          },
+          {
+            "code": "source_patch_rejected",
+            "count": 1,
+            "last_turn": 5,
+            "message": "source patch rejected: error: corrupt patch at line 35",
+            "opcode": "S"
+          },
+          {
+            "code": "tool_request_rejected",
+            "count": 4,
+            "last_turn": 11,
+            "message": "mutation attempt limit exhausted",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "product_failure",
+            "exit_code": 1,
+            "passed": false,
+            "stderr": "error: Test failed\n",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nreturns a directory hit after local miss ... FAILED (<TIME>)\npreserves a local hit ... ok (<TIME>)\n\n ERRORS \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\nerror: Error: expected {\"ok\":{\"id\":\"42\",\"name\":\"Directory\"}}, got {\"error\":\"not_found\"}\n    throw new Error(\n          ^\n    at assertEquals (file://<WORKSPACE>/tests/public.test.ts:5:11)\n    at file://<WORKSPACE>/tests/public.test.ts:16:3\n\n FAILURES \n\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\n\nFAILED | 1 passed | 1 failed (<TIME>)\n\n",
+            "turn": 7
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 12,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "error": {
+                "code": "tool_request_rejected",
+                "message": "mutation attempt limit exhausted",
+                "recoverable": true
+              },
+              "ok": false
+            },
+            "turn": 11
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1819,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+          },
+          {
+            "bytes": 942,
+            "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+          }
+        ]
+      },
+      "turn": 12
+    }
+  ]
+}

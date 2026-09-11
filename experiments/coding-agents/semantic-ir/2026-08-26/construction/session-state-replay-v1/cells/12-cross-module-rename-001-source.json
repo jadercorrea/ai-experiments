@@ -1,0 +1,673 @@
+{
+  "arm": "source",
+  "candidate_task_id": "semantic-patch-suite/cross-module-rename-001",
+  "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 1860,
+        "message_count": 2,
+        "sha256": "f2bb3e3390a84c64c53da242380e1f27942fdb0b5fef2290b1c308863510d501"
+      },
+      "original_request": {
+        "bytes": 1860,
+        "message_count": 2,
+        "sha256": "f2bb3e3390a84c64c53da242380e1f27942fdb0b5fef2290b1c308863510d501"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "a213d0f1f72097e42619b520925aa1e8eb5a8aff6f67e79e3192167f7d212911",
+        "mismatch": null,
+        "replayed_results_sha256": "a213d0f1f72097e42619b520925aa1e8eb5a8aff6f67e79e3192167f7d212911",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 114,
+            "content": "export const EXECUTE_CONTRACT = \"executeUser\" as const;\nexport type ExecuteUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c"
+          },
+          {
+            "bytes": 110,
+            "content": "import type { ExecuteUser } from \"./contracts.ts\";\n\nexport const executeUser: ExecuteUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade"
+          },
+          {
+            "bytes": 117,
+            "content": "export { EXECUTE_CONTRACT, type ExecuteUser } from \"./contracts.ts\";\nexport { executeUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 4340,
+        "message_count": 3,
+        "sha256": "e49435f122f42c05e2ff28b34bf91f740bb72e893de499458597f5beaba11810"
+      },
+      "original_request": {
+        "bytes": 3479,
+        "message_count": 5,
+        "sha256": "e396d3a7b3e77b30e4cf4094e87f338ed6a98f9a04ac834b8860d3ce9037a724"
+      },
+      "replay": {
+        "exact_action_matches": 6,
+        "exact_result_match": true,
+        "expected_results_sha256": "446c5da025f044f953f3a77d3d7df8c68b17dad1b88497243c203fd6c07c3a19",
+        "mismatch": null,
+        "replayed_results_sha256": "446c5da025f044f953f3a77d3d7df8c68b17dad1b88497243c203fd6c07c3a19",
+        "tool_actions": 6
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 114,
+            "content": "export const EXECUTE_CONTRACT = \"executeUser\" as const;\nexport type ExecuteUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c"
+          },
+          {
+            "bytes": 110,
+            "content": "import type { ExecuteUser } from \"./contracts.ts\";\n\nexport const executeUser: ExecuteUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade"
+          },
+          {
+            "bytes": 117,
+            "content": "export { EXECUTE_CONTRACT, type ExecuteUser } from \"./contracts.ts\";\nexport { executeUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 5028,
+        "message_count": 3,
+        "sha256": "18658b8cdeb3c33dd00b91a708d46ee1d8fb3386072da519b256b09c00fc8733"
+      },
+      "original_request": {
+        "bytes": 6405,
+        "message_count": 12,
+        "sha256": "bfd232e2bef6530c26b024206775af42b3ee2828ab8fd8073a42bbb58ba07523"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "b626efa916bc3a6a9c7ca1612e81c6e30ac2af7feff4fd886c25cb3fa93dccbf",
+        "mismatch": null,
+        "replayed_results_sha256": "b626efa916bc3a6a9c7ca1612e81c6e30ac2af7feff4fd886c25cb3fa93dccbf",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [
+          {
+            "bytes": 274,
+            "content": "# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "W": 3
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 6,
+          "validation_failures": {}
+        },
+        "errors": [
+          {
+            "code": "tool_call_budget_exceeded",
+            "count": 2,
+            "last_turn": 2,
+            "message": "maximum executed tool calls for this turn was reached",
+            "opcode": "W"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 114,
+            "content": "export const EXECUTE_CONTRACT = \"executeUser\" as const;\nexport type ExecuteUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c"
+          },
+          {
+            "bytes": 110,
+            "content": "import type { ExecuteUser } from \"./contracts.ts\";\n\nexport const executeUser: ExecuteUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade"
+          },
+          {
+            "bytes": 117,
+            "content": "export { EXECUTE_CONTRACT, type ExecuteUser } from \"./contracts.ts\";\nexport { executeUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 5027,
+        "message_count": 3,
+        "sha256": "cdefb291f45396b698e2edde08400981b7c45e9b6d44d0cacd9f541e387d7aba"
+      },
+      "original_request": {
+        "bytes": 7740,
+        "message_count": 15,
+        "sha256": "8d5c7ee15bf1d08e5f3653997078dc88fa1bddabd0f3709480b92950abc6551a"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "5f4d1a6ea532187c87628561fde3f6bde74f45d0d0e9b1bca1b13cf9dd1aa3d7",
+        "mismatch": null,
+        "replayed_results_sha256": "5f4d1a6ea532187c87628561fde3f6bde74f45d0d0e9b1bca1b13cf9dd1aa3d7",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [
+          {
+            "bytes": 274,
+            "content": "# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "W": 5
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 8,
+          "validation_failures": {}
+        },
+        "errors": [
+          {
+            "code": "tool_call_budget_exceeded",
+            "count": 2,
+            "last_turn": 2,
+            "message": "maximum executed tool calls for this turn was reached",
+            "opcode": "W"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 114,
+            "content": "export const EXECUTE_CONTRACT = \"executeUser\" as const;\nexport type ExecuteUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c"
+          },
+          {
+            "bytes": 110,
+            "content": "import type { ExecuteUser } from \"./contracts.ts\";\n\nexport const executeUser: ExecuteUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade"
+          },
+          {
+            "bytes": 117,
+            "content": "export { EXECUTE_CONTRACT, type ExecuteUser } from \"./contracts.ts\";\nexport { executeUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 5234,
+        "message_count": 3,
+        "sha256": "d5f62e6b486bf0c20f0ab90b7847acb4a1b9b5d9502ce621bc3715703a84d63e"
+      },
+      "original_request": {
+        "bytes": 9517,
+        "message_count": 17,
+        "sha256": "3d9f529e6108a54e01bbdf88fb715ae50907c09714b1cc0723beddb527bf4f51"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "289a1bc627b6df29a9d659d3ca2e304bc6f7ddc6b277d2ce72844e57e22c829d",
+        "mismatch": null,
+        "replayed_results_sha256": "289a1bc627b6df29a9d659d3ca2e304bc6f7ddc6b277d2ce72844e57e22c829d",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [
+          {
+            "bytes": 274,
+            "content": "# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 5
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 8,
+          "tool_calls": 9,
+          "validation_failures": {}
+        },
+        "errors": [
+          {
+            "code": "tool_call_budget_exceeded",
+            "count": 2,
+            "last_turn": 2,
+            "message": "maximum executed tool calls for this turn was reached",
+            "opcode": "W"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/contracts.ts",
+                "src/lookup-user.ts",
+                "src/mod.ts"
+              ],
+              "patch_sha256": "e4b0a3e5e237f7f2f7a4877f7ad5b7e61cd28e84735b86981a69b6e76944431c"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 105,
+            "content": "export const LOAD_CONTRACT = \"loadUser\" as const;\nexport type LoadUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "de905566509f1c3a63c7e1167af336952486cf28527b4a0d5998cbda861cd556"
+          },
+          {
+            "bytes": 101,
+            "content": "import type { LoadUser } from \"./contracts.ts\";\n\nexport const loadUser: LoadUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "af00868ab48758f59a4f5303fc49ed66fe21640112be3ec6443e0d8292da9da2"
+          },
+          {
+            "bytes": 108,
+            "content": "export { LOAD_CONTRACT, type LoadUser } from \"./contracts.ts\";\nexport { loadUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "094149670caee4c866b3b40190300ac7e9c8500966f4d1571bb3ef91e6f877d5"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 5479,
+        "message_count": 3,
+        "sha256": "0cf7be1a89d1415836154927df6ef67a3f36379bf80aa24790fcb6ae40a388f3"
+      },
+      "original_request": {
+        "bytes": 10073,
+        "message_count": 19,
+        "sha256": "6dc9670af4e3ce52b7f51d0f0f838dda0bc82edf2f8cec11817156b2d9abebef"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "6f4bba8ecc87b5df176e802364f940c8d4922ad3b371311ca9f318485a8e6d49",
+        "mismatch": null,
+        "replayed_results_sha256": "6f4bba8ecc87b5df176e802364f940c8d4922ad3b371311ca9f318485a8e6d49",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "source",
+        "cell_id": "semantic-ir-session-calibration-004/cross-module-rename-001/source",
+        "context_reads": [
+          {
+            "bytes": 274,
+            "content": "# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+            "handle": "context://task",
+            "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+            "role": "task",
+            "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "L": 1,
+            "R": 1,
+            "S": 1,
+            "W": 5
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 7,
+          "tool_calls": 10,
+          "validation_failures": {}
+        },
+        "errors": [
+          {
+            "code": "tool_call_budget_exceeded",
+            "count": 2,
+            "last_turn": 2,
+            "message": "maximum executed tool calls for this turn was reached",
+            "opcode": "W"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 1 test from ./tests/public.test.ts\nexports the renamed lookup ... ok (<TIME>)\n\nok | 1 passed | 0 failed (<TIME>)\n\n",
+            "turn": 5
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [],
+          "workspace": [
+            "deno.json",
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "changed_paths": [
+                "src/contracts.ts",
+                "src/lookup-user.ts",
+                "src/mod.ts"
+              ],
+              "patch_sha256": "e4b0a3e5e237f7f2f7a4877f7ad5b7e61cd28e84735b86981a69b6e76944431c"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 105,
+            "content": "export const LOAD_CONTRACT = \"loadUser\" as const;\nexport type LoadUser = (id: string) => { id: string };\n",
+            "path": "src/contracts.ts",
+            "sha256": "de905566509f1c3a63c7e1167af336952486cf28527b4a0d5998cbda861cd556"
+          },
+          {
+            "bytes": 101,
+            "content": "import type { LoadUser } from \"./contracts.ts\";\n\nexport const loadUser: LoadUser = (id) => ({ id });\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "af00868ab48758f59a4f5303fc49ed66fe21640112be3ec6443e0d8292da9da2"
+          },
+          {
+            "bytes": 108,
+            "content": "export { LOAD_CONTRACT, type LoadUser } from \"./contracts.ts\";\nexport { loadUser } from \"./lookup-user.ts\";\n",
+            "path": "src/mod.ts",
+            "sha256": "094149670caee4c866b3b40190300ac7e9c8500966f4d1571bb3ef91e6f877d5"
+          },
+          {
+            "bytes": 379,
+            "content": "import { loadUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(loadUser(\"42\"), { id: \"42\" });\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda"
+          }
+        ]
+      },
+      "turn": 6
+    }
+  ]
+}

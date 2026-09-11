@@ -1,0 +1,31 @@
+{
+  "catalog_version": "ai-experiments.semantic-ir.catalog/v0",
+  "types": [
+    "string",
+    "boolean",
+    "user",
+    "option<user>",
+    "result<user,string>"
+  ],
+  "effects": ["db.read:users"],
+  "symbols": [
+    {
+      "symbol": "string.trim_ascii",
+      "arguments": ["string"],
+      "result": "string",
+      "effects": []
+    },
+    {
+      "symbol": "string.is_empty",
+      "arguments": ["string"],
+      "result": "boolean",
+      "effects": []
+    },
+    {
+      "symbol": "users.get_by_id",
+      "arguments": ["string"],
+      "result": "option<user>",
+      "effects": ["db.read:users"]
+    }
+  ]
+}

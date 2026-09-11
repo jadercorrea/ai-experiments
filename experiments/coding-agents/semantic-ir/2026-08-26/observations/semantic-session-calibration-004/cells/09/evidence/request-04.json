@@ -1,0 +1,148 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the workspace and context to understand the codebase.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"L\"}",
+            "name": "x"
+          },
+          "id": "tooluse_Yx73rWMXRl0iY1tk6XiDkn",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"C\"}",
+            "name": "x"
+          },
+          "id": "tooluse_xPHcxLe4usx90mdJlMlPy7",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1819,\"path\":\"src/lookup-user.ts\",\"sha256\":\"55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc\"},{\"bytes\":942,\"path\":\"tests/public.test.ts\",\"sha256\":\"996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Yx73rWMXRl0iY1tk6XiDkn"
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":258,\"handle\":\"context://mode\",\"path\":\"tasks/directory-fallback-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b\"},{\"bytes\":298,\"handle\":\"context://task\",\"path\":\"tasks/directory-fallback-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_xPHcxLe4usx90mdJlMlPy7"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[\"src/lookup-user.ts\"],\"i\":\"W\"}",
+            "name": "x"
+          },
+          "id": "tooluse_VQ7UgYRiBTxP3O2og8bokB",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[\"tests/public.test.ts\"],\"i\":\"W\"}",
+            "name": "x"
+          },
+          "id": "tooluse_AIBbeIaY0imAJ1oCZF4LR0",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[\"deno.json\"],\"i\":\"W\"}",
+            "name": "x"
+          },
+          "id": "tooluse_ydfP1zINUJHWEZs3Jzb56P",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function executeWithDirectory(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_VQ7UgYRiBTxP3O2og8bokB"
+    },
+    {
+      "content": "{\"content\":\"import { executeWithDirectory } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"returns a directory hit after local miss\\\", () => {\\n  const capabilities = {\\n    users: { getById(_id: string) { return undefined; } },\\n    directory: { getById(id: string) { return { id, name: \\\"Directory\\\" }; } },\\n  };\\n  assertEquals(executeWithDirectory(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Directory\\\" } });\\n});\\n\\nDeno.test(\\\"preserves a local hit\\\", () => {\\n  const capabilities = {\\n    users: { getById(id: string) { return { id, name: \\\"Local\\\" }; } },\\n    directory: { getById(_id: string) { return undefined; } },\\n  };\\n  assertEquals(executeWithDirectory(\\\"42\\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Local\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_AIBbeIaY0imAJ1oCZF4LR0"
+    },
+    {
+      "content": "{\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_ydfP1zINUJHWEZs3Jzb56P"
+    },
+    {
+      "content": "Now I understand the task. The tests show:\n1. `SemanticCapabilities` needs a `directory` capability with `getById`\n2. On local user-store miss, fall back to the directory\n3. Preserve empty-input (`invalid_user_id`) and local-hit behavior\n\nLet me submit the patch:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,7 +1,8 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function executeWithDirectory(\\n@@ -16,9 +17,16 @@\\n       : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = /* ir:node:session-v3-directory-fallback-001-get-directory */ capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return /* ir:node:session-v3-directory-fallback-001-directory-found */ { ok: /* ir:node:session-v3-directory-fallback-001-directory-user-ref */ directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\\n\"],\"i\":\"S\"}",
+            "name": "x"
+          },
+          "id": "tooluse_FQIDbyDgKDeuWJaXPdqfNm",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"source_patch_rejected\",\"message\":\"source patch rejected: error: patch fragment without header at line 13: @@ -16,9 +17,16 @@\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_FQIDbyDgKDeuWJaXPdqfNm"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

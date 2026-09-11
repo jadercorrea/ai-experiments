@@ -1,0 +1,172 @@
+[
+  {
+    "request_sha256": "1e1f270dc17133eeca0fb53c892ffc10f770020a7cdc74a6f0f73b8e85d74232",
+    "response_sha256": "7a9305551972023dbf9c32b5b9008cbc3f6dc4f0370df6e66d5881cd8275bc73",
+    "tool_results": [
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 165,
+              "handle": "context://mode",
+              "path": "tasks/cross-module-rename-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+            },
+            {
+              "bytes": 274,
+              "handle": "context://task",
+              "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+            }
+          ]
+        },
+        "tool": "context_list",
+        "tool_call_id": "tooluse_EUAQb0ar0R1dWZmkHjG7gr"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 114,
+              "path": "src/contracts.ts",
+              "sha256": "95a48e6d1856baebb5bd6c773ef39b7e1499aa038e63104cb9e28bbdcc92f1c7"
+            },
+            {
+              "bytes": 110,
+              "path": "src/lookup-user.ts",
+              "sha256": "eff24c656e8d72930777b158bb7ffb3747993bb5dc11a2ecd47f916a4ef3350e"
+            },
+            {
+              "bytes": 117,
+              "path": "src/mod.ts",
+              "sha256": "5b7a47f883c90d434c261092c1299f2ca4192fa149f7782d182697d76e97dad6"
+            },
+            {
+              "bytes": 379,
+              "path": "tests/public.test.ts",
+              "sha256": "a9f21a1a4c652816cfed294d43a01628da131a392a5075da30019759f4698a33"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_SsDynjus3Z4V8RT5Qehttr"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "e26f4ec4c5df652e4ebf3ec6d7e56ad85616d8f7175433c5f94489ce053d65a8",
+    "response_sha256": "742575fbfaac6e0cbf62f868e6eb6ad32c20b0ac9f6bbf49ed099f0cf4aefa16",
+    "tool_results": [
+      {
+        "result": {
+          "content": "export const PROCESS_CONTRACT = \"processUser\" as const;\nexport type ProcessUser = (id: string) => { id: string };\n",
+          "path": "src/contracts.ts",
+          "sha256": "95a48e6d1856baebb5bd6c773ef39b7e1499aa038e63104cb9e28bbdcc92f1c7"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_R05hF7EDYVAksIQEaxX9Eh"
+      },
+      {
+        "result": {
+          "content": "import type { ProcessUser } from \"./contracts.ts\";\n\nexport const processUser: ProcessUser = (id) => ({ id });\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "eff24c656e8d72930777b158bb7ffb3747993bb5dc11a2ecd47f916a4ef3350e"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_QgL7D25HjXk9z3dYX4A5yJ"
+      },
+      {
+        "result": {
+          "content": "export { PROCESS_CONTRACT, type ProcessUser } from \"./contracts.ts\";\nexport { processUser } from \"./lookup-user.ts\";\n",
+          "path": "src/mod.ts",
+          "sha256": "5b7a47f883c90d434c261092c1299f2ca4192fa149f7782d182697d76e97dad6"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_b5Na2Q9nxRma6AffLj75hH"
+      },
+      {
+        "result": {
+          "content": "import { readUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(readUser(\"42\"), { id: \"42\" });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "a9f21a1a4c652816cfed294d43a01628da131a392a5075da30019759f4698a33"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_TwZelVav9uqvpLlM7YMQ7y"
+      },
+      {
+        "result": {
+          "error": {
+            "code": "tool_call_budget_exceeded",
+            "message": "maximum executed tool calls for this turn was reached",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "<invalid>",
+        "tool_call_id": "tooluse_j03M3Awb3foI3txclAmAcB"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "b6626618df0b81bf6031933b556b8ba16034840f445ae1f8ddd20156397e7386",
+    "response_sha256": "4c38b44f143aaecbeb20483e2bbd17983487cc050af139399d5058d3c7074255",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts"
+          ],
+          "patch_sha256": "2183ddfdb14d5be21905b21b686ebebacc934bbac4355853a306f9ad59c0ae27"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_BTWyfzXczoYPP3e1wQamZF"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "cc1af934cbfa282c692dfc5d34e428b8994c3270e2dad18a16d02c8f6d1333e5",
+    "response_sha256": "8b95ce7d23dc3d89f2a2542dfe92cd5a9221c898e51e844e567da0af77b05670",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nexports the renamed lookup ... ok (0ms)\n\nok | 1 passed | 0 failed (4ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_vj6IhImJ7b1lASO7JRW4dS"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "45a42fb48a305fa62140fa3e6ee2c41a187a37d0dec26930a2b654a7d100617a",
+    "response_sha256": "46c58f38e6597c5b11f41387205d032cb09479f2c57caad28580636367b78930",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "c7bfa53e8e4259a19a3bd67a7a86b1861d6c0ef46fd06627deab23281009a38e"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_hfCW91I0tlhqeVbL6x52OD"
+      }
+    ],
+    "turn": 5
+  }
+]

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-canary-result-v2.schema.json",
+  "title": "Representational confirmatory protocol-v2 canary result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "launch_id",
+    "cell",
+    "terminal",
+    "failure",
+    "failure_message",
+    "classification",
+    "opcodes",
+    "recoverable_tool_errors",
+    "submission_accounting",
+    "public_evaluations",
+    "hidden_evaluation",
+    "workspace_tree_sha256",
+    "state_projection",
+    "usage",
+    "estimated_cost_usd",
+    "reserved_cost_usd",
+    "duration_seconds",
+    "operational_gate",
+    "behavioral_outcome_used_by_operational_gate",
+    "excluded_retry_sequences",
+    "prior_canary_retries_authorized",
+    "remaining_campaign_release_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-canary-result/v2"
+    },
+    "launch_id": {"const": "representational-confirmatory-canary-003"},
+    "cell": {"$ref": "#/$defs/selectedCell"},
+    "terminal": {"type": "boolean"},
+    "failure": {"type": ["string", "null"]},
+    "failure_message": {"type": ["string", "null"]},
+    "classification": {
+      "enum": [
+        "valid_terminal",
+        "product_failure",
+        "infrastructure_invalid",
+        "spend_limit_stop"
+      ]
+    },
+    "opcodes": {
+      "type": "array",
+      "items": {"enum": ["C", "R", "I", "L", "W", "E", "S", "F"]}
+    },
+    "recoverable_tool_errors": {"type": "integer", "minimum": 0},
+    "submission_accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "submission_attempts",
+        "instruction_rejections",
+        "submission_validation_rejections",
+        "mutation_budget_rejections",
+        "applied_mutations"
+      ],
+      "properties": {
+        "submission_attempts": {"type": "integer", "minimum": 0},
+        "instruction_rejections": {"type": "integer", "minimum": 0},
+        "submission_validation_rejections": {"type": "integer", "minimum": 0},
+        "mutation_budget_rejections": {"type": "integer", "minimum": 0},
+        "applied_mutations": {"type": "integer", "minimum": 0, "maximum": 3}
+      }
+    },
+    "public_evaluations": {"type": "integer", "minimum": 0, "maximum": 2},
+    "hidden_evaluation": {"type": ["object", "null"]},
+    "workspace_tree_sha256": {"$ref": "#/$defs/sha256"},
+    "state_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "observation_codec",
+        "append_only_action_log",
+        "observed_state_request_count",
+        "maximum_canonical_bytes",
+        "final_canonical_bytes",
+        "final_state_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "ai-experiments.semantic-ir.representational-session-state/v1"
+        },
+        "observation_codec": {"const": "representational_observation_codec_v1"},
+        "append_only_action_log": {"const": false},
+        "observed_state_request_count": {"type": "integer", "minimum": 0},
+        "maximum_canonical_bytes": {"type": "integer", "minimum": 0},
+        "final_canonical_bytes": {"type": "integer", "minimum": 1},
+        "final_state_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_requests",
+        "input_tokens",
+        "cached_input_tokens",
+        "output_tokens",
+        "total_tokens"
+      ],
+      "properties": {
+        "provider_requests": {"type": "integer", "minimum": 0, "maximum": 12},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "cached_input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "total_tokens": {"type": "integer", "minimum": 0}
+      }
+    },
+    "estimated_cost_usd": {"type": "number", "minimum": 0, "maximum": 4},
+    "reserved_cost_usd": {"type": "number", "minimum": 0, "maximum": 4},
+    "duration_seconds": {"type": "number", "minimum": 0},
+    "operational_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passed", "criteria", "behavioral_outcome_considered"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "criteria": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "one_new_cell_only",
+            "sequence_3_request_dispatched",
+            "protocol_v2_content_bound",
+            "provider_response_schema_valid",
+            "provider_model_identity_matched",
+            "provider_native_usage_present",
+            "tool_transport_observed",
+            "provider_request_bound_respected",
+            "spend_bound_respected",
+            "zero_provider_retries",
+            "canaries_001_002_not_retried",
+            "remaining_957_cells_still_blocked"
+          ],
+          "properties": {
+            "one_new_cell_only": {"type": "boolean"},
+            "sequence_3_request_dispatched": {"type": "boolean"},
+            "protocol_v2_content_bound": {"type": "boolean"},
+            "provider_response_schema_valid": {"type": "boolean"},
+            "provider_model_identity_matched": {"type": "boolean"},
+            "provider_native_usage_present": {"type": "boolean"},
+            "tool_transport_observed": {"type": "boolean"},
+            "provider_request_bound_respected": {"type": "boolean"},
+            "spend_bound_respected": {"type": "boolean"},
+            "zero_provider_retries": {"type": "boolean"},
+            "canaries_001_002_not_retried": {"type": "boolean"},
+            "remaining_957_cells_still_blocked": {"type": "boolean"}
+          }
+        },
+        "behavioral_outcome_considered": {"const": false}
+      }
+    },
+    "behavioral_outcome_used_by_operational_gate": {"const": false},
+    "excluded_retry_sequences": {
+      "type": "array",
+      "prefixItems": [{"const": 1}, {"const": 2}],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "prior_canary_retries_authorized": {"const": false},
+    "remaining_campaign_release_authorized": {"const": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "selectedCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "slot_id",
+        "condition_id",
+        "session_id",
+        "workspace_id",
+        "initial_request_sha256",
+        "initial_request_bytes",
+        "bedrock_request_sha256"
+      ],
+      "properties": {
+        "sequence": {"const": 3},
+        "slot_id": {"const": "capability_lookup_fallback-001"},
+        "condition_id": {"const": "opaque_table"},
+        "session_id": {
+          "const": "representational-confirmatory-v0/session/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "workspace_id": {
+          "const": "representational-confirmatory-v0/workspace/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "initial_request_sha256": {
+          "const": "7ec4c5ad73975bf1a0d6e56ecc71a16c8ecb2c6e1497b3bfdcb43881bc39eb7c"
+        },
+        "initial_request_bytes": {"const": 13920},
+        "bedrock_request_sha256": {
+          "const": "fe7ea7b227b7e281c726ac1f82161a4c786e68406bd5599fdc1280c4c728a610"
+        }
+      }
+    }
+  }
+}

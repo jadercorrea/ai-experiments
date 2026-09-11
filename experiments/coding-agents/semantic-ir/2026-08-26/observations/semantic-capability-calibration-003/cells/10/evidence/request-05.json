@@ -1,0 +1,727 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe artifacts below are your complete task context. Every artifact has an immutable\ncontext:// handle and can be retrieved with context_read. The participant repository\nis a separate namespace exposed by workspace_list and workspace_read. In semantic\nmode, semantic_state_inspect is read-only and issues the exact opaque state and target\ntokens required by semantic_patch_submit. Tool rejection is a typed result that may\nbe corrected within the frozen budgets. You have no shell, host-repository,\nhidden-evaluator, reference-solution, network, or browsing access.\n\n<artifact handle=\"context://task\" role=\"task\" path=\"tasks/directory-fallback-001/participant-context/TASK.md\">\n# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact handle=\"context://mode\" role=\"mode\" path=\"tasks/directory-fallback-001/participant-context/semantic-patch.md\">\n# Semantic capability patch mode\n\nInspect the base program, closed catalog, program schema, expression grammar,\nand semantic patch schema. Select the node IDs you intend to replace, then call\n`semantic_state_inspect` once with those IDs. This read-only operation does not\nconsume a mutation attempt. Copy the returned `state_token` and each matching\n`target_token` verbatim into one `replace_subtree` submission. The orchestrator\nresolves those opaque preconditions and applies the patch transactionally.\n</artifact>\n\n<artifact handle=\"context://state/program\" role=\"persistent_state\" path=\"tasks/directory-fallback-001/base/program.json\">\n{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v2\",\n  \"program_id\": \"program:capability-v2-directory-fallback-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v2\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-directory-fallback-001-lookup-user\",\n    \"name\": \"processWithDirectory\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:capability-v2-directory-fallback-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:capability-v2-directory-fallback-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:capability-v2-directory-fallback-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:capability-v2-directory-fallback-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:capability-v2-directory-fallback-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:capability-v2-directory-fallback-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:capability-v2-directory-fallback-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:capability-v2-directory-fallback-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:capability-v2-directory-fallback-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:capability-v2-directory-fallback-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:capability-v2-directory-fallback-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:capability-v2-directory-fallback-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact handle=\"context://catalog\" role=\"symbol_catalog\" path=\"tasks/directory-fallback-001/participant-context/catalog.json\">\n{\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v2\",\n  \"symbols\": [\n    {\n      \"symbol\": \"string.trim_ascii\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"string\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"string.is_empty\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"boolean\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"users.get_by_id\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"option<user>\",\n      \"effect\": \"db.read:users\"\n    },\n    {\n      \"symbol\": \"string.equals\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"result\": \"boolean\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"directory.get_by_id\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"option<user>\",\n      \"effect\": \"network.read:directory\"\n    }\n  ]\n}\n</artifact>\n\n<artifact handle=\"context://schema/program\" role=\"schema\" path=\"tasks/directory-fallback-001/participant-context/program-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v2.schema.json\",\n  \"title\": \"Semantic IR construction slice v2\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"program_id\",\n    \"catalog_version\",\n    \"function\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.program/v2\"\n    },\n    \"program_id\": {\n      \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/semanticIdentifier\"\n    },\n    \"catalog_version\": {\n      \"const\": \"ai-experiments.semantic-ir.catalog/v2\"\n    },\n    \"function\": {\n      \"$ref\": \"#/$defs/function\"\n    }\n  },\n  \"$defs\": {\n    \"effect\": {\n      \"enum\": [\n        \"db.read:users\",\n        \"network.read:directory\"\n      ]\n    },\n    \"function\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"symbol_id\",\n        \"name\",\n        \"parameters\",\n        \"return_type\",\n        \"effects\",\n        \"body\"\n      ],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/sourceIdentifier\"\n        },\n        \"parameters\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/parameter\"\n          }\n        },\n        \"return_type\": {\n          \"const\": \"result<user,string>\"\n        },\n        \"effects\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"items\": {\n            \"$ref\": \"#/$defs/effect\"\n          }\n        },\n        \"body\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/expression\"\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact handle=\"context://schema/patch\" role=\"schema\" path=\"tasks/directory-fallback-001/participant-context/semantic-patch-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/capability-semantic-patch-v1.schema.json\",\n  \"title\": \"Capability-mediated semantic patch v1\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"patch_id\",\n    \"program_id\",\n    \"state_token\",\n    \"operations\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.capability-patch/v1\"\n    },\n    \"patch_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"state_token\": {\n      \"type\": \"string\",\n      \"pattern\": \"^cap:v1:state:[0-9a-f]{32}$\"\n    },\n    \"operations\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"$ref\": \"#/$defs/replaceSubtree\"\n      }\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"replaceSubtree\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"operation_id\",\n        \"op\",\n        \"target_node_id\",\n        \"target_token\",\n        \"replacement\"\n      ],\n      \"properties\": {\n        \"operation_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"op\": {\n          \"const\": \"replace_subtree\"\n        },\n        \"target_node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"target_token\": {\n          \"type\": \"string\",\n          \"pattern\": \"^cap:v1:target:[0-9a-f]{32}$\"\n        },\n        \"replacement\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/expression\"\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact handle=\"context://schema/expression\" role=\"schema\" path=\"tasks/directory-fallback-001/participant-context/expression-grammar-v0.schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json\",\n  \"title\": \"Semantic IR construction slice v0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"program_id\",\n    \"catalog_version\",\n    \"function\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.program/v0\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"catalog_version\": {\n      \"const\": \"ai-experiments.semantic-ir.catalog/v0\"\n    },\n    \"function\": {\n      \"$ref\": \"#/$defs/function\"\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"sourceIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[A-Za-z_$][A-Za-z0-9_$]*$\"\n    },\n    \"valueType\": {\n      \"enum\": [\n        \"string\",\n        \"boolean\",\n        \"user\",\n        \"option<user>\",\n        \"result<user,string>\"\n      ]\n    },\n    \"effect\": {\n      \"enum\": [\"db.read:users\"]\n    },\n    \"binding\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"$ref\": \"#/$defs/valueType\"\n        }\n      }\n    },\n    \"parameter\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"const\": \"string\"\n        }\n      }\n    },\n    \"function\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"symbol_id\",\n        \"name\",\n        \"parameters\",\n        \"return_type\",\n        \"effects\",\n        \"body\"\n      ],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"parameters\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"$ref\": \"#/$defs/parameter\"\n          }\n        },\n        \"return_type\": {\n          \"const\": \"result<user,string>\"\n        },\n        \"effects\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"items\": {\n            \"$ref\": \"#/$defs/effect\"\n          }\n        },\n        \"body\": {\n          \"$ref\": \"#/$defs/expression\"\n        }\n      }\n    },\n    \"nodeHeader\": {\n      \"type\": \"object\",\n      \"required\": [\"node_id\", \"op\"],\n      \"properties\": {\n        \"node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        }\n      }\n    },\n    \"stringExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"string\"},\n            \"value\": {\"type\": \"string\"}\n          }\n        }\n      ]\n    },\n    \"variableExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol_id\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"var\"},\n            \"symbol_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"}\n          }\n        }\n      ]\n    },\n    \"callExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol\", \"arguments\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"call\"},\n            \"symbol\": {\"type\": \"string\", \"minLength\": 1},\n            \"arguments\": {\n              \"type\": \"array\",\n              \"items\": {\"$ref\": \"#/$defs/expression\"}\n            }\n          }\n        }\n      ]\n    },\n    \"letExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"binding\", \"value\", \"then\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"let\"},\n            \"binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"ifExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"condition\", \"then\", \"else\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"if\"},\n            \"condition\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"},\n            \"else\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"optionMatchExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\n            \"node_id\",\n            \"op\",\n            \"value\",\n            \"some_binding\",\n            \"none\",\n            \"some\"\n          ],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"option_match\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"some_binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"none\": {\"$ref\": \"#/$defs/expression\"},\n            \"some\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"okExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"ok\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"errorExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"error\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"err\"},\n            \"error\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"expression\": {\n      \"oneOf\": [\n        {\"$ref\": \"#/$defs/stringExpression\"},\n        {\"$ref\": \"#/$defs/variableExpression\"},\n        {\"$ref\": \"#/$defs/callExpression\"},\n        {\"$ref\": \"#/$defs/letExpression\"},\n        {\"$ref\": \"#/$defs/ifExpression\"},\n        {\"$ref\": \"#/$defs/optionMatchExpression\"},\n        {\"$ref\": \"#/$defs/okExpression\"},\n        {\"$ref\": \"#/$defs/errorExpression\"}\n      ]\n    }\n  }\n}\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. In the semantic arm, inspect selected state nodes to obtain opaque precondition tokens before submitting one patch. Recover from typed tool errors within the available budget and call submission_finish when final.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by reading the task context and workspace to understand what needs to be done.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"handle\":\"context://task\"}",
+            "name": "context_read"
+          },
+          "id": "tooluse_1YSFt8azPTpVOzO79qVgTv",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_saptVt4kvo7QSbhkxosgKX",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"bytes\":298,\"content\":\"# Task\\n\\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\\n\\nChange only the declared editable paths. Preserve all behavior not explicitly\\nchanged by this task. Public tests are visible; additional behavior is withheld.\\n\",\"handle\":\"context://task\",\"path\":\"tasks/directory-fallback-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_1YSFt8azPTpVOzO79qVgTv"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1864,\"path\":\"src/lookup-user.ts\",\"sha256\":\"3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449\"},{\"bytes\":942,\"path\":\"tests/public.test.ts\",\"sha256\":\"ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_saptVt4kvo7QSbhkxosgKX"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"path\":\"src/lookup-user.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_P69Vt2Mcs1mgUTFTzG7LDI",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"tests/public.test.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_9D0PoB8oel9QH2DT1en6sy",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"handle\":\"context://state/program\"}",
+            "name": "context_read"
+          },
+          "id": "tooluse_Aim27iXzaE1qvSJTnNCali",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function processWithDirectory(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_P69Vt2Mcs1mgUTFTzG7LDI"
+    },
+    {
+      "content": "{\"content\":\"import { processWithDirectory } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"returns a directory hit after local miss\\\", () => {\\n  const capabilities = {\\n    users: { getById(_id: string) { return undefined; } },\\n    directory: { getById(id: string) { return { id, name: \\\"Directory\\\" }; } },\\n  };\\n  assertEquals(processWithDirectory(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Directory\\\" } });\\n});\\n\\nDeno.test(\\\"preserves a local hit\\\", () => {\\n  const capabilities = {\\n    users: { getById(id: string) { return { id, name: \\\"Local\\\" }; } },\\n    directory: { getById(_id: string) { return undefined; } },\\n  };\\n  assertEquals(processWithDirectory(\\\"42\\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Local\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_9D0PoB8oel9QH2DT1en6sy"
+    },
+    {
+      "content": "{\"bytes\":3567,\"content\":\"{\\n  \\\"schema_version\\\": \\\"ai-experiments.semantic-ir.program/v2\\\",\\n  \\\"program_id\\\": \\\"program:capability-v2-directory-fallback-001\\\",\\n  \\\"catalog_version\\\": \\\"ai-experiments.semantic-ir.catalog/v2\\\",\\n  \\\"function\\\": {\\n    \\\"symbol_id\\\": \\\"fn:final-directory-fallback-001-lookup-user\\\",\\n    \\\"name\\\": \\\"processWithDirectory\\\",\\n    \\\"parameters\\\": [\\n      {\\n        \\\"symbol_id\\\": \\\"param:capability-v2-directory-fallback-001-raw-id\\\",\\n        \\\"name\\\": \\\"rawId\\\",\\n        \\\"type\\\": \\\"string\\\"\\n      }\\n    ],\\n    \\\"return_type\\\": \\\"result<user,string>\\\",\\n    \\\"effects\\\": [\\n      \\\"db.read:users\\\"\\n    ],\\n    \\\"body\\\": {\\n      \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-normalize-let\\\",\\n      \\\"op\\\": \\\"let\\\",\\n      \\\"binding\\\": {\\n        \\\"symbol_id\\\": \\\"local:capability-v2-directory-fallback-001-normalized-id\\\",\\n        \\\"name\\\": \\\"normalizedId\\\",\\n        \\\"type\\\": \\\"string\\\"\\n      },\\n      \\\"value\\\": {\\n        \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-trim\\\",\\n        \\\"op\\\": \\\"call\\\",\\n        \\\"symbol\\\": \\\"string.trim_ascii\\\",\\n        \\\"arguments\\\": [\\n          {\\n            \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-raw-id-ref\\\",\\n            \\\"op\\\": \\\"var\\\",\\n            \\\"symbol_id\\\": \\\"param:capability-v2-directory-fallback-001-raw-id\\\"\\n          }\\n        ]\\n      },\\n      \\\"then\\\": {\\n        \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-validity-if\\\",\\n        \\\"op\\\": \\\"if\\\",\\n        \\\"condition\\\": {\\n          \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-is-empty\\\",\\n          \\\"op\\\": \\\"call\\\",\\n          \\\"symbol\\\": \\\"string.is_empty\\\",\\n          \\\"arguments\\\": [\\n            {\\n              \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-normalized-ref-for-empty\\\",\\n              \\\"op\\\": \\\"var\\\",\\n              \\\"symbol_id\\\": \\\"local:capability-v2-directory-fallback-001-normalized-id\\\"\\n            }\\n          ]\\n        },\\n        \\\"then\\\": {\\n          \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-invalid-id\\\",\\n          \\\"op\\\": \\\"err\\\",\\n          \\\"error\\\": {\\n            \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-invalid-id-code\\\",\\n            \\\"op\\\": \\\"string\\\",\\n            \\\"value\\\": \\\"invalid_user_id\\\"\\n          }\\n        },\\n        \\\"else\\\": {\\n          \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-user-match\\\",\\n          \\\"op\\\": \\\"option_match\\\",\\n          \\\"value\\\": {\\n            \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-get-user\\\",\\n            \\\"op\\\": \\\"call\\\",\\n            \\\"symbol\\\": \\\"users.get_by_id\\\",\\n            \\\"arguments\\\": [\\n              {\\n                \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-normalized-ref-for-lookup\\\",\\n                \\\"op\\\": \\\"var\\\",\\n                \\\"symbol_id\\\": \\\"local:capability-v2-directory-fallback-001-normalized-id\\\"\\n              }\\n            ]\\n          },\\n          \\\"some_binding\\\": {\\n            \\\"symbol_id\\\": \\\"local:capability-v2-directory-fallback-001-user\\\",\\n            \\\"name\\\": \\\"user\\\",\\n            \\\"type\\\": \\\"user\\\"\\n          },\\n          \\\"none\\\": {\\n            \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-not-found\\\",\\n            \\\"op\\\": \\\"err\\\",\\n            \\\"error\\\": {\\n              \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-not-found-code\\\",\\n              \\\"op\\\": \\\"string\\\",\\n              \\\"value\\\": \\\"not_found\\\"\\n            }\\n          },\\n          \\\"some\\\": {\\n            \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-found\\\",\\n            \\\"op\\\": \\\"ok\\\",\\n            \\\"value\\\": {\\n              \\\"node_id\\\": \\\"node:capability-v2-directory-fallback-001-user-ref\\\",\\n              \\\"op\\\": \\\"var\\\",\\n              \\\"symbol_id\\\": \\\"local:capability-v2-directory-fallback-001-user\\\"\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}\\n\",\"handle\":\"context://state/program\",\"path\":\"tasks/directory-fallback-001/base/program.json\",\"role\":\"persistent_state\",\"sha256\":\"a160fd96fd562c0ca97b81d11c22d917ee4e78cb8624638eb7bcd68f134e9d2e\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Aim27iXzaE1qvSJTnNCali"
+    },
+    {
+      "content": "Now I understand the task. I need to:\n1. Replace the `none` branch of the `option_match` (currently returning `err \"not_found\"`) with a fallback to `directory.get_by_id`\n2. The function also needs `network.read:directory` added to its effects\n\nThe key node to replace is `node:capability-v2-directory-fallback-001-not-found` (the `none` branch). I'll replace it with an `option_match` on `directory.get_by_id`, returning the user if found or `err \"not_found\"` if not.\n\nLet me inspect the state of the node I want to replace:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"node_ids\":[\"node:capability-v2-directory-fallback-001-not-found\"]}",
+            "name": "semantic_state_inspect"
+          },
+          "id": "tooluse_J0tMX87c2zTuA5RmPYwPCk",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"program_id\":\"program:capability-v2-directory-fallback-001\",\"schema_version\":\"ai-experiments.semantic-ir.capability-inspection/v1\",\"state_token\":\"cap:v1:state:ef0698a9deaf30738daa78a6c7ccfe65\",\"targets\":[{\"node_id\":\"node:capability-v2-directory-fallback-001-not-found\",\"op\":\"err\",\"target_token\":\"cap:v1:target:8927bd562058a2d2ad6ee4181292bf08\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_J0tMX87c2zTuA5RmPYwPCk"
+    },
+    {
+      "content": "I have the tokens. Now I'll submit the patch. The `none` branch (currently `err \"not_found\"`) will be replaced with an `option_match` on `directory.get_by_id(normalizedId)` — returning `ok user` on some, or `err \"not_found\"` on none.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":{\"operations\":[{\"op\":\"replace_subtree\",\"operation_id\":\"op:capability-v2-directory-fallback-001-replace-not-found\",\"replacement\":{\"node_id\":\"node:capability-v2-directory-fallback-001-dir-match\",\"none\":{\"error\":{\"node_id\":\"node:capability-v2-directory-fallback-001-dir-not-found-code\",\"op\":\"string\",\"value\":\"not_found\"},\"node_id\":\"node:capability-v2-directory-fallback-001-dir-not-found\",\"op\":\"err\"},\"op\":\"option_match\",\"some\":{\"node_id\":\"node:capability-v2-directory-fallback-001-dir-found\",\"op\":\"ok\",\"value\":{\"node_id\":\"node:capability-v2-directory-fallback-001-dir-user-ref\",\"op\":\"var\",\"symbol_id\":\"local:capability-v2-directory-fallback-001-dir-user\"}},\"some_binding\":{\"name\":\"dirUser\",\"symbol_id\":\"local:capability-v2-directory-fallback-001-dir-user\",\"type\":\"user\"},\"value\":{\"arguments\":[{\"node_id\":\"node:capability-v2-directory-fallback-001-normalized-ref-for-dir\",\"op\":\"var\",\"symbol_id\":\"local:capability-v2-directory-fallback-001-normalized-id\"}],\"node_id\":\"node:capability-v2-directory-fallback-001-dir-get\",\"op\":\"call\",\"symbol\":\"directory.get_by_id\"}},\"target_node_id\":\"node:capability-v2-directory-fallback-001-not-found\",\"target_token\":\"cap:v1:target:8927bd562058a2d2ad6ee4181292bf08\"}],\"patch_id\":\"patch:capability-v2-directory-fallback-001-add-directory-fallback\",\"program_id\":\"program:capability-v2-directory-fallback-001\",\"schema_version\":\"ai-experiments.semantic-ir.capability-patch/v1\",\"state_token\":\"cap:v1:state:ef0698a9deaf30738daa78a6c7ccfe65\"}}",
+            "name": "semantic_patch_submit"
+          },
+          "id": "tooluse_EpRyA1qdtuKlqRRiFlXKsC",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"semantic_patch_rejected\",\"message\":\"semantic patch rejected: replacement must preserve target node identity: node:capability-v2-directory-fallback-001-not-found\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_EpRyA1qdtuKlqRRiFlXKsC"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List immutable task-context handles, roles, sizes, and digests.",
+        "name": "context_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one immutable context artifact by its context:// handle.",
+        "name": "context_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "handle": {
+              "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Issue opaque precondition tokens for selected semantic node IDs. This read-only operation does not consume a mutation attempt.",
+        "name": "semantic_state_inspect",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "node_ids": {
+              "items": {
+                "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+                "type": "string"
+              },
+              "maxItems": 64,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "node_ids"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one checked semantic patch against the frozen persistent IR. Rejection leaves the candidate unchanged.",
+        "name": "semantic_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "$defs": {
+                "binding": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "$ref": "#/$defs/valueType"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "callExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "arguments": {
+                          "items": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "type": "array"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "call"
+                        },
+                        "symbol": {
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol",
+                        "arguments"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "effect": {
+                  "enum": [
+                    "db.read:users"
+                  ]
+                },
+                "errorExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "err"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "error"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "expression": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/stringExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/variableExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/callExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/letExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/ifExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/optionMatchExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/okExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/errorExpression"
+                    }
+                  ]
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "body": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "effects": {
+                      "items": {
+                        "$ref": "#/$defs/effect"
+                      },
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "parameters": {
+                      "items": {
+                        "$ref": "#/$defs/parameter"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "return_type": {
+                      "const": "result<user,string>"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "parameters",
+                    "return_type",
+                    "effects",
+                    "body"
+                  ],
+                  "type": "object"
+                },
+                "ifExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "condition": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "else": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "if"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "condition",
+                        "then",
+                        "else"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "letExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "let"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "binding",
+                        "value",
+                        "then"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "nodeHeader": {
+                  "properties": {
+                    "node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "node_id",
+                    "op"
+                  ],
+                  "type": "object"
+                },
+                "okExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "ok"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "optionMatchExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "none": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "op": {
+                          "const": "option_match"
+                        },
+                        "some": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "some_binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value",
+                        "some_binding",
+                        "none",
+                        "some"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "parameter": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "const": "string"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "replaceSubtree": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "op": {
+                      "const": "replace_subtree"
+                    },
+                    "operation_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "replacement": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "target_node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "target_token": {
+                      "pattern": "^cap:v1:target:[0-9a-f]{32}$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "operation_id",
+                    "op",
+                    "target_node_id",
+                    "target_token",
+                    "replacement"
+                  ],
+                  "type": "object"
+                },
+                "semanticIdentifier": {
+                  "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+                  "type": "string"
+                },
+                "sourceIdentifier": {
+                  "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+                  "type": "string"
+                },
+                "stringExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "valueType": {
+                  "enum": [
+                    "string",
+                    "boolean",
+                    "user",
+                    "option<user>",
+                    "result<user,string>"
+                  ]
+                },
+                "variableExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "var"
+                        },
+                        "symbol_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol_id"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$id": "https://gptcode.dev/schemas/semantic-ir/capability-semantic-patch-v1.schema.json",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "additionalProperties": false,
+              "properties": {
+                "operations": {
+                  "items": {
+                    "$ref": "#/$defs/replaceSubtree"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "patch_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "program_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "schema_version": {
+                  "const": "ai-experiments.semantic-ir.capability-patch/v1"
+                },
+                "state_token": {
+                  "pattern": "^cap:v1:state:[0-9a-f]{32}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "schema_version",
+                "patch_id",
+                "program_id",
+                "state_token",
+                "operations"
+              ],
+              "title": "Capability-mediated semantic patch v1",
+              "type": "object"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

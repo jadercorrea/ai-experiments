@@ -1,0 +1,16 @@
+--- a/src/lookup-user.ts
++++ b/src/lookup-user.ts
+@@ -11,11 +11,11 @@
+   return /* ir:node:context-v1-error-taxonomy-001-normalize-let */ (() => {
+     const normalizedId: string = /* ir:node:context-v1-error-taxonomy-001-trim */ (/* ir:node:context-v1-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\t\n\v\f\r ]+|[\t\n\v\f\r ]+$/g, "");
+     return /* ir:node:context-v1-error-taxonomy-001-validity-if */ (/* ir:node:context-v1-error-taxonomy-001-is-empty */ (/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)
+-      ? (/* ir:node:context-v1-error-taxonomy-001-invalid-id */ { error: /* ir:node:context-v1-error-taxonomy-001-invalid-id-code */ "invalid_user_id" })
++      ? (/* ir:node:context-v1-error-taxonomy-001-invalid-id */ { error: /* ir:node:context-v1-error-taxonomy-001-invalid-id-code */ "empty_identifier" })
+       : (/* ir:node:context-v1-error-taxonomy-001-user-match */ (() => {
+           const __semantic_ir_option_1 = /* ir:node:context-v1-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);
+           if (__semantic_ir_option_1 === undefined) {
+-            return /* ir:node:context-v1-error-taxonomy-001-not-found */ { error: /* ir:node:context-v1-error-taxonomy-001-not-found-code */ "not_found" };
++            return /* ir:node:context-v1-error-taxonomy-001-not-found */ { error: /* ir:node:context-v1-error-taxonomy-001-not-found-code */ "unknown_user" };
+           }
+           const user: User = __semantic_ir_option_1;
+           return /* ir:node:context-v1-error-taxonomy-001-found */ { ok: /* ir:node:context-v1-error-taxonomy-001-user-ref */ user };

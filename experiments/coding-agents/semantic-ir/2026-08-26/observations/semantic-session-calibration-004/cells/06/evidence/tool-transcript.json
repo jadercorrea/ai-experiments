@@ -1,0 +1,492 @@
+[
+  {
+    "request_sha256": "7583f3ab3fecf469e146da34f00a2cd703a5e6908bc4e2a9f43b168bd8b4630a",
+    "response_sha256": "2b983eef1ebacdd1971215eb13abd9eb0c53413e44becde389557e63f179f213",
+    "tool_results": [
+      {
+        "result": {
+          "program_id": "program:session-v3-raw-id-retry-001",
+          "schema_version": "ai-experiments.semantic-ir.compact-inspection/v1",
+          "scope_fields": [
+            "symbol_id",
+            "name",
+            "type"
+          ],
+          "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+          "targets": [
+            {
+              "handle": "n0",
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "parent": null,
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ]
+              ],
+              "slot": "body",
+              "subtree": {
+                "binding": {
+                  "name": "normalizedId",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                  "type": "string"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+                "op": "let",
+                "then": {
+                  "condition": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                    "op": "call",
+                    "symbol": "string.is_empty"
+                  },
+                  "else": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                    "none": {
+                      "error": {
+                        "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                        "op": "string",
+                        "value": "not_found"
+                      },
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                      "op": "err"
+                    },
+                    "op": "option_match",
+                    "some": {
+                      "node_id": "node:session-v3-raw-id-retry-001-found",
+                      "op": "ok",
+                      "value": {
+                        "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                      }
+                    },
+                    "some_binding": {
+                      "name": "user",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                      "type": "user"
+                    },
+                    "value": {
+                      "arguments": [
+                        {
+                          "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                          "op": "var",
+                          "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                        }
+                      ],
+                      "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                      "op": "call",
+                      "symbol": "users.get_by_id"
+                    }
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                  "op": "if",
+                  "then": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                      "op": "string",
+                      "value": "invalid_user_id"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                    "op": "err"
+                  }
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                      "op": "var",
+                      "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-trim",
+                  "op": "call",
+                  "symbol": "string.trim_ascii"
+                }
+              },
+              "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+            },
+            {
+              "handle": "n3",
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "parent": "n0",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "then",
+              "subtree": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+            },
+            {
+              "handle": "n8",
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "op": "option_match",
+              "parent": "n3",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "else",
+              "subtree": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+            },
+            {
+              "handle": "n11",
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "none",
+              "subtree": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+            },
+            {
+              "handle": "n12",
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "parent": "n11",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ]
+              ],
+              "slot": "error",
+              "subtree": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+            },
+            {
+              "handle": "n13",
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "parent": "n8",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "some",
+              "subtree": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+            },
+            {
+              "handle": "n14",
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "parent": "n13",
+              "scope": [
+                [
+                  "param:session-v3-raw-id-retry-001-raw-id",
+                  "rawId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-normalized-id",
+                  "normalizedId",
+                  "string"
+                ],
+                [
+                  "local:session-v3-raw-id-retry-001-user",
+                  "user",
+                  "user"
+                ]
+              ],
+              "slot": "value",
+              "subtree": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              },
+              "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_EPM1xg1kqrNnHc2kWYVPRG"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 365,
+              "handle": "context://mode",
+              "path": "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+              "role": "mode",
+              "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+            },
+            {
+              "bytes": 298,
+              "handle": "context://task",
+              "path": "tasks/raw-id-retry-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a3b83a79cc96c72a04f52ccfb1e7abac7ebc783c71052c342d8f97936c51379e"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Xe9FbUUJaXXZuTUknUCymE"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "e8993ee1008a24e17d63cffcdee89b207ede76b483b911769f9a096b6078ec20",
+    "response_sha256": "d10d3a036455818db9b4bfdc46a66a432b3ebd33c58113fd1e642fb454e4ca10",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "semantic_patch_rejected",
+          "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_xuCMBRQUfCERNBvfme25Ta"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "ad078eba21e65e985b2f92f7114fc703a1dd171b228f0b2fdaa9ad5fb2bbf714",
+    "response_sha256": "aa49d4d3d907a29a77335cebf373a09ddfdb9b74bb4986825321bd34be570e49",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 365,
+          "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+          "handle": "context://mode",
+          "path": "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+          "role": "mode",
+          "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_7SvPfMEvZzgkotwMAdG5eK"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "2bb4a7f892741fd016486099326c7641df211ad57338fa6a6a9dbfdd61018365",
+    "response_sha256": "73549d5bd633d14642969b25f6cffa9d14bbe1fa45d13fb541dd5afea12e7033",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "projection_sha256": "fc200d6e4cbd45db7ba9bf641bdc81c40b37fa706fb6669d8f6bf103c05de99d",
+          "target": "src/lookup-user.ts"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_VJYo7bDT1VWpGOvzbhTghS"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "3a3501f0c771be2b1c6e7c2375c0be3214b62e183dae155ad0beeb2487d33d46",
+    "response_sha256": "b32a3c7304e6205100da03261b3ce8c2d50e6fe796b9f199f2eeeaed1fdc0487",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... ok (0ms)\ndoes not retry a normalized hit ... ok (0ms)\n\nok | 2 passed | 0 failed (3ms)\n\n"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_A4OzKfcLKP5zmgysFQrBUn"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "fc646d0bdf439abf49b24e6127e9ea2cad749d11d2b47161a3f9d450753f059a",
+    "response_sha256": "f8c5cb9614c26047eb145b9448be689a818b4ed474b3bd2804b7a429be099026",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "6ea18c7e5839a6366fa9ae33e8d8c281a61f3e0515d1ec819b8989759fc8c061"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_VuvgvyRGTP0sYsNAQMRYwL"
+      }
+    ],
+    "turn": 6
+  }
+]

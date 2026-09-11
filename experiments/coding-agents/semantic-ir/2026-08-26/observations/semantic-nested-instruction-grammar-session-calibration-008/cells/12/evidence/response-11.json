@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Looking at the test, it imports `loadUser` from `../src/mod.ts` and expects it to work like the current `executeUser`. I need to:\n\n1. Rename `ExecuteUser` → `LoadUser` in `src/contracts.ts`\n2. Rename `EXECUTE_CONTRACT` → `LOAD_CONTRACT` (or keep as needed) and update the type\n3. Rename `executeUser` → `loadUser` in `src/lookup-user.ts`\n4. Update `src/mod.ts` to export `loadUser` and updated names\n\nLet me analyze the test carefully:\n- `import { loadUser } from \"../src/mod.ts\"` — needs `loadUser` exported from `src/mod.ts`\n- `loadUser(\"42\")` returns `{ id: \"42\" }` — same behavior as current `executeUser`\n\nNow let me craft the diff:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"v\":{\"a\":[\"--- a/src/contracts.ts\\n+++ b/src/contracts.ts\\n@@ -1,2 +1,2 @@\\n-export const EXECUTE_CONTRACT = \\\"executeUser\\\" as const;\\n-export type ExecuteUser = (id: string) => { id: string };\\n+export const LOAD_CONTRACT = \\\"loadUser\\\" as const;\\n+export type LoadUser = (id: string) => { id: string };\\n--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,3 +1,3 @@\\n-import type { ExecuteUser } from \\\"./contracts.ts\\\";\\n+import type { LoadUser } from \\\"./contracts.ts\\\";\\n \\n-export const executeUser: ExecuteUser = (id) => ({ id });\\n+export const loadUser: LoadUser = (id) => ({ id });\\n--- a/src/mod.ts\\n+++ b/src/mod.ts\\n@@ -1,2 +1,2 @@\\n-export { EXECUTE_CONTRACT, type ExecuteUser } from \\\"./contracts.ts\\\";\\n-export { executeUser } from \\\"./lookup-user.ts\\\";\\n+export { LOAD_CONTRACT, type LoadUser } from \\\"./contracts.ts\\\";\\n+export { loadUser } from \\\"./lookup-user.ts\\\";\\n\"],\"i\":\"S\"}}",
+              "name": "x"
+            },
+            "id": "tooluse_ZgvgiF5ZTcewM83Ypt0Z0b",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-ab56583c7e36f96b559ec591",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 602,
+    "prompt_tokens": 2559,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3161
+  }
+}

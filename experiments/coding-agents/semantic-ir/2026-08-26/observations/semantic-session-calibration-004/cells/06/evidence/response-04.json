@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The patch-id needs to match `^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$`. Let me fix the patch-id format and also review the motion syntax more carefully.\n\nThe motions use words: `str`, `var`, `call`, `let`, `if`, `match`, `ok`, `err`. Refs form a tree. Let me re-read the ISA:\n\n- `match[value,b#,none,some]` — option_match\n- `call[symbol,arg-ref...]`\n- `var[s#|b#]`\n- `ok[value]`\n- `err[error]`\n- `str[value]`\n\nThe root ref `r0` is the root of the replacement subtree. Each motion is `[word, r#, args...]`. The `s0` refers to `rawId` (first param = `param:...-raw-id`).",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"patch:retry-none-001\",\"cap:v1:state:484269b6d52928819a7783644b532119\",[[\"op:replace-none\",[\"n11\",\"cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94\"],\"r0\",[[\"b1\",\"retryUser\",\"user\"]],[[\"match\",\"r0\",\"r1\",\"b1\",\"r4\",\"r2\"],[\"call\",\"r1\",\"users.get_by_id\",\"r3\"],[\"var\",\"r3\",\"s0\"],[\"ok\",\"r2\",\"r5\"],[\"var\",\"r5\",\"b1\"],[\"err\",\"r4\",\"r6\"],[\"str\",\"r6\",\"not_found\"]]]]],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_VJYo7bDT1VWpGOvzbhTghS",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-4c5f50e6200fa953fd6952a5",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 485,
+    "prompt_tokens": 5462,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5947
+  }
+}

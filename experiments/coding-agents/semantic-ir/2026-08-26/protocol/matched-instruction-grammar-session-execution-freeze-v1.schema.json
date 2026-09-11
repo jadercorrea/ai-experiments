@@ -1,0 +1,401 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/matched-instruction-grammar-session-execution-freeze-v1.schema.json",
+  "title": "Matched Session Instruction Grammar execution freeze v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "freeze_id",
+    "status",
+    "purpose",
+    "initial_user_message",
+    "claim_boundary",
+    "final_suite",
+    "model_sources",
+    "provider_access",
+    "model",
+    "sampling",
+    "limits",
+    "accounting",
+    "isolation",
+    "tasks",
+    "schedule",
+    "stopping_rule",
+    "analysis_policy",
+    "contamination",
+    "launch_contract",
+    "runner",
+    "memory_policy",
+    "progress_policy",
+    "instruction_grammar_policy",
+    "experimental_delta",
+    "preflight",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.matched-instruction-grammar-session-execution-freeze/v1"
+    },
+    "freeze_id": {
+      "const": "semantic-ir-matched-instruction-grammar-session-calibration/heterogeneous-patches-v3"
+    },
+    "status": {
+      "const": "frozen_pre_execution"
+    },
+    "purpose": {
+      "const": "calibration"
+    },
+    "initial_user_message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_variables_complete",
+        "model_calls_authorized",
+        "experimental_subject_calls_observed",
+        "efficacy_claim_authorized",
+        "remaining_before_launch"
+      ],
+      "properties": {
+        "execution_variables_complete": {
+          "const": true
+        },
+        "model_calls_authorized": {
+          "const": false
+        },
+        "experimental_subject_calls_observed": {
+          "const": 0
+        },
+        "efficacy_claim_authorized": {
+          "const": false
+        },
+        "remaining_before_launch": {
+          "const": [
+            "explicit_launch_008"
+          ]
+        }
+      }
+    },
+    "final_suite": {
+      "$ref": "#/$defs/dependency"
+    },
+    "model_sources": {
+      "type": "object"
+    },
+    "provider_access": {
+      "type": "object"
+    },
+    "model": {
+      "type": "object"
+    },
+    "sampling": {
+      "type": "object"
+    },
+    "limits": {
+      "type": "object"
+    },
+    "accounting": {
+      "type": "object"
+    },
+    "isolation": {
+      "type": "object"
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object"
+      }
+    },
+    "schedule": {
+      "type": "object",
+      "required": [
+        "adaptive_ordering",
+        "adaptive_stopping",
+        "source_first_pairs",
+        "semantic_first_pairs",
+        "provider_call_cells",
+        "cells"
+      ],
+      "properties": {
+        "adaptive_ordering": {
+          "const": false
+        },
+        "adaptive_stopping": {
+          "const": false
+        },
+        "source_first_pairs": {
+          "const": 3
+        },
+        "semantic_first_pairs": {
+          "const": 3
+        },
+        "provider_call_cells": {
+          "const": 11
+        },
+        "cells": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "items": {
+            "$ref": "#/$defs/cell"
+          }
+        }
+      }
+    },
+    "stopping_rule": {
+      "type": "object"
+    },
+    "analysis_policy": {
+      "type": "object"
+    },
+    "contamination": {
+      "type": "object",
+      "required": [
+        "audit",
+        "status",
+        "prior_provider_responses",
+        "prelaunch_repeat_required"
+      ],
+      "properties": {
+        "audit": {
+          "$ref": "#/$defs/dependency"
+        },
+        "status": {
+          "const": "repeated_within_instance_calibration"
+        },
+        "prior_provider_responses": {
+          "const": 127
+        },
+        "prelaunch_repeat_required": {
+          "const": true
+        }
+      }
+    },
+    "launch_contract": {
+      "$ref": "#/$defs/dependency"
+    },
+    "runner": {
+      "$ref": "#/$defs/dependency"
+    },
+    "memory_policy": {
+      "type": "object"
+    },
+    "progress_policy": {
+      "type": "object"
+    },
+    "instruction_grammar_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "scope",
+        "work",
+        "commit",
+        "finish",
+        "unreachable_payload_grammar",
+        "runtime_backstop",
+        "runtime_error_code",
+        "gateway_transport",
+        "provider_acceptance_observed"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "ai-experiments.semantic-ir.session-instruction-grammar-policy/v1"
+        },
+        "scope": {
+          "const": "both_matched_arms"
+        },
+        "work": {
+          "const": "frozen_generic_session_envelope"
+        },
+        "commit": {
+          "const": "budgeted_discriminated_E_S_F_union"
+        },
+        "finish": {
+          "const": "exact_F_with_empty_arguments"
+        },
+        "unreachable_payload_grammar": {
+          "const": "removed_with_opcode_branch"
+        },
+        "runtime_backstop": {
+          "const": "validate_exact_request_schema_before_dispatch"
+        },
+        "runtime_error_code": {
+          "const": "session_instruction_grammar_invalid"
+        },
+        "gateway_transport": {
+          "const": "openai_parameters_to_bedrock_inputSchema_json_identity"
+        },
+        "provider_acceptance_observed": {
+          "const": false
+        }
+      }
+    },
+    "experimental_delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previous_freeze",
+        "previous_artifact_lock",
+        "model_visible_variable",
+        "unchanged_subject_variables",
+        "administrative_differences"
+      ],
+      "properties": {
+        "previous_freeze": {
+          "$ref": "#/$defs/dependency"
+        },
+        "previous_artifact_lock": {
+          "$ref": "#/$defs/dependency"
+        },
+        "model_visible_variable": {
+          "const": "reserved_phase_complete_instruction_grammar"
+        },
+        "unchanged_subject_variables": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "administrative_differences": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "result"
+      ],
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/dependency"
+        },
+        "result": {
+          "type": "object"
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": [
+        "dependencies",
+        "freeze_sha256"
+      ],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 16,
+          "items": {
+            "$ref": "#/$defs/dependency"
+          }
+        },
+        "freeze_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "cell_id",
+        "candidate_task_id",
+        "task_root",
+        "arm",
+        "provider_call",
+        "context",
+        "tools",
+        "terminal_policy"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "cell_id": {
+          "type": "string",
+          "pattern": "^semantic-ir-instruction-grammar-session-calibration-008/"
+        },
+        "candidate_task_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_root": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "arm": {
+          "enum": [
+            "source",
+            "semantic"
+          ]
+        },
+        "provider_call": {
+          "type": "boolean"
+        },
+        "context": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "tools": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "terminal_policy": {
+          "enum": [
+            "agent_F_instruction",
+            "orchestrator_semantic_unsupported"
+          ]
+        }
+      }
+    }
+  }
+}

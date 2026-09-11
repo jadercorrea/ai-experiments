@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "All tests pass. The patch successfully:\n\n1. **Removed the `string.trim_ascii` call** — replaced the trim node with a direct `var` reference to `rawId`\n2. **Uses the raw identifier without trimming** — `normalizedId` is now bound directly to `rawId`\n3. **Treats only the exact empty string as empty** — the `string.is_empty` check now operates on the untrimmed `rawId`, so only `\"\"` triggers `invalid_user_id`\n4. **Preserves one lookup for every nonempty identifier** — the `users.get_by_id` call still happens for any non-empty `rawId`",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "submission_finish"
+            },
+            "id": "tooluse_snheuR2MyONt5ZsAeK8b96",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-adfc4d4af0867aa573b0dcb3",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 192,
+    "prompt_tokens": 13755,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 13947
+  }
+}

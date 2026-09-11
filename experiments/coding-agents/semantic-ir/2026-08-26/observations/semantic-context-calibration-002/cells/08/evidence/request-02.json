@@ -1,0 +1,161 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe artifacts below are your complete task context. Every artifact has an immutable\ncontext:// handle and can be retrieved with context_read. The participant repository\nis a separate namespace exposed by workspace_list and workspace_read. Tool rejection\nis a typed result that may be corrected within the frozen budgets. You have no shell,\nhost-repository, hidden-evaluator, reference-solution, network, or browsing access.\n\n<artifact handle=\"context://task\" role=\"task\" path=\"tasks/reserved-id-guard-001/participant-context/TASK.md\">\n# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact handle=\"context://mode\" role=\"mode\" path=\"tasks/reserved-id-guard-001/participant-context/source-patch.md\">\n# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. Recover from typed tool errors within the available budget, submit candidate mutations through the assigned representation, and call submission_finish when final.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the context and workspace to understand the task requirements.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "context_list"
+          },
+          "id": "tooluse_b3W8G0GBNX9RzXUEnDGdOW",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_aqwgY5wPQvCQ012biPXFKG",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":165,\"handle\":\"context://mode\",\"path\":\"tasks/reserved-id-guard-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce\"},{\"bytes\":288,\"handle\":\"context://task\",\"path\":\"tasks/reserved-id-guard-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_b3W8G0GBNX9RzXUEnDGdOW"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1802,\"path\":\"src/lookup-user.ts\",\"sha256\":\"33aaff8b6a1b2febd223c14c7df21833f9a72b485daeb801349af18f4b504023\"},{\"bytes\":848,\"path\":\"tests/public.test.ts\",\"sha256\":\"97d0bea72c723ad5416c09724ce507f91d8c7b11490257e081b915e9193bc598\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_aqwgY5wPQvCQ012biPXFKG"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List immutable task-context handles, roles, sizes, and digests.",
+        "name": "context_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one immutable context artifact by its context:// handle.",
+        "name": "context_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "handle": {
+              "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one unified diff against the frozen base repository. Only declared editable paths may change.",
+        "name": "source_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

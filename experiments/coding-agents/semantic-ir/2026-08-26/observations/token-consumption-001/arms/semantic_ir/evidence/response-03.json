@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I have a clear picture. I'll construct the semantic IR that implements the `lookupUser` function:\n\n1. Trim ASCII whitespace from `rawId`\n2. If empty → return `{ error: \"invalid_user_id\" }`\n3. Otherwise call `users.get_by_id` with the trimmed id\n4. On `None` → return `{ error: \"not_found\" }`\n5. On `Some(user)` → return `{ ok: user }`",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"program\":{\"catalog_version\":\"ai-experiments.semantic-ir.catalog/v0\",\"function\":{\"body\":{\"binding\":{\"name\":\"trimmedId\",\"symbol_id\":\"bind:trimmed-id\",\"type\":\"string\"},\"node_id\":\"node:let-trimmed\",\"op\":\"let\",\"then\":{\"condition\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-is-empty\",\"op\":\"call\",\"symbol\":\"string.is_empty\"},\"else\":{\"binding\":{\"name\":\"lookupResult\",\"symbol_id\":\"bind:lookup-result\",\"type\":\"option<user>\"},\"node_id\":\"node:let-lookup\",\"op\":\"let\",\"then\":{\"node_id\":\"node:option-match\",\"none\":{\"error\":{\"node_id\":\"node:str-not-found\",\"op\":\"string\",\"value\":\"not_found\"},\"node_id\":\"node:err-not-found\",\"op\":\"err\"},\"op\":\"option_match\",\"some\":{\"node_id\":\"node:ok-user\",\"op\":\"ok\",\"value\":{\"node_id\":\"node:var-found-user\",\"op\":\"var\",\"symbol_id\":\"bind:found-user\"}},\"some_binding\":{\"name\":\"foundUser\",\"symbol_id\":\"bind:found-user\",\"type\":\"user\"},\"value\":{\"node_id\":\"node:var-lookup-result\",\"op\":\"var\",\"symbol_id\":\"bind:lookup-result\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id2\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-get-by-id\",\"op\":\"call\",\"symbol\":\"users.get_by_id\"}},\"node_id\":\"node:if-empty\",\"op\":\"if\",\"then\":{\"error\":{\"node_id\":\"node:str-invalid\",\"op\":\"string\",\"value\":\"invalid_user_id\"},\"node_id\":\"node:err-invalid\",\"op\":\"err\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-raw-id\",\"op\":\"var\",\"symbol_id\":\"param:raw-id\"}],\"node_id\":\"node:call-trim\",\"op\":\"call\",\"symbol\":\"string.trim_ascii\"}},\"effects\":[\"db.read:users\"],\"name\":\"lookupUser\",\"parameters\":[{\"name\":\"rawId\",\"symbol_id\":\"param:raw-id\",\"type\":\"string\"}],\"return_type\":\"result<user,string>\",\"symbol_id\":\"fn:lookup-user\"},\"program_id\":\"prog:lookup-user\",\"schema_version\":\"ai-experiments.semantic-ir.program/v0\"}}",
+              "name": "ir_submit"
+            },
+            "id": "tooluse_UclpLjvyfRDzxpQvlLEGN6",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-e1ccf5fcf5f8ec5a913b104f",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 1161,
+    "prompt_tokens": 6854,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 8015
+  }
+}

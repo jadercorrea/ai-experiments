@@ -1,0 +1,84 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the workspace and context to understand the codebase structure.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"C\"}",
+            "name": "x"
+          },
+          "id": "tooluse_7q15OUE56JQOGfubr4g1LG",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"L\"}",
+            "name": "x"
+          },
+          "id": "tooluse_kTBzrlEBsd16W3uzDQm6Lg",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":258,\"handle\":\"context://mode\",\"path\":\"tasks/cross-module-rename-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b\"},{\"bytes\":274,\"handle\":\"context://task\",\"path\":\"tasks/cross-module-rename-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_7q15OUE56JQOGfubr4g1LG"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":114,\"path\":\"src/contracts.ts\",\"sha256\":\"41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c\"},{\"bytes\":110,\"path\":\"src/lookup-user.ts\",\"sha256\":\"f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade\"},{\"bytes\":117,\"path\":\"src/mod.ts\",\"sha256\":\"baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77\"},{\"bytes\":379,\"path\":\"tests/public.test.ts\",\"sha256\":\"6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_kTBzrlEBsd16W3uzDQm6Lg"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+--- a/src/lookup-user.ts
++++ b/src/lookup-user.ts
+@@ -12,13 +12,15 @@
+     const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\t\n\v\f\r ]+|[\t\n\v\f\r ]+$/g, "");
+     return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)
+       ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ "invalid_user_id" })
+-      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {
+-          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);
+-          if (__semantic_ir_option_1 === undefined) {
+-            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ "not_found" };
+-          }
+-          const user: User = __semantic_ir_option_1;
+-          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };
+-        })());
++      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (/* ir:node:session-v3-reserved-id-guard-001-reserved-id-equals */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-reserved */ normalizedId) === (/* ir:node:session-v3-reserved-id-guard-001-reserved-id-literal */ "root"))
++          ? (/* ir:node:session-v3-reserved-id-guard-001-reserved-error */ { error: /* ir:node:session-v3-reserved-id-guard-001-reserved-error-code */ "reserved_user_id" })
++          : (/* ir:node:session-v3-reserved-id-guard-001-user-match-after-guard */ (() => {
++              const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);
++              if (__semantic_ir_option_1 === undefined) {
++                return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ "not_found" };
++              }
++              const user: User = __semantic_ir_option_1;
++              return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };
++            })()));
+   })();
+ }

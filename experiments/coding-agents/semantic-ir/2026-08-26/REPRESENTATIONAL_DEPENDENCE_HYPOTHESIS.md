@@ -1,0 +1,141 @@
+# Representational Dependence Hypothesis
+
+## Status
+
+**Registered independently of Calibration 008 and now instantiated as a
+call-free 2x2 observation-realization design. Pre-outcome selection and a
+260,000-replication finite-sample campaign select 240 fresh tasks across five
+equal mechanism families. A subsequent pre-construction protocol freezes all
+240 slots, 1,920 ordered candidate seeds, counterbalancing, rejection rules,
+equivalence, isolation, and contamination gates. The deterministic five-family
+generator is now content locked after auditing every blueprint and semantically
+validating all 60 profiles. No fresh task exists; materialization, cost,
+execution-freeze, launch, and authorization gates remain red. No model or
+provider call is authorized.**
+
+## Motivation
+
+Separating a canonical semantic object from its linguistic or source-code
+realizations does not make the canonical representation semantically neutral.
+Human-readable labels contribute one set of commitments, while graph topology,
+node categories, operand order, granularity, and omitted distinctions contribute
+another. Replacing `call`, `let`, or `match` with opaque opcodes removes lexical
+cues but preserves the ontology encoded by the structure.
+
+For a language model, the canonical IR is therefore not assumed to expose a
+language-independent internal state. It is an engineered interface between a
+probabilistic model and deterministic infrastructure. The useful empirical
+question is which properties remain invariant across realizations and which
+properties change model behavior.
+
+## Future empirical hypothesis
+
+Given model-facing realizations that decode deterministically to the same
+canonical semantic object and expose identical capabilities, evidence, budgets,
+and verification, lexicalization and structural packaging can systematically
+change coding-agent behavior.
+
+The corresponding null hypothesis is that any observed differences are
+compatible with sampling variation once canonical meaning, disclosed
+information, and execution controls are matched.
+
+This is an engineering hypothesis about coding agents. It is not a claim about
+human cognition, a language-independent mental representation, linguistic
+determinism, or an artificial equivalent of *thinking for speaking*.
+
+## Required isolation
+
+The first future study should separate two factors rather than combining them:
+
+1. **Lexical factor:** identical topology and operands, with meaningful words
+   such as `call`, `let`, and `match` versus opaque symbols or opcodes.
+2. **Structural factor:** different model-facing organizations that lower to
+   the same canonical object, with lexical cues held as constant as practical.
+
+Every condition must pass through a deterministic decoder to one canonical IR.
+The shared validator, capability resolver, effect checker, mutation backend,
+target projection, evaluators, model, sampling, context policy, tool budget,
+and stopping rule must remain unchanged.
+
+Byte equality of decoded canonical objects is a construction gate, not an
+empirical result. Conditions that cannot represent the same task remain in the
+applicability denominator rather than being silently removed.
+
+## Candidate conditions
+
+| Condition | Model-facing realization | Isolated question |
+| --- | --- | --- |
+| Source control | Existing source-code workflow | Baseline only |
+| Meaningful lexicon | Current semantic words and stable references | Combined semantic treatment |
+| Opaque lexicon | Same topology and operands with arbitrary opcodes | Effect of lexical cues |
+| Alternate packaging | Different structure, same canonical decode | Effect of structural packaging |
+
+The factorial comparisons are the meaningful tests. The source condition
+remains useful context but does not by itself identify lexical or structural
+dependence.
+
+## Outcomes
+
+At minimum, report hidden-evaluator Pass@1, valid terminal rate, provider input
+and output tokens, repair cycles, schema and runtime rejections, time to valid
+terminal, unsupported-task rate, and total estimated cost. Retain the complete
+trajectory and decoded canonical object for every attempt.
+
+Round-trip preservation, type/effect validity, capability authorization, stable
+identity, evidence references, and evaluator outcomes are candidate operational
+invariants. Salience, attention, chosen decomposition, action order, and repair
+strategy are explicitly allowed to vary and are part of the empirical subject.
+
+## Sequencing gate
+
+This hypothesis must not be folded into Calibration 008. That calibration asks
+whether the already constructed complete reserved-phase instruction grammar
+changes behavior under its provider-admissible v3 envelope. Adding lexical or
+structural conditions now would change the estimand after construction and
+confound the next comparison.
+
+A later calibration may be designed only after Calibration 008 is completed or
+formally abandoned, its evidence is frozen, and a separate power, contamination,
+cost, and launch decision is recorded.
+
+## Current construction decision
+
+Calibration 008 is complete and frozen. Design v0 narrows the first empirical
+study to detailed semantic inspection results: meaningful versus opaque control
+labels crossed with nested versus table packaging. The compact outline, Session
+ISA, mutation backend, capabilities, evaluators, and execution policy remain
+fixed. Source is omitted from the first factorial because it identifies neither
+main effect.
+
+The five existing supported tasks serve only as lossless-codec coverage. They
+were already exposed to the provider and are ineligible as confirmatory units.
+The call-free power-sensitivity curve is now complete: 64 scenarios cross
+baseline Pass@1, absolute SESOI, and null task ICC, producing 16 to 920 fresh
+task units. The subsequent selection freezes both main-effect SESOIs at 0.10,
+a baseline 0.20–0.80/null-ICC 0.00–0.75 planning envelope, and equal allocation
+across five mechanism families. Its 240-task asymptotic candidate was required
+to pass deterministic finite-sample simulation before subjects could be
+constructed. The simulation protocol fixes a Beta completion of the same
+latent-task
+mean/ICC model, thirteen scenarios, 20,000 replications per scenario, and
+Wilson-bound acceptance. The resumable runner rejected protocol, dependency,
+checkpoint, or result drift. Its later 260,000-replication campaign passed all
+thirteen scenarios at the first candidate and selected 240 tasks. This remains
+simulation evidence under the frozen generator, not a behavioral result. See
+[`REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md`](REPRESENTATIONAL_DEPENDENCE_DESIGN_V0.md)
+and
+[`REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md`](REPRESENTATIONAL_FINITE_SAMPLE_SIMULATION_PROTOCOL_V0.md).
+The following construction protocol maps that count to 48 immutable slots per
+family and twelve slots per counterbalance sequence within each family. Every
+slot has eight deterministic attempts and a first-eligible-only rule; exhausting
+a slot blocks construction rather than permitting post hoc substitution. Task
+construction is explicitly deterministic and non-LLM, while one future
+participant model and inference policy must remain identical across all four
+conditions. See
+[`REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md`](REPRESENTATIONAL_FRESH_TASK_CONSTRUCTION_PROTOCOL_V0.md).
+The subsequent generator freeze produces typed baselines, transactional
+reference patches, and public/hidden value-and-effect evaluator plans entirely
+in memory. It found unique blueprint and semantic-signature digests across all
+1,920 candidates and validated one representative of every family profile. It
+still creates no participant task. See
+[`REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md`](REPRESENTATIONAL_FRESH_TASK_GENERATOR_FREEZE_V0.md).

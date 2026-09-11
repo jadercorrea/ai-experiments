@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "The test shows the directory call is receiving the raw (untrimmed) ID `\" 42 \"` instead of the normalized `\"42\"`. The `s0` scope reference needs to point to `normalizedId`. Let me check — in the scope at `n11`, `s0` should be `normalizedId`. Let me re-inspect `n11`'s scope to confirm the scope slot index:\n\nFrom the inspection, at `n11`'s scope:\n- `s0` = `param:...-raw-id` (rawId)\n- `s1` = `local:...-normalized-id` (normalizedId)\n\nSo I used `s0` (rawId) instead of `s1` (normalizedId). Let me fix this:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"n11\"],\"i\":\"I\"}",
+              "name": "x"
+            },
+            "id": "tooluse_NBaqWe0HsiHc3kgGMlEpuC",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-1a018c0cb5a21a046094dc62",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 245,
+    "prompt_tokens": 8838,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 9083
+  }
+}

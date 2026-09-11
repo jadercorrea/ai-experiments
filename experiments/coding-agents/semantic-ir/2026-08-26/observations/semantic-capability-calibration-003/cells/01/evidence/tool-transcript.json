@@ -1,0 +1,139 @@
+[
+  {
+    "request_sha256": "eb8bbfac065baa04fe6e267e45939771c97ee4c84b3d4ea9bcc5fe64a3542821",
+    "response_sha256": "740137932e4aa28f009bf32f71b0c4187a27b664013235a5854ebfd24ca52ef3",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1800,
+              "path": "src/lookup-user.ts",
+              "sha256": "281aafec98f5266dbd95207e959be933bba6c3ac580df884fbfac476a909f8d9"
+            },
+            {
+              "bytes": 733,
+              "path": "tests/public.test.ts",
+              "sha256": "f1ca9ebc84711817baec1213c817fa07e3b55f84ba1b06d03d0d7c8926d6789a"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_QqMYeZvrDAozlub7pwaDk8"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 165,
+              "handle": "context://mode",
+              "path": "tasks/error-taxonomy-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+            },
+            {
+              "bytes": 268,
+              "handle": "context://task",
+              "path": "tasks/error-taxonomy-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2"
+            }
+          ]
+        },
+        "tool": "context_list",
+        "tool_call_id": "tooluse_fM3IbwMJJXrbs5agtblDCD"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "75cd020b444bbe142b6529c57bb2acb54941238d0270ccb09544a5525bf2d70c",
+    "response_sha256": "60b266dc3b1d4f76bacd4b2e8bfeeb3ab514b7c0871d6498937ed484a8d2d869",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function processErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:capability-v2-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:capability-v2-error-taxonomy-001-trim */ (/* ir:node:capability-v2-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:capability-v2-error-taxonomy-001-validity-if */ (/* ir:node:capability-v2-error-taxonomy-001-is-empty */ (/* ir:node:capability-v2-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:capability-v2-error-taxonomy-001-invalid-id */ { error: /* ir:node:capability-v2-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:capability-v2-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:capability-v2-error-taxonomy-001-not-found */ { error: /* ir:node:capability-v2-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:capability-v2-error-taxonomy-001-found */ { ok: /* ir:node:capability-v2-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "281aafec98f5266dbd95207e959be933bba6c3ac580df884fbfac476a909f8d9"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_VedDgKhRZwf3RkCM2MkapS"
+      },
+      {
+        "result": {
+          "content": "import { processErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(processErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(processErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "f1ca9ebc84711817baec1213c817fa07e3b55f84ba1b06d03d0d7c8926d6789a"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_Hy0xC0P9hPy3IOFeH5T9X4"
+      },
+      {
+        "result": {
+          "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_cTHYit2tVaxxVBa698dVbj"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "9318c39963b39d10c00dd7a5b0af29e444c9dffdfea2fda65dda5d2aee09005c",
+    "response_sha256": "77784422f7c8eabd362d6fe6d7f051eed516f8f6d22c45956cdcf8f9ec5e54a8",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "2249570ea2702fcdd067f810e39d2cbad4eb5fa64eac2eee09805920a20d4430"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_e1sUNec9K1CVWP9ABcPBU6"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "027736323c66859210319b89212cd6041a18bdd69c28ac0e4468f1ef8a57d744",
+    "response_sha256": "41817c0cff6ab4af2ff7a90017cba9d8d98b142e8e485c2518c9d037df0e8990",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... ok (0ms)\n\nok | 1 passed | 0 failed (3ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_WdsTEcnjKCpzgdmm55XfLv"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "9db2e6688ffc57150c32179dd1ac25f1d25e14cb04702273d7714253950e41a9",
+    "response_sha256": "2098e6ede7e9ba30fcef7a6f5b5febc65cfbfa77ae3957053cd92a06f674a2b2",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "220f452a1719b4e9e42144200a7c297b01ed470f8e95ca6027bdd4a79abbc038"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_8koy4Eg06xG6lJi5uFWGPU"
+      }
+    ],
+    "turn": 5
+  }
+]

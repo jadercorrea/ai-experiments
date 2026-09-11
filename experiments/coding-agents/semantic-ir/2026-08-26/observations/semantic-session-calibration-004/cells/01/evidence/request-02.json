@@ -1,0 +1,84 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the workspace and context to understand the codebase.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"C\"}",
+            "name": "x"
+          },
+          "id": "tooluse_zROycKK5BMHDKNhWHSuq6X",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"L\"}",
+            "name": "x"
+          },
+          "id": "tooluse_MoXdTe7HLRI1aXaRwfYzxQ",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":258,\"handle\":\"context://mode\",\"path\":\"tasks/error-taxonomy-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b\"},{\"bytes\":268,\"handle\":\"context://task\",\"path\":\"tasks/error-taxonomy-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_zROycKK5BMHDKNhWHSuq6X"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1755,\"path\":\"src/lookup-user.ts\",\"sha256\":\"849ee02cc79adc5af3b36eee5a2d61afa7551d2d8709f28be87565eb0d733de1\"},{\"bytes\":733,\"path\":\"tests/public.test.ts\",\"sha256\":\"cbb28fcdee1c4565c43715ddab0583ca54a704f5d73fb13b055a24502ca11498\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_MoXdTe7HLRI1aXaRwfYzxQ"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

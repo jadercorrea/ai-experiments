@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Let me analyze the current state and the task requirements.\n\nThe test imports `loadUser` from `../src/mod.ts`, but currently `mod.ts` exports `executeUser`. I need to:\n\n1. Rename the contract/type references appropriately\n2. Rename `executeUser` to `loadUser` in `lookup-user.ts`\n3. Update `contracts.ts` accordingly\n4. Update `mod.ts` exports\n\nLet me review the files carefully:\n\n- `tests/public.test.ts`: imports `loadUser` from `../src/mod.ts` and calls `loadUser(\"42\")`\n- `src/contracts.ts`: exports `EXECUTE_CONTRACT = \"executeUser\"` and type `ExecuteUser`\n- `src/lookup-user.ts`: exports `executeUser` implementing `ExecuteUser`\n- `src/mod.ts`: exports `EXECUTE_CONTRACT`, `ExecuteUser`, `executeUser`\n\nThe task is to rename the \"public lookup contract\" and migrate callers. The test expects `loadUser` exported from `mod.ts`. I need to:\n\n1. `contracts.ts`: rename `EXECUTE_CONTRACT` value and type `ExecuteUser` → `LoadUser`, constant value `\"loadUser\"`\n2. `lookup-user.ts`: rename `executeUser` → `loadUser`, use `LoadUser` type\n3. `mod.ts`: update exports to expose `loadUser` (and updated contract names)",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/contracts.ts\\n+++ b/src/contracts.ts\\n@@ -1,2 +1,2 @@\\n-export const EXECUTE_CONTRACT = \\\"executeUser\\\" as const;\\n-export type ExecuteUser = (id: string) => { id: string };\\n+export const LOAD_CONTRACT = \\\"loadUser\\\" as const;\\n+export type LoadUser = (id: string) => { id: string };\\n--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,3 +1,3 @@\\n-import type { ExecuteUser } from \\\"./contracts.ts\\\";\\n+import type { LoadUser } from \\\"./contracts.ts\\\";\\n \\n-export const executeUser: ExecuteUser = (id) => ({ id });\\n+export const loadUser: LoadUser = (id) => ({ id });\\n--- a/src/mod.ts\\n+++ b/src/mod.ts\\n@@ -1,2 +1,2 @@\\n-export { EXECUTE_CONTRACT, type ExecuteUser } from \\\"./contracts.ts\\\";\\n-export { executeUser } from \\\"./lookup-user.ts\\\";\\n+export { LOAD_CONTRACT, type LoadUser } from \\\"./contracts.ts\\\";\\n+export { loadUser } from \\\"./lookup-user.ts\\\";\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_mHefEUZ4SDP68VCjXeXW3o",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-10218d4b9d4cf779a755f52f",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 738,
+    "prompt_tokens": 1767,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 2505
+  }
+}

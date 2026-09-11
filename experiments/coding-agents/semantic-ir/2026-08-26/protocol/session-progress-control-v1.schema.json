@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/session-progress-control-v1.schema.json",
+  "title": "Calibration 006 Session ISA progress-control replay v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "source_observation",
+    "observed",
+    "candidate",
+    "replay",
+    "claim_boundary",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.session-progress-control/v1"
+    },
+    "status": {
+      "const": "local_replay_complete"
+    },
+    "source_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_lock_sha256", "provider_requests"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_requests": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "observed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remaining_turns_already_visible",
+        "compact_state_turns",
+        "compact_state_turns_with_remaining_turns",
+        "provider_call_cells",
+        "recorded_provider_turns",
+        "turn_limit_cells",
+        "turn_limit_cells_ending_with_F"
+      ],
+      "properties": {
+        "remaining_turns_already_visible": {"type": "boolean"},
+        "compact_state_turns": {"$ref": "#/$defs/nonnegative"},
+        "compact_state_turns_with_remaining_turns": {"$ref": "#/$defs/nonnegative"},
+        "provider_call_cells": {"$ref": "#/$defs/nonnegative"},
+        "recorded_provider_turns": {"$ref": "#/$defs/nonnegative"},
+        "turn_limit_cells": {"$ref": "#/$defs/nonnegative"},
+        "turn_limit_cells_ending_with_F": {"$ref": "#/$defs/nonnegative"}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "reserved_terminal_turns",
+        "commit_phase_opcode_rule",
+        "finish_phase_allowed_opcodes",
+        "commit_phase_cell_violations",
+        "finish_phase_cell_violations",
+        "instruction_violations",
+        "first_divergence_turns",
+        "source",
+        "semantic"
+      ],
+      "properties": {
+        "policy": {"const": "request_time_terminal_reserve"},
+        "reserved_terminal_turns": {"const": 1},
+        "commit_phase_opcode_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ordered_candidates", "E", "S", "F"],
+          "properties": {
+            "ordered_candidates": {
+              "prefixItems": [{"const": "E"}, {"const": "S"}, {"const": "F"}],
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "E": {"const": "remaining_public_evaluations > 0"},
+            "S": {"const": "remaining_mutation_attempts > 0"},
+            "F": {"const": "always"}
+          }
+        },
+        "finish_phase_allowed_opcodes": {
+          "prefixItems": [{"const": "F"}],
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "commit_phase_cell_violations": {"$ref": "#/$defs/nonnegative"},
+        "finish_phase_cell_violations": {"$ref": "#/$defs/nonnegative"},
+        "instruction_violations": {"$ref": "#/$defs/nonnegative"},
+        "first_divergence_turns": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/nonnegative"},
+          "propertyNames": {"pattern": "^[0-9]+$"}
+        },
+        "source": {"$ref": "#/$defs/arm_summary"},
+        "semantic": {"$ref": "#/$defs/arm_summary"}
+      }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_calls_observed",
+        "counterfactual_choice_equivalence",
+        "interpretation",
+        "post_divergence_records_are_diagnostic_only"
+      ],
+      "properties": {
+        "model_calls_observed": {"const": 0},
+        "counterfactual_choice_equivalence": {"const": false},
+        "interpretation": {"const": "first_disallowed_action_only"},
+        "post_divergence_records_are_diagnostic_only": {"const": true}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recorded_model_choices_are_observations",
+        "candidate_actions_after_first_divergence_known",
+        "terminal_submission_guaranteed",
+        "terminal_opcode_opportunity_reserved_by_schema",
+        "provider_schema_adherence_claimed",
+        "hidden_pass_improvement_claimed",
+        "model_calls_authorized",
+        "model_calls_observed"
+      ],
+      "properties": {
+        "recorded_model_choices_are_observations": {"const": true},
+        "candidate_actions_after_first_divergence_known": {"const": false},
+        "terminal_submission_guaranteed": {"const": false},
+        "terminal_opcode_opportunity_reserved_by_schema": {"const": true},
+        "provider_schema_adherence_claimed": {"const": false},
+        "hidden_pass_improvement_claimed": {"const": false},
+        "model_calls_authorized": {"const": false},
+        "model_calls_observed": {"const": 0}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonnegative": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "arm_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit_phase_cell_violations",
+        "finish_phase_cell_violations",
+        "instruction_violations"
+      ],
+      "properties": {
+        "commit_phase_cell_violations": {"$ref": "#/$defs/nonnegative"},
+        "finish_phase_cell_violations": {"$ref": "#/$defs/nonnegative"},
+        "instruction_violations": {"$ref": "#/$defs/nonnegative"}
+      }
+    }
+  }
+}

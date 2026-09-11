@@ -1,0 +1,410 @@
+{
+  "attempt_index": 0,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-126c76386a7df64f-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-126c76386a7df64f-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-126c76386a7df64f-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-126c76386a7df64f-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-126c76386a7df64f-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-126c76386a7df64f-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-126c76386a7df64f-missing-code",
+                "op": "string",
+                "value": "not_found_126c76386a7df64f"
+              },
+              "node_id": "node:fresh-126c76386a7df64f-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-126c76386a7df64f-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-126c76386a7df64f-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-126c76386a7df64f-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-126c76386a7df64f-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-126c76386a7df64f-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-126c76386a7df64f-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-126c76386a7df64f-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-126c76386a7df64f-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-126c76386a7df64f-invalid-code",
+              "op": "string",
+              "value": "invalid_input_126c76386a7df64f"
+            },
+            "node_id": "node:fresh-126c76386a7df64f-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-126c76386a7df64f-raw-for-normalizer",
+              "op": "var",
+              "symbol_id": "param:fresh-126c76386a7df64f-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-126c76386a7df64f-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserA126c76386a7df64f",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-126c76386a7df64f-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-126c76386a7df64f-lookup"
+    },
+    "program_id": "program:fresh-126c76386a7df64f",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:capability_lookup_fallback:126c76386a7df64f",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 4359887773631071931,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": "  user-126c7638\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-126c7638": [
+                {
+                  "id": "user-126c7638",
+                  "name": "Directory-7df64f"
+                }
+              ]
+            }
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-126c7638": [
+                null
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-126c7638"
+              ],
+              "symbol": "users.get_by_id"
+            },
+            {
+              "arguments": [
+                "user-126c7638"
+              ],
+              "symbol": "directory.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-126c7638",
+              "name": "Directory-7df64f"
+            }
+          }
+        },
+        "id": "fallback-hit",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": "  user-126c7638\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-126c7638": [
+                null
+              ]
+            }
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-126c7638": [
+                null
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-126c7638"
+              ],
+              "symbol": "users.get_by_id"
+            },
+            {
+              "arguments": [
+                "user-126c7638"
+              ],
+              "symbol": "directory.get_by_id"
+            }
+          ],
+          "value": {
+            "error": "not_found_126c76386a7df64f"
+          }
+        },
+        "id": "fallback-miss",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "  user-126c7638\t"
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-126c7638": [
+                {
+                  "id": "user-126c7638",
+                  "name": "Local-7df64f"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-126c7638"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-126c7638",
+              "name": "Local-7df64f"
+            }
+          }
+        },
+        "id": "local-short-circuit",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": " \t "
+        },
+        "capabilities": {
+          "directory.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          },
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "invalid_input_126c76386a7df64f"
+          }
+        },
+        "id": "empty-short-circuit",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "capability_lookup_fallback",
+  "family_index": 19,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "After a local user miss, query the directory lazily with the normalized identifier; preserve local hits, empty-input rejection, and the existing miss error.",
+  "profile": {
+    "dimensions": {
+      "fallback_argument": "normalized",
+      "identifier_shape": "alphabetic",
+      "public_focus": "fallback_hit"
+    },
+    "profile_index": 4
+  },
+  "reference_patch": {
+    "base_program_sha256": "33f7ba6b9ba29955cad21127094fa82cfb5f8f8c44deff6120180aa90c2e3677",
+    "operations": [
+      {
+        "expected_subtree_sha256": "0542b8b48f4e1ba61009f9cb0a59ef4521f4855b6475e9d8a37cb9fe4738af90",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-126c76386a7df64f-fallback",
+        "replacement": {
+          "node_id": "node:fresh-126c76386a7df64f-user-match",
+          "none": {
+            "node_id": "node:fresh-126c76386a7df64f-directory-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-126c76386a7df64f-missing-code",
+                "op": "string",
+                "value": "not_found_126c76386a7df64f"
+              },
+              "node_id": "node:fresh-126c76386a7df64f-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-126c76386a7df64f-directory-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-126c76386a7df64f-directory-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-126c76386a7df64f-directory-user"
+              }
+            },
+            "some_binding": {
+              "name": "directoryUser",
+              "symbol_id": "local:fresh-126c76386a7df64f-directory-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-126c76386a7df64f-identifier-for-directory",
+                  "op": "var",
+                  "symbol_id": "local:fresh-126c76386a7df64f-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-126c76386a7df64f-get-directory-user",
+              "op": "call",
+              "symbol": "directory.get_by_id"
+            }
+          },
+          "op": "option_match",
+          "some": {
+            "node_id": "node:fresh-126c76386a7df64f-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:fresh-126c76386a7df64f-user-ref",
+              "op": "var",
+              "symbol_id": "local:fresh-126c76386a7df64f-user"
+            }
+          },
+          "some_binding": {
+            "name": "user",
+            "symbol_id": "local:fresh-126c76386a7df64f-user",
+            "type": "user"
+          },
+          "value": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-126c76386a7df64f-normalized-for-user",
+                "op": "var",
+                "symbol_id": "local:fresh-126c76386a7df64f-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-126c76386a7df64f-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id"
+          }
+        },
+        "target_node_id": "node:fresh-126c76386a7df64f-user-match"
+      }
+    ],
+    "patch_id": "patch:fresh-126c76386a7df64f",
+    "program_id": "program:fresh-126c76386a7df64f",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "declared_effects_after_patch": [
+      "db.read:users",
+      "network.read:directory"
+    ],
+    "fallback_argument": "normalized",
+    "lazy_fallback": true,
+    "ordered_capabilities": [
+      "users.get_by_id",
+      "directory.get_by_id"
+    ]
+  },
+  "semantic_signature_sha256": "ab4099fa1ac2d76bf8508cda828e2cbb31693f9e0bf0d57a94e1229b2604d772",
+  "slot_id": "capability_lookup_fallback-019"
+}

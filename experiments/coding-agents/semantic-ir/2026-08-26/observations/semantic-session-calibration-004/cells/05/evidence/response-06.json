@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Let me try with explicit context lines matching exactly:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -17,7 +17,12 @@\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.users.getById(rawId);\\n+            if (__semantic_ir_option_2 !== undefined) {\\n+              const userRaw: User = __semantic_ir_option_2;\\n+              return { ok: userRaw };\\n+            }\\n+            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_DRsBAkrhxrPj8w1w7L6IYD",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-2d7fc3769ad2acefc8dd4788",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 410,
+    "prompt_tokens": 4770,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5180
+  }
+}

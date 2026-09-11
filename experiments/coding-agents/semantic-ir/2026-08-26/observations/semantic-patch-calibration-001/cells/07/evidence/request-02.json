@@ -1,0 +1,588 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe following artifacts are your complete task context. You can inspect and mutate\nonly the ephemeral participant workspace through the provided tools. You have no\nshell, host-repository, hidden-evaluator, reference-solution, network, or browsing\naccess. Tool limits are enforced by the orchestrator. Hidden evaluation occurs once\nafter submission_finish and is never returned to you.\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/TASK.md\">\n# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/semantic-patch.md\">\n# Semantic patch mode\n\nInspect the base program, closed catalog, program schema, expression grammar,\nand semantic patch schema. Submit one checked semantic patch using only\n`replace_subtree`. The orchestrator applies it transactionally and derives any\nredundant canonical metadata before lowering.\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/base/program.json\">\n{\n  \"schema_version\": \"ai-experiments.semantic-ir.program/v1\",\n  \"program_id\": \"program:final-reserved-id-guard-001\",\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v1\",\n  \"function\": {\n    \"symbol_id\": \"fn:final-reserved-id-guard-001-lookup-user\",\n    \"name\": \"lookupGuardedUser\",\n    \"parameters\": [\n      {\n        \"symbol_id\": \"param:final-reserved-id-guard-001-raw-id\",\n        \"name\": \"rawId\",\n        \"type\": \"string\"\n      }\n    ],\n    \"return_type\": \"result<user,string>\",\n    \"effects\": [\n      \"db.read:users\"\n    ],\n    \"body\": {\n      \"node_id\": \"node:final-reserved-id-guard-001-normalize-let\",\n      \"op\": \"let\",\n      \"binding\": {\n        \"symbol_id\": \"local:final-reserved-id-guard-001-normalized-id\",\n        \"name\": \"normalizedId\",\n        \"type\": \"string\"\n      },\n      \"value\": {\n        \"node_id\": \"node:final-reserved-id-guard-001-trim\",\n        \"op\": \"call\",\n        \"symbol\": \"string.trim_ascii\",\n        \"arguments\": [\n          {\n            \"node_id\": \"node:final-reserved-id-guard-001-raw-id-ref\",\n            \"op\": \"var\",\n            \"symbol_id\": \"param:final-reserved-id-guard-001-raw-id\"\n          }\n        ]\n      },\n      \"then\": {\n        \"node_id\": \"node:final-reserved-id-guard-001-validity-if\",\n        \"op\": \"if\",\n        \"condition\": {\n          \"node_id\": \"node:final-reserved-id-guard-001-is-empty\",\n          \"op\": \"call\",\n          \"symbol\": \"string.is_empty\",\n          \"arguments\": [\n            {\n              \"node_id\": \"node:final-reserved-id-guard-001-normalized-ref-for-empty\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:final-reserved-id-guard-001-normalized-id\"\n            }\n          ]\n        },\n        \"then\": {\n          \"node_id\": \"node:final-reserved-id-guard-001-invalid-id\",\n          \"op\": \"err\",\n          \"error\": {\n            \"node_id\": \"node:final-reserved-id-guard-001-invalid-id-code\",\n            \"op\": \"string\",\n            \"value\": \"invalid_user_id\"\n          }\n        },\n        \"else\": {\n          \"node_id\": \"node:final-reserved-id-guard-001-user-match\",\n          \"op\": \"option_match\",\n          \"value\": {\n            \"node_id\": \"node:final-reserved-id-guard-001-get-user\",\n            \"op\": \"call\",\n            \"symbol\": \"users.get_by_id\",\n            \"arguments\": [\n              {\n                \"node_id\": \"node:final-reserved-id-guard-001-normalized-ref-for-lookup\",\n                \"op\": \"var\",\n                \"symbol_id\": \"local:final-reserved-id-guard-001-normalized-id\"\n              }\n            ]\n          },\n          \"some_binding\": {\n            \"symbol_id\": \"local:final-reserved-id-guard-001-user\",\n            \"name\": \"user\",\n            \"type\": \"user\"\n          },\n          \"none\": {\n            \"node_id\": \"node:final-reserved-id-guard-001-not-found\",\n            \"op\": \"err\",\n            \"error\": {\n              \"node_id\": \"node:final-reserved-id-guard-001-not-found-code\",\n              \"op\": \"string\",\n              \"value\": \"not_found\"\n            }\n          },\n          \"some\": {\n            \"node_id\": \"node:final-reserved-id-guard-001-found\",\n            \"op\": \"ok\",\n            \"value\": {\n              \"node_id\": \"node:final-reserved-id-guard-001-user-ref\",\n              \"op\": \"var\",\n              \"symbol_id\": \"local:final-reserved-id-guard-001-user\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/catalog.json\">\n{\n  \"catalog_version\": \"ai-experiments.semantic-ir.catalog/v1\",\n  \"symbols\": [\n    {\n      \"symbol\": \"string.trim_ascii\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"string\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"string.is_empty\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"boolean\",\n      \"effect\": null\n    },\n    {\n      \"symbol\": \"users.get_by_id\",\n      \"arguments\": [\n        \"string\"\n      ],\n      \"result\": \"option<user>\",\n      \"effect\": \"db.read:users\"\n    },\n    {\n      \"symbol\": \"string.equals\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"result\": \"boolean\",\n      \"effect\": null\n    }\n  ]\n}\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/program-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v1.schema.json\",\n  \"title\": \"Semantic IR construction slice v1\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"program_id\",\n    \"catalog_version\",\n    \"function\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.program/v1\"\n    },\n    \"program_id\": {\n      \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/semanticIdentifier\"\n    },\n    \"catalog_version\": {\n      \"const\": \"ai-experiments.semantic-ir.catalog/v1\"\n    },\n    \"function\": {\n      \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/function\"\n    }\n  }\n}\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/semantic-patch-schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/semantic-patch-v0.schema.json\",\n  \"title\": \"Transactional semantic patch v0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"patch_id\",\n    \"program_id\",\n    \"base_program_sha256\",\n    \"operations\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.patch/v0\"\n    },\n    \"patch_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"base_program_sha256\": {\n      \"$ref\": \"#/$defs/sha256\"\n    },\n    \"operations\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"$ref\": \"#/$defs/replaceSubtree\"\n      }\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"sha256\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[0-9a-f]{64}$\"\n    },\n    \"replaceSubtree\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"operation_id\",\n        \"op\",\n        \"target_node_id\",\n        \"expected_subtree_sha256\",\n        \"replacement\"\n      ],\n      \"properties\": {\n        \"operation_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"op\": {\n          \"const\": \"replace_subtree\"\n        },\n        \"target_node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"expected_subtree_sha256\": {\n          \"$ref\": \"#/$defs/sha256\"\n        },\n        \"replacement\": {\n          \"$ref\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json#/$defs/expression\"\n        }\n      }\n    }\n  }\n}\n</artifact>\n\n<artifact path=\"tasks/reserved-id-guard-001/participant-context/expression-grammar-v0.schema.json\">\n{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"$id\": \"https://gptcode.dev/schemas/semantic-ir/program-ir-v0.schema.json\",\n  \"title\": \"Semantic IR construction slice v0\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"required\": [\n    \"schema_version\",\n    \"program_id\",\n    \"catalog_version\",\n    \"function\"\n  ],\n  \"properties\": {\n    \"schema_version\": {\n      \"const\": \"ai-experiments.semantic-ir.program/v0\"\n    },\n    \"program_id\": {\n      \"$ref\": \"#/$defs/semanticIdentifier\"\n    },\n    \"catalog_version\": {\n      \"const\": \"ai-experiments.semantic-ir.catalog/v0\"\n    },\n    \"function\": {\n      \"$ref\": \"#/$defs/function\"\n    }\n  },\n  \"$defs\": {\n    \"semanticIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$\"\n    },\n    \"sourceIdentifier\": {\n      \"type\": \"string\",\n      \"pattern\": \"^[A-Za-z_$][A-Za-z0-9_$]*$\"\n    },\n    \"valueType\": {\n      \"enum\": [\n        \"string\",\n        \"boolean\",\n        \"user\",\n        \"option<user>\",\n        \"result<user,string>\"\n      ]\n    },\n    \"effect\": {\n      \"enum\": [\"db.read:users\"]\n    },\n    \"binding\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"$ref\": \"#/$defs/valueType\"\n        }\n      }\n    },\n    \"parameter\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\"symbol_id\", \"name\", \"type\"],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"type\": {\n          \"const\": \"string\"\n        }\n      }\n    },\n    \"function\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"required\": [\n        \"symbol_id\",\n        \"name\",\n        \"parameters\",\n        \"return_type\",\n        \"effects\",\n        \"body\"\n      ],\n      \"properties\": {\n        \"symbol_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        },\n        \"name\": {\n          \"$ref\": \"#/$defs/sourceIdentifier\"\n        },\n        \"parameters\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"items\": {\n            \"$ref\": \"#/$defs/parameter\"\n          }\n        },\n        \"return_type\": {\n          \"const\": \"result<user,string>\"\n        },\n        \"effects\": {\n          \"type\": \"array\",\n          \"uniqueItems\": true,\n          \"items\": {\n            \"$ref\": \"#/$defs/effect\"\n          }\n        },\n        \"body\": {\n          \"$ref\": \"#/$defs/expression\"\n        }\n      }\n    },\n    \"nodeHeader\": {\n      \"type\": \"object\",\n      \"required\": [\"node_id\", \"op\"],\n      \"properties\": {\n        \"node_id\": {\n          \"$ref\": \"#/$defs/semanticIdentifier\"\n        }\n      }\n    },\n    \"stringExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"string\"},\n            \"value\": {\"type\": \"string\"}\n          }\n        }\n      ]\n    },\n    \"variableExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol_id\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"var\"},\n            \"symbol_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"}\n          }\n        }\n      ]\n    },\n    \"callExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"symbol\", \"arguments\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"call\"},\n            \"symbol\": {\"type\": \"string\", \"minLength\": 1},\n            \"arguments\": {\n              \"type\": \"array\",\n              \"items\": {\"$ref\": \"#/$defs/expression\"}\n            }\n          }\n        }\n      ]\n    },\n    \"letExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"binding\", \"value\", \"then\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"let\"},\n            \"binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"ifExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"condition\", \"then\", \"else\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"if\"},\n            \"condition\": {\"$ref\": \"#/$defs/expression\"},\n            \"then\": {\"$ref\": \"#/$defs/expression\"},\n            \"else\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"optionMatchExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\n            \"node_id\",\n            \"op\",\n            \"value\",\n            \"some_binding\",\n            \"none\",\n            \"some\"\n          ],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"option_match\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"},\n            \"some_binding\": {\"$ref\": \"#/$defs/binding\"},\n            \"none\": {\"$ref\": \"#/$defs/expression\"},\n            \"some\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"okExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"value\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"ok\"},\n            \"value\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"errorExpression\": {\n      \"allOf\": [\n        {\"$ref\": \"#/$defs/nodeHeader\"},\n        {\n          \"type\": \"object\",\n          \"additionalProperties\": false,\n          \"required\": [\"node_id\", \"op\", \"error\"],\n          \"properties\": {\n            \"node_id\": {\"$ref\": \"#/$defs/semanticIdentifier\"},\n            \"op\": {\"const\": \"err\"},\n            \"error\": {\"$ref\": \"#/$defs/expression\"}\n          }\n        }\n      ]\n    },\n    \"expression\": {\n      \"oneOf\": [\n        {\"$ref\": \"#/$defs/stringExpression\"},\n        {\"$ref\": \"#/$defs/variableExpression\"},\n        {\"$ref\": \"#/$defs/callExpression\"},\n        {\"$ref\": \"#/$defs/letExpression\"},\n        {\"$ref\": \"#/$defs/ifExpression\"},\n        {\"$ref\": \"#/$defs/optionMatchExpression\"},\n        {\"$ref\": \"#/$defs/okExpression\"},\n        {\"$ref\": \"#/$defs/errorExpression\"}\n      ]\n    }\n  }\n}\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Inspect only what you need, submit candidate mutations through the assigned representation, use the public evaluator if useful, and call submission_finish when the candidate is final. Do not return source code, a diff, or semantic IR as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by inspecting the workspace and running the public evaluator to understand the current state.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_u68NMuxk6ha7ZqveO7a5Jm",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "evaluation_run_public"
+          },
+          "id": "tooluse_ozoUi7AVEGINEC9aToMmVR",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1726,\"path\":\"src/lookup-user.ts\",\"sha256\":\"6108b87a3ef6eace468c9b22c9d9516c329edf282f83ed69c6345fe9997bc0ac\"},{\"bytes\":845,\"path\":\"tests/public.test.ts\",\"sha256\":\"f5861f529b02d8f9b53e0fb00b9ead16e402937773df21fedb401f050a53dcd0\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_u68NMuxk6ha7ZqveO7a5Jm"
+    },
+    {
+      "content": "{\"classification\":\"product_failure\",\"exit_code\":1,\"passed\":false,\"stderr\":\"Check tests/public.test.ts\\nerror: Test failed\\n\",\"stdout\":\"running 2 tests from ./tests/public.test.ts\\nrejects normalized root before lookup ... FAILED (1ms)\\npreserves an ordinary local hit ... ok (0ms)\\n\\n ERRORS \\n\\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\\nerror: Error: expected {\\\"error\\\":\\\"reserved_user_id\\\"}, got {\\\"error\\\":\\\"not_found\\\"}\\n    throw new Error(\\n          ^\\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-patch-calibration-001/cells/07/workspace/tests/public.test.ts:5:11)\\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-patch-calibration-001/cells/07/workspace/tests/public.test.ts:14:3\\n\\n FAILURES \\n\\nrejects normalized root before lookup => ./tests/public.test.ts:11:6\\n\\nFAILED | 1 passed | 1 failed (4ms)\\n\\n\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_ozoUi7AVEGINEC9aToMmVR"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one checked semantic patch against the frozen persistent IR. Rejection leaves the candidate unchanged.",
+        "name": "semantic_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "$defs": {
+                "binding": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "$ref": "#/$defs/valueType"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "callExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "arguments": {
+                          "items": {
+                            "$ref": "#/$defs/expression"
+                          },
+                          "type": "array"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "call"
+                        },
+                        "symbol": {
+                          "minLength": 1,
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol",
+                        "arguments"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "effect": {
+                  "enum": [
+                    "db.read:users"
+                  ]
+                },
+                "errorExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "error": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "err"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "error"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "expression": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/stringExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/variableExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/callExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/letExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/ifExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/optionMatchExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/okExpression"
+                    },
+                    {
+                      "$ref": "#/$defs/errorExpression"
+                    }
+                  ]
+                },
+                "function": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "body": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "effects": {
+                      "items": {
+                        "$ref": "#/$defs/effect"
+                      },
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "parameters": {
+                      "items": {
+                        "$ref": "#/$defs/parameter"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "return_type": {
+                      "const": "result<user,string>"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "parameters",
+                    "return_type",
+                    "effects",
+                    "body"
+                  ],
+                  "type": "object"
+                },
+                "ifExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "condition": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "else": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "if"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "condition",
+                        "then",
+                        "else"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "letExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "let"
+                        },
+                        "then": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "binding",
+                        "value",
+                        "then"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "nodeHeader": {
+                  "properties": {
+                    "node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "node_id",
+                    "op"
+                  ],
+                  "type": "object"
+                },
+                "okExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "ok"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "optionMatchExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "none": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "op": {
+                          "const": "option_match"
+                        },
+                        "some": {
+                          "$ref": "#/$defs/expression"
+                        },
+                        "some_binding": {
+                          "$ref": "#/$defs/binding"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/expression"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value",
+                        "some_binding",
+                        "none",
+                        "some"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "parameter": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/$defs/sourceIdentifier"
+                    },
+                    "symbol_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "type": {
+                      "const": "string"
+                    }
+                  },
+                  "required": [
+                    "symbol_id",
+                    "name",
+                    "type"
+                  ],
+                  "type": "object"
+                },
+                "replaceSubtree": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "expected_subtree_sha256": {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    "op": {
+                      "const": "replace_subtree"
+                    },
+                    "operation_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    },
+                    "replacement": {
+                      "$ref": "#/$defs/expression"
+                    },
+                    "target_node_id": {
+                      "$ref": "#/$defs/semanticIdentifier"
+                    }
+                  },
+                  "required": [
+                    "operation_id",
+                    "op",
+                    "target_node_id",
+                    "expected_subtree_sha256",
+                    "replacement"
+                  ],
+                  "type": "object"
+                },
+                "semanticIdentifier": {
+                  "pattern": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "sourceIdentifier": {
+                  "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+                  "type": "string"
+                },
+                "stringExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "valueType": {
+                  "enum": [
+                    "string",
+                    "boolean",
+                    "user",
+                    "option<user>",
+                    "result<user,string>"
+                  ]
+                },
+                "variableExpression": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/nodeHeader"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "node_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        },
+                        "op": {
+                          "const": "var"
+                        },
+                        "symbol_id": {
+                          "$ref": "#/$defs/semanticIdentifier"
+                        }
+                      },
+                      "required": [
+                        "node_id",
+                        "op",
+                        "symbol_id"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                }
+              },
+              "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-patch-v0.schema.json",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "additionalProperties": false,
+              "properties": {
+                "base_program_sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "operations": {
+                  "items": {
+                    "$ref": "#/$defs/replaceSubtree"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "patch_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "program_id": {
+                  "$ref": "#/$defs/semanticIdentifier"
+                },
+                "schema_version": {
+                  "const": "ai-experiments.semantic-ir.patch/v0"
+                }
+              },
+              "required": [
+                "schema_version",
+                "patch_id",
+                "program_id",
+                "base_program_sha256",
+                "operations"
+              ],
+              "title": "Transactional semantic patch v0",
+              "type": "object"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/final-patch-task-v0.schema.json",
+  "title": "Sealed matched patch task v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "instance_id",
+    "candidate_task_id",
+    "candidate_task_sha256",
+    "participant_objective",
+    "stratum",
+    "size_band",
+    "repository_path",
+    "editable_paths",
+    "submission_modes",
+    "participant_visible_paths",
+    "mode_context_paths",
+    "final_semantic_disposition",
+    "semantic_backend",
+    "contract_dependencies",
+    "evaluators",
+    "references",
+    "runtime",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.final-patch-task/v0"
+    },
+    "instance_id": {"$ref": "#/$defs/identifier"},
+    "candidate_task_id": {"$ref": "#/$defs/identifier"},
+    "candidate_task_sha256": {"$ref": "#/$defs/sha256"},
+    "participant_objective": {"type": "string", "minLength": 1},
+    "stratum": {
+      "enum": [
+        "local_literal",
+        "dataflow",
+        "control_flow",
+        "effect",
+        "repository_scope"
+      ]
+    },
+    "size_band": {"enum": ["small", "medium", "large"]},
+    "repository_path": {"const": "repository"},
+    "editable_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "submission_modes": {
+      "const": ["source_patch", "semantic_patch"]
+    },
+    "participant_visible_paths": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "mode_context_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["common", "source_patch", "semantic_patch"],
+      "properties": {
+        "common": {"$ref": "#/$defs/relativePath"},
+        "source_patch": {"$ref": "#/$defs/relativePath"},
+        "semantic_patch": {"$ref": "#/$defs/relativePath"},
+        "catalog": {"$ref": "#/$defs/relativePath"},
+        "program_schema": {"$ref": "#/$defs/relativePath"},
+        "patch_schema": {"$ref": "#/$defs/relativePath"}
+      }
+    },
+    "final_semantic_disposition": {
+      "enum": ["supported", "unsupported"]
+    },
+    "semantic_backend": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "version",
+            "base_program_path",
+            "base_program_sha256",
+            "program_id",
+            "target_path"
+          ],
+          "properties": {
+            "version": {"enum": ["v0", "v1", "v2"]},
+            "base_program_path": {"$ref": "#/$defs/relativePath"},
+            "base_program_sha256": {"$ref": "#/$defs/sha256"},
+            "program_id": {"type": "string", "minLength": 1},
+            "target_path": {"$ref": "#/$defs/relativePath"}
+          }
+        }
+      ]
+    },
+    "contract_dependencies": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"$ref": "#/$defs/relativePath"},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "evaluators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public", "hidden", "hidden_sha256", "subject_path"],
+      "properties": {
+        "public": {"$ref": "#/$defs/relativePath"},
+        "hidden": {"$ref": "#/$defs/relativePath"},
+        "hidden_sha256": {"$ref": "#/$defs/sha256"},
+        "subject_path": {"$ref": "#/$defs/relativePath"}
+      }
+    },
+    "references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_patch",
+        "semantic_patch",
+        "semantic_unsupported",
+        "rejected_source_patch"
+      ],
+      "properties": {
+        "source_patch": {"$ref": "#/$defs/relativePath"},
+        "semantic_patch": {
+          "type": ["string", "null"],
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+        },
+        "semantic_unsupported": {
+          "type": ["string", "null"],
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+        },
+        "rejected_source_patch": {"$ref": "#/$defs/relativePath"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "version", "timeout_seconds", "network"],
+      "properties": {
+        "command": {"const": "deno"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 60},
+        "network": {"const": "denied"}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participant_tree_excludes_hidden_and_references",
+        "same_instance_for_both_arms",
+        "model_calls_authorized"
+      ],
+      "properties": {
+        "participant_tree_excludes_hidden_and_references": {"const": true},
+        "same_instance_for_both_arms": {"const": true},
+        "model_calls_authorized": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:[/:][a-z0-9-]+)+$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

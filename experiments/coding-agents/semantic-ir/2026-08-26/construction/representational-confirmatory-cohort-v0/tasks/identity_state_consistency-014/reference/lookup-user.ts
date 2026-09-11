@@ -1,0 +1,26 @@
+// Generated deterministically from semantic IR. Do not edit.
+export type User = Readonly<{ id: string; name: string }>;
+export type Result<T, E> = { ok: T } | { error: E };
+export type SemanticCapabilities = Readonly<{
+  users: Readonly<{ getById(id: string): User | undefined }>;
+}>;
+
+export function resolveUserA2a6f26977e4233a3(
+  rawId: string, capabilities: SemanticCapabilities
+): Result<User, string> {
+  return /* ir:node:fresh-2a6f26977e4233a3-body */ (() => {
+    const normalizedId: string = /* ir:node:fresh-2a6f26977e4233a3-normalizer */ (/* ir:node:fresh-2a6f26977e4233a3-raw-for-normalizer */ rawId).replace(/^[\t\n\v\f\r ]+|[\t\n\v\f\r ]+$/g, "");
+    return /* ir:node:fresh-2a6f26977e4233a3-validation */ (/* ir:node:fresh-2a6f26977e4233a3-is-empty */ (/* ir:node:fresh-2a6f26977e4233a3-normalized-for-empty */ normalizedId).length === 0)
+      ? (/* ir:node:fresh-2a6f26977e4233a3-invalid */ { error: /* ir:node:fresh-2a6f26977e4233a3-invalid-code */ "invalid_input_2a6f26977e4233a3" })
+      : (/* ir:node:fresh-2a6f26977e4233a3-user-match */ (/* ir:node:fresh-2a6f26977e4233a3-reserved-equals */ (/* ir:node:fresh-2a6f26977e4233a3-normalized-for-reserved */ normalizedId) === (/* ir:node:fresh-2a6f26977e4233a3-reserved-literal */ "reserved-2a6f2697"))
+          ? (/* ir:node:fresh-2a6f26977e4233a3-reserved-error */ { error: /* ir:node:fresh-2a6f26977e4233a3-reserved-error-code */ "reserved_identifier_2a6f2697" })
+          : (/* ir:node:fresh-2a6f26977e4233a3-user-match-after-guard */ (() => {
+              const __semantic_ir_option_1 = /* ir:node:fresh-2a6f26977e4233a3-get-user */ capabilities.users.getById(/* ir:node:fresh-2a6f26977e4233a3-normalized-for-user */ normalizedId);
+              if (__semantic_ir_option_1 === undefined) {
+                return /* ir:node:fresh-2a6f26977e4233a3-missing */ { error: /* ir:node:fresh-2a6f26977e4233a3-missing-code */ "not_found_2a6f26977e4233a3" };
+              }
+              const user: User = __semantic_ir_option_1;
+              return /* ir:node:fresh-2a6f26977e4233a3-found */ { ok: /* ir:node:fresh-2a6f26977e4233a3-user-ref */ user };
+            })()));
+  })();
+}

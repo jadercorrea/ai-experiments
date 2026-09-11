@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-working-set-state-v1.schema.json",
+  "title": "Coding-agent semantic working-set state v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "cell_id", "arm", "next_turn", "namespaces",
+    "workspace", "context_reads", "semantic_capability_index",
+    "semantic_working_set", "working_set_policy", "errors", "evaluations",
+    "submissions", "counters"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.semantic-working-set-state/v1"
+    },
+    "cell_id": {"type": "string", "minLength": 1},
+    "arm": {"const": "semantic"},
+    "next_turn": {"type": "integer", "minimum": 1, "maximum": 12},
+    "namespaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "workspace", "semantic_handles"],
+      "properties": {
+        "context": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "workspace": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "semantic_handles": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^n[0-9]+$"}
+        }
+      }
+    },
+    "workspace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "bytes", "sha256", "content"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "content": {"type": "string"}
+        }
+      }
+    },
+    "context_reads": {"type": "array", "items": {"type": "object"}},
+    "semantic_capability_index": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "handle", "node_id", "op", "parent", "scope", "slot",
+          "state_token", "target_token"
+        ],
+        "properties": {
+          "handle": {"type": "string", "pattern": "^n[0-9]+$"},
+          "node_id": {"type": "string", "minLength": 1},
+          "op": {"type": "string", "minLength": 1},
+          "parent": {"type": ["string", "null"]},
+          "scope": {"type": "array"},
+          "slot": {"type": ["string", "null"]},
+          "state_token": {"type": "string", "minLength": 1},
+          "target_token": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "semantic_working_set": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["handle", "subtree"],
+        "properties": {
+          "handle": {"type": "string", "pattern": "^n[0-9]+$"},
+          "subtree": {"type": "object"}
+        }
+      }
+    },
+    "working_set_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capacity", "replacement", "fault_trigger", "resident_handles",
+        "refetches", "refetched_targets", "evictions",
+        "unsatisfied_submissions"
+      ],
+      "properties": {
+        "capacity": {"type": "integer", "minimum": 1},
+        "replacement": {"const": "lru"},
+        "fault_trigger": {"const": "current_submit_target_miss"},
+        "resident_handles": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^n[0-9]+$"}
+        },
+        "refetches": {"type": "integer", "minimum": 0},
+        "refetched_targets": {"type": "integer", "minimum": 0},
+        "evictions": {"type": "integer", "minimum": 0},
+        "unsatisfied_submissions": {"type": "integer", "minimum": 0}
+      }
+    },
+    "errors": {"type": "array", "maxItems": 8, "items": {"type": "object"}},
+    "evaluations": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "submissions": {"type": "array", "maxItems": 1, "items": {"type": "object"}},
+    "counters": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

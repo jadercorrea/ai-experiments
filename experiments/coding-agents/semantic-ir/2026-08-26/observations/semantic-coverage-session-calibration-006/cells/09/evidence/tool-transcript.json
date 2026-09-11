@@ -1,0 +1,314 @@
+[
+  {
+    "automatic_refetches": [],
+    "request_sha256": "1435c9d4b6a34f8ac0f7f66c213e7979057a0e3ed776825afcd0b49dfb6d6e41",
+    "response_sha256": "e558525cc8938abf4dbc0d7b09f7398df04b9dcdb63c59fb4fcadf65b410ef4b",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1819,
+              "path": "src/lookup-user.ts",
+              "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+            },
+            {
+              "bytes": 942,
+              "path": "tests/public.test.ts",
+              "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_5aRRaIBJeR7dYV3RuA7Xv4"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 258,
+              "handle": "context://mode",
+              "path": "tasks/directory-fallback-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b"
+            },
+            {
+              "bytes": 298,
+              "handle": "context://task",
+              "path": "tasks/directory-fallback-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mO9wgnnG8fVcl3mALD5cDX"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "4782aedcaa9b97119078a294a2344b148516f831d3d3bce662cea7a1e6266921",
+    "response_sha256": "cbc038f290fe120e025cec2d3689600720607ad40252c2f574b4397d9aca1bc7",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_BKfldiSZSsmfMbA4M7O6u1"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_a09pVOhTMjqCBbwUs4VBgX"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "640b580f7781da30160f4bfdbe7afddf7470b5bc3686512b44f235a2e39c4cdb",
+    "response_sha256": "0873e390fb1792ff309115c74bc97a441185dc131994b8af3f49a5cc3a0288c3",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_MW8HPqLiI8NGYKPEAIhe70"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "7573277a9cf148e37633c70b72d277ec12979d3e4d24d507df1969560b0628ff",
+    "response_sha256": "05c5b01a28481f84cf34dedaa6d0a51a687d5b14e3b62294f790266139e75a71",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_GTAgAXoUSRdmQfKCDUW8qY"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "d57be86ce5b99056c6d4cb761b23b9134ed85dfd46b043c71ce1112bc283ec59",
+    "response_sha256": "280806be25fd65815c56d2d9e657324663461d6bfea505de9fdba4854ab5be9a",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 13"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_zx3CG1YnIHL09QJhM1O05x"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "29364cdf73fa5bb9c21a26822da2bfd7868e772342055a0567bf43304c3500a8",
+    "response_sha256": "2671be28857bb2a3d9be198e3007cba7fd69dfcdfaaba0d1148350accddfbd22",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_3LViwyDgS1qTK2bbSaCOvj"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_47CqZsBz6izDRgFBfHFZ7I"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "5611caee5eea001bc788e36dea203ca52996bcb2bc180ac18682803d4212e792",
+    "response_sha256": "45fd6f97794e1707c4ec7216dabe5271255455bcf582e5f0c0b103f90cd977de",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_7P3iDAzJo1zm3oDTkrRAjs"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Iapt53qXDI0HpJCinfLo7o"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "b3c043d15978e8282ad4949285e1e648244410d44fd9a2126706374a74f95c82",
+    "response_sha256": "07aeaecdb330b33fdc644961b323ad0baa173aa5fd2322ccbbb34ff4743aadeb",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_kAEQkQgEjIp9RcwW4Hv4Ml"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_4M4yzsfHEGHSoyOYXHn9iD"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "6404d624e9258516034655b7d75e040d28b4e4c87f0d071a705951c4ebab8709",
+    "response_sha256": "e0380164f90bfc6adac5d332d788edbd8344634c3cf9981368584b95435b9d49",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mcB4Sm6lOPQi62aM9tMYOL"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_FIkBbAsUb6rFVLSqdHbkAQ"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "b94131aba78439d757194437da38f779e2c7265c732785ffdd218e3fe767e731",
+    "response_sha256": "a8bfb397cec58f3027390be26e68ee69735edb0d40da14faa2eb625f2c12a9eb",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_kqWk43AF3X1MlRvJ4AFtsg"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_oPzLa2l3gcFM6eD5kqC65U"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "16e0798d42f8ca7339b5baa62af92a94306ae5a795e3610ca122302565e98b5d",
+    "response_sha256": "d979aa14b7af4504689590e85cec0982c41aca83edcd3ba9c9895009225d3b50",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_PeeAg7EbuYP0sCzwht0TMp"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_5Cnd1kpw38Vzo8KXDgoQY6"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "automatic_refetches": [],
+    "request_sha256": "8e5c0047b550ce9d9ac146ea56763db4ad3380b9e0dd400b1e5c7ff674fcc17f",
+    "response_sha256": "ed6e7fa7b46e5265c721ad15ecee9031cfac6d92606b450efbf730786335052b",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithDirectory(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-directory-fallback-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-directory-fallback-001-trim */ (/* ir:node:session-v3-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-directory-fallback-001-validity-if */ (/* ir:node:session-v3-directory-fallback-001-is-empty */ (/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-directory-fallback-001-invalid-id */ { error: /* ir:node:session-v3-directory-fallback-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-directory-fallback-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-directory-fallback-001-not-found */ { error: /* ir:node:session-v3-directory-fallback-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-directory-fallback-001-found */ { ok: /* ir:node:session-v3-directory-fallback-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "55e9cba5b372853b597ffab03557fb317653aa62b326c74bb31ad2766a2d06fc"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_hZX3QtsFg3BVXK0ltLo5Ke"
+      },
+      {
+        "result": {
+          "content": "import { executeWithDirectory } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"returns a directory hit after local miss\", () => {\n  const capabilities = {\n    users: { getById(_id: string) { return undefined; } },\n    directory: { getById(id: string) { return { id, name: \"Directory\" }; } },\n  };\n  assertEquals(executeWithDirectory(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Directory\" } });\n});\n\nDeno.test(\"preserves a local hit\", () => {\n  const capabilities = {\n    users: { getById(id: string) { return { id, name: \"Local\" }; } },\n    directory: { getById(_id: string) { return undefined; } },\n  };\n  assertEquals(executeWithDirectory(\"42\", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "996d27814540f446990d528ca3264c40379f8bc4440d798b7633b74dd49c005e"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_tFAy5hzPwWI34xoGqWk1Rx"
+      }
+    ],
+    "turn": 12
+  }
+]

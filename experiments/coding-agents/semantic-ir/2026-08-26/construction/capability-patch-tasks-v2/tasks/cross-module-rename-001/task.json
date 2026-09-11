@@ -1,0 +1,68 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.final-patch-task/v0",
+  "instance_id": "semantic-ir-capability-v2/cross-module-rename-001",
+  "candidate_task_id": "semantic-patch-suite/cross-module-rename-001",
+  "candidate_task_sha256": "0994287b3f433073ceef1e9cff4f1c4bd222129178114140ee9717249f567c3e",
+  "participant_objective": "Rename a public lookup contract and migrate its callers and export map without changing runtime behavior.",
+  "stratum": "repository_scope",
+  "size_band": "large",
+  "repository_path": "repository",
+  "editable_paths": [
+    "src/contracts.ts",
+    "src/lookup-user.ts",
+    "src/mod.ts"
+  ],
+  "submission_modes": [
+    "source_patch",
+    "semantic_patch"
+  ],
+  "participant_visible_paths": [
+    "participant-context/TASK.md",
+    "participant-context/source-patch.md",
+    "participant-context/semantic-patch.md"
+  ],
+  "mode_context_paths": {
+    "common": "participant-context/TASK.md",
+    "source_patch": "participant-context/source-patch.md",
+    "semantic_patch": "participant-context/semantic-patch.md"
+  },
+  "final_semantic_disposition": "unsupported",
+  "semantic_backend": null,
+  "contract_dependencies": [
+    {
+      "path": "protocol/final-patch-task-v0.schema.json",
+      "sha256": "66c706aba9e2f79b595f3d40c525d4e9d28aded6fc980f9e450c52f6eaf9f6b6"
+    },
+    {
+      "path": "scripts/semantic_final_task.py",
+      "sha256": "5c04c4e68d4f11b3d8a1c9be5e782388011a53c4645dbeb5f96ff982e75f3dec"
+    },
+    {
+      "path": "scripts/build_final_task_suite.py",
+      "sha256": "eb9b6bf8d9d07ebfb6774ff79652c95468d887908bc937f28f0c0e94da4b1d5c"
+    }
+  ],
+  "evaluators": {
+    "public": "tests/public.test.ts",
+    "hidden": "evaluator/hidden.test.ts",
+    "hidden_sha256": "6cb7b7d9a74c8f2487e4a095f40e2547681c85c193cdb8bc6efd6ec6b30d7425",
+    "subject_path": "src/mod.ts"
+  },
+  "references": {
+    "source_patch": "reference/source.patch",
+    "semantic_patch": null,
+    "semantic_unsupported": "reference/semantic-unsupported.json",
+    "rejected_source_patch": "reference/rejected-public-only.source.patch"
+  },
+  "runtime": {
+    "command": "deno",
+    "version": "2.7.13",
+    "timeout_seconds": 10,
+    "network": "denied"
+  },
+  "claim_boundary": {
+    "participant_tree_excludes_hidden_and_references": true,
+    "same_instance_for_both_arms": true,
+    "model_calls_authorized": false
+  }
+}

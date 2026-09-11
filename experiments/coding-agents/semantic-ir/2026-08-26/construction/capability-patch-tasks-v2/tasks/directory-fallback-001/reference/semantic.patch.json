@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-patch/v1",
+  "patch_id": "patch:capability-v2-directory-fallback-001",
+  "program_id": "program:capability-v2-directory-fallback-001",
+  "state_token": "cap:v1:state:620cc47d9bb96851393d480d05404ff1",
+  "operations": [
+    {
+      "operation_id": "operation:final-directory-fallback",
+      "op": "replace_subtree",
+      "target_node_id": "node:capability-v2-directory-fallback-001-user-match",
+      "target_token": "cap:v1:target:51c6cd572a72b8c1c820d1087dd06dd7",
+      "replacement": {
+        "node_id": "node:capability-v2-directory-fallback-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:capability-v2-directory-fallback-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:capability-v2-directory-fallback-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:capability-v2-directory-fallback-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:capability-v2-directory-fallback-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:capability-v2-directory-fallback-001-directory-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:capability-v2-directory-fallback-001-get-directory-user",
+            "op": "call",
+            "symbol": "directory.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:capability-v2-directory-fallback-001-normalized-ref-for-directory",
+                "op": "var",
+                "symbol_id": "local:capability-v2-directory-fallback-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:capability-v2-directory-fallback-001-directory-user",
+            "name": "directoryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:capability-v2-directory-fallback-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:capability-v2-directory-fallback-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:capability-v2-directory-fallback-001-directory-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:capability-v2-directory-fallback-001-directory-user-ref",
+              "op": "var",
+              "symbol_id": "local:capability-v2-directory-fallback-001-directory-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:capability-v2-directory-fallback-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:capability-v2-directory-fallback-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:capability-v2-directory-fallback-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

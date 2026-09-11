@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.patch/v0",
+  "patch_id": "patch:context-v1-reserved-id-guard-001",
+  "program_id": "program:context-v1-reserved-id-guard-001",
+  "base_program_sha256": "92235734f62393dfffcb2d16fa904ef78ba074d2dfec4efbaefb85a3038782c5",
+  "operations": [
+    {
+      "operation_id": "operation:final-reserved-identifier-guard",
+      "op": "replace_subtree",
+      "target_node_id": "node:context-v1-reserved-id-guard-001-user-match",
+      "expected_subtree_sha256": "4182cba785dd3b2039f193355f54b9739743e69e8263c9c6ab1febd67209a11c",
+      "replacement": {
+        "node_id": "node:context-v1-reserved-id-guard-001-user-match",
+        "op": "if",
+        "condition": {
+          "node_id": "node:context-v1-reserved-id-guard-001-reserved-id-equals",
+          "op": "call",
+          "symbol": "string.equals",
+          "arguments": [
+            {
+              "node_id": "node:context-v1-reserved-id-guard-001-normalized-ref-for-reserved",
+              "op": "var",
+              "symbol_id": "local:context-v1-reserved-id-guard-001-normalized-id"
+            },
+            {
+              "node_id": "node:context-v1-reserved-id-guard-001-reserved-id-literal",
+              "op": "string",
+              "value": "root"
+            }
+          ]
+        },
+        "then": {
+          "node_id": "node:context-v1-reserved-id-guard-001-reserved-error",
+          "op": "err",
+          "error": {
+            "node_id": "node:context-v1-reserved-id-guard-001-reserved-error-code",
+            "op": "string",
+            "value": "reserved_user_id"
+          }
+        },
+        "else": {
+          "node_id": "node:context-v1-reserved-id-guard-001-user-match-after-guard",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:context-v1-reserved-id-guard-001-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:context-v1-reserved-id-guard-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:context-v1-reserved-id-guard-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:context-v1-reserved-id-guard-001-user",
+            "name": "user",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:context-v1-reserved-id-guard-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:context-v1-reserved-id-guard-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:context-v1-reserved-id-guard-001-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:context-v1-reserved-id-guard-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:context-v1-reserved-id-guard-001-user"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2538 @@
+{
+  "arm": "semantic",
+  "candidate_task_id": "semantic-patch-suite/raw-id-retry-001",
+  "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+  "schema_version": "ai-experiments.semantic-ir.session-state-replay-cell/v1",
+  "turns": [
+    {
+      "compacted_request": {
+        "bytes": 3590,
+        "message_count": 2,
+        "sha256": "7583f3ab3fecf469e146da34f00a2cd703a5e6908bc4e2a9f43b168bd8b4630a"
+      },
+      "original_request": {
+        "bytes": 3590,
+        "message_count": 2,
+        "sha256": "7583f3ab3fecf469e146da34f00a2cd703a5e6908bc4e2a9f43b168bd8b4630a"
+      },
+      "replay": {
+        "exact_action_matches": 2,
+        "exact_result_match": true,
+        "expected_results_sha256": "5a7672afa47082d700c6c1449c4de1a374011845612a34a18df221901d5e240c",
+        "mismatch": null,
+        "replayed_results_sha256": "5a7672afa47082d700c6c1449c4de1a374011845612a34a18df221901d5e240c",
+        "tool_actions": 2
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {},
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 12,
+          "tool_calls": 0,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 1,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 1
+    },
+    {
+      "compacted_request": {
+        "bytes": 16192,
+        "message_count": 3,
+        "sha256": "510d384ce753f95eb65e63009ad9dae22d663d05a4fe1dafd93fdf896b529082"
+      },
+      "original_request": {
+        "bytes": 12588,
+        "message_count": 5,
+        "sha256": "e8993ee1008a24e17d63cffcdee89b207ede76b483b911769f9a096b6078ec20"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "42f1a814406b6d7da4d9f82132d2fd51e6b141eb3e7861f32bf55517de4a58a4",
+        "mismatch": null,
+        "replayed_results_sha256": "42f1a814406b6d7da4d9f82132d2fd51e6b141eb3e7861f32bf55517de4a58a4",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "I": 1
+          },
+          "mutation_attempts": 0,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 3,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 11,
+          "tool_calls": 2,
+          "validation_failures": {}
+        },
+        "errors": [],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 2,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [
+          {
+            "handle": "n0",
+            "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+            "op": "let",
+            "parent": null,
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ]
+            ],
+            "slot": "body",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "binding": {
+                "name": "normalizedId",
+                "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                "type": "string"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "then": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              }
+            },
+            "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+          },
+          {
+            "handle": "n11",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found",
+            "op": "err",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "none",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "error": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err"
+            },
+            "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+          },
+          {
+            "handle": "n12",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+            "op": "string",
+            "parent": "n11",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "error",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            },
+            "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+          },
+          {
+            "handle": "n13",
+            "node_id": "node:session-v3-raw-id-retry-001-found",
+            "op": "ok",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "some",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              }
+            },
+            "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+          },
+          {
+            "handle": "n14",
+            "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+            "op": "var",
+            "parent": "n13",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "value",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-raw-id-retry-001-user"
+            },
+            "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+          },
+          {
+            "handle": "n3",
+            "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+            "op": "if",
+            "parent": "n0",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "then",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "condition": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "else": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "then": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                "op": "err"
+              }
+            },
+            "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+          },
+          {
+            "handle": "n8",
+            "node_id": "node:session-v3-raw-id-retry-001-user-match",
+            "op": "option_match",
+            "parent": "n3",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "else",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "none": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+          }
+        ],
+        "submissions": [],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 2
+    },
+    {
+      "compacted_request": {
+        "bytes": 16712,
+        "message_count": 3,
+        "sha256": "767806f831dd7db854a530fb550d0fc08c4ccfaacde1366fbdb410c00fa2f76d"
+      },
+      "original_request": {
+        "bytes": 14253,
+        "message_count": 7,
+        "sha256": "ad078eba21e65e985b2f92f7114fc703a1dd171b228f0b2fdaa9ad5fb2bbf714"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "f20a5ef686b76b65db47b866ba06f172d0e44297199ac4ea978da1f5e37963f1",
+        "mismatch": null,
+        "replayed_results_sha256": "f20a5ef686b76b65db47b866ba06f172d0e44297199ac4ea978da1f5e37963f1",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "I": 1,
+            "S": 1
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 10,
+          "tool_calls": 3,
+          "validation_failures": {
+            "semantic_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "semantic_patch_rejected",
+            "count": 1,
+            "last_turn": 2,
+            "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 3,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [
+          {
+            "handle": "n0",
+            "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+            "op": "let",
+            "parent": null,
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ]
+            ],
+            "slot": "body",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "binding": {
+                "name": "normalizedId",
+                "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                "type": "string"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "then": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              }
+            },
+            "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+          },
+          {
+            "handle": "n11",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found",
+            "op": "err",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "none",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "error": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err"
+            },
+            "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+          },
+          {
+            "handle": "n12",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+            "op": "string",
+            "parent": "n11",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "error",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            },
+            "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+          },
+          {
+            "handle": "n13",
+            "node_id": "node:session-v3-raw-id-retry-001-found",
+            "op": "ok",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "some",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              }
+            },
+            "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+          },
+          {
+            "handle": "n14",
+            "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+            "op": "var",
+            "parent": "n13",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "value",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-raw-id-retry-001-user"
+            },
+            "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+          },
+          {
+            "handle": "n3",
+            "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+            "op": "if",
+            "parent": "n0",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "then",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "condition": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "else": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "then": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                "op": "err"
+              }
+            },
+            "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+          },
+          {
+            "handle": "n8",
+            "node_id": "node:session-v3-raw-id-retry-001-user-match",
+            "op": "option_match",
+            "parent": "n3",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "else",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "none": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+          }
+        ],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "semantic_patch_rejected",
+              "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+            },
+            "turn": 2
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 3
+    },
+    {
+      "compacted_request": {
+        "bytes": 17332,
+        "message_count": 3,
+        "sha256": "b390234ee39f26d5cc29d3f7073e38a1423aa3973007d111e654ada059acf1e5"
+      },
+      "original_request": {
+        "bytes": 15131,
+        "message_count": 9,
+        "sha256": "2bb4a7f892741fd016486099326c7641df211ad57338fa6a6a9dbfdd61018365"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "78d28b5d0ee9ee9c6e0de7a2dc4e20b7df5d137dfdb944559496dc0194d9e660",
+        "mismatch": null,
+        "replayed_results_sha256": "78d28b5d0ee9ee9c6e0de7a2dc4e20b7df5d137dfdb944559496dc0194d9e660",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [
+          {
+            "bytes": 365,
+            "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+            "handle": "context://mode",
+            "path": "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+            "role": "mode",
+            "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "I": 1,
+            "R": 1,
+            "S": 1
+          },
+          "mutation_attempts": 1,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 2,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 9,
+          "tool_calls": 4,
+          "validation_failures": {
+            "semantic_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "semantic_patch_rejected",
+            "count": 1,
+            "last_turn": 2,
+            "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 4,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [
+          {
+            "handle": "n0",
+            "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+            "op": "let",
+            "parent": null,
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ]
+            ],
+            "slot": "body",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "binding": {
+                "name": "normalizedId",
+                "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                "type": "string"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "then": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              }
+            },
+            "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+          },
+          {
+            "handle": "n11",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found",
+            "op": "err",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "none",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "error": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err"
+            },
+            "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+          },
+          {
+            "handle": "n12",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+            "op": "string",
+            "parent": "n11",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "error",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            },
+            "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+          },
+          {
+            "handle": "n13",
+            "node_id": "node:session-v3-raw-id-retry-001-found",
+            "op": "ok",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "some",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              }
+            },
+            "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+          },
+          {
+            "handle": "n14",
+            "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+            "op": "var",
+            "parent": "n13",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "value",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-raw-id-retry-001-user"
+            },
+            "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+          },
+          {
+            "handle": "n3",
+            "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+            "op": "if",
+            "parent": "n0",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "then",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "condition": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "else": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "then": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                "op": "err"
+              }
+            },
+            "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+          },
+          {
+            "handle": "n8",
+            "node_id": "node:session-v3-raw-id-retry-001-user-match",
+            "op": "option_match",
+            "parent": "n3",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "else",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "none": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+          }
+        ],
+        "submissions": [
+          {
+            "accepted": false,
+            "result": {
+              "accepted": false,
+              "classification": "semantic_patch_rejected",
+              "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'"
+            },
+            "turn": 2
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 1725,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 4
+    },
+    {
+      "compacted_request": {
+        "bytes": 17748,
+        "message_count": 3,
+        "sha256": "1794efeadca95cdbbe2f5ac291edf131a07a5a838b55f91d4ea80a4c4355fe29"
+      },
+      "original_request": {
+        "bytes": 16518,
+        "message_count": 11,
+        "sha256": "3a3501f0c771be2b1c6e7c2375c0be3214b62e183dae155ad0beeb2487d33d46"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "c8281cca158c09c4b6660c5768e6a6c14c0d28a1dcf4101f98fcecd78f1c0fa0",
+        "mismatch": null,
+        "replayed_results_sha256": "c8281cca158c09c4b6660c5768e6a6c14c0d28a1dcf4101f98fcecd78f1c0fa0",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [
+          {
+            "bytes": 365,
+            "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+            "handle": "context://mode",
+            "path": "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+            "role": "mode",
+            "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "I": 1,
+            "R": 1,
+            "S": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 0,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 2,
+          "remaining_turns": 8,
+          "tool_calls": 5,
+          "validation_failures": {
+            "semantic_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "semantic_patch_rejected",
+            "count": 1,
+            "last_turn": 2,
+            "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 5,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [
+          {
+            "handle": "n0",
+            "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+            "op": "let",
+            "parent": null,
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ]
+            ],
+            "slot": "body",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "binding": {
+                "name": "normalizedId",
+                "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                "type": "string"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "then": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              }
+            },
+            "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+          },
+          {
+            "handle": "n11",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found",
+            "op": "err",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "none",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "error": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err"
+            },
+            "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+          },
+          {
+            "handle": "n12",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+            "op": "string",
+            "parent": "n11",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "error",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            },
+            "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+          },
+          {
+            "handle": "n13",
+            "node_id": "node:session-v3-raw-id-retry-001-found",
+            "op": "ok",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "some",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              }
+            },
+            "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+          },
+          {
+            "handle": "n14",
+            "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+            "op": "var",
+            "parent": "n13",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "value",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-raw-id-retry-001-user"
+            },
+            "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+          },
+          {
+            "handle": "n3",
+            "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+            "op": "if",
+            "parent": "n0",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "then",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "condition": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "else": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "then": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                "op": "err"
+              }
+            },
+            "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+          },
+          {
+            "handle": "n8",
+            "node_id": "node:session-v3-raw-id-retry-001-user-match",
+            "op": "option_match",
+            "parent": "n3",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "else",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "none": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+          }
+        ],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "projection_sha256": "fc200d6e4cbd45db7ba9bf641bdc81c40b37fa706fb6669d8f6bf103c05de99d",
+              "target": "src/lookup-user.ts"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 2196,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ (() => {\n              const __semantic_ir_option_2 = /* ir:node:motion-84b06bb9e5cb-r1 */ capabilities.users.getById(/* ir:node:motion-84b06bb9e5cb-r3 */ rawId);\n              if (__semantic_ir_option_2 === undefined) {\n                return /* ir:node:motion-84b06bb9e5cb-r4 */ { error: /* ir:node:motion-84b06bb9e5cb-r6 */ \"not_found\" };\n              }\n              const retryUser: User = __semantic_ir_option_2;\n              return /* ir:node:motion-84b06bb9e5cb-r2 */ { ok: /* ir:node:motion-84b06bb9e5cb-r5 */ retryUser };\n            })();\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "fc200d6e4cbd45db7ba9bf641bdc81c40b37fa706fb6669d8f6bf103c05de99d"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 5
+    },
+    {
+      "compacted_request": {
+        "bytes": 18070,
+        "message_count": 3,
+        "sha256": "ee9f3af42123ef4503dde2b63c9f81c92aca7980bf58385820f9c2fd741a9ee3"
+      },
+      "original_request": {
+        "bytes": 17161,
+        "message_count": 13,
+        "sha256": "fc646d0bdf439abf49b24e6127e9ea2cad749d11d2b47161a3f9d450753f059a"
+      },
+      "replay": {
+        "exact_action_matches": 1,
+        "exact_result_match": true,
+        "expected_results_sha256": "e112bb6536107a0ac6889846d5ce4f67d52b93113af8ca9f348e2ba7fb8f67e0",
+        "mismatch": null,
+        "replayed_results_sha256": "e112bb6536107a0ac6889846d5ce4f67d52b93113af8ca9f348e2ba7fb8f67e0",
+        "tool_actions": 1
+      },
+      "state": {
+        "arm": "semantic",
+        "cell_id": "semantic-ir-session-calibration-004/raw-id-retry-001/semantic",
+        "context_reads": [
+          {
+            "bytes": 365,
+            "content": "# Semantic Session ISA mode\n\nUse only the `x` tool. Select handles from the compact state outline and inspect\nthem with `I[handle,...]`. Use the returned state and target tokens in one\npositional Motion submission `S[patch-id,state-token,operations]`. Trusted\ninfrastructure restores canonical identities and validates the patch atomically.\nIssue `F[]` when final.\n",
+            "handle": "context://mode",
+            "path": "tasks/raw-id-retry-001/participant-context/semantic-patch.md",
+            "role": "mode",
+            "sha256": "96af6bdf2fc857bf89b9bc9fb3f1cf63cc021d00bfb99b08f7f8367be0ada483"
+          }
+        ],
+        "counters": {
+          "finished": false,
+          "instructions_by_opcode": {
+            "C": 1,
+            "E": 1,
+            "I": 1,
+            "R": 1,
+            "S": 2
+          },
+          "mutation_attempts": 2,
+          "public_evaluations": 1,
+          "remaining_mutation_attempts": 1,
+          "remaining_public_evaluations": 1,
+          "remaining_turns": 7,
+          "tool_calls": 6,
+          "validation_failures": {
+            "semantic_patch_rejected": 1
+          }
+        },
+        "errors": [
+          {
+            "code": "semantic_patch_rejected",
+            "count": 1,
+            "last_turn": 2,
+            "message": "motion patch schema validation failed at patch_id: 'patch-retry-none-001' does not match '^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$'",
+            "opcode": "S"
+          }
+        ],
+        "evaluations": [
+          {
+            "classification": "pass",
+            "exit_code": 0,
+            "passed": true,
+            "stderr": "",
+            "stdout": "running 2 tests from ./tests/public.test.ts\nretries the original identifier after normalized miss ... ok (<TIME>)\ndoes not retry a normalized hit ... ok (<TIME>)\n\nok | 2 passed | 0 failed (<TIME>)\n\n",
+            "turn": 5
+          }
+        ],
+        "namespaces": {
+          "context": [
+            "context://mode",
+            "context://task"
+          ],
+          "semantic_handles": [
+            "n0",
+            "n1",
+            "n10",
+            "n11",
+            "n12",
+            "n13",
+            "n14",
+            "n2",
+            "n3",
+            "n4",
+            "n5",
+            "n6",
+            "n7",
+            "n8",
+            "n9"
+          ],
+          "workspace": [
+            "deno.json",
+            "src/lookup-user.ts",
+            "tests/public.test.ts"
+          ]
+        },
+        "next_turn": 6,
+        "schema_version": "ai-experiments.semantic-ir.session-state/v1",
+        "semantic_inspections": [
+          {
+            "handle": "n0",
+            "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+            "op": "let",
+            "parent": null,
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ]
+            ],
+            "slot": "body",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "binding": {
+                "name": "normalizedId",
+                "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id",
+                "type": "string"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-normalize-let",
+              "op": "let",
+              "then": {
+                "condition": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                  "op": "call",
+                  "symbol": "string.is_empty"
+                },
+                "else": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                  "none": {
+                    "error": {
+                      "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                      "op": "string",
+                      "value": "not_found"
+                    },
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                    "op": "err"
+                  },
+                  "op": "option_match",
+                  "some": {
+                    "node_id": "node:session-v3-raw-id-retry-001-found",
+                    "op": "ok",
+                    "value": {
+                      "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                    }
+                  },
+                  "some_binding": {
+                    "name": "user",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                    "type": "user"
+                  },
+                  "value": {
+                    "arguments": [
+                      {
+                        "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                        "op": "var",
+                        "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                      }
+                    ],
+                    "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                    "op": "call",
+                    "symbol": "users.get_by_id"
+                  }
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+                "op": "if",
+                "then": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                    "op": "string",
+                    "value": "invalid_user_id"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                  "op": "err"
+                }
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-raw-id-ref",
+                    "op": "var",
+                    "symbol_id": "param:session-v3-raw-id-retry-001-raw-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-trim",
+                "op": "call",
+                "symbol": "string.trim_ascii"
+              }
+            },
+            "target_token": "cap:v1:target:14cf523459983224f17dc82eb77fd487"
+          },
+          {
+            "handle": "n11",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found",
+            "op": "err",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "none",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "error": {
+                "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                "op": "string",
+                "value": "not_found"
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-not-found",
+              "op": "err"
+            },
+            "target_token": "cap:v1:target:0aafaa365f13c650a76fd0c869a2aa94"
+          },
+          {
+            "handle": "n12",
+            "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+            "op": "string",
+            "parent": "n11",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "error",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            },
+            "target_token": "cap:v1:target:ad7114d6e8a15b5da350606ec065e650"
+          },
+          {
+            "handle": "n13",
+            "node_id": "node:session-v3-raw-id-retry-001-found",
+            "op": "ok",
+            "parent": "n8",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "some",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                "op": "var",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user"
+              }
+            },
+            "target_token": "cap:v1:target:5f4c9b350f95f63e25fb5bbff33c1537"
+          },
+          {
+            "handle": "n14",
+            "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+            "op": "var",
+            "parent": "n13",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-user",
+                "user",
+                "user"
+              ]
+            ],
+            "slot": "value",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-raw-id-retry-001-user"
+            },
+            "target_token": "cap:v1:target:1e1b85a441ecfecef21eaf513ec47d92"
+          },
+          {
+            "handle": "n3",
+            "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+            "op": "if",
+            "parent": "n0",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "then",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "condition": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-empty",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-is-empty",
+                "op": "call",
+                "symbol": "string.is_empty"
+              },
+              "else": {
+                "node_id": "node:session-v3-raw-id-retry-001-user-match",
+                "none": {
+                  "error": {
+                    "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                    "op": "string",
+                    "value": "not_found"
+                  },
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                  "op": "err"
+                },
+                "op": "option_match",
+                "some": {
+                  "node_id": "node:session-v3-raw-id-retry-001-found",
+                  "op": "ok",
+                  "value": {
+                    "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                  }
+                },
+                "some_binding": {
+                  "name": "user",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                  "type": "user"
+                },
+                "value": {
+                  "arguments": [
+                    {
+                      "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                      "op": "var",
+                      "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                    }
+                  ],
+                  "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                  "op": "call",
+                  "symbol": "users.get_by_id"
+                }
+              },
+              "node_id": "node:session-v3-raw-id-retry-001-validity-if",
+              "op": "if",
+              "then": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-invalid-id-code",
+                  "op": "string",
+                  "value": "invalid_user_id"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-invalid-id",
+                "op": "err"
+              }
+            },
+            "target_token": "cap:v1:target:cf26b16302d479691f54eb46ec0ed10d"
+          },
+          {
+            "handle": "n8",
+            "node_id": "node:session-v3-raw-id-retry-001-user-match",
+            "op": "option_match",
+            "parent": "n3",
+            "scope": [
+              [
+                "param:session-v3-raw-id-retry-001-raw-id",
+                "rawId",
+                "string"
+              ],
+              [
+                "local:session-v3-raw-id-retry-001-normalized-id",
+                "normalizedId",
+                "string"
+              ]
+            ],
+            "slot": "else",
+            "state_token": "cap:v1:state:484269b6d52928819a7783644b532119",
+            "subtree": {
+              "node_id": "node:session-v3-raw-id-retry-001-user-match",
+              "none": {
+                "error": {
+                  "node_id": "node:session-v3-raw-id-retry-001-not-found-code",
+                  "op": "string",
+                  "value": "not_found"
+                },
+                "node_id": "node:session-v3-raw-id-retry-001-not-found",
+                "op": "err"
+              },
+              "op": "option_match",
+              "some": {
+                "node_id": "node:session-v3-raw-id-retry-001-found",
+                "op": "ok",
+                "value": {
+                  "node_id": "node:session-v3-raw-id-retry-001-user-ref",
+                  "op": "var",
+                  "symbol_id": "local:session-v3-raw-id-retry-001-user"
+                }
+              },
+              "some_binding": {
+                "name": "user",
+                "symbol_id": "local:session-v3-raw-id-retry-001-user",
+                "type": "user"
+              },
+              "value": {
+                "arguments": [
+                  {
+                    "node_id": "node:session-v3-raw-id-retry-001-normalized-ref-for-lookup",
+                    "op": "var",
+                    "symbol_id": "local:session-v3-raw-id-retry-001-normalized-id"
+                  }
+                ],
+                "node_id": "node:session-v3-raw-id-retry-001-get-user",
+                "op": "call",
+                "symbol": "users.get_by_id"
+              }
+            },
+            "target_token": "cap:v1:target:950555bd16120578a9f61b03127199dc"
+          }
+        ],
+        "submissions": [
+          {
+            "accepted": true,
+            "result": {
+              "accepted": true,
+              "projection_sha256": "fc200d6e4cbd45db7ba9bf641bdc81c40b37fa706fb6669d8f6bf103c05de99d",
+              "target": "src/lookup-user.ts"
+            },
+            "turn": 4
+          }
+        ],
+        "workspace": [
+          {
+            "bytes": 107,
+            "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+            "path": "deno.json",
+            "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+          },
+          {
+            "bytes": 2196,
+            "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ (() => {\n              const __semantic_ir_option_2 = /* ir:node:motion-84b06bb9e5cb-r1 */ capabilities.users.getById(/* ir:node:motion-84b06bb9e5cb-r3 */ rawId);\n              if (__semantic_ir_option_2 === undefined) {\n                return /* ir:node:motion-84b06bb9e5cb-r4 */ { error: /* ir:node:motion-84b06bb9e5cb-r6 */ \"not_found\" };\n              }\n              const retryUser: User = __semantic_ir_option_2;\n              return /* ir:node:motion-84b06bb9e5cb-r2 */ { ok: /* ir:node:motion-84b06bb9e5cb-r5 */ retryUser };\n            })();\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+            "path": "src/lookup-user.ts",
+            "sha256": "fc200d6e4cbd45db7ba9bf641bdc81c40b37fa706fb6669d8f6bf103c05de99d"
+          },
+          {
+            "bytes": 995,
+            "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+            "path": "tests/public.test.ts",
+            "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+          }
+        ]
+      },
+      "turn": 6
+    }
+  ]
+}

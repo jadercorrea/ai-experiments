@@ -1,0 +1,49 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nAfter a normalized lookup misses, perform exactly one second lookup with the original identifier and return the first user found.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. After turn one, prior assistant and tool messages are replaced by an authoritative typed state snapshot. Semantic S target misses are re-fetched deterministically by the runtime. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "SESSION_STATE/v1\n{\"arm\":\"source\",\"cell_id\":\"semantic-ir-progress-session-calibration-007/raw-id-retry-001/source\",\"context_reads\":[],\"counters\":{\"finished\":false,\"instructions_by_opcode\":{\"C\":1,\"L\":1,\"S\":2,\"W\":16},\"mutation_attempts\":2,\"public_evaluations\":0,\"remaining_mutation_attempts\":1,\"remaining_public_evaluations\":2,\"remaining_turns\":1,\"tool_calls\":20,\"validation_failures\":{\"source_patch_rejected\":2}},\"errors\":[{\"code\":\"source_patch_rejected\",\"count\":2,\"last_turn\":11,\"message\":\"source patch rejected: error: corrupt patch at line 16\",\"opcode\":\"S\"}],\"evaluations\":[],\"namespaces\":{\"context\":[\"context://mode\",\"context://task\"],\"semantic_handles\":[],\"workspace\":[\"deno.json\",\"src/lookup-user.ts\",\"tests/public.test.ts\"]},\"next_turn\":12,\"schema_version\":\"ai-experiments.semantic-ir.session-state/v1\",\"semantic_inspections\":[],\"submissions\":[{\"accepted\":false,\"result\":{\"accepted\":false,\"classification\":\"source_patch_rejected\",\"message\":\"source patch rejected: error: corrupt patch at line 16\"},\"turn\":11}],\"workspace\":[{\"bytes\":107,\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1725,\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function executeWithRetry(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1\"},{\"bytes\":995,\"content\":\"import { executeWithRetry } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"retries the original identifier after normalized miss\\\", () => {\\n  const calls: string[] = [];\\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \\\" 42 \\\" ? { id, name: \\\"Raw\\\" } : undefined; } } };\\n  assertEquals(executeWithRetry(\\\" 42 \\\", capabilities), { ok: { id: \\\" 42 \\\", name: \\\"Raw\\\" } });\\n  assertEquals(calls, [\\\"42\\\", \\\" 42 \\\"]);\\n});\\n\\nDeno.test(\\\"does not retry a normalized hit\\\", () => {\\n  const calls: string[] = [];\\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \\\"Local\\\" }; } } };\\n  assertEquals(executeWithRetry(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Local\\\" } });\\n  assertEquals(calls, [\\\"42\\\"]);\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3\"}]}",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

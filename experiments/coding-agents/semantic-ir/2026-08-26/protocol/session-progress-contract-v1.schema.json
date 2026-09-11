@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/session-progress-contract-v1.schema.json",
+  "title": "Coding-agent Session ISA progress contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "arm",
+    "current_turn",
+    "total_turns",
+    "turns_remaining_including_current",
+    "remaining_mutation_attempts",
+    "remaining_public_evaluations",
+    "reserved_terminal_turns",
+    "phase",
+    "transition_reason",
+    "terminal_reserve_active",
+    "request_mask_required",
+    "base_opcodes",
+    "allowed_opcodes",
+    "forbidden_opcodes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.session-progress-contract/v1"
+    },
+    "arm": {
+      "enum": ["source", "semantic"]
+    },
+    "current_turn": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "total_turns": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "turns_remaining_including_current": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "remaining_mutation_attempts": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "remaining_public_evaluations": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "reserved_terminal_turns": {
+      "const": 1
+    },
+    "phase": {
+      "enum": ["work", "commit", "finish", "finished"]
+    },
+    "transition_reason": {
+      "enum": [
+        "budget_open",
+        "terminal_turn_next",
+        "terminal_turn_now",
+        "session_finished"
+      ]
+    },
+    "terminal_reserve_active": {
+      "type": "boolean"
+    },
+    "request_mask_required": {
+      "type": "boolean"
+    },
+    "base_opcodes": {
+      "$ref": "#/$defs/opcodes"
+    },
+    "allowed_opcodes": {
+      "$ref": "#/$defs/opcodes"
+    },
+    "forbidden_opcodes": {
+      "$ref": "#/$defs/opcodes"
+    }
+  },
+  "$defs": {
+    "opcode": {
+      "enum": ["C", "R", "I", "L", "W", "E", "S", "F"]
+    },
+    "opcodes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/opcode"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"phase": {"const": "work"}},
+        "required": ["phase"]
+      },
+      "then": {
+        "properties": {
+          "turns_remaining_including_current": {"minimum": 3},
+          "transition_reason": {"const": "budget_open"},
+          "terminal_reserve_active": {"const": false},
+          "request_mask_required": {"const": false}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"phase": {"const": "commit"}},
+        "required": ["phase"]
+      },
+      "then": {
+        "properties": {
+          "turns_remaining_including_current": {"const": 2},
+          "remaining_mutation_attempts": {"type": "integer"},
+          "remaining_public_evaluations": {"type": "integer"},
+          "transition_reason": {"const": "terminal_turn_next"},
+          "terminal_reserve_active": {"const": true},
+          "request_mask_required": {"const": true},
+          "allowed_opcodes": {
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {"enum": ["E", "S", "F"]},
+            "contains": {"const": "F"}
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"phase": {"const": "finish"}},
+        "required": ["phase"]
+      },
+      "then": {
+        "properties": {
+          "turns_remaining_including_current": {"maximum": 1},
+          "transition_reason": {"const": "terminal_turn_now"},
+          "terminal_reserve_active": {"const": true},
+          "request_mask_required": {"const": true},
+          "allowed_opcodes": {
+            "prefixItems": [{"const": "F"}],
+            "minItems": 1,
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"phase": {"const": "finished"}},
+        "required": ["phase"]
+      },
+      "then": {
+        "properties": {
+          "transition_reason": {"const": "session_finished"},
+          "terminal_reserve_active": {"const": false},
+          "request_mask_required": {"const": true},
+          "allowed_opcodes": {"maxItems": 0}
+        }
+      }
+    }
+  ]
+}

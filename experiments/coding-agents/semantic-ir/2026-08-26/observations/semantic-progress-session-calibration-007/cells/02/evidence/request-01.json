@@ -1,0 +1,52 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<state>\n{\"catalog\":[[\"string.trim_ascii\",[\"string\"],\"string\",null],[\"string.is_empty\",[\"string\"],\"boolean\",null],[\"users.get_by_id\",[\"string\"],\"option<user>\",\"db.read:users\"]],\"catalog_fields\":[\"symbol\",\"arguments\",\"result\",\"effect\"],\"node_fields\":[\"handle\",\"op\",\"parent\",\"slot\",\"hint\"],\"nodes\":[[\"n0\",\"let\",null,\"body\",\"bind=normalizedId:string\"],[\"n1\",\"call\",\"n0\",\"value\",\"call=string.trim_ascii\"],[\"n2\",\"var\",\"n1\",\"arguments[0]\",\"ref=rawId:string\"],[\"n3\",\"if\",\"n0\",\"then\",null],[\"n4\",\"call\",\"n3\",\"condition\",\"call=string.is_empty\"],[\"n5\",\"var\",\"n4\",\"arguments[0]\",\"ref=normalizedId:string\"],[\"n6\",\"err\",\"n3\",\"then\",null],[\"n7\",\"string\",\"n6\",\"error\",\"literal=\\\"invalid_user_id\\\"\"],[\"n8\",\"option_match\",\"n3\",\"else\",\"some=user:user\"],[\"n9\",\"call\",\"n8\",\"value\",\"call=users.get_by_id\"],[\"n10\",\"var\",\"n9\",\"arguments[0]\",\"ref=normalizedId:string\"],[\"n11\",\"err\",\"n8\",\"none\",null],[\"n12\",\"string\",\"n11\",\"error\",\"literal=\\\"not_found\\\"\"],[\"n13\",\"ok\",\"n8\",\"some\",null],[\"n14\",\"var\",\"n13\",\"value\",\"ref=user:user\"]],\"program\":{\"catalog\":\"ai-experiments.semantic-ir.catalog/v0\",\"function\":{\"effects\":[\"db.read:users\"],\"name\":\"executeErrorCase\",\"parameters\":[[\"rawId\",\"string\"]],\"returns\":\"result<user,string>\"},\"id\":\"program:session-v3-error-taxonomy-001\",\"ir\":\"ai-experiments.semantic-ir.program/v0\"},\"root\":\"n0\",\"schema_version\":\"ai-experiments.semantic-ir.compact-outline/v1\"}\n</state>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; I[node-handle,...] semantic inspect;\nL[] workspace list; W[path] workspace read; E[] public evaluation; F[] finish.\nS[patch-id,state-token,operations] semantic submit.\noperation=[operation-id,[node-handle,target-token],root,bindings,motions].\nbinding=[b#,name,type]. motion=[word,r#,args...]. External scope slots are s#.\nwords: str[value]; var[s#|b#]; call[symbol,arg-ref...];\nlet[b#,value,then]; if[condition,then,else]; match[value,b#,none,some];\nok[value]; err[error]. Refs form one tree. I returns exact scope and capabilities;\ntrusted infrastructure restores identities and checks grammar, scope, catalog,\ntypes, effects, capabilities, and atomicity before mutation.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. After turn one, prior assistant and tool messages are replaced by an authoritative typed state snapshot. Semantic S target misses are re-fetched deterministically by the runtime. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

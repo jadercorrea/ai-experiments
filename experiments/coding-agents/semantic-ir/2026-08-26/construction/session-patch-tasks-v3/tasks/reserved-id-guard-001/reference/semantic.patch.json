@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-patch/v1",
+  "patch_id": "patch:session-v3-reserved-id-guard-001",
+  "program_id": "program:session-v3-reserved-id-guard-001",
+  "state_token": "cap:v1:state:afb180aca8365e794b2b5403f98bb8d4",
+  "operations": [
+    {
+      "operation_id": "operation:final-reserved-identifier-guard",
+      "op": "replace_subtree",
+      "target_node_id": "node:session-v3-reserved-id-guard-001-user-match",
+      "target_token": "cap:v1:target:23382ebf7e7ab19cb4d76443ecd93b66",
+      "replacement": {
+        "node_id": "node:session-v3-reserved-id-guard-001-user-match",
+        "op": "if",
+        "condition": {
+          "node_id": "node:session-v3-reserved-id-guard-001-reserved-id-equals",
+          "op": "call",
+          "symbol": "string.equals",
+          "arguments": [
+            {
+              "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-reserved",
+              "op": "var",
+              "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+            },
+            {
+              "node_id": "node:session-v3-reserved-id-guard-001-reserved-id-literal",
+              "op": "string",
+              "value": "root"
+            }
+          ]
+        },
+        "then": {
+          "node_id": "node:session-v3-reserved-id-guard-001-reserved-error",
+          "op": "err",
+          "error": {
+            "node_id": "node:session-v3-reserved-id-guard-001-reserved-error-code",
+            "op": "string",
+            "value": "reserved_user_id"
+          }
+        },
+        "else": {
+          "node_id": "node:session-v3-reserved-id-guard-001-user-match-after-guard",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:session-v3-reserved-id-guard-001-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:session-v3-reserved-id-guard-001-normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:session-v3-reserved-id-guard-001-user",
+            "name": "user",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:session-v3-reserved-id-guard-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:session-v3-reserved-id-guard-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:session-v3-reserved-id-guard-001-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:session-v3-reserved-id-guard-001-user-ref",
+              "op": "var",
+              "symbol_id": "local:session-v3-reserved-id-guard-001-user"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

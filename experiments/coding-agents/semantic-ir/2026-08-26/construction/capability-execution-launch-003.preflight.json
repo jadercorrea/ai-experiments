@@ -1,0 +1,66 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-prelaunch-audit/v2",
+  "launch_id": "semantic-ir-capability-calibration-003",
+  "audited_at": "2026-08-27T11:53:24-03:00",
+  "repository_revision": "1f6a7699dbf4e6cfd9ac86860993d28a1604366b",
+  "explicit_user_authorization": {
+    "observed": true,
+    "message": "Go on",
+    "informed_scope": "11 Amazon Bedrock call cells, synthetic experiment artifacts, maximum USD 10 spend, and unverified effective account retention mode"
+  },
+  "freeze": {
+    "freeze_sha256": "d8a3083ad2a08c5e66c5b10d61c390df6d75f42b7419a61f7906fe1896e8eab1",
+    "freeze_file_sha256": "c5a4b52e2d06624e970fe54095b4b8c2a127f4f0c45f7eccbc9cd0646c25bf0f",
+    "artifact_lock_sha256": "05d1b4c4ed811e20dabcf543a005b2f8c3815b716f5fdecca5e9a22ed1ab4df8",
+    "model_lock_sha256": "b4147d513b82837a6a21b3f649cfe4ef3968f80c18ce69920dcbdeceafcaef31",
+    "digests_reverified": true,
+    "deterministic_preflight_passed": true
+  },
+  "contamination": {
+    "status": "conditional_pre_model_clearance",
+    "experimental_subject_calls_before_launch": 0,
+    "exact_instances_used_as_experimental_inputs_before_launch": false,
+    "fresh_subject_context_without_development_history": true,
+    "development_agent_exposure_observed": true,
+    "provider_weight_snapshot_immutability_verifiable": false,
+    "participant_context_excludes_hidden_and_reference_material": true,
+    "host_repository_shell_network_and_browser_tools_exposed": false
+  },
+  "capability_protocol": {
+    "all_embedded_artifacts_have_unique_context_handles": true,
+    "workspace_and_context_namespaces_are_disjoint": true,
+    "semantic_state_inspection_is_read_only": true,
+    "semantic_preconditions_are_opaque_and_node_bound": true,
+    "model_facing_patch_schema_contains_digest_fields": false,
+    "subject_request_errors_are_recoverable": true,
+    "context_integrity_errors_are_infrastructure_invalid": true,
+    "fresh_suite_reference_convergence_verified": true
+  },
+  "credential_and_identity": {
+    "credential_present_in_macos_keychain": true,
+    "credential_value_recorded": false,
+    "credential_may_enter_model_context": false,
+    "runtime_endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com",
+    "provider_model": "us.anthropic.claude-sonnet-4-6",
+    "region": "us-east-1",
+    "identity_policy": "endpoint_locked_model_and_iam_scope",
+    "prior_exact_model_admission": "experiments/coding-agents/local-first-routing/2026-07-30/calibration/cloud-admission-bedrock-sonnet-4-6/result.json",
+    "prior_exact_model_admission_passed": true,
+    "control_plane_retention_read_http_status": 403,
+    "control_plane_read_interpretation": "The inference-scoped credential can invoke the locked model but cannot read account-level retention configuration; no account-specific retention mode is claimed."
+  },
+  "provider_policy": {
+    "checked": true,
+    "checked_at": "2026-08-27T11:53:24-03:00",
+    "sources": [
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/data-retention.html",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/abuse-detection.html",
+      "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-sonnet-4-6.html"
+    ],
+    "basis": "AWS documents zero operator access and default zero data retention, explains that effective retention is selected from project, account, and model scopes, and currently lists mandatory model-specific retention for selected OpenAI models and Claude Fable 5 rather than the locked Claude Sonnet 4.6 endpoint. The current Sonnet 4.6 model card confirms the exact runtime endpoint, Geo US inference ID, and active model lifecycle used by this freeze.",
+    "limitation": "The effective account retention mode could not be read with the deliberately inference-scoped credential. This launch claims a checked public service policy, not independently verified zero retention for the account."
+  },
+  "launch_clear": true,
+  "efficacy_claim_authorized": false
+}

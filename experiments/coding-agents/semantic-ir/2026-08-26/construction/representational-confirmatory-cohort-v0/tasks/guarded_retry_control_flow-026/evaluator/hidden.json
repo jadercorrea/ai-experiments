@@ -1,0 +1,100 @@
+[
+  {
+    "arguments": {
+      "rawId": "user-1c13eae4"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-1c13eae4": [
+            null,
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-1c13eae4"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "user-1c13eae4"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "error": "not_found_1c13eae4edaf7c91"
+      }
+    },
+    "id": "guarded-retry-miss",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "user-1c13eae4"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-1c13eae4": [
+            {
+              "id": "user-1c13eae4",
+              "name": "Primary-af7c91"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-1c13eae4"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-1c13eae4",
+          "name": "Primary-af7c91"
+        }
+      }
+    },
+    "id": "primary-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " "
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_1c13eae4edaf7c91"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

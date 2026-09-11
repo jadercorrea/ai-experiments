@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I'll analyze the task and current state, then submit the correct patch.\n\nThe task: after a normalized lookup misses, perform exactly one second lookup with the **original** identifier and return the first user found.\n\nLooking at the test:\n- `getById(\"42\")` returns `undefined` (miss)\n- `getById(\" 42 \")` returns `{ id: \" 42 \", name: \"Raw\" }` (hit)\n- Expected result: `{ ok: { id: \" 42 \", name: \"Raw\" } }`\n- Expected calls: `[\"42\", \" 42 \"]`\n\nI need to modify the \"not found\" branch to retry with `rawId`.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[],\"i\":\"F\"}",
+              "name": "x"
+            },
+            "id": "tooluse_FfcSnmq5mNgljMO4v5XGpf",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-f5d411adad41044fa74a538a",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 225,
+    "prompt_tokens": 2508,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 2733
+  }
+}

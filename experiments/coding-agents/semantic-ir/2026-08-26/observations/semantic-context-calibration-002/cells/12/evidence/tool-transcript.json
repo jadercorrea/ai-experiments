@@ -1,0 +1,190 @@
+[
+  {
+    "request_sha256": "78ada2c76a277554f88ce3e0989933dcfe86cc665be3bb3a030f1629fd69b9dd",
+    "response_sha256": "de3c36054fbee90f81bd28bde0643f968c437144fbe8841bdf63a248ab89b2e2",
+    "tool_results": [
+      {
+        "result": {
+          "bytes": 274,
+          "content": "# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n",
+          "handle": "context://task",
+          "path": "tasks/cross-module-rename-001/participant-context/TASK.md",
+          "role": "task",
+          "sha256": "2a7cb4bed87175ece9c83620ba485668639edf1b5200dea2da9fb1f37e8ee243"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_fCuGlexxffbws4ZCHIZPGP"
+      },
+      {
+        "result": {
+          "bytes": 165,
+          "content": "# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n",
+          "handle": "context://mode",
+          "path": "tasks/cross-module-rename-001/participant-context/source-patch.md",
+          "role": "mode",
+          "sha256": "9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce"
+        },
+        "tool": "context_read",
+        "tool_call_id": "tooluse_kL0vAFp9q3UzIeWkhMgaAZ"
+      },
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 114,
+              "path": "src/contracts.ts",
+              "sha256": "b9cef74a9acc25117fdf3ccf124a1d9081f75d2434bbbb9157fcf284280a43e8"
+            },
+            {
+              "bytes": 110,
+              "path": "src/lookup-user.ts",
+              "sha256": "59ea389e5ae1bacc994e7b6f609d8083b580f31c530b08c1b0313000319fff5b"
+            },
+            {
+              "bytes": 117,
+              "path": "src/mod.ts",
+              "sha256": "126ed1d977b5c9ec63e57fbc2f8ebac9e191424981032c57eb1ab6f4619680fd"
+            },
+            {
+              "bytes": 381,
+              "path": "tests/public.test.ts",
+              "sha256": "a96ab3c12ba8c7eff0535e1567d6e3b77e58bafa14ac79ac6e2781fda37aecd7"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_ZiIf9j7e1n0DFpWiRg7oHI"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "cfe4fa0ec27a8b0897ef67ebe70be30ba3377b6d9ca334977800c7a84ee1dba9",
+    "response_sha256": "d2d0834cfbf06703f324af5c1ed35b8e7e6e8a4c342b27c0c20baa31742f5598",
+    "tool_results": [
+      {
+        "result": {
+          "content": "export const RESOLVE_CONTRACT = \"resolveUser\" as const;\nexport type ResolveUser = (id: string) => { id: string };\n",
+          "path": "src/contracts.ts",
+          "sha256": "b9cef74a9acc25117fdf3ccf124a1d9081f75d2434bbbb9157fcf284280a43e8"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_9skmCyFVsZwf5ISkRI1D7d"
+      },
+      {
+        "result": {
+          "content": "import type { ResolveUser } from \"./contracts.ts\";\n\nexport const resolveUser: ResolveUser = (id) => ({ id });\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "59ea389e5ae1bacc994e7b6f609d8083b580f31c530b08c1b0313000319fff5b"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_L5epEshRiVHJCh2m9Sggbo"
+      },
+      {
+        "result": {
+          "content": "export { RESOLVE_CONTRACT, type ResolveUser } from \"./contracts.ts\";\nexport { resolveUser } from \"./lookup-user.ts\";\n",
+          "path": "src/mod.ts",
+          "sha256": "126ed1d977b5c9ec63e57fbc2f8ebac9e191424981032c57eb1ab6f4619680fd"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_6cqZUJjdQj45QYPFz8otgr"
+      },
+      {
+        "result": {
+          "content": "import { fetchUser } from \"../src/mod.ts\";\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"exports the renamed lookup\", () => {\n  assertEquals(fetchUser(\"42\"), { id: \"42\" });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "a96ab3c12ba8c7eff0535e1567d6e3b77e58bafa14ac79ac6e2781fda37aecd7"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_VUrMRMIKvpMjJYcCLz5NWb"
+      },
+      {
+        "result": {
+          "error": {
+            "code": "tool_call_budget_exceeded",
+            "message": "maximum executed tool calls for this turn was reached",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "<invalid>",
+        "tool_call_id": "tooluse_w93eathFadIYoDLKwty0m2"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "ffc03c33d3e5e22100919cae04fe577a4766d1b0d63df5e4cc9039572f8cc85d",
+    "response_sha256": "41da45715825e3719aef8b551a9164aaa2200e3ea308559e21dcbff0a4f1edde",
+    "tool_results": [
+      {
+        "result": {
+          "content": "{\n  \"compilerOptions\": {\n    \"strict\": true,\n    \"noImplicitAny\": true,\n    \"strictNullChecks\": true\n  }\n}\n",
+          "path": "deno.json",
+          "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_vHriQQc7DW3kaBJ0EMgnyg"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "f59fd2629893339441d67a6dfc59780b2febb8f9512ed754abb638e2700508de",
+    "response_sha256": "4a956921ab0d711445e1a4f450faebe882d952f0dbe96a8f963398b4dbf90bbf",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/contracts.ts",
+            "src/lookup-user.ts",
+            "src/mod.ts"
+          ],
+          "patch_sha256": "6e56dfb488a3d65e114e8cbe8c189b5b81594d7444eabb349c8cf8eb4e840ed0"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_2V6XsG2iIoRO3trHlxhvP1"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "9a74ad752673cd1897a46bff5c376342de6d2415e17256d91667ec56eaddf277",
+    "response_sha256": "6aa163bee74b974e0ebe25ef04a02cba25efd073cb039dc65c5bfb543d60274b",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nexports the renamed lookup ... ok (0ms)\n\nok | 1 passed | 0 failed (5ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_n8sV5Sc7i22bfUsKeUwAJM"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "request_sha256": "55fcc46180b765fcc42a0181d65edff5fe22efb348a25f5b09cbd1e9cd0c2598",
+    "response_sha256": "2b01b087e5c557ba2304050293e20d7435d31d8f6a8d695198f61f798c245f51",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "6473e4709b2a6a63799a4ac62af942fb01efcae7e40cce1c7d7d62fe4abca2f4"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_luSiAvRhprHwg0MTdk9Dy0"
+      }
+    ],
+    "turn": 6
+  }
+]

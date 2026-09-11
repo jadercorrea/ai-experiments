@@ -1,0 +1,136 @@
+{
+  "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+  "function": {
+    "body": {
+      "binding": {
+        "name": "normalizedId",
+        "symbol_id": "local:fresh-fcb935bd2517224a-normalized-id",
+        "type": "string"
+      },
+      "node_id": "node:fresh-fcb935bd2517224a-body",
+      "op": "let",
+      "then": {
+        "condition": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-fcb935bd2517224a-normalized-for-empty",
+              "op": "var",
+              "symbol_id": "local:fresh-fcb935bd2517224a-normalized-id"
+            }
+          ],
+          "node_id": "node:fresh-fcb935bd2517224a-is-empty",
+          "op": "call",
+          "symbol": "string.is_empty"
+        },
+        "else": {
+          "node_id": "node:fresh-fcb935bd2517224a-user-match",
+          "none": {
+            "node_id": "node:fresh-fcb935bd2517224a-directory-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-fcb935bd2517224a-missing-code",
+                "op": "string",
+                "value": "not_found_fcb935bd2517224a"
+              },
+              "node_id": "node:fresh-fcb935bd2517224a-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-fcb935bd2517224a-directory-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-fcb935bd2517224a-directory-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-fcb935bd2517224a-directory-user"
+              }
+            },
+            "some_binding": {
+              "name": "directoryUser",
+              "symbol_id": "local:fresh-fcb935bd2517224a-directory-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-fcb935bd2517224a-identifier-for-directory",
+                  "op": "var",
+                  "symbol_id": "param:fresh-fcb935bd2517224a-raw-id"
+                }
+              ],
+              "node_id": "node:fresh-fcb935bd2517224a-get-directory-user",
+              "op": "call",
+              "symbol": "directory.get_by_id"
+            }
+          },
+          "op": "option_match",
+          "some": {
+            "node_id": "node:fresh-fcb935bd2517224a-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:fresh-fcb935bd2517224a-user-ref",
+              "op": "var",
+              "symbol_id": "local:fresh-fcb935bd2517224a-user"
+            }
+          },
+          "some_binding": {
+            "name": "user",
+            "symbol_id": "local:fresh-fcb935bd2517224a-user",
+            "type": "user"
+          },
+          "value": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-fcb935bd2517224a-normalized-for-user",
+                "op": "var",
+                "symbol_id": "local:fresh-fcb935bd2517224a-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-fcb935bd2517224a-get-user",
+            "op": "call",
+            "symbol": "users.get_by_id"
+          }
+        },
+        "node_id": "node:fresh-fcb935bd2517224a-validation",
+        "op": "if",
+        "then": {
+          "error": {
+            "node_id": "node:fresh-fcb935bd2517224a-invalid-code",
+            "op": "string",
+            "value": "invalid_input_fcb935bd2517224a"
+          },
+          "node_id": "node:fresh-fcb935bd2517224a-invalid",
+          "op": "err"
+        }
+      },
+      "value": {
+        "arguments": [
+          {
+            "node_id": "node:fresh-fcb935bd2517224a-raw-for-normalizer",
+            "op": "var",
+            "symbol_id": "param:fresh-fcb935bd2517224a-raw-id"
+          }
+        ],
+        "node_id": "node:fresh-fcb935bd2517224a-normalizer",
+        "op": "call",
+        "symbol": "string.trim_ascii"
+      }
+    },
+    "effects": [
+      "db.read:users",
+      "network.read:directory"
+    ],
+    "name": "resolveUserAfcb935bd2517224a",
+    "parameters": [
+      {
+        "name": "rawId",
+        "symbol_id": "param:fresh-fcb935bd2517224a-raw-id",
+        "type": "string"
+      }
+    ],
+    "return_type": "result<user,string>",
+    "symbol_id": "fn:fresh-fcb935bd2517224a-lookup"
+  },
+  "program_id": "program:fresh-fcb935bd2517224a",
+  "schema_version": "ai-experiments.semantic-ir.program/v2"
+}

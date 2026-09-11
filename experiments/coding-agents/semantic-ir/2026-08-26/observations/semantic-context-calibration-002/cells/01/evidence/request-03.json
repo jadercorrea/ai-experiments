@@ -1,0 +1,219 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe artifacts below are your complete task context. Every artifact has an immutable\ncontext:// handle and can be retrieved with context_read. The participant repository\nis a separate namespace exposed by workspace_list and workspace_read. Tool rejection\nis a typed result that may be corrected within the frozen budgets. You have no shell,\nhost-repository, hidden-evaluator, reference-solution, network, or browsing access.\n\n<artifact handle=\"context://task\" role=\"task\" path=\"tasks/error-taxonomy-001/participant-context/TASK.md\">\n# Task\n\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact handle=\"context://mode\" role=\"mode\" path=\"tasks/error-taxonomy-001/participant-context/source-patch.md\">\n# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. Recover from typed tool errors within the available budget, submit candidate mutations through the assigned representation, and call submission_finish when final.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by examining the task context and repository structure.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"handle\":\"context://task\"}",
+            "name": "context_read"
+          },
+          "id": "tooluse_ghZhuy8AcHlS8er1E3FYs2",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"handle\":\"context://mode\"}",
+            "name": "context_read"
+          },
+          "id": "tooluse_kxLy4GNcqtCqRpakeudg4j",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_SlUvXeEPOpRFJot0nETGUG",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"bytes\":268,\"content\":\"# Task\\n\\nReplace the empty-input and missing-user error codes while preserving all control flow and effects.\\n\\nChange only the declared editable paths. Preserve all behavior not explicitly\\nchanged by this task. Public tests are visible; additional behavior is withheld.\\n\",\"handle\":\"context://task\",\"path\":\"tasks/error-taxonomy-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"ffa3ced473cb48b734272a6854d189870dbb44fcedc8245b0b6622154b7b54e2\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_ghZhuy8AcHlS8er1E3FYs2"
+    },
+    {
+      "content": "{\"bytes\":165,\"content\":\"# Source patch mode\\n\\nInspect the repository and submit one unified diff. The diff may change only the\\ndeclared editable paths. Do not modify tests or configuration.\\n\",\"handle\":\"context://mode\",\"path\":\"tasks/error-taxonomy-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_kxLy4GNcqtCqRpakeudg4j"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1755,\"path\":\"src/lookup-user.ts\",\"sha256\":\"12c4625db05a8980c506f2fb852da4c7a38d5ff872088eaf5453c69837aa3967\"},{\"bytes\":733,\"path\":\"tests/public.test.ts\",\"sha256\":\"531a91aa402f6aa51bee0a8d4d6ae61e0a2c8b4eb508d426ab00238812d03bbe\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_SlUvXeEPOpRFJot0nETGUG"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"path\":\"src/lookup-user.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_4k3zdkWxPA70hD7OtOS8aS",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"tests/public.test.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_QCdqVowL0dzoBXrSZMzG5K",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"deno.json\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_e6oR1GmJQ8YkvlTZ1dhDON",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function resolveErrorCase(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:context-v1-error-taxonomy-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:context-v1-error-taxonomy-001-trim */ (/* ir:node:context-v1-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:context-v1-error-taxonomy-001-validity-if */ (/* ir:node:context-v1-error-taxonomy-001-is-empty */ (/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:context-v1-error-taxonomy-001-invalid-id */ { error: /* ir:node:context-v1-error-taxonomy-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:context-v1-error-taxonomy-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:context-v1-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:context-v1-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:context-v1-error-taxonomy-001-not-found */ { error: /* ir:node:context-v1-error-taxonomy-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:context-v1-error-taxonomy-001-found */ { ok: /* ir:node:context-v1-error-taxonomy-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"12c4625db05a8980c506f2fb852da4c7a38d5ff872088eaf5453c69837aa3967\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_4k3zdkWxPA70hD7OtOS8aS"
+    },
+    {
+      "content": "{\"content\":\"import { resolveErrorCase } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"changes empty error and preserves success\\\", () => {\\n  const calls: string[] = [];\\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \\\"42\\\" ? { id, name: \\\"Ada\\\" } : undefined; } } };\\n  assertEquals(resolveErrorCase(\\\" \\\\t \\\", capabilities), { error: \\\"empty_identifier\\\" });\\n  assertEquals(calls, []);\\n  assertEquals(resolveErrorCase(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Ada\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"531a91aa402f6aa51bee0a8d4d6ae61e0a2c8b4eb508d426ab00238812d03bbe\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_QCdqVowL0dzoBXrSZMzG5K"
+    },
+    {
+      "content": "{\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_e6oR1GmJQ8YkvlTZ1dhDON"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List immutable task-context handles, roles, sizes, and digests.",
+        "name": "context_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one immutable context artifact by its context:// handle.",
+        "name": "context_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "handle": {
+              "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one unified diff against the frozen base repository. Only declared editable paths may change.",
+        "name": "source_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

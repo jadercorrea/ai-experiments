@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/session-progress-runtime-v1.schema.json",
+  "title": "Session Progress Runtime v1 local gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "callable_cells",
+    "work_phase_requests",
+    "work_phase_byte_identical_requests",
+    "commit_phase_mutations",
+    "finish_phase_terminals",
+    "source_hidden_passes",
+    "semantic_hidden_passes",
+    "semantic_unsupported_cells",
+    "reference_failures",
+    "schema_escape",
+    "model_calls_observed",
+    "claim_boundary",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.session-progress-runtime/v1"
+    },
+    "status": {
+      "enum": ["local_reference_complete", "failed"]
+    },
+    "callable_cells": {"type": "integer", "minimum": 0},
+    "work_phase_requests": {"type": "integer", "minimum": 0},
+    "work_phase_byte_identical_requests": {"type": "integer", "minimum": 0},
+    "commit_phase_mutations": {"type": "integer", "minimum": 0},
+    "finish_phase_terminals": {"type": "integer", "minimum": 0},
+    "source_hidden_passes": {"type": "integer", "minimum": 0},
+    "semantic_hidden_passes": {"type": "integer", "minimum": 0},
+    "semantic_unsupported_cells": {"type": "integer", "minimum": 0},
+    "reference_failures": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "schema_escape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "attempted_opcode",
+        "error_code",
+        "recoverable",
+        "tool_errors",
+        "session_finished"
+      ],
+      "properties": {
+        "phase": {"const": "finish"},
+        "attempted_opcode": {"const": "I"},
+        "error_code": {"const": "session_progress_opcode_unavailable"},
+        "recoverable": {"const": true},
+        "tool_errors": {"const": 1},
+        "session_finished": {"const": false}
+      }
+    },
+    "model_calls_observed": {"const": 0},
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known_references_used_locally",
+        "provider_schema_adherence_claimed",
+        "provider_choices_observed",
+        "pass_improvement_claimed",
+        "calibration_007_frozen"
+      ],
+      "properties": {
+        "known_references_used_locally": {"const": true},
+        "provider_schema_adherence_claimed": {"const": false},
+        "provider_choices_observed": {"const": false},
+        "pass_improvement_claimed": {"const": false},
+        "calibration_007_frozen": {"const": false}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

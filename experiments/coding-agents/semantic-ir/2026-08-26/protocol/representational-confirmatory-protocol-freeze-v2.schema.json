@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-protocol-freeze-v2.schema.json",
+  "title": "Representational confirmatory lexically-total protocol freeze v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_id",
+    "status",
+    "source_freezes",
+    "runtime_contract",
+    "gates",
+    "preflight",
+    "claim_boundary",
+    "next_red_test",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-protocol-freeze/v2"
+    },
+    "protocol_id": {
+      "const": "representational-confirmatory-protocol-v2"
+    },
+    "status": {
+      "const": "protocol_v2_sealed_provider_free_replay_passed_launch_blocked"
+    },
+    "source_freezes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_v1_verified",
+        "lexicalization_totality_v0_verified",
+        "cohort_verified",
+        "participant_execution_verified"
+      ],
+      "properties": {
+        "protocol_v1_verified": {"const": true},
+        "lexicalization_totality_v0_verified": {"const": true},
+        "cohort_verified": {"const": true},
+        "participant_execution_verified": {"const": true}
+      }
+    },
+    "runtime_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_schema_version",
+        "accounting_semantics",
+        "observation_codec",
+        "lexicon_delta",
+        "historical_runtime_mutated"
+      ],
+      "properties": {
+        "state_schema_version": {
+          "const": "ai-experiments.semantic-ir.representational-session-state/v1"
+        },
+        "accounting_semantics": {"const": "inherited_from_protocol_v1"},
+        "observation_codec": {"const": "representational_observation_codec_v1"},
+        "lexicon_delta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["meaningful", "opaque"],
+          "properties": {
+            "meaningful": {"const": "arguments[0]"},
+            "opaque": {"const": "k32"}
+          }
+        },
+        "historical_runtime_mutated": {"const": false}
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codec_integration", "provider_free_replay", "launch"],
+      "properties": {
+        "codec_integration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["passed", "evidence"],
+          "properties": {
+            "passed": {"const": true},
+            "evidence": {"const": "960/960 full-node condition inspections round-trip"}
+          }
+        },
+        "provider_free_replay": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["passed", "evidence"],
+          "properties": {
+            "passed": {"const": true},
+            "evidence": {"const": "960/960 frozen reference trajectories pass"}
+          }
+        },
+        "launch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["passed", "reason"],
+          "properties": {
+            "passed": {"const": false},
+            "reason": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "preflight/result.json"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "behavioral_effect_claimed",
+        "model_calls_authorized",
+        "provider_requests_observed",
+        "provider_costs_incurred_usd"
+      ],
+      "properties": {
+        "behavioral_effect_claimed": {"const": false},
+        "model_calls_authorized": {"const": false},
+        "provider_requests_observed": {"const": 0},
+        "provider_costs_incurred_usd": {"const": 0.0}
+      }
+    },
+    "next_red_test": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dependencies"],
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

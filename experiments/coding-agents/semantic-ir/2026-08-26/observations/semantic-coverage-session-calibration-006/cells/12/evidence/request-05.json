@@ -1,0 +1,56 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nRename a public lookup contract and migrate its callers and export map without changing runtime behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. After turn one, prior assistant and tool messages are replaced by an authoritative typed state snapshot. Semantic S target misses are re-fetched deterministically by the runtime. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "SESSION_STATE/v1\n{\"arm\":\"source\",\"cell_id\":\"semantic-ir-coverage-session-calibration-006/cross-module-rename-001/source\",\"context_reads\":[],\"counters\":{\"finished\":false,\"instructions_by_opcode\":{\"C\":1,\"L\":1,\"W\":6},\"mutation_attempts\":0,\"public_evaluations\":0,\"remaining_mutation_attempts\":3,\"remaining_public_evaluations\":2,\"remaining_turns\":8,\"tool_calls\":8,\"validation_failures\":{}},\"errors\":[],\"evaluations\":[],\"namespaces\":{\"context\":[\"context://mode\",\"context://task\"],\"semantic_handles\":[],\"workspace\":[\"deno.json\",\"src/contracts.ts\",\"src/lookup-user.ts\",\"src/mod.ts\",\"tests/public.test.ts\"]},\"next_turn\":5,\"schema_version\":\"ai-experiments.semantic-ir.session-state/v1\",\"semantic_inspections\":[],\"submissions\":[],\"workspace\":[{\"bytes\":107,\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":114,\"content\":\"export const EXECUTE_CONTRACT = \\\"executeUser\\\" as const;\\nexport type ExecuteUser = (id: string) => { id: string };\\n\",\"path\":\"src/contracts.ts\",\"sha256\":\"41515e4c6bf6d73dcf366ef66d8de82ebe824fe3b79f9d4cc223ae252e43fb0c\"},{\"bytes\":110,\"content\":\"import type { ExecuteUser } from \\\"./contracts.ts\\\";\\n\\nexport const executeUser: ExecuteUser = (id) => ({ id });\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"f4a183118537ebc6592c3cab2100a90910d32871e550a9f99fa54c1061d7eade\"},{\"bytes\":117,\"content\":\"export { EXECUTE_CONTRACT, type ExecuteUser } from \\\"./contracts.ts\\\";\\nexport { executeUser } from \\\"./lookup-user.ts\\\";\\n\",\"path\":\"src/mod.ts\",\"sha256\":\"baf1abb24d51e997ecb34382b358ddb610ddd621a165290c15367053c161cf77\"},{\"bytes\":379,\"content\":\"import { loadUser } from \\\"../src/mod.ts\\\";\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"exports the renamed lookup\\\", () => {\\n  assertEquals(loadUser(\\\"42\\\"), { id: \\\"42\\\" });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"6f7339cd5bfa9548b5065ba3d304709474dcfad3a475b536ef56159240714bda\"}]}",
+      "role": "user"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

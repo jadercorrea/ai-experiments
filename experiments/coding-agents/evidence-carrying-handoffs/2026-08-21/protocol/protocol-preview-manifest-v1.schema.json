@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jadercorrea/ai-experiments/blob/main/experiments/coding-agents/evidence-carrying-handoffs/2026-08-21/protocol/protocol-preview-manifest-v1.schema.json",
+  "title": "Evidence-carrying handoffs protocol preview manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "publication_type",
+    "experiment_id",
+    "preview_version",
+    "snapshot_date",
+    "status",
+    "protocol_frozen",
+    "outcome_data_observed",
+    "study_model_calls",
+    "authorized_execution",
+    "model_selection_status",
+    "funding_status",
+    "sponsor_endorsement",
+    "literature_review",
+    "included_artifacts",
+    "excluded_material",
+    "verification",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.evidence-carrying-handoffs.protocol-preview/v1"
+    },
+    "publication_type": {"const": "public-protocol-preview"},
+    "experiment_id": {"const": "evidence-carrying-handoffs-2026-08-21"},
+    "preview_version": {"const": "0.1"},
+    "snapshot_date": {"const": "2026-08-24"},
+    "status": {"const": "design-under-review"},
+    "protocol_frozen": {"const": false},
+    "outcome_data_observed": {"const": false},
+    "study_model_calls": {"const": 0},
+    "authorized_execution": {"const": "none"},
+    "model_selection_status": {"const": "intentionally-unfrozen"},
+    "funding_status": {"const": "credit-applications-planned-not-submitted"},
+    "sponsor_endorsement": {"const": "none"},
+    "literature_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "search_through", "systematic_review"],
+      "properties": {
+        "method": {"const": "scoped-primary-source-review"},
+        "search_through": {"const": "2026-08-24"},
+        "systematic_review": {"const": false}
+      }
+    },
+    "included_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "excluded_material": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "confirmatory-task-identities",
+          "hidden-evaluator-contents",
+          "study-outcomes",
+          "model-locks",
+          "assignment-schedule"
+        ]
+      },
+      "allOf": [
+        {"contains": {"const": "confirmatory-task-identities"}},
+        {"contains": {"const": "hidden-evaluator-contents"}},
+        {"contains": {"const": "study-outcomes"}}
+      ]
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {"pattern": "(^/|(^|/)\\.\\.(/|$))"}
+    }
+  }
+}

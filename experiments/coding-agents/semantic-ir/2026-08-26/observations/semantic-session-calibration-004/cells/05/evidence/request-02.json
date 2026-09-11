@@ -1,0 +1,84 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nAfter a normalized lookup misses, perform exactly one second lookup with the original identifier and return the first user found.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the workspace and context to understand the codebase.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"L\"}",
+            "name": "x"
+          },
+          "id": "tooluse_9r263NiWldf8bNlLUc9BGm",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"C\"}",
+            "name": "x"
+          },
+          "id": "tooluse_Wc3PyLaLKSK1zvSj79kHwS",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1725,\"path\":\"src/lookup-user.ts\",\"sha256\":\"4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1\"},{\"bytes\":995,\"path\":\"tests/public.test.ts\",\"sha256\":\"4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_9r263NiWldf8bNlLUc9BGm"
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":258,\"handle\":\"context://mode\",\"path\":\"tasks/raw-id-retry-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b\"},{\"bytes\":298,\"handle\":\"context://task\",\"path\":\"tasks/raw-id-retry-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a3b83a79cc96c72a04f52ccfb1e7abac7ebc783c71052c342d8f97936c51379e\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Wc3PyLaLKSK1zvSj79kHwS"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

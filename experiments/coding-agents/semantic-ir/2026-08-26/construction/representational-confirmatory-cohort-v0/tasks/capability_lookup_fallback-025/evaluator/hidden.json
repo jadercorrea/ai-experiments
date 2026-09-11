@@ -1,0 +1,121 @@
+[
+  {
+    "arguments": {
+      "rawId": "  user-11741334\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "  user-11741334\t": [
+            null
+          ]
+        }
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-11741334": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-11741334"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "  user-11741334\t"
+          ],
+          "symbol": "directory.get_by_id"
+        }
+      ],
+      "value": {
+        "error": "not_found_117413349cfed09e"
+      }
+    },
+    "id": "fallback-miss",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "  user-11741334\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-11741334": [
+            {
+              "id": "user-11741334",
+              "name": "Local-fed09e"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-11741334"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-11741334",
+          "name": "Local-fed09e"
+        }
+      }
+    },
+    "id": "local-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " \t "
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_117413349cfed09e"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

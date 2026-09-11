@@ -1,0 +1,129 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.\n<task>\n# Task\n\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</task>\n<mode>\n# Source Session ISA mode\n\nUse only the `x` tool. Discover and read repository files with `L` and `W`, then\nsubmit one unified diff as `S[diff]`. The diff may change only declared editable\npaths. Do not modify tests or configuration. Issue `F[]` when final.\n</mode>\n<isa>\nx envelope: {\"i\":OP,\"a\":[args]}.\nC[] context list; R[handle] context read; L[] workspace list;\nW[path] workspace read; E[] public evaluation; F[] finish.\nI is unavailable in source mode. S[unified-diff] submits one source patch.\nTrusted infrastructure validates the envelope and applies the diff in staging;\nonly declared editable paths publish, atomically, after all checks pass.\n</isa>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task only through x instructions. Inspect the workspace or semantic handles as needed, submit one candidate representation at a time, use E if useful, and issue F when final. Do not return a diff or semantic motions as plain text.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the workspace and context to understand the codebase.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"L\"}",
+            "name": "x"
+          },
+          "id": "tooluse_Kez1Q3dOrNdtrvZ7Fd47HA",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[],\"i\":\"C\"}",
+            "name": "x"
+          },
+          "id": "tooluse_vBCJ8fHLXzz7q1gZz5nWWI",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1802,\"path\":\"src/lookup-user.ts\",\"sha256\":\"d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83\"},{\"bytes\":848,\"path\":\"tests/public.test.ts\",\"sha256\":\"2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Kez1Q3dOrNdtrvZ7Fd47HA"
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":258,\"handle\":\"context://mode\",\"path\":\"tasks/reserved-id-guard-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b\"},{\"bytes\":288,\"handle\":\"context://task\",\"path\":\"tasks/reserved-id-guard-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_vBCJ8fHLXzz7q1gZz5nWWI"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"a\":[\"context://task\"],\"i\":\"R\"}",
+            "name": "x"
+          },
+          "id": "tooluse_yG4BMPImLHlCNRN36UPiil",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[\"src/lookup-user.ts\"],\"i\":\"W\"}",
+            "name": "x"
+          },
+          "id": "tooluse_13FlaSZ6TySEAcNcN5gtQH",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"a\":[\"tests/public.test.ts\"],\"i\":\"W\"}",
+            "name": "x"
+          },
+          "id": "tooluse_SprV18eLEgMNMcCxGJvrC6",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"bytes\":288,\"content\":\"# Task\\n\\nReject one exact reserved identifier before database access while preserving normalization and every other lookup path.\\n\\nChange only the declared editable paths. Preserve all behavior not explicitly\\nchanged by this task. Public tests are visible; additional behavior is withheld.\\n\",\"handle\":\"context://task\",\"path\":\"tasks/reserved-id-guard-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a1021a4e0493a5f1b5205b16c9ffd1a609d512cf92f5846a72d4edf6bb5be213\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_yG4BMPImLHlCNRN36UPiil"
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function executeGuardedUser(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:session-v3-reserved-id-guard-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:session-v3-reserved-id-guard-001-trim */ (/* ir:node:session-v3-reserved-id-guard-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:session-v3-reserved-id-guard-001-validity-if */ (/* ir:node:session-v3-reserved-id-guard-001-is-empty */ (/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:session-v3-reserved-id-guard-001-invalid-id */ { error: /* ir:node:session-v3-reserved-id-guard-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:session-v3-reserved-id-guard-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:session-v3-reserved-id-guard-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-reserved-id-guard-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:session-v3-reserved-id-guard-001-not-found */ { error: /* ir:node:session-v3-reserved-id-guard-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:session-v3-reserved-id-guard-001-found */ { ok: /* ir:node:session-v3-reserved-id-guard-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"d5f30b744a742421ce3f95f7aeec8113befbc153ab6baba9dd438f8b7db48c83\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_13FlaSZ6TySEAcNcN5gtQH"
+    },
+    {
+      "content": "{\"content\":\"import { executeGuardedUser } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"rejects normalized root before lookup\\\", () => {\\n  const calls: string[] = [];\\n  const capabilities = { users: { getById(id: string) { calls.push(id); return undefined; } } };\\n  assertEquals(executeGuardedUser(\\\" root \\\", capabilities), { error: \\\"reserved_user_id\\\" });\\n  assertEquals(calls, []);\\n});\\n\\nDeno.test(\\\"preserves an ordinary local hit\\\", () => {\\n  const capabilities = { users: { getById(id: string) { return { id, name: \\\"Ada\\\" }; } } };\\n  assertEquals(executeGuardedUser(\\\"42\\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Ada\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"2cd82c53d65ac3b7adfe32e180cb12fd6b82371fd919f42e28e4f7a30dbc81e9\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_SprV18eLEgMNMcCxGJvrC6"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "Execute one frozen session ISA instruction.",
+        "name": "x",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "type": "array"
+            },
+            "i": {
+              "enum": [
+                "C",
+                "R",
+                "I",
+                "L",
+                "W",
+                "E",
+                "S",
+                "F"
+              ]
+            }
+          },
+          "required": [
+            "i",
+            "a"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

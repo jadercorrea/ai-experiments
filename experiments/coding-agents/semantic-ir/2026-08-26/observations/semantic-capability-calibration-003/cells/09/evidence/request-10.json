@@ -1,0 +1,339 @@
+{
+  "max_completion_tokens": 4096,
+  "messages": [
+    {
+      "content": "You are the experimental subject in a locked coding-agent calibration.\nThe artifacts below are your complete task context. Every artifact has an immutable\ncontext:// handle and can be retrieved with context_read. The participant repository\nis a separate namespace exposed by workspace_list and workspace_read. In semantic\nmode, semantic_state_inspect is read-only and issues the exact opaque state and target\ntokens required by semantic_patch_submit. Tool rejection is a typed result that may\nbe corrected within the frozen budgets. You have no shell, host-repository,\nhidden-evaluator, reference-solution, network, or browsing access.\n\n<artifact handle=\"context://task\" role=\"task\" path=\"tasks/directory-fallback-001/participant-context/TASK.md\">\n# Task\n\nFall back to a directory capability after a local user-store miss while preserving the existing empty-input and success behavior.\n\nChange only the declared editable paths. Preserve all behavior not explicitly\nchanged by this task. Public tests are visible; additional behavior is withheld.\n</artifact>\n\n<artifact handle=\"context://mode\" role=\"mode\" path=\"tasks/directory-fallback-001/participant-context/source-patch.md\">\n# Source patch mode\n\nInspect the repository and submit one unified diff. The diff may change only the\ndeclared editable paths. Do not modify tests or configuration.\n</artifact>\n",
+      "role": "system"
+    },
+    {
+      "content": "Complete the task through the provided tools. Context artifacts use immutable context:// handles and repository files use workspace-relative paths. In the semantic arm, inspect selected state nodes to obtain opaque precondition tokens before submitting one patch. Recover from typed tool errors within the available budget and call submission_finish when final.",
+      "role": "user"
+    },
+    {
+      "content": "I'll start by exploring the context and workspace to understand the task requirements.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "context_list"
+          },
+          "id": "tooluse_2B1MtaNaQQ2DwJbMQhk60F",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_T4GSWH1b8besRtzinQihrK",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"artifacts\":[{\"bytes\":165,\"handle\":\"context://mode\",\"path\":\"tasks/directory-fallback-001/participant-context/source-patch.md\",\"role\":\"mode\",\"sha256\":\"9bb090e75b238308efe0cbc7c0f00df7b1312cd40ffe9d850cb9269a46e596ce\"},{\"bytes\":298,\"handle\":\"context://task\",\"path\":\"tasks/directory-fallback-001/participant-context/TASK.md\",\"role\":\"task\",\"sha256\":\"a4922f482607a97a1c0f07de7790a309b4af4889ce34d75dba6ef15b0dfc0c7d\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_2B1MtaNaQQ2DwJbMQhk60F"
+    },
+    {
+      "content": "{\"files\":[{\"bytes\":107,\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"},{\"bytes\":1864,\"path\":\"src/lookup-user.ts\",\"sha256\":\"3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449\"},{\"bytes\":942,\"path\":\"tests/public.test.ts\",\"sha256\":\"ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8\"}]}",
+      "role": "tool",
+      "tool_call_id": "tooluse_T4GSWH1b8besRtzinQihrK"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"path\":\"src/lookup-user.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_1YgOhfcOnBy0nWbf0AfZ63",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"tests/public.test.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_HqT673RVqdjzvEjEWHmegc",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"deno.json\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_1h7nbNchLqsmW0UMCOhjRg",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"content\":\"// Generated deterministically from semantic IR. Do not edit.\\nexport type User = Readonly<{ id: string; name: string }>;\\nexport type Result<T, E> = { ok: T } | { error: E };\\nexport type SemanticCapabilities = Readonly<{\\n  users: Readonly<{ getById(id: string): User | undefined }>;\\n}>;\\n\\nexport function processWithDirectory(\\n  rawId: string, capabilities: SemanticCapabilities\\n): Result<User, string> {\\n  return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\\n    const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n    return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n      ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n      : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n          const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n          if (__semantic_ir_option_1 === undefined) {\\n            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n          }\\n          const user: User = __semantic_ir_option_1;\\n          return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n        })());\\n  })();\\n}\\n\",\"path\":\"src/lookup-user.ts\",\"sha256\":\"3873737a215c7a462e2745b246b60d0602282f8177af64f6dc95c3826aca7449\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_1YgOhfcOnBy0nWbf0AfZ63"
+    },
+    {
+      "content": "{\"content\":\"import { processWithDirectory } from \\\"../src/lookup-user.ts\\\";\\n\\nfunction assertEquals(actual: unknown, expected: unknown): void {\\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\\n    throw new Error(\\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\\n    );\\n  }\\n}\\n\\nDeno.test(\\\"returns a directory hit after local miss\\\", () => {\\n  const capabilities = {\\n    users: { getById(_id: string) { return undefined; } },\\n    directory: { getById(id: string) { return { id, name: \\\"Directory\\\" }; } },\\n  };\\n  assertEquals(processWithDirectory(\\\" 42 \\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Directory\\\" } });\\n});\\n\\nDeno.test(\\\"preserves a local hit\\\", () => {\\n  const capabilities = {\\n    users: { getById(id: string) { return { id, name: \\\"Local\\\" }; } },\\n    directory: { getById(_id: string) { return undefined; } },\\n  };\\n  assertEquals(processWithDirectory(\\\"42\\\", capabilities), { ok: { id: \\\"42\\\", name: \\\"Local\\\" } });\\n});\\n\",\"path\":\"tests/public.test.ts\",\"sha256\":\"ebedafcf35e58d96890910a48ea3f80de145d01302829bda33a2236b9a2886d8\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_HqT673RVqdjzvEjEWHmegc"
+    },
+    {
+      "content": "{\"content\":\"{\\n  \\\"compilerOptions\\\": {\\n    \\\"strict\\\": true,\\n    \\\"noImplicitAny\\\": true,\\n    \\\"strictNullChecks\\\": true\\n  }\\n}\\n\",\"path\":\"deno.json\",\"sha256\":\"45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_1h7nbNchLqsmW0UMCOhjRg"
+    },
+    {
+      "content": "Now I understand the task. The tests show:\n\n1. The `SemanticCapabilities` type needs a `directory` capability added\n2. When `users.getById()` returns `undefined` (local miss), it should fall back to `directory.getById()`\n3. If the directory also misses, return `not_found`\n4. Empty input still returns `invalid_user_id`\n5. Local hit still returns the local user\n\nLet me create the patch:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,7 +1,9 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n@@ -17,9 +19,14 @@ export function processWithDirectory(\\n       : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\\n\"}",
+            "name": "source_patch_submit"
+          },
+          "id": "tooluse_rDtiLQIkx6112cGuQDOuKP",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"source_patch_rejected\",\"message\":\"source patch rejected: error: corrupt patch at line 13\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_rDtiLQIkx6112cGuQDOuKP"
+    },
+    {
+      "content": "Let me fix the patch format:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -3,6 +3,7 @@\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n@@ -19,7 +20,11 @@\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n\"}",
+            "name": "source_patch_submit"
+          },
+          "id": "tooluse_r2QlT3E1vxOrK4J2RuUb5n",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"source_patch_rejected\",\"message\":\"source patch rejected: error: corrupt patch at line 24\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_r2QlT3E1vxOrK4J2RuUb5n"
+    },
+    {
+      "content": "Let me write the patch more carefully with proper context lines:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -3,6 +3,7 @@\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n@@ -18,8 +19,13 @@\\n       : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n\"}",
+            "name": "source_patch_submit"
+          },
+          "id": "tooluse_PRM0EDz24bddsbe2ZnlqPb",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"accepted\":false,\"classification\":\"source_patch_rejected\",\"message\":\"source patch rejected: error: corrupt patch at line 25\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_PRM0EDz24bddsbe2ZnlqPb"
+    },
+    {
+      "content": "The issue seems to be with the long lines. Let me try a complete file replacement approach with a single hunk:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,27 +1,32 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n   rawId: string, capabilities: SemanticCapabilities\\n ): Result<User, string> {\\n   return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\\n     const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n     return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n       ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n       : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\\n\"}",
+            "name": "source_patch_submit"
+          },
+          "id": "tooluse_zZh73GrE6aP11U3uPyWtbH",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"error\":{\"code\":\"tool_request_rejected\",\"message\":\"mutation attempt limit exhausted\",\"recoverable\":true},\"ok\":false}",
+      "role": "tool",
+      "tool_call_id": "tooluse_zZh73GrE6aP11U3uPyWtbH"
+    },
+    {
+      "content": "Let me run the public evaluator first to check the current state, then try again:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "evaluation_run_public"
+          },
+          "id": "tooluse_5r6Cr7hngbpKuxHdqzNNs8",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"classification\":\"product_failure\",\"exit_code\":1,\"passed\":false,\"stderr\":\"Check tests/public.test.ts\\nerror: Test failed\\n\",\"stdout\":\"running 2 tests from ./tests/public.test.ts\\nreturns a directory hit after local miss ... FAILED (2ms)\\npreserves a local hit ... ok (0ms)\\n\\n ERRORS \\n\\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\\nerror: Error: expected {\\\"ok\\\":{\\\"id\\\":\\\"42\\\",\\\"name\\\":\\\"Directory\\\"}}, got {\\\"error\\\":\\\"not_found\\\"}\\n    throw new Error(\\n          ^\\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:5:11)\\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:16:3\\n\\n FAILURES \\n\\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\\n\\nFAILED | 1 passed | 1 failed (6ms)\\n\\n\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_5r6Cr7hngbpKuxHdqzNNs8"
+    },
+    {
+      "content": "The evaluation confirms the issue. Now let me submit the patch with the correct format:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,27 +1,32 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n export function processWithDirectory(\\n   rawId: string, capabilities: SemanticCapabilities\\n ): Result<User, string> {\\n   return /* ir:node:capability-v2-directory-fallback-001-normalize-let */ (() => {\\n     const normalizedId: string = /* ir:node:capability-v2-directory-fallback-001-trim */ (/* ir:node:capability-v2-directory-fallback-001-raw-id-ref */ rawId).replace(/^[\\\\t\\\\n\\\\v\\\\f\\\\r ]+|[\\\\t\\\\n\\\\v\\\\f\\\\r ]+$/g, \\\"\\\");\\n     return /* ir:node:capability-v2-directory-fallback-001-validity-if */ (/* ir:node:capability-v2-directory-fallback-001-is-empty */ (/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-empty */ normalizedId).length === 0)\\n       ? (/* ir:node:capability-v2-directory-fallback-001-invalid-id */ { error: /* ir:node:capability-v2-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n       : (/* ir:node:capability-v2-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:capability-v2-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:capability-v2-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:capability-v2-directory-fallback-001-not-found */ { error: /* ir:node:capability-v2-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:capability-v2-directory-fallback-001-found */ { ok: /* ir:node:capability-v2-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\\n\"}",
+            "name": "source_patch_submit"
+          },
+          "id": "tooluse_Cc9nDjERjWlgx9NfGyeRWP",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"error\":{\"code\":\"tool_request_rejected\",\"message\":\"mutation attempt limit exhausted\",\"recoverable\":true},\"ok\":false}",
+      "role": "tool",
+      "tool_call_id": "tooluse_Cc9nDjERjWlgx9NfGyeRWP"
+    },
+    {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "evaluation_run_public"
+          },
+          "id": "tooluse_9hcUTJZUFfGlMxt4buSk4Q",
+          "type": "function"
+        }
+      ]
+    },
+    {
+      "content": "{\"classification\":\"product_failure\",\"exit_code\":1,\"passed\":false,\"stderr\":\"error: Test failed\\n\",\"stdout\":\"running 2 tests from ./tests/public.test.ts\\nreturns a directory hit after local miss ... FAILED (0ms)\\npreserves a local hit ... ok (0ms)\\n\\n ERRORS \\n\\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\\nerror: Error: expected {\\\"ok\\\":{\\\"id\\\":\\\"42\\\",\\\"name\\\":\\\"Directory\\\"}}, got {\\\"error\\\":\\\"not_found\\\"}\\n    throw new Error(\\n          ^\\n    at assertEquals (file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:5:11)\\n    at file:///Users/jadercorrea/workspace/ai-experiments/experiments/coding-agents/semantic-ir/2026-08-26/observations/semantic-capability-calibration-003/cells/09/workspace/tests/public.test.ts:16:3\\n\\n FAILURES \\n\\nreturns a directory hit after local miss => ./tests/public.test.ts:11:6\\n\\nFAILED | 1 passed | 1 failed (4ms)\\n\\n\"}",
+      "role": "tool",
+      "tool_call_id": "tooluse_9hcUTJZUFfGlMxt4buSk4Q"
+    }
+  ],
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "parallel_tool_calls": false,
+  "stream": false,
+  "temperature": 0,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "function": {
+        "description": "List immutable task-context handles, roles, sizes, and digests.",
+        "name": "context_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one immutable context artifact by its context:// handle.",
+        "name": "context_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "handle": {
+              "pattern": "^context://[a-z0-9][a-z0-9._/-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "List every file in the ephemeral participant repository, sorted by path.",
+        "name": "workspace_list",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Read one UTF-8 file inside the ephemeral participant repository. Traversal and host paths are rejected.",
+        "name": "workspace_read",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Run the locked public evaluator. This never runs or reveals the hidden evaluator.",
+        "name": "evaluation_run_public",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finalize the current candidate and terminate subject access. Hidden evaluation runs afterward.",
+        "name": "submission_finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Submit one unified diff against the frozen base repository. Only declared editable paths may change.",
+        "name": "source_patch_submit",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "patch": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "patch"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

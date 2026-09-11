@@ -1,0 +1,291 @@
+{
+  "attempt_index": 0,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-b3a1159c23313775-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-b3a1159c23313775-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-b3a1159c23313775-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-b3a1159c23313775-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-b3a1159c23313775-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-b3a1159c23313775-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-b3a1159c23313775-missing-code",
+                "op": "string",
+                "value": "not_found_b3a1159c23313775"
+              },
+              "node_id": "node:fresh-b3a1159c23313775-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-b3a1159c23313775-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-b3a1159c23313775-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-b3a1159c23313775-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-b3a1159c23313775-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-b3a1159c23313775-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-b3a1159c23313775-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-b3a1159c23313775-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-b3a1159c23313775-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-b3a1159c23313775-invalid-code",
+              "op": "string",
+              "value": "invalid_input_b3a1159c23313775"
+            },
+            "node_id": "node:fresh-b3a1159c23313775-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "node_id": "node:fresh-b3a1159c23313775-normalizer",
+          "op": "var",
+          "symbol_id": "param:fresh-b3a1159c23313775-raw-id"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserAb3a1159c23313775",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-b3a1159c23313775-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-b3a1159c23313775-lookup"
+    },
+    "program_id": "program:fresh-b3a1159c23313775",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:error_option_taxonomy:b3a1159c23313775",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 10881288396310938270,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": ""
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "empty_identifier_b3a1159c23313775"
+          }
+        },
+        "id": "empty-failure",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": "  user-b3a1159c\t"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "  user-b3a1159c\t"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "error": "unknown_user_b3a1159c23313775"
+          }
+        },
+        "id": "missing-failure",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "  user-b3a1159c\t"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "  user-b3a1159c\t": [
+                {
+                  "id": "  user-b3a1159c\t",
+                  "name": "Value-313775"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "  user-b3a1159c\t"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "  user-b3a1159c\t",
+              "name": "Value-313775"
+            }
+          }
+        },
+        "id": "successful-value",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "missing-159c23313775"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "missing-159c23313775"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "error": "unknown_user_b3a1159c23313775"
+          }
+        },
+        "id": "absence-is-not-failure",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "error_option_taxonomy",
+  "family_index": 26,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "Report empty input as empty_identifier_b3a1159c23313775 and a missing user as unknown_user_b3a1159c23313775; keep successful values unchanged.",
+  "profile": {
+    "dimensions": {
+      "baseline_normalization": "preserve_raw",
+      "identifier_shape": "alphabetic",
+      "public_focus": "empty_failure"
+    },
+    "profile_index": 6
+  },
+  "reference_patch": {
+    "base_program_sha256": "627f0d7d41b96013b10d40b2af13195bf5ece5fb647db56ae4df89176cbc98b8",
+    "operations": [
+      {
+        "expected_subtree_sha256": "2aa23aee916b0dacdedfa354dca8854f436aa3f2b2cca7f0e9cae5340bbed174",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-b3a1159c23313775-empty",
+        "replacement": {
+          "node_id": "node:fresh-b3a1159c23313775-invalid-code",
+          "op": "string",
+          "value": "empty_identifier_b3a1159c23313775"
+        },
+        "target_node_id": "node:fresh-b3a1159c23313775-invalid-code"
+      },
+      {
+        "expected_subtree_sha256": "2a8bc252eed17983cdf630a380efce538526d7f9acc1581ef025eeccea99fe69",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-b3a1159c23313775-missing",
+        "replacement": {
+          "node_id": "node:fresh-b3a1159c23313775-missing-code",
+          "op": "string",
+          "value": "unknown_user_b3a1159c23313775"
+        },
+        "target_node_id": "node:fresh-b3a1159c23313775-missing-code"
+      }
+    ],
+    "patch_id": "patch:fresh-b3a1159c23313775",
+    "program_id": "program:fresh-b3a1159c23313775",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "absence_representation": "option none",
+    "failure_representation": "result error",
+    "normalization": "preserve_raw",
+    "outcome_states": [
+      "absence",
+      "failure",
+      "value"
+    ],
+    "value_representation": "result ok"
+  },
+  "semantic_signature_sha256": "78f9073be7f540296d5703210e6107684ce5e013c532a4a1b602f7d105b23e16",
+  "slot_id": "error_option_taxonomy-026"
+}

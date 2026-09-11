@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I have a clear picture. The test imports `loadUser` from `src/mod.ts`, but currently the export is `executeUser`. I need to:\n\n1. **`src/contracts.ts`**: Rename `ExecuteUser` → `LoadUser` (and keep/rename the contract constant)\n2. **`src/lookup-user.ts`**: Update the type import and rename the exported function to `loadUser`\n3. **`src/mod.ts`**: Update exports to expose `loadUser` and `LoadUser`",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/contracts.ts\\n+++ b/src/contracts.ts\\n@@ -1,2 +1,2 @@\\n-export const EXECUTE_CONTRACT = \\\"executeUser\\\" as const;\\n-export type ExecuteUser = (id: string) => { id: string };\\n+export const LOAD_CONTRACT = \\\"loadUser\\\" as const;\\n+export type LoadUser = (id: string) => { id: string };\\n--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,3 +1,3 @@\\n-import type { ExecuteUser } from \\\"./contracts.ts\\\";\\n+import type { LoadUser } from \\\"./contracts.ts\\\";\\n \\n-export const executeUser: ExecuteUser = (id) => ({ id });\\n+export const loadUser: LoadUser = (id) => ({ id });\\n--- a/src/mod.ts\\n+++ b/src/mod.ts\\n@@ -1,2 +1,2 @@\\n-export { EXECUTE_CONTRACT, type ExecuteUser } from \\\"./contracts.ts\\\";\\n-export { executeUser } from \\\"./lookup-user.ts\\\";\\n+export { LOAD_CONTRACT, type LoadUser } from \\\"./contracts.ts\\\";\\n+export { loadUser } from \\\"./lookup-user.ts\\\";\\n\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_d879rTD8PrvvsXDWYY0qb6",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-cab51163d35e9f56c350945b",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 526,
+    "prompt_tokens": 3031,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3557
+  }
+}

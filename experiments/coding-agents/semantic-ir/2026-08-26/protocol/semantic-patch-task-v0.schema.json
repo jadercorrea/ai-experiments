@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/semantic-patch-task-v0.schema.json",
+  "title": "Matched source-patch and semantic-patch construction task v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "language",
+    "repository_path",
+    "editable_paths",
+    "submission_modes",
+    "participant_visible_paths",
+    "mode_context_paths",
+    "contract_integrity",
+    "persistent_state",
+    "evaluators",
+    "runtime"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.patch-task/v0"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:[/:][a-z0-9-]+)+$"
+    },
+    "language": {"const": "typescript"},
+    "repository_path": {"const": "repository"},
+    "editable_paths": {"const": ["src/lookup-user.ts"]},
+    "submission_modes": {"const": ["source_patch", "semantic_patch"]},
+    "participant_visible_paths": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "mode_context_paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["common", "source_patch", "semantic_patch", "catalog"],
+      "properties": {
+        "common": {"$ref": "#/$defs/relativePath"},
+        "source_patch": {"$ref": "#/$defs/relativePath"},
+        "semantic_patch": {"$ref": "#/$defs/relativePath"},
+        "catalog": {"$ref": "#/$defs/relativePath"}
+      }
+    },
+    "contract_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_schema_path",
+        "task_schema_sha256",
+        "semantic_patch_schema_path",
+        "semantic_patch_schema_sha256",
+        "semantic_patch_harness_path",
+        "semantic_patch_harness_sha256",
+        "program_schema_path",
+        "program_schema_sha256",
+        "lowering_path",
+        "lowering_sha256",
+        "patch_applicator_path",
+        "patch_applicator_sha256"
+      ],
+      "properties": {
+        "task_schema_path": {"const": "protocol/semantic-patch-task-v0.schema.json"},
+        "task_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_patch_schema_path": {"const": "protocol/semantic-patch-v0.schema.json"},
+        "semantic_patch_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_patch_harness_path": {"const": "scripts/semantic_patch_task.py"},
+        "semantic_patch_harness_sha256": {"$ref": "#/$defs/sha256"},
+        "program_schema_path": {"const": "protocol/program-ir-v0.schema.json"},
+        "program_schema_sha256": {"$ref": "#/$defs/sha256"},
+        "lowering_path": {"const": "scripts/semantic_ir.py"},
+        "lowering_sha256": {"$ref": "#/$defs/sha256"},
+        "patch_applicator_path": {"const": "scripts/semantic_patch.py"},
+        "patch_applicator_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "persistent_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base_program_path",
+        "base_program_sha256",
+        "program_id",
+        "target_path"
+      ],
+      "properties": {
+        "base_program_path": {"const": "base/user-lookup.program.json"},
+        "base_program_sha256": {"$ref": "#/$defs/sha256"},
+        "program_id": {"const": "program:user-lookup"},
+        "target_path": {"const": "src/lookup-user.ts"}
+      }
+    },
+    "evaluators": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public", "hidden"],
+      "properties": {
+        "public": {"const": "tests/public.test.ts"},
+        "hidden": {"const": "evaluator/hidden.test.ts"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "version", "timeout_seconds", "network"],
+      "properties": {
+        "command": {"const": "deno"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 60},
+        "network": {"const": "denied"}
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

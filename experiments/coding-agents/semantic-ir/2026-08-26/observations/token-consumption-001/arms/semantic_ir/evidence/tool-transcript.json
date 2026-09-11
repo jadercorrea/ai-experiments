@@ -1,0 +1,148 @@
+[
+  {
+    "assistant": {
+      "content": "I'll start by inspecting the workspace to understand the current state of the code.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{}",
+            "name": "workspace_list"
+          },
+          "id": "tooluse_32Sdl0ZoEQsapVU5kb0wRr",
+          "type": "function"
+        }
+      ]
+    },
+    "request_sha256": "0c856bb36ea814e5666c6aebe9229160231d4559ecd379a675d17f0cfc8cda92",
+    "response_sha256": "1f4ec89391995fb2a0bfb53fa32c1108d4e91d5113f261d590c0bafc2ebedc86",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 425,
+              "path": "src/lookup-user.ts",
+              "sha256": "d892721ff1d7be568b4e1bc5da758c57ffd6fdac124fcb6e03447bb617df5c75"
+            },
+            {
+              "bytes": 1154,
+              "path": "tests/public.test.ts",
+              "sha256": "d3e698f6038c742f0dee6957bd04ad18217a65b4d487c07334725b211bb717f2"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_32Sdl0ZoEQsapVU5kb0wRr"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "assistant": {
+      "content": null,
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"path\":\"src/lookup-user.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_UzIwpoizKzNTRQq8ID3c72",
+          "type": "function"
+        },
+        {
+          "function": {
+            "arguments": "{\"path\":\"tests/public.test.ts\"}",
+            "name": "workspace_read"
+          },
+          "id": "tooluse_OMhmcGtzpKcZF3ZtjMw9jP",
+          "type": "function"
+        }
+      ]
+    },
+    "request_sha256": "0e210284cc5ca828a46d99d14ec48bffd448256eb24e6ed92a2672a199a53571",
+    "response_sha256": "a56b8257b1c9b72d0eeb52c95948628eca253b825f2b4267972add023f551018",
+    "tool_results": [
+      {
+        "result": {
+          "content": "export interface User {\n  readonly id: string;\n  readonly name: string;\n}\n\nexport type Result<T, E> = { ok: T } | { error: E };\n\nexport interface SemanticCapabilities {\n  readonly users: {\n    getById(id: string): User | undefined;\n  };\n}\n\nexport function lookupUser(\n  rawId: string,\n  capabilities: SemanticCapabilities,\n): Result<User, string> {\n  void rawId;\n  void capabilities;\n  return { error: \"not_implemented\" };\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "d892721ff1d7be568b4e1bc5da758c57ffd6fdac124fcb6e03447bb617df5c75"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_UzIwpoizKzNTRQq8ID3c72"
+      },
+      {
+        "result": {
+          "content": "import {\n  lookupUser,\n  type SemanticCapabilities,\n  type User,\n} from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nfunction capability(\n  users: Readonly<Record<string, User>>,\n  calls: string[],\n): SemanticCapabilities {\n  return {\n    users: {\n      getById(id: string): User | undefined {\n        calls.push(id);\n        return users[id];\n      },\n    },\n  };\n}\n\nDeno.test(\"rejects an ASCII-whitespace-only identifier without I/O\", () => {\n  const calls: string[] = [];\n  const result = lookupUser(\" \\t\\n\\v\\f\\r \", capability({}, calls));\n\n  assertEquals(result, { error: \"invalid_user_id\" });\n  assertEquals(calls, []);\n});\n\nDeno.test(\"normalizes an identifier and returns the matching user\", () => {\n  const calls: string[] = [];\n  const user: User = { id: \"42\", name: \"Ada\" };\n  const result = lookupUser(\" \\t42\\r \", capability({ \"42\": user }, calls));\n\n  assertEquals(result, { ok: user });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "d3e698f6038c742f0dee6957bd04ad18217a65b4d487c07334725b211bb717f2"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_OMhmcGtzpKcZF3ZtjMw9jP"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "assistant": {
+      "content": "Now I have a clear picture. I'll construct the semantic IR that implements the `lookupUser` function:\n\n1. Trim ASCII whitespace from `rawId`\n2. If empty → return `{ error: \"invalid_user_id\" }`\n3. Otherwise call `users.get_by_id` with the trimmed id\n4. On `None` → return `{ error: \"not_found\" }`\n5. On `Some(user)` → return `{ ok: user }`",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"program\":{\"catalog_version\":\"ai-experiments.semantic-ir.catalog/v0\",\"function\":{\"body\":{\"binding\":{\"name\":\"trimmedId\",\"symbol_id\":\"bind:trimmed-id\",\"type\":\"string\"},\"node_id\":\"node:let-trimmed\",\"op\":\"let\",\"then\":{\"condition\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-is-empty\",\"op\":\"call\",\"symbol\":\"string.is_empty\"},\"else\":{\"binding\":{\"name\":\"lookupResult\",\"symbol_id\":\"bind:lookup-result\",\"type\":\"option<user>\"},\"node_id\":\"node:let-lookup\",\"op\":\"let\",\"then\":{\"node_id\":\"node:option-match\",\"none\":{\"error\":{\"node_id\":\"node:str-not-found\",\"op\":\"string\",\"value\":\"not_found\"},\"node_id\":\"node:err-not-found\",\"op\":\"err\"},\"op\":\"option_match\",\"some\":{\"node_id\":\"node:ok-user\",\"op\":\"ok\",\"value\":{\"node_id\":\"node:var-found-user\",\"op\":\"var\",\"symbol_id\":\"bind:found-user\"}},\"some_binding\":{\"name\":\"foundUser\",\"symbol_id\":\"bind:found-user\",\"type\":\"user\"},\"value\":{\"node_id\":\"node:var-lookup-result\",\"op\":\"var\",\"symbol_id\":\"bind:lookup-result\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id2\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-get-by-id\",\"op\":\"call\",\"symbol\":\"users.get_by_id\"}},\"node_id\":\"node:if-empty\",\"op\":\"if\",\"then\":{\"error\":{\"node_id\":\"node:str-invalid\",\"op\":\"string\",\"value\":\"invalid_user_id\"},\"node_id\":\"node:err-invalid\",\"op\":\"err\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-raw-id\",\"op\":\"var\",\"symbol_id\":\"param:raw-id\"}],\"node_id\":\"node:call-trim\",\"op\":\"call\",\"symbol\":\"string.trim_ascii\"}},\"effects\":[\"db.read:users\"],\"name\":\"lookupUser\",\"parameters\":[{\"name\":\"rawId\",\"symbol_id\":\"param:raw-id\",\"type\":\"string\"}],\"return_type\":\"result<user,string>\",\"symbol_id\":\"fn:lookup-user\"},\"program_id\":\"prog:lookup-user\",\"schema_version\":\"ai-experiments.semantic-ir.program/v0\"}}",
+            "name": "ir_submit"
+          },
+          "id": "tooluse_UclpLjvyfRDzxpQvlLEGN6",
+          "type": "function"
+        }
+      ]
+    },
+    "request_sha256": "fc253a34040fd3d9cabf462e1210ee00d43306b3b87781b63b243023ae8338f3",
+    "response_sha256": "78c08e9851d613ce323965559f424a6f18d155b67043d369cd577725dbae5e6f",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "errors": [
+            {
+              "code": "semantic_submission_rejected",
+              "message": "semantic program id mismatch: expected program:user-lookup",
+              "path": "program"
+            }
+          ]
+        },
+        "tool": "ir_submit",
+        "tool_call_id": "tooluse_UclpLjvyfRDzxpQvlLEGN6"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "assistant": {
+      "content": "The program_id needs to match exactly. Let me fix that:",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"program\":{\"catalog_version\":\"ai-experiments.semantic-ir.catalog/v0\",\"function\":{\"body\":{\"binding\":{\"name\":\"trimmedId\",\"symbol_id\":\"bind:trimmed-id\",\"type\":\"string\"},\"node_id\":\"node:let-trimmed\",\"op\":\"let\",\"then\":{\"condition\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-is-empty\",\"op\":\"call\",\"symbol\":\"string.is_empty\"},\"else\":{\"binding\":{\"name\":\"lookupResult\",\"symbol_id\":\"bind:lookup-result\",\"type\":\"option<user>\"},\"node_id\":\"node:let-lookup\",\"op\":\"let\",\"then\":{\"node_id\":\"node:option-match\",\"none\":{\"error\":{\"node_id\":\"node:str-not-found\",\"op\":\"string\",\"value\":\"not_found\"},\"node_id\":\"node:err-not-found\",\"op\":\"err\"},\"op\":\"option_match\",\"some\":{\"node_id\":\"node:ok-user\",\"op\":\"ok\",\"value\":{\"node_id\":\"node:var-found-user\",\"op\":\"var\",\"symbol_id\":\"bind:found-user\"}},\"some_binding\":{\"name\":\"foundUser\",\"symbol_id\":\"bind:found-user\",\"type\":\"user\"},\"value\":{\"node_id\":\"node:var-lookup-result\",\"op\":\"var\",\"symbol_id\":\"bind:lookup-result\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-trimmed-id2\",\"op\":\"var\",\"symbol_id\":\"bind:trimmed-id\"}],\"node_id\":\"node:call-get-by-id\",\"op\":\"call\",\"symbol\":\"users.get_by_id\"}},\"node_id\":\"node:if-empty\",\"op\":\"if\",\"then\":{\"error\":{\"node_id\":\"node:str-invalid\",\"op\":\"string\",\"value\":\"invalid_user_id\"},\"node_id\":\"node:err-invalid\",\"op\":\"err\"}},\"value\":{\"arguments\":[{\"node_id\":\"node:var-raw-id\",\"op\":\"var\",\"symbol_id\":\"param:raw-id\"}],\"node_id\":\"node:call-trim\",\"op\":\"call\",\"symbol\":\"string.trim_ascii\"}},\"effects\":[\"db.read:users\"],\"name\":\"lookupUser\",\"parameters\":[{\"name\":\"rawId\",\"symbol_id\":\"param:raw-id\",\"type\":\"string\"}],\"return_type\":\"result<user,string>\",\"symbol_id\":\"fn:lookup-user\"},\"program_id\":\"program:user-lookup\",\"schema_version\":\"ai-experiments.semantic-ir.program/v0\"}}",
+            "name": "ir_submit"
+          },
+          "id": "tooluse_c7eAcWFWvpXbwJcv5SsyoH",
+          "type": "function"
+        }
+      ]
+    },
+    "request_sha256": "a1ccc687e2ebdfd34e6f4a6d85eeb7d03d052c3b4f06b532575522d720d1389e",
+    "response_sha256": "31387f368e8912afe65fc206269c3715031a7c86dc9fd50bc673b8cc55badbbd",
+    "tool_results": [],
+    "turn": 4
+  }
+]

@@ -1,0 +1,185 @@
+{
+  "catalog": [
+    [
+      "string.trim_ascii",
+      [
+        "string"
+      ],
+      "string",
+      null
+    ],
+    [
+      "string.is_empty",
+      [
+        "string"
+      ],
+      "boolean",
+      null
+    ],
+    [
+      "users.get_by_id",
+      [
+        "string"
+      ],
+      "option<user>",
+      "db.read:users"
+    ],
+    [
+      "string.equals",
+      [
+        "string",
+        "string"
+      ],
+      "boolean",
+      null
+    ],
+    [
+      "directory.get_by_id",
+      [
+        "string"
+      ],
+      "option<user>",
+      "network.read:directory"
+    ]
+  ],
+  "catalog_fields": [
+    "symbol",
+    "arguments",
+    "result",
+    "effect"
+  ],
+  "node_fields": [
+    "handle",
+    "op",
+    "parent",
+    "slot",
+    "hint"
+  ],
+  "nodes": [
+    [
+      "n0",
+      "let",
+      null,
+      "body",
+      "bind=normalizedId:string"
+    ],
+    [
+      "n1",
+      "call",
+      "n0",
+      "value",
+      "call=string.trim_ascii"
+    ],
+    [
+      "n2",
+      "var",
+      "n1",
+      "arguments[0]",
+      "ref=rawId:string"
+    ],
+    [
+      "n3",
+      "if",
+      "n0",
+      "then",
+      null
+    ],
+    [
+      "n4",
+      "call",
+      "n3",
+      "condition",
+      "call=string.is_empty"
+    ],
+    [
+      "n5",
+      "var",
+      "n4",
+      "arguments[0]",
+      "ref=normalizedId:string"
+    ],
+    [
+      "n6",
+      "err",
+      "n3",
+      "then",
+      null
+    ],
+    [
+      "n7",
+      "string",
+      "n6",
+      "error",
+      "literal=\"invalid_input_b7bd448413a1f3b9\""
+    ],
+    [
+      "n8",
+      "option_match",
+      "n3",
+      "else",
+      "some=user:user"
+    ],
+    [
+      "n9",
+      "call",
+      "n8",
+      "value",
+      "call=users.get_by_id"
+    ],
+    [
+      "n10",
+      "var",
+      "n9",
+      "arguments[0]",
+      "ref=normalizedId:string"
+    ],
+    [
+      "n11",
+      "err",
+      "n8",
+      "none",
+      null
+    ],
+    [
+      "n12",
+      "string",
+      "n11",
+      "error",
+      "literal=\"not_found_b7bd448413a1f3b9\""
+    ],
+    [
+      "n13",
+      "ok",
+      "n8",
+      "some",
+      null
+    ],
+    [
+      "n14",
+      "var",
+      "n13",
+      "value",
+      "ref=user:user"
+    ]
+  ],
+  "program": {
+    "catalog": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserAb7bd448413a1f3b9",
+      "parameters": [
+        [
+          "rawId",
+          "string"
+        ]
+      ],
+      "returns": "result<user,string>"
+    },
+    "id": "program:fresh-b7bd448413a1f3b9",
+    "ir": "ai-experiments.semantic-ir.program/v2"
+  },
+  "root": "n0",
+  "schema_version": "ai-experiments.semantic-ir.compact-outline/v1"
+}

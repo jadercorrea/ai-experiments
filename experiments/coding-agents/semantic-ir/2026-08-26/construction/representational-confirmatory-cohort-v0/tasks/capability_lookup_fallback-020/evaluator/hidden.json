@@ -1,0 +1,121 @@
+[
+  {
+    "arguments": {
+      "rawId": "  user-712d4f04\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-712d4f04": [
+            null
+          ]
+        }
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-712d4f04": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-712d4f04"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "user-712d4f04"
+          ],
+          "symbol": "directory.get_by_id"
+        }
+      ],
+      "value": {
+        "error": "not_found_712d4f0470b2d817"
+      }
+    },
+    "id": "fallback-miss",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "  user-712d4f04\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-712d4f04": [
+            {
+              "id": "user-712d4f04",
+              "name": "Local-b2d817"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-712d4f04"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-712d4f04",
+          "name": "Local-b2d817"
+        }
+      }
+    },
+    "id": "local-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " \t "
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_712d4f0470b2d817"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

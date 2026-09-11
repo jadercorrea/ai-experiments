@@ -15,7 +15,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.14"
       - run: pip install --requirement requirements-dev.txt
       - run: ruff check scripts tests
-      - run: ./scripts/validate
+      # Keep push validation bounded. Full experimental replay remains local and
+      # explicit through ./scripts/validate.
+      - run: ./scripts/validate --ci

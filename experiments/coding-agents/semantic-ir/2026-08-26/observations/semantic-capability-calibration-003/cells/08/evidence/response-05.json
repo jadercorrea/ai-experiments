@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Both tests pass:\n- ✅ `rejects normalized root before lookup` — `\" root \"` is normalized to `\"root\"`, matched as reserved, returns `{ error: \"reserved_user_id\" }` with zero DB calls\n- ✅ `preserves an ordinary local hit` — `\"42\"` flows through normally to the DB lookup\n\nThe fix inserts a single ternary branch after the empty-check: if `normalizedId === \"root\"`, return `{ error: \"reserved_user_id\" }` immediately, before any `capabilities.users.getById(...)` call.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "submission_finish"
+            },
+            "id": "tooluse_K5iGlen2Nka5XfQkMBAklY",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-a84f56d3087889f1d5cd411d",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 175,
+    "prompt_tokens": 4318,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4493
+  }
+}

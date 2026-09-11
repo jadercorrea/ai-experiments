@@ -1,0 +1,103 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.program/v0",
+  "program_id": "program:user-lookup",
+  "catalog_version": "ai-experiments.semantic-ir.catalog/v0",
+  "function": {
+    "symbol_id": "fn:lookup-user",
+    "name": "lookupUser",
+    "parameters": [
+      {
+        "symbol_id": "param:raw-id",
+        "name": "rawId",
+        "type": "string"
+      }
+    ],
+    "return_type": "result<user,string>",
+    "effects": ["db.read:users"],
+    "body": {
+      "node_id": "node:normalize-let",
+      "op": "let",
+      "binding": {
+        "symbol_id": "local:normalized-id",
+        "name": "normalizedId",
+        "type": "string"
+      },
+      "value": {
+        "node_id": "node:trim",
+        "op": "call",
+        "symbol": "string.trim_ascii",
+        "arguments": [
+          {
+            "node_id": "node:raw-id-ref",
+            "op": "var",
+            "symbol_id": "param:raw-id"
+          }
+        ]
+      },
+      "then": {
+        "node_id": "node:validity-if",
+        "op": "if",
+        "condition": {
+          "node_id": "node:is-empty",
+          "op": "call",
+          "symbol": "string.is_empty",
+          "arguments": [
+            {
+              "node_id": "node:normalized-ref-for-empty",
+              "op": "var",
+              "symbol_id": "local:normalized-id"
+            }
+          ]
+        },
+        "then": {
+          "node_id": "node:invalid-id",
+          "op": "err",
+          "error": {
+            "node_id": "node:invalid-id-code",
+            "op": "string",
+            "value": "invalid_user_id"
+          }
+        },
+        "else": {
+          "node_id": "node:user-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:get-user",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:normalized-ref-for-lookup",
+                "op": "var",
+                "symbol_id": "local:normalized-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:user",
+            "name": "user",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:user-ref",
+              "op": "var",
+              "symbol_id": "local:user"
+            }
+          }
+        }
+      }
+    }
+  }
+}

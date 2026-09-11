@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-protocol-freeze-v1.schema.json",
+  "title": "Representational confirmatory reduced-state protocol freeze v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_id",
+    "status",
+    "source_freezes",
+    "accounting_contract",
+    "state_contract",
+    "gates",
+    "preflight",
+    "claim_boundary",
+    "next_red_test",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-protocol-freeze/v1"
+    },
+    "protocol_id": {"const": "representational-confirmatory-protocol-v1"},
+    "status": {
+      "const": "protocol_v1_sealed_provider_free_preflight_passed_launch_blocked"
+    },
+    "source_freezes": {"type": "object"},
+    "accounting_contract": {
+      "type": "object",
+      "required": [
+        "submission_attempts",
+        "instruction_rejections",
+        "submission_validation_rejections",
+        "mutation_budget_rejections",
+        "applied_mutations"
+      ]
+    },
+    "state_contract": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "append_only_action_log",
+        "replacement_semantics",
+        "stale_state_eviction"
+      ]
+    },
+    "gates": {
+      "type": "object",
+      "required": [
+        "validation_accounting",
+        "state_reduction",
+        "provider_free_preflight",
+        "launch"
+      ]
+    },
+    "preflight": {
+      "type": "object",
+      "required": ["path", "sha256"]
+    },
+    "claim_boundary": {
+      "type": "object",
+      "required": [
+        "model_calls_authorized",
+        "provider_requests_observed",
+        "provider_costs_incurred_usd"
+      ]
+    },
+    "next_red_test": {"type": "string", "minLength": 1},
+    "integrity": {
+      "type": "object",
+      "required": ["dependencies"]
+    }
+  }
+}

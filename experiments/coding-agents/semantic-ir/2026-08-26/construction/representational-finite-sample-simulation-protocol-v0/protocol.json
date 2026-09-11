@@ -1,0 +1,332 @@
+{
+  "acceptance": {
+    "all_scenarios_must_pass": true,
+    "global_null_rule": "Wilson upper bound for any-primary rejection is <= 0.06 in every global-null scenario",
+    "isolated_primary_rule": "Wilson lower bound for active-primary rejection is >= 0.80 and Wilson upper bound for inactive-primary rejection is <= 0.06",
+    "maximum_type_i_wilson_upper": 0.06,
+    "minimum_power_wilson_lower": 0.8
+  },
+  "analysis": {
+    "experimental_unit": "fresh task instance",
+    "familywise_alpha": 0.05,
+    "holm_thresholds_for_two_tests": [
+      0.025,
+      0.05
+    ],
+    "lexical_task_contrast": "0.5 * ((meaningful_nested - opaque_nested) + (meaningful_table - opaque_table))",
+    "multiplicity": "Holm step-down across lexical and packaging",
+    "packaging_task_contrast": "0.5 * ((meaningful_nested - meaningful_table) + (opaque_nested - opaque_table))",
+    "requests_are_independent_units": false,
+    "test": "two-sided one-sample normal test of each mean task contrast using its observed sample standard error",
+    "zero_variance_rule": "p = 1 when mean is zero; p = 0 when mean is nonzero"
+  },
+  "candidate_schedule": {
+    "block_size": 20,
+    "evaluation_order": "ascending",
+    "failure_at_maximum": "remain blocked; do not change SESOI, envelope, alpha, multiplicity, or target population",
+    "fresh_task_units": [
+      240,
+      260,
+      280,
+      300,
+      320,
+      340,
+      360,
+      380,
+      400
+    ],
+    "stop_rule": "select the first candidate satisfying every criterion"
+  },
+  "claim_boundary": {
+    "final_sample_size_selected": false,
+    "model_calls_authorized": false,
+    "model_calls_observed": 0,
+    "power_claimed": false,
+    "protocol_frozen": true,
+    "provider_costs_incurred_usd": 0.0,
+    "simulation_runs_observed": 0,
+    "tasks_created": 0
+  },
+  "gates": {
+    "fresh_instances": {
+      "passed": false,
+      "reason": "no fresh participant task has been constructed"
+    },
+    "launch": {
+      "passed": false,
+      "reason": "no execution freeze, cost ceiling, or launch exists"
+    },
+    "protocol_freeze": {
+      "evidence": "generator, scenarios, seeds, tests, and criteria frozen",
+      "passed": true
+    },
+    "simulation_execution": {
+      "passed": false,
+      "reason": "the frozen Monte Carlo campaign has not been run"
+    }
+  },
+  "generator": {
+    "completion_of_curve_moments": "the curve fixed the latent-task mean and ICC; simulation completes those moments with a beta distribution",
+    "condition_sampling": "four condition outcomes are conditionally independent Bernoulli draws given the same latent task probability theta",
+    "decrease_transform": "q(theta) = (1 - absolute_effect / baseline) * theta",
+    "effect_application": {
+      "lexical": "q for meaningful; theta for opaque",
+      "packaging": "q for nested; theta for table"
+    },
+    "family": "latent_task_beta_mixture_with_single_proportional_effect",
+    "family_specific_parameters_supported": false,
+    "increase_transform": "q(theta) = theta + absolute_effect / (1 - baseline) * (1 - theta)",
+    "latent_task_probability": {
+      "icc_zero": "theta = baseline_probability",
+      "positive_icc": "theta ~ Beta(alpha, beta), concentration = 1 / ICC - 1, alpha = baseline * concentration, beta = (1 - baseline) * concentration"
+    },
+    "same_model_as_power_curve": true,
+    "simultaneous_nonzero_primary_effects_supported": false
+  },
+  "integrity": {
+    "dependencies": [
+      {
+        "path": "scripts/representational_finite_sample_simulation.py",
+        "sha256": "0f9e5cb2d8dbc434ef0ff0cf0d5c26056424f656a3bdaec559503fdd8713ae78"
+      },
+      {
+        "path": "scripts/build_representational_finite_sample_simulation_protocol.py",
+        "sha256": "560c26ca9f886d8f1fff69261db301838a5aa3ce33241a8f7cee11811a0057df"
+      },
+      {
+        "path": "construction/representational-power-selection-freeze-v0/selection.json",
+        "sha256": "024fef11fa3c636fdf953194d62f6e6c4ae039d0dbbe9796e1e8a57a38362fed"
+      },
+      {
+        "path": "construction/representational-power-selection-freeze-v0/publication/artifact-lock.json",
+        "sha256": "85f44f331b6f956def87bb62fab02c8619ce15608aac2005e99a609487b98703"
+      }
+    ],
+    "selection_lock_verified": true
+  },
+  "limitations": [
+    "the beta family is a pre-execution completion of the frozen mean/ICC model, not an empirically identified task distribution",
+    "family-specific baseline, ICC, and effect heterogeneity are not represented in v0",
+    "the protocol validates the aggregate equal-mixture design under the frozen generator, not prevalence outside the target population",
+    "normal-test finite-sample behavior is being audited by simulation; it is not assumed valid by construction"
+  ],
+  "monte_carlo": {
+    "confidence_level": 0.95,
+    "event_interval": "Wilson score interval",
+    "maximum_standard_error": {
+      "at_probability_0_05": 0.001541104,
+      "at_probability_0_50": 0.003535534,
+      "at_probability_0_80": 0.002828427
+    },
+    "replications_per_scenario": 20000
+  },
+  "randomness": {
+    "base_seed": 24121980,
+    "beta_sampler": "Python random.Random.betavariate",
+    "cross_runtime_bit_identity_claimed": false,
+    "engine": "Python random.Random (MT19937)",
+    "runtime_freeze": "CPython 3.14.x",
+    "seed_derivation": "unsigned big-endian integer from the first 8 bytes of SHA-256('semantic-ir/finite-sample-v0\\0' + base_seed + '\\0' + scenario_id + '\\0' + fresh_task_units)",
+    "stream_key": "(scenario_id, fresh_task_units)"
+  },
+  "scenarios": [
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.2,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p020-r000",
+      "kind": "global_null",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.2,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p020-r375",
+      "kind": "global_null",
+      "null_task_icc": 0.375
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.2,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p020-r750",
+      "kind": "global_null",
+      "null_task_icc": 0.75
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.5,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p050-r000",
+      "kind": "global_null",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.5,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p050-r375",
+      "kind": "global_null",
+      "null_task_icc": 0.375
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.5,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p050-r750",
+      "kind": "global_null",
+      "null_task_icc": 0.75
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.8,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p080-r000",
+      "kind": "global_null",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.8,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p080-r375",
+      "kind": "global_null",
+      "null_task_icc": 0.375
+    },
+    {
+      "absolute_effect": 0.0,
+      "active_factor": null,
+      "baseline_probability": 0.8,
+      "direction": null,
+      "events_scored": [
+        "any_primary_rejected"
+      ],
+      "id": "null-p080-r750",
+      "kind": "global_null",
+      "null_task_icc": 0.75
+    },
+    {
+      "absolute_effect": 0.1,
+      "active_factor": "lexical",
+      "baseline_probability": 0.486251052,
+      "direction": "increase",
+      "events_scored": [
+        "active_primary_rejected",
+        "inactive_primary_rejected"
+      ],
+      "id": "alt-lexical-increase",
+      "inactive_factor": "packaging",
+      "kind": "isolated_primary",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.1,
+      "active_factor": "lexical",
+      "baseline_probability": 0.513695018,
+      "direction": "decrease",
+      "events_scored": [
+        "active_primary_rejected",
+        "inactive_primary_rejected"
+      ],
+      "id": "alt-lexical-decrease",
+      "inactive_factor": "packaging",
+      "kind": "isolated_primary",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.1,
+      "active_factor": "packaging",
+      "baseline_probability": 0.486251052,
+      "direction": "increase",
+      "events_scored": [
+        "active_primary_rejected",
+        "inactive_primary_rejected"
+      ],
+      "id": "alt-packaging-increase",
+      "inactive_factor": "lexical",
+      "kind": "isolated_primary",
+      "null_task_icc": 0.0
+    },
+    {
+      "absolute_effect": 0.1,
+      "active_factor": "packaging",
+      "baseline_probability": 0.513695018,
+      "direction": "decrease",
+      "events_scored": [
+        "active_primary_rejected",
+        "inactive_primary_rejected"
+      ],
+      "id": "alt-packaging-decrease",
+      "inactive_factor": "lexical",
+      "kind": "isolated_primary",
+      "null_task_icc": 0.0
+    }
+  ],
+  "schema_version": "ai-experiments.semantic-ir.representational-finite-sample-simulation-protocol/v0",
+  "source_selection": {
+    "candidate_fresh_task_units": 240,
+    "schema_version": "ai-experiments.semantic-ir.representational-power-selection-freeze/v0",
+    "scientific_inputs_changed": false,
+    "selection_lock_verified": true
+  },
+  "status": "finite_sample_protocol_frozen_simulation_not_run",
+  "target_population": {
+    "mixture_policy": "equal allocation across five mechanism families",
+    "simulation_parameter_policy": "all family labels share each scenario's baseline, ICC, and effect; labels enforce equal allocation but do not change draws",
+    "task_families": [
+      {
+        "id": "capability_lookup_fallback",
+        "weight": 0.2
+      },
+      {
+        "id": "error_option_taxonomy",
+        "weight": 0.2
+      },
+      {
+        "id": "guarded_retry_control_flow",
+        "weight": 0.2
+      },
+      {
+        "id": "identity_state_consistency",
+        "weight": 0.2
+      },
+      {
+        "id": "pure_dataflow_normalization",
+        "weight": 0.2
+      }
+    ]
+  }
+}

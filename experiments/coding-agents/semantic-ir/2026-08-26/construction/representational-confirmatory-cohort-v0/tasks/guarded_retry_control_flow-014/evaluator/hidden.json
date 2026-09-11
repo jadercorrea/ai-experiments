@@ -1,0 +1,106 @@
+[
+  {
+    "arguments": {
+      "rawId": "427772"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "427772": [
+            null,
+            {
+              "id": "427772",
+              "name": "Retry-d06745"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "427772"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "427772"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "427772",
+          "name": "Retry-d06745"
+        }
+      }
+    },
+    "id": "guarded-retry-hit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "427772"
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "427772": [
+            {
+              "id": "427772",
+              "name": "Primary-d06745"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "427772"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "427772",
+          "name": "Primary-d06745"
+        }
+      }
+    },
+    "id": "primary-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " "
+    },
+    "capabilities": {
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_1e5cb6857dd06745"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]

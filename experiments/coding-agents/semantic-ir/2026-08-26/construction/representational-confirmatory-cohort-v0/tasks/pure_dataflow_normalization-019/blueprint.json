@@ -1,0 +1,264 @@
+{
+  "attempt_index": 0,
+  "base_program": {
+    "catalog_version": "ai-experiments.semantic-ir.catalog/v2",
+    "function": {
+      "body": {
+        "binding": {
+          "name": "normalizedId",
+          "symbol_id": "local:fresh-3859e21be7968baf-normalized-id",
+          "type": "string"
+        },
+        "node_id": "node:fresh-3859e21be7968baf-body",
+        "op": "let",
+        "then": {
+          "condition": {
+            "arguments": [
+              {
+                "node_id": "node:fresh-3859e21be7968baf-normalized-for-empty",
+                "op": "var",
+                "symbol_id": "local:fresh-3859e21be7968baf-normalized-id"
+              }
+            ],
+            "node_id": "node:fresh-3859e21be7968baf-is-empty",
+            "op": "call",
+            "symbol": "string.is_empty"
+          },
+          "else": {
+            "node_id": "node:fresh-3859e21be7968baf-user-match",
+            "none": {
+              "error": {
+                "node_id": "node:fresh-3859e21be7968baf-missing-code",
+                "op": "string",
+                "value": "not_found_3859e21be7968baf"
+              },
+              "node_id": "node:fresh-3859e21be7968baf-missing",
+              "op": "err"
+            },
+            "op": "option_match",
+            "some": {
+              "node_id": "node:fresh-3859e21be7968baf-found",
+              "op": "ok",
+              "value": {
+                "node_id": "node:fresh-3859e21be7968baf-user-ref",
+                "op": "var",
+                "symbol_id": "local:fresh-3859e21be7968baf-user"
+              }
+            },
+            "some_binding": {
+              "name": "user",
+              "symbol_id": "local:fresh-3859e21be7968baf-user",
+              "type": "user"
+            },
+            "value": {
+              "arguments": [
+                {
+                  "node_id": "node:fresh-3859e21be7968baf-normalized-for-user",
+                  "op": "var",
+                  "symbol_id": "local:fresh-3859e21be7968baf-normalized-id"
+                }
+              ],
+              "node_id": "node:fresh-3859e21be7968baf-get-user",
+              "op": "call",
+              "symbol": "users.get_by_id"
+            }
+          },
+          "node_id": "node:fresh-3859e21be7968baf-validation",
+          "op": "if",
+          "then": {
+            "error": {
+              "node_id": "node:fresh-3859e21be7968baf-invalid-code",
+              "op": "string",
+              "value": "invalid_input_3859e21be7968baf"
+            },
+            "node_id": "node:fresh-3859e21be7968baf-invalid",
+            "op": "err"
+          }
+        },
+        "value": {
+          "node_id": "node:fresh-3859e21be7968baf-normalizer",
+          "op": "var",
+          "symbol_id": "param:fresh-3859e21be7968baf-raw-id"
+        }
+      },
+      "effects": [
+        "db.read:users"
+      ],
+      "name": "resolveUserA3859e21be7968baf",
+      "parameters": [
+        {
+          "name": "rawId",
+          "symbol_id": "param:fresh-3859e21be7968baf-raw-id",
+          "type": "string"
+        }
+      ],
+      "return_type": "result<user,string>",
+      "symbol_id": "fn:fresh-3859e21be7968baf-lookup"
+    },
+    "program_id": "program:fresh-3859e21be7968baf",
+    "schema_version": "ai-experiments.semantic-ir.program/v2"
+  },
+  "candidate_id": "fresh-task:pure_dataflow_normalization:3859e21be7968baf",
+  "claim_boundary": {
+    "blueprint_only": true,
+    "model_calls_observed": 0,
+    "task_files_created": 0
+  },
+  "construction_seed": 6169776396196032808,
+  "evaluator_plan": {
+    "cases": [
+      {
+        "arguments": {
+          "rawId": "  user-3859e21b\t"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-3859e21b": [
+                {
+                  "id": "user-3859e21b",
+                  "name": "Normalized-968baf"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-3859e21b"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-3859e21b",
+              "name": "Normalized-968baf"
+            }
+          }
+        },
+        "id": "padded-identifier",
+        "visibility": "public"
+      },
+      {
+        "arguments": {
+          "rawId": " "
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {}
+          }
+        },
+        "expected": {
+          "effects": [],
+          "value": {
+            "error": "invalid_input_3859e21be7968baf"
+          }
+        },
+        "id": "whitespace-identifier",
+        "visibility": "hidden"
+      },
+      {
+        "arguments": {
+          "rawId": "user-3859e21b"
+        },
+        "capabilities": {
+          "users.get_by_id": {
+            "default": [
+              null
+            ],
+            "returns_by_argument": {
+              "user-3859e21b": [
+                {
+                  "id": "user-3859e21b",
+                  "name": "Ordinary-968baf"
+                }
+              ]
+            }
+          }
+        },
+        "expected": {
+          "effects": [
+            {
+              "arguments": [
+                "user-3859e21b"
+              ],
+              "symbol": "users.get_by_id"
+            }
+          ],
+          "value": {
+            "ok": {
+              "id": "user-3859e21b",
+              "name": "Ordinary-968baf"
+            }
+          }
+        },
+        "id": "ordinary-identifier",
+        "visibility": "hidden"
+      }
+    ],
+    "outcome": "reference value and ordered effect trace"
+  },
+  "family": "pure_dataflow_normalization",
+  "family_index": 19,
+  "generator_schema_version": "ai-experiments.semantic-ir.fresh-task-generator/v0",
+  "materialization_contract": {
+    "condition_order_is_generator_input": false,
+    "network": "denied",
+    "reference_and_hidden_evaluators_participant_visible": false,
+    "runtime": "Deno",
+    "target_language": "TypeScript"
+  },
+  "participant_objective": "Change identifier normalization from raw to trim without adding effects.",
+  "profile": {
+    "dimensions": {
+      "direction": "raw_to_trim",
+      "identifier_shape": "alphabetic",
+      "public_focus": "padded_identifier"
+    },
+    "profile_index": 4
+  },
+  "reference_patch": {
+    "base_program_sha256": "84d93397fe121aae27aa7ed4329c612f16fc7d569e905c1685d0c732ec979c6a",
+    "operations": [
+      {
+        "expected_subtree_sha256": "0680be3501d6958eb5b1a99a6adfc67c8ff8dbd15efa49b41e7090d22c393749",
+        "op": "replace_subtree",
+        "operation_id": "operation:fresh-3859e21be7968baf-normalization",
+        "replacement": {
+          "arguments": [
+            {
+              "node_id": "node:fresh-3859e21be7968baf-raw-after-normalization-patch",
+              "op": "var",
+              "symbol_id": "param:fresh-3859e21be7968baf-raw-id"
+            }
+          ],
+          "node_id": "node:fresh-3859e21be7968baf-normalizer",
+          "op": "call",
+          "symbol": "string.trim_ascii"
+        },
+        "target_node_id": "node:fresh-3859e21be7968baf-normalizer"
+      }
+    ],
+    "patch_id": "patch:fresh-3859e21be7968baf",
+    "program_id": "program:fresh-3859e21be7968baf",
+    "schema_version": "ai-experiments.semantic-ir.patch/v0"
+  },
+  "schema_version": "ai-experiments.semantic-ir.fresh-task-blueprint/v0",
+  "semantic_contract": {
+    "deterministic": true,
+    "direction": "raw_to_trim",
+    "introduced_effects": [],
+    "normalization_symbol": "string.trim_ascii"
+  },
+  "semantic_signature_sha256": "81b571b9017f085bb571e4693f12a082c8a82a2511b059369738a96892b964c0",
+  "slot_id": "pure_dataflow_normalization-019"
+}

@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "All tests pass. The public evaluator confirms:\n- ✅ `exports the renamed lookup` test passes\n\nThe changes I made:\n1. **`src/contracts.ts`**: Renamed `RESOLVE_CONTRACT` → `FETCH_CONTRACT` (value `\"fetchUser\"`) and `ResolveUser` type → `FetchUser`\n2. **`src/lookup-user.ts`**: Updated the type import to `FetchUser` and renamed `resolveUser` → `fetchUser`\n3. **`src/mod.ts`**: Updated exports to use the new names `FETCH_CONTRACT`, `FetchUser`, and `fetchUser`\n\nThe test imports `fetchUser` from `src/mod.ts` and calls `fetchUser(\"42\")` expecting `{ id: \"42\" }`, which now works correctly.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "submission_finish"
+            },
+            "id": "tooluse_luSiAvRhprHwg0MTdk9Dy0",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-d1dd6c6d363b352613f7a587",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 227,
+    "prompt_tokens": 4107,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4334
+  }
+}

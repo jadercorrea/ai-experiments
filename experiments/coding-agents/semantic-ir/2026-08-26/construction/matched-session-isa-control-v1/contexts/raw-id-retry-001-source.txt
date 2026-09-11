@@ -1,0 +1,23 @@
+Operate the locked candidate only through x instructions. Inspect before submit; typed rejection leaves canonical state unchanged.
+<task>
+# Task
+
+After a normalized lookup misses, perform exactly one second lookup with the original identifier and return the first user found.
+
+Change only the declared editable paths. Preserve all behavior not explicitly
+changed by this task. Public tests are visible; additional behavior is withheld.
+</task>
+<mode>
+# Source patch mode
+
+Inspect the repository and submit one unified diff. The diff may change only the
+declared editable paths. Do not modify tests or configuration.
+</mode>
+<isa>
+x envelope: {"i":OP,"a":[args]}.
+C[] context list; R[handle] context read; L[] workspace list;
+W[path] workspace read; E[] public evaluation; F[] finish.
+I is unavailable in source mode. S[unified-diff] submits one source patch.
+Trusted infrastructure validates the envelope and applies the diff in staging;
+only declared editable paths publish, atomically, after all checks pass.
+</isa>

@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I have all the information I need. The test imports `fetchUser` from `../src/mod.ts`. I need to:\n\n1. Rename `ResolveUser` → `FetchUser` and `RESOLVE_CONTRACT` → `FETCH_CONTRACT` in `src/contracts.ts`\n2. Update `src/lookup-user.ts` to use `FetchUser` type and rename `resolveUser` → `fetchUser`\n3. Update `src/mod.ts` to export `fetchUser` (and updated contract names)",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/contracts.ts\\n+++ b/src/contracts.ts\\n@@ -1,2 +1,2 @@\\n-export const RESOLVE_CONTRACT = \\\"resolveUser\\\" as const;\\n-export type ResolveUser = (id: string) => { id: string };\\n+export const FETCH_CONTRACT = \\\"fetchUser\\\" as const;\\n+export type FetchUser = (id: string) => { id: string };\\n--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,3 +1,3 @@\\n-import type { ResolveUser } from \\\"./contracts.ts\\\";\\n+import type { FetchUser } from \\\"./contracts.ts\\\";\\n \\n-export const resolveUser: ResolveUser = (id) => ({ id });\\n+export const fetchUser: FetchUser = (id) => ({ id });\\n--- a/src/mod.ts\\n+++ b/src/mod.ts\\n@@ -1,2 +1,2 @@\\n-export { RESOLVE_CONTRACT, type ResolveUser } from \\\"./contracts.ts\\\";\\n-export { resolveUser } from \\\"./lookup-user.ts\\\";\\n+export { FETCH_CONTRACT, type FetchUser } from \\\"./contracts.ts\\\";\\n+export { fetchUser } from \\\"./lookup-user.ts\\\";\\n\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_2V6XsG2iIoRO3trHlxhvP1",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-386c3bf5d829b25dc232f62c",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 500,
+    "prompt_tokens": 3370,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3870
+  }
+}

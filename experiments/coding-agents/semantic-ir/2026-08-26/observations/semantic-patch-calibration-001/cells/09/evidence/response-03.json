@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Now I understand the task. The tests show that:\n1. `SemanticCapabilities` needs a `directory` capability with `getById`\n2. When local `users.getById` returns `undefined`, fall back to `directory.getById`\n3. Preserve empty-input (`invalid_user_id`) and local-hit behavior\n\nLet me submit the patch:",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"patch\":\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -1,7 +1,7 @@\\n // Generated deterministically from semantic IR. Do not edit.\\n export type User = Readonly<{ id: string; name: string }>;\\n export type Result<T, E> = { ok: T } | { error: E };\\n export type SemanticCapabilities = Readonly<{\\n   users: Readonly<{ getById(id: string): User | undefined }>;\\n+  directory: Readonly<{ getById(id: string): User | undefined }>;\\n }>;\\n \\n@@ -14,9 +14,14 @@ export function lookupWithDirectory(\\n       ? (/* ir:node:final-directory-fallback-001-invalid-id */ { error: /* ir:node:final-directory-fallback-001-invalid-id-code */ \\\"invalid_user_id\\\" })\\n       : (/* ir:node:final-directory-fallback-001-user-match */ (() => {\\n           const __semantic_ir_option_1 = /* ir:node:final-directory-fallback-001-get-user */ capabilities.users.getById(/* ir:node:final-directory-fallback-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:final-directory-fallback-001-not-found */ { error: /* ir:node:final-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.directory.getById(normalizedId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:final-directory-fallback-001-not-found */ { error: /* ir:node:final-directory-fallback-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const directoryUser: User = __semantic_ir_option_2;\\n+            return { ok: directoryUser };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:final-directory-fallback-001-found */ { ok: /* ir:node:final-directory-fallback-001-user-ref */ user };\\n         })());\\n   })();\\n }\"}",
+              "name": "source_patch_submit"
+            },
+            "id": "tooluse_Wt8zySL82S2hKnKj6eVydn",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-e04c2ade483a8e495fccd61a",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 724,
+    "prompt_tokens": 2789,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 3513
+  }
+}

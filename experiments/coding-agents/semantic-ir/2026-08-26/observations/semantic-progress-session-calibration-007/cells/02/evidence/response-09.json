@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I can see the state clearly. The task requires changing the error codes:\n- `n7` (empty-input error): `\"invalid_user_id\"` → `\"empty_identifier\"`\n- `n12` (missing-user error): `\"not_found\"` → `\"user_not_found\"`\n\nThe workspace already shows these target values in `src/lookup-user.ts`. I need to submit a semantic patch. Let me review the capability index for the correct tokens and format the submission properly.\n\nFrom the state:\n- `n7`: state_token `cap:v1:state:9c3b0950b28e9a6c3fe22645765ef717`, target_token `cap:v1:target:8fbcc8b656d2b3050748baaea58232d9`\n- `n12`: state_token `cap:v1:state:9c3b0950b28e9a6c3fe22645765ef717`, target_token `cap:v1:target:72133e3e18c11d6ce4e091357ca39b57`\n\nThe patch-id must match `^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$`. The root must match `^r[0-9]+$`. Each operation needs its own root reference tree.\n\nFor `n7` (string literal node, slot=error, parent=n6): the motion is `str[\"empty_identifier\"]` at `r0`, and the operation root is `r0`.\n\nFor `n12` (string literal node, slot=error, parent=n11): similarly `str[\"user_not_found\"]` at `r0`, root `r0`.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"patch:error:taxonomy-fix\",[[\"n7\",\"cap:v1:target:8fbcc8b656d2b3050748baaea58232d9\"],[\"n12\",\"cap:v1:target:72133e3e18c11d6ce4e091357ca39b57\"]],[[\"op:change-empty-id-code\",[\"n7\",\"cap:v1:target:8fbcc8b656d2b3050748baaea58232d9\"],\"r0\",[],[[\"str\",\"r0\",\"empty_identifier\"]]],[\"op:change-not-found-code\",[\"n12\",\"cap:v1:target:72133e3e18c11d6ce4e091357ca39b57\"],\"r0\",[],[[\"str\",\"r0\",\"user_not_found\"]]]]],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_ajJq1qxqLSKdraLZ28ZHUC",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-53fc419642b7d7ca20c83612",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 672,
+    "prompt_tokens": 4056,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 4728
+  }
+}

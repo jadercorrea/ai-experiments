@@ -1,0 +1,38 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.calibration-invalidation/v0",
+  "observation_id": "semantic-ir-calibration/heterogeneous-patches-001",
+  "invalidated_at": "2026-08-27T10:06:31-03:00",
+  "reason": "treatment_asymmetric_context_addressability",
+  "scope": [
+    "source_vs_semantic_efficacy",
+    "source_vs_semantic_token_comparison",
+    "semantic_pass_at_1"
+  ],
+  "raw_result": {
+    "completed_cells": 12,
+    "provider_requests": 43,
+    "estimated_cost_usd": 0.699015,
+    "source_all_task_hidden_passes": 3,
+    "semantic_all_task_hidden_passes": 0,
+    "semantic_supported_task_hidden_passes": 0
+  },
+  "evidence": {
+    "supported_semantic_cells": 5,
+    "supported_semantic_cells_terminated_by_unavailable_context_path": 5,
+    "semantic_mutation_attempts_before_failure": 0,
+    "representative_failures": [
+      "workspace file is unavailable: tasks/error-taxonomy-001/participant-context/TASK.md",
+      "workspace file is unavailable: tasks/normalization-policy-001/base/program.json",
+      "workspace file is unavailable: tasks/raw-id-retry-001/base/program.json",
+      "workspace file is unavailable: tasks/reserved-id-guard-001/base/program.json",
+      "workspace file is unavailable: tasks/directory-fallback-001/base/program.json"
+    ],
+    "context_artifacts_embedded_in_system_message": true,
+    "context_artifact_paths_readable_through_workspace_read": false,
+    "invalid_workspace_read_returned_to_subject_for_repair": false,
+    "source_repository_files_readable_through_workspace_read": true
+  },
+  "explanation": "All five supported semantic trajectories were terminated before a semantic mutation because the subject tried to reread an artifact path shown in its system context. Those task-prefixed labels were not mounted in the ephemeral repository accepted by workspace_read. The runner then classified the invalid read as a terminal product failure instead of returning a recoverable tool error. The semantic arm depended more heavily on embedded state and schemas than the source arm, so this addressability mismatch was treatment-asymmetric and early-censored every supported semantic trajectory.",
+  "interpretation": "The raw 3/6 source and 0/6 semantic counts describe what happened under the frozen runner, but they are not evidence that source editing is more effective. The semantic token total is also censored by early termination and cannot support an efficiency comparison.",
+  "disposition": "Retain every request, response, tool record, workspace, result, and cost. Do not replace or rerun any cell under this freeze. A separately identified protocol must expose context artifacts through an unambiguous read-only surface, return recoverable tool errors within the frozen trajectory budget, and use fresh task instances before a new comparative claim."
+}

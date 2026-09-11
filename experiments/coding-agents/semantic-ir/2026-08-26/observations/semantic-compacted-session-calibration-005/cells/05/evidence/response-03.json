@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I can see the task clearly. The test expects that when the normalized lookup misses, a second lookup is performed with the original `rawId`. Let me update `src/lookup-user.ts` accordingly.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"--- a/src/lookup-user.ts\\n+++ b/src/lookup-user.ts\\n@@ -18,9 +18,14 @@\\n           const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\\n           if (__semantic_ir_option_1 === undefined) {\\n-            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n+            const __semantic_ir_option_2 = capabilities.users.getById(rawId);\\n+            if (__semantic_ir_option_2 === undefined) {\\n+              return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\"not_found\\\" };\\n+            }\\n+            const userRetry: User = __semantic_ir_option_2;\\n+            return { ok: userRetry };\\n           }\\n           const user: User = __semantic_ir_option_1;\\n           return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\n         })());\\n   })();\\n }\"],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_MEENFgHEqHdljEZxZNKBuG",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-07386d4502156bb994bb31cc",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 528,
+    "prompt_tokens": 2438,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 2966
+  }
+}

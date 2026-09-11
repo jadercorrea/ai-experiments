@@ -1,0 +1,461 @@
+[
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b3f654c66b52461787c01c5eb77bd3831ff7501e38d8c827bf3d7fa6e2b6f9cc",
+    "progress_phase": "work",
+    "request_sha256": "4168f34ce0c89b96acb437694d4d7145d6d54a519018f43795b8edf65f7ecf89",
+    "response_sha256": "336ecbe8bbbf37da789a0912af8a0c182f93a0bb8974e2ab521a5ad0de3366b2",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1725,
+              "path": "src/lookup-user.ts",
+              "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+            },
+            {
+              "bytes": 995,
+              "path": "tests/public.test.ts",
+              "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_2oPwnYzOFRljUu0xkWHv3h"
+      },
+      {
+        "result": {
+          "artifacts": [
+            {
+              "bytes": 258,
+              "handle": "context://mode",
+              "path": "tasks/raw-id-retry-001/participant-context/source-patch.md",
+              "role": "mode",
+              "sha256": "913bc5e6650d0833d02afd093debf43d5a01f81536f92962737b0d14d689d99b"
+            },
+            {
+              "bytes": 298,
+              "handle": "context://task",
+              "path": "tasks/raw-id-retry-001/participant-context/TASK.md",
+              "role": "task",
+              "sha256": "a3b83a79cc96c72a04f52ccfb1e7abac7ebc783c71052c342d8f97936c51379e"
+            }
+          ]
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_gGhLVfTKIXamv5yioaF4nC"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "9b2f5b102c9ec8b130b2f3e53e39d8e6c87812cce6cd16dd91f3dfe46f834f3c",
+    "progress_phase": "work",
+    "request_sha256": "b72590a3948f535da9df2c6f90de0685c6e257b7e9d6459c9cde83fc12f59d1b",
+    "response_sha256": "ab26e2f34154581ac516b3a79f544689a9286ecfd0e0989d53112e5e1e85796c",
+    "tool_results": [
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_FQNLbPH45MQwZnq88Yq52s"
+      },
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_mPdrRNm53ZAjuoMucPvbie"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "102d5e6842f427a275444f5fe68f3334fdaf9125fa639d87ca39b41775366b80",
+    "progress_phase": "work",
+    "request_sha256": "c110c6da3a910e01d275fba9d7cf762605e49effeb4ed98d54dbbe02803695d8",
+    "response_sha256": "ae60002d15cbe24023ec740fae2a062b94d39209c928fc0be6212b0881e02c58",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 16"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_Nc2oU3kngvMH0x9fc2j74p"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "45af16f5cab3f770695ba3620684e635aaeff1b7bb51b0926410340e7c38626b",
+    "progress_phase": "work",
+    "request_sha256": "693b133c64a35fdae6b61e1065b95fc50d6d238053eebe03e40c3132bb5e4845",
+    "response_sha256": "479a0bdbd395529d89c2bc9c540db8c4cc444fc6eff988aa4b24499c39ba6418",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_ENZqer0tQqMjXcZO9e2l4W"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_7ODDjMzn7swEQaHuydKcNT"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "b0f30d11aae2ae2df114aeb627367dac5e938c2608c026b0962346b44ec69adf",
+    "progress_phase": "work",
+    "request_sha256": "defb364bcafa026b4f66cdcdc19a9de15642cefe84bf3368933101463e57b104",
+    "response_sha256": "0bc7872ab7e1f03eba0b780db8cc028317c6886c3ee5616caa67ae973ed578e2",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_o7RkCvDR3tX3ujjBaYdHBq"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_81P35dHPtbGqBsxHPQvjO0"
+      }
+    ],
+    "turn": 5
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "9b50d126633593e107841caa90532efe6de2d2f9ed2c66571228d4ab5942e556",
+    "progress_phase": "work",
+    "request_sha256": "50329fb3ecc8c1b4a1a6a97bae4956ef077a1a50bc9b0e582c79cb8f7d4950c8",
+    "response_sha256": "6abe44093e7bcb9dd8fa1552717444ee38139e85c0164751582614fb13f9931d",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_tJgY4DgU7iXY3zroAyfCgz"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_KhMSqvjquSrS84MBPoy9qT"
+      }
+    ],
+    "turn": 6
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "7947ffc5d91fe6407de437280282371883b8b26f96cd875191dcbfdb90aa89a2",
+    "progress_phase": "work",
+    "request_sha256": "93e0f3feab658762eaac11d72e2f5ef93dc136a168f0bf4b8e9be8e26a68ce15",
+    "response_sha256": "d23b14b1a73f4e891247590ebc286e8108e56507935a3d5b0216961d836fa431",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_rGW1AaJ49rCmt0ur5jnnQ1"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_LHbjPiJpWKnXigwiRWQx0I"
+      }
+    ],
+    "turn": 7
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "54211ed1fc1f4607e2a3a4100f3b3426881637ef400c8f0a5d89a756f0bf5496",
+    "progress_phase": "work",
+    "request_sha256": "89689cd6b2f8eb8a68df6254baac0e9686862b583649db09040e62f15af00181",
+    "response_sha256": "c0f0ac3012d77eabaff2615b9b2926d6793d8a5acf4774ab14d655f08aac82fe",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_DPXpwj2iGNPVTbt9CFhqP3"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_479mbhVOeBEFa0CS70SJij"
+      }
+    ],
+    "turn": 8
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "17752d80341b16eef415ed68ecda8f55a6fe358a5ccadec4a73cdbee4f2d76cb",
+    "progress_phase": "work",
+    "request_sha256": "eeab28b57bcaf932274824c49525c8a9a55d6d289d458387c4d437650a8c1f69",
+    "response_sha256": "4a2910dfcbd7c48c9dee4e5dbc08b8cad9c5eb1ec17304ad5609647214b6eeba",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_m4wlSebYx4vho8a8d8JmZY"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_gOvRdTKhT5r1t2d61I6gCu"
+      }
+    ],
+    "turn": 9
+  },
+  {
+    "allowed_opcodes": [
+      "C",
+      "R",
+      "I",
+      "L",
+      "W",
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "524a20adf81807aedfbbc5678d2cf6fbdc879bd48e8f65b254e2e551c2965242",
+    "progress_contract_sha256": "ba8e4c2d8d3f87efc3f0b4aa5564c049503752410e4b5e13e75827b1a678e466",
+    "progress_phase": "work",
+    "request_sha256": "796719a63be4927bf51f0fc319eee17e8e70433daf17e3a828cb03909a07c653",
+    "response_sha256": "e40d1d836dbfcbd16d4d8f92ae442cbf1c42b1dac5a0e0c2ac8d1986f41fed3d",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function executeWithRetry(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:session-v3-raw-id-retry-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:session-v3-raw-id-retry-001-trim */ (/* ir:node:session-v3-raw-id-retry-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:session-v3-raw-id-retry-001-validity-if */ (/* ir:node:session-v3-raw-id-retry-001-is-empty */ (/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:session-v3-raw-id-retry-001-invalid-id */ { error: /* ir:node:session-v3-raw-id-retry-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:session-v3-raw-id-retry-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "4c93a0da6a8cbc9ed4f6863fb99a8f793d4732b6839768b5e3a6cc484aa701b1"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_sKohmVE15UhKmlQ6NHiNKY"
+      },
+      {
+        "result": {
+          "content": "import { executeWithRetry } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"retries the original identifier after normalized miss\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \" 42 \" ? { id, name: \"Raw\" } : undefined; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \" 42 \", name: \"Raw\" } });\n  assertEquals(calls, [\"42\", \" 42 \"]);\n});\n\nDeno.test(\"does not retry a normalized hit\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return { id, name: \"Local\" }; } } };\n  assertEquals(executeWithRetry(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Local\" } });\n  assertEquals(calls, [\"42\"]);\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "4b51591a9697ed91fa5defd3831c6842b16a943180d9e08cbf95af9fb57ecda3"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_pcdPjVtQWdUaBRkZMz9wO2"
+      }
+    ],
+    "turn": 10
+  },
+  {
+    "allowed_opcodes": [
+      "E",
+      "S",
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "bc482f59403f07e1174683c839a60571b8e042dd04981ebeb0774038aabc225d",
+    "progress_contract_sha256": "9bc897212c6bd7b58610aefb665dfb1324f3817deeb62f581dafee6ef34cf345",
+    "progress_phase": "commit",
+    "request_sha256": "e6d9f8bc29bfb2eedcb3caa5db128d5ca6ab13ac9acffe959f1746dfb2a8cc66",
+    "response_sha256": "8f0f20197ab42a06ec4d99fd3915d5993e97e6867b371f5c6385b0a469191ab2",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": false,
+          "classification": "source_patch_rejected",
+          "message": "source patch rejected: error: corrupt patch at line 16"
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_seWqZ0WsJ8WiiLpvoio3M2"
+      }
+    ],
+    "turn": 11
+  },
+  {
+    "allowed_opcodes": [
+      "F"
+    ],
+    "automatic_refetches": [],
+    "instruction_schema_sha256": "cb1ce59a749115ddb203dc2588ab6ac8db914f85a48aa05619cafd13a3c63a83",
+    "progress_contract_sha256": "5a5670e78c521a3f028eee5b54aa718c68c8c2b5bceaaaeacd84af8d5af42f39",
+    "progress_phase": "finish",
+    "request_sha256": "62f2e4be841a384c33bb2c57fc8a0def734e4080656d7eadac073707b56d585e",
+    "response_sha256": "6498a3e957c42821b82f9be68ef518836a9309492667408647263e69e6b73338",
+    "tool_results": [
+      {
+        "result": {
+          "error": {
+            "code": "session_instruction_grammar_invalid",
+            "message": "request instruction grammar failed at v: '{\"i\":\"S\",\"a\":[\"--- a/src/lookup-user.ts\\\\n+++ b/src/lookup-user.ts\\\\n@@ -20,7 +20,12 @@ export function executeWithRetry(\\\\n           const __semantic_ir_option_1 = /* ir:node:session-v3-raw-id-retry-001-get-user */ capabilities.users.getById(/* ir:node:session-v3-raw-id-retry-001-normalized-ref-for-lookup */ normalizedId);\\\\n           if (__semantic_ir_option_1 === undefined) {\\\\n-            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\\\"not_found\\\\\" };\\\\n+            const __semantic_ir_option_2 = capabilities.users.getById(rawId);\\\\n+            if (__semantic_ir_option_2 !== undefined) {\\\\n+              const userRetry: User = __semantic_ir_option_2;\\\\n+              return { ok: userRetry };\\\\n+            }\\\\n+            return /* ir:node:session-v3-raw-id-retry-001-not-found */ { error: /* ir:node:session-v3-raw-id-retry-001-not-found-code */ \\\\\"not_found\\\\\" };\\\\n           }\\\\n           const user: User = __semantic_ir_option_1;\\\\n           return /* ir:node:session-v3-raw-id-retry-001-found */ { ok: /* ir:node:session-v3-raw-id-retry-001-user-ref */ user };\\\\n\"]}>' is not of type 'object'",
+            "recoverable": true
+          },
+          "ok": false
+        },
+        "tool": "x",
+        "tool_call_id": "tooluse_htM68T6gPNiNWeufAMXKR9"
+      }
+    ],
+    "turn": 12
+  }
+]

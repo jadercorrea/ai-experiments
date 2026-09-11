@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "Good — the evaluation confirms the current state fails. Now let me re-examine the motion schema more carefully. The ISA says: `motion=[word,r#,args...]`. So each motion is `[word, r#, ...args]`. Let me reconsider the motion format:\n\n- `if[condition,then,else]` → `[\"if\", \"r0\", condition_ref, then_ref, else_ref]`\n- `call[symbol,arg-ref...]` → `[\"call\", \"r1\", \"string.equals\", arg1_ref, arg2_ref]`\n- `var[s#|b#]` → `[\"var\", \"r2\", \"s1\"]`\n- `str[value]` → `[\"str\", \"r3\", \"root\"]`\n- `err[error]` → `[\"err\", \"r4\", error_ref]`\n- `match[value,b#,none,some]` → `[\"match\", \"r5\", value_ref, \"b0\", none_ref, some_ref]`\n- `ok[value]` → `[\"ok\", \"r6\", value_ref]`\n\n`s1` = `normalizedId` (second in scope: s0=rawId, s1=normalizedId). `b0` = the `user` binding from the match.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"task:reserved-id-guard-001:patch:v1\",\"cap:v1:state:90fbfca7faa5e093e4bfb63c2582c090\",[[\"task:reserved-id-guard-001:op:insert-reserved-guard\",[\"n8\",\"cap:v1:target:0db6df7642e817f64801de76224c45b2\"],\"r0\",[],[[\"if\",\"r0\",\"r1\",\"r2\",\"r3\"],[\"call\",\"r1\",\"string.equals\",\"r4\",\"r5\"],[\"var\",\"r4\",\"s1\"],[\"str\",\"r5\",\"root\"],[\"err\",\"r2\",\"r6\"],[\"str\",\"r6\",\"reserved_user_id\"],[\"match\",\"r3\",\"r7\",\"b0\",\"r8\",\"r9\"],[\"call\",\"r7\",\"users.get_by_id\",\"r10\"],[\"var\",\"r10\",\"s1\"],[\"err\",\"r8\",\"r11\"],[\"str\",\"r11\",\"not_found\"],[\"ok\",\"r9\",\"r12\"],[\"var\",\"r12\",\"b0\"]]]]],\"i\":\"S\"}",
+              "name": "x"
+            },
+            "id": "tooluse_GiShLyEjHx9baQS3lKnEK1",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-18ea46b9e41f47d705abd6eb",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 665,
+    "prompt_tokens": 8815,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 9480
+  }
+}

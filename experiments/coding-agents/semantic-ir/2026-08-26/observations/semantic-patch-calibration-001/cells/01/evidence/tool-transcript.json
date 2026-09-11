@@ -1,0 +1,108 @@
+[
+  {
+    "request_sha256": "ef9d83f004f9ef38411a9247a5a8e7bd15670f11f285d591d8fc325696f248f6",
+    "response_sha256": "5d4a4c8257ed0147d5165c1f63a3642f8fa85c57c1a912bfe6d0dbaa9d1f8137",
+    "tool_results": [
+      {
+        "result": {
+          "files": [
+            {
+              "bytes": 107,
+              "path": "deno.json",
+              "sha256": "45df17e030b59778f5247ba3e9fcba806b83d4c21c2babc33ce69bd9bfa6c94c"
+            },
+            {
+              "bytes": 1679,
+              "path": "src/lookup-user.ts",
+              "sha256": "ffbce1bf0dc10aa7d51f8e3568b5a3b927b24572cd5dea70723a9a261ada7b90"
+            },
+            {
+              "bytes": 730,
+              "path": "tests/public.test.ts",
+              "sha256": "0fad1dd0771a6211793c94ab0281591b20dafd5507091398d570cedfea137288"
+            }
+          ]
+        },
+        "tool": "workspace_list",
+        "tool_call_id": "tooluse_572pzgMBi9Y6IvAdc6sx62"
+      }
+    ],
+    "turn": 1
+  },
+  {
+    "request_sha256": "6d5e47659ed67cbe3ddf6cbfa3790f5531dec20ef871794518110ac6a21270cb",
+    "response_sha256": "dbcd5f7824f7f5d033332af79b7f417472bd2ffc22230bfe2d5b549cc6e17be7",
+    "tool_results": [
+      {
+        "result": {
+          "content": "// Generated deterministically from semantic IR. Do not edit.\nexport type User = Readonly<{ id: string; name: string }>;\nexport type Result<T, E> = { ok: T } | { error: E };\nexport type SemanticCapabilities = Readonly<{\n  users: Readonly<{ getById(id: string): User | undefined }>;\n}>;\n\nexport function lookupErrorCase(\n  rawId: string, capabilities: SemanticCapabilities\n): Result<User, string> {\n  return /* ir:node:final-error-taxonomy-001-normalize-let */ (() => {\n    const normalizedId: string = /* ir:node:final-error-taxonomy-001-trim */ (/* ir:node:final-error-taxonomy-001-raw-id-ref */ rawId).replace(/^[\\t\\n\\v\\f\\r ]+|[\\t\\n\\v\\f\\r ]+$/g, \"\");\n    return /* ir:node:final-error-taxonomy-001-validity-if */ (/* ir:node:final-error-taxonomy-001-is-empty */ (/* ir:node:final-error-taxonomy-001-normalized-ref-for-empty */ normalizedId).length === 0)\n      ? (/* ir:node:final-error-taxonomy-001-invalid-id */ { error: /* ir:node:final-error-taxonomy-001-invalid-id-code */ \"invalid_user_id\" })\n      : (/* ir:node:final-error-taxonomy-001-user-match */ (() => {\n          const __semantic_ir_option_1 = /* ir:node:final-error-taxonomy-001-get-user */ capabilities.users.getById(/* ir:node:final-error-taxonomy-001-normalized-ref-for-lookup */ normalizedId);\n          if (__semantic_ir_option_1 === undefined) {\n            return /* ir:node:final-error-taxonomy-001-not-found */ { error: /* ir:node:final-error-taxonomy-001-not-found-code */ \"not_found\" };\n          }\n          const user: User = __semantic_ir_option_1;\n          return /* ir:node:final-error-taxonomy-001-found */ { ok: /* ir:node:final-error-taxonomy-001-user-ref */ user };\n        })());\n  })();\n}\n",
+          "path": "src/lookup-user.ts",
+          "sha256": "ffbce1bf0dc10aa7d51f8e3568b5a3b927b24572cd5dea70723a9a261ada7b90"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_aicy6ATjCt9AbrzY5M3fzE"
+      },
+      {
+        "result": {
+          "content": "import { lookupErrorCase } from \"../src/lookup-user.ts\";\n\nfunction assertEquals(actual: unknown, expected: unknown): void {\n  if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n    throw new Error(\n      `expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`,\n    );\n  }\n}\n\nDeno.test(\"changes empty error and preserves success\", () => {\n  const calls: string[] = [];\n  const capabilities = { users: { getById(id: string) { calls.push(id); return id === \"42\" ? { id, name: \"Ada\" } : undefined; } } };\n  assertEquals(lookupErrorCase(\" \\t \", capabilities), { error: \"empty_identifier\" });\n  assertEquals(calls, []);\n  assertEquals(lookupErrorCase(\" 42 \", capabilities), { ok: { id: \"42\", name: \"Ada\" } });\n});\n",
+          "path": "tests/public.test.ts",
+          "sha256": "0fad1dd0771a6211793c94ab0281591b20dafd5507091398d570cedfea137288"
+        },
+        "tool": "workspace_read",
+        "tool_call_id": "tooluse_y6Hhit1CI701zVjMCJ7VFY"
+      }
+    ],
+    "turn": 2
+  },
+  {
+    "request_sha256": "651b56db8fc8b9e71b614b136b6b5eb61ae394a22dc0f1b1cc893d6f2bfeab0d",
+    "response_sha256": "2560ea9abb66941855d7ed018c1f0c6e3b9330e8dae4c53f4d5163c347b81b78",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "changed_paths": [
+            "src/lookup-user.ts"
+          ],
+          "patch_sha256": "121b3d089bbb8b03d84fc688ed04ee4ac81f00ae2bc47f52a5278b04a83a59a5"
+        },
+        "tool": "source_patch_submit",
+        "tool_call_id": "tooluse_y4jQlhSNQzXjZ4wY7R7Vev"
+      }
+    ],
+    "turn": 3
+  },
+  {
+    "request_sha256": "6093ff31c2a348834f98410187ee53bde057a487a40b0e7a2db0516d3d4f1b1e",
+    "response_sha256": "28c7e88f78ad7818e9fab09562fd6915548997cf3f963948049711868959cdbd",
+    "tool_results": [
+      {
+        "result": {
+          "classification": "pass",
+          "exit_code": 0,
+          "passed": true,
+          "stderr": "Check tests/public.test.ts\n",
+          "stdout": "running 1 test from ./tests/public.test.ts\nchanges empty error and preserves success ... ok (0ms)\n\nok | 1 passed | 0 failed (6ms)\n\n"
+        },
+        "tool": "evaluation_run_public",
+        "tool_call_id": "tooluse_yH60Y5bgfxKVMPq3k138tC"
+      }
+    ],
+    "turn": 4
+  },
+  {
+    "request_sha256": "df63f2611bb09aa821b23bf3059ac3b4449a18ea97f3c78ea34b0a8466a5c32b",
+    "response_sha256": "0c2dcbed85eaea6a4a71eac82cef4708441c6dd5490ed1cd1175ceda7258ea6f",
+    "tool_results": [
+      {
+        "result": {
+          "accepted": true,
+          "workspace_tree_sha256": "163c0ebd6d11f894b091f34a1c4bffe68bb14c809f214a13ab605fed84491446"
+        },
+        "tool": "submission_finish",
+        "tool_call_id": "tooluse_Fr10DSkgZVNz5xuECWzFHX"
+      }
+    ],
+    "turn": 5
+  }
+]

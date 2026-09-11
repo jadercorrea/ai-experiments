@@ -1,0 +1,83 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.capability-patch/v1",
+  "patch_id": "patch:capability-v2-raw-id-retry-001",
+  "program_id": "program:capability-v2-raw-id-retry-001",
+  "state_token": "cap:v1:state:18e7ecc0d212d49f00f18e627921e5c2",
+  "operations": [
+    {
+      "operation_id": "operation:final-raw-identifier-retry",
+      "op": "replace_subtree",
+      "target_node_id": "node:capability-v2-raw-id-retry-001-user-match",
+      "target_token": "cap:v1:target:c9e765a54e791ae7f244b460d3870cc4",
+      "replacement": {
+        "node_id": "node:capability-v2-raw-id-retry-001-user-match",
+        "op": "option_match",
+        "value": {
+          "node_id": "node:capability-v2-raw-id-retry-001-get-user",
+          "op": "call",
+          "symbol": "users.get_by_id",
+          "arguments": [
+            {
+              "node_id": "node:capability-v2-raw-id-retry-001-normalized-ref-for-lookup",
+              "op": "var",
+              "symbol_id": "local:capability-v2-raw-id-retry-001-normalized-id"
+            }
+          ]
+        },
+        "some_binding": {
+          "symbol_id": "local:capability-v2-raw-id-retry-001-user",
+          "name": "user",
+          "type": "user"
+        },
+        "none": {
+          "node_id": "node:capability-v2-raw-id-retry-001-raw-retry-match",
+          "op": "option_match",
+          "value": {
+            "node_id": "node:capability-v2-raw-id-retry-001-get-user-raw-retry",
+            "op": "call",
+            "symbol": "users.get_by_id",
+            "arguments": [
+              {
+                "node_id": "node:capability-v2-raw-id-retry-001-raw-ref-for-retry",
+                "op": "var",
+                "symbol_id": "param:capability-v2-raw-id-retry-001-raw-id"
+              }
+            ]
+          },
+          "some_binding": {
+            "symbol_id": "local:capability-v2-raw-id-retry-001-retry-user",
+            "name": "retryUser",
+            "type": "user"
+          },
+          "none": {
+            "node_id": "node:capability-v2-raw-id-retry-001-not-found",
+            "op": "err",
+            "error": {
+              "node_id": "node:capability-v2-raw-id-retry-001-not-found-code",
+              "op": "string",
+              "value": "not_found"
+            }
+          },
+          "some": {
+            "node_id": "node:capability-v2-raw-id-retry-001-retry-found",
+            "op": "ok",
+            "value": {
+              "node_id": "node:capability-v2-raw-id-retry-001-retry-user-ref",
+              "op": "var",
+              "symbol_id": "local:capability-v2-raw-id-retry-001-retry-user"
+            }
+          }
+        },
+        "some": {
+          "node_id": "node:capability-v2-raw-id-retry-001-found",
+          "op": "ok",
+          "value": {
+            "node_id": "node:capability-v2-raw-id-retry-001-user-ref",
+            "op": "var",
+            "symbol_id": "local:capability-v2-raw-id-retry-001-user"
+          }
+        }
+      }
+    }
+  ]
+}

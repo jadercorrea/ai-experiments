@@ -1,0 +1,34 @@
+{
+  "choices": [
+    {
+      "finish_reason": "tool_calls",
+      "index": 0,
+      "message": {
+        "content": "I'll analyze the task and current state carefully.\n\nThe task says:\n- \"Use the raw identifier without trimming\" — so `normalizedId` should be bound to `rawId` directly, not `string.trim_ascii(rawId)`\n- \"treat only the exact empty string as empty\" — keep `string.is_empty` check (or equivalent)\n- \"preserve one lookup for every nonempty identifier\" — keep the `users.get_by_id` lookup\n\nThe test confirms: `raw = \" 42 \"` (with spaces), and the lookup should use `raw` directly (not trimmed). The empty check should use the raw identifier directly too.\n\nSo the change needed:\n1. `n1` (the `call` to `string.trim_ascii`) should be replaced — `normalizedId` should just be `rawId` directly. But since we need a `let` binding, we need `normalizedId = rawId` (a `var` node instead of a `call` node).\n\nWait, let me re-read the IR structure. `n0` is a `let` that binds `normalizedId` to the value at `n1`. `n1` is `call string.trim_ascii` with `n2` (ref to `rawId`). \n\nTo use the raw identifier without trimming, I need to change `n1` from `call string.trim_ascii(rawId)` to just `var rawId`. That means replacing the `value` slot of `n0` with a `var` referencing `rawId`.\n\nLet me inspect the capability for `n1` to understand what I can submit.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"a\":[\"n1\"],\"i\":\"I\"}",
+              "name": "x"
+            },
+            "id": "tooluse_2T02d2t1tpIqpqp4MmeHmJ",
+            "type": "function"
+          }
+        ]
+      }
+    }
+  ],
+  "created": 0,
+  "id": "bedrock-bacf037ce730ed9c803d9fe0",
+  "model": "us.anthropic.claude-sonnet-4-6",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 443,
+    "prompt_tokens": 4986,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5429
+  }
+}

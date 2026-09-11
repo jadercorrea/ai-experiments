@@ -1,0 +1,127 @@
+[
+  {
+    "arguments": {
+      "rawId": "  user-8b1a60a1\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-8b1a60a1": [
+            {
+              "id": "user-8b1a60a1",
+              "name": "Directory-f66da2"
+            }
+          ]
+        }
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-8b1a60a1": [
+            null
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-8b1a60a1"
+          ],
+          "symbol": "users.get_by_id"
+        },
+        {
+          "arguments": [
+            "user-8b1a60a1"
+          ],
+          "symbol": "directory.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-8b1a60a1",
+          "name": "Directory-f66da2"
+        }
+      }
+    },
+    "id": "fallback-hit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": "  user-8b1a60a1\t"
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {
+          "user-8b1a60a1": [
+            {
+              "id": "user-8b1a60a1",
+              "name": "Local-f66da2"
+            }
+          ]
+        }
+      }
+    },
+    "expected": {
+      "effects": [
+        {
+          "arguments": [
+            "user-8b1a60a1"
+          ],
+          "symbol": "users.get_by_id"
+        }
+      ],
+      "value": {
+        "ok": {
+          "id": "user-8b1a60a1",
+          "name": "Local-f66da2"
+        }
+      }
+    },
+    "id": "local-short-circuit",
+    "visibility": "hidden"
+  },
+  {
+    "arguments": {
+      "rawId": " \t "
+    },
+    "capabilities": {
+      "directory.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      },
+      "users.get_by_id": {
+        "default": [
+          null
+        ],
+        "returns_by_argument": {}
+      }
+    },
+    "expected": {
+      "effects": [],
+      "value": {
+        "error": "invalid_input_8b1a60a1f8f66da2"
+      }
+    },
+    "id": "empty-short-circuit",
+    "visibility": "hidden"
+  }
+]
