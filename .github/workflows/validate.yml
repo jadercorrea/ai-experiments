@@ -16,9 +16,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.14"
-      - uses: denoland/setup-deno@v2
-        with:
-          deno-version: "2.7.13"
       - run: pip install --requirement requirements-dev.txt
       - run: ruff check scripts tests
-      - run: ./scripts/validate
+      # Keep push validation bounded. Full experimental replay remains local and
+      # explicit through ./scripts/validate.
+      - run: ./scripts/validate --ci

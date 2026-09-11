@@ -4,20 +4,41 @@ set -euo pipefail
 
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 schema="$root/schemas/experiment-manifest-v1.schema.json"
+profile=${1:-full}
+python_bin=${PYTHON_BIN:-python3}
+
+if [[ $# -gt 1 || ("$profile" != "full" && "$profile" != "--ci") ]]; then
+  printf 'usage: %s [--ci]\n' "$0" >&2
+  exit 2
+fi
 
 bash -n "$root/scripts/verify-release"
 
-python3 -m unittest discover -s "$root/tests" -p "test_*.py"
+if [[ "$profile" == "--ci" ]]; then
+  "$python_bin" -m unittest \
+    tests.test_build_artifact_lock \
+    tests.test_handoff_audits \
+    tests.test_handoff_protocol \
+    tests.test_handoff_protocol_preview \
+    tests.test_historical_session_execution_freezes \
+    tests.test_compacted_session_calibration_observation \
+    tests.test_coverage_session_calibration_observation \
+    tests.test_progress_session_calibration_observation \
+    tests.test_semantic_session_state_replay_v1.SemanticSessionStateReplayV1Test.test_evaluator_stack_paths_are_canonical_across_workspaces \
+    tests.test_semantic_session_state_replay_v1.SemanticSessionStateReplayV1Test.test_source_patch_rejection_diagnostics_are_git_version_independent
+else
+  "$python_bin" -m unittest discover -s "$root/tests" -p "test_*.py"
+fi
 
 while IFS= read -r -d '' artifact_lock; do
-  python3 "$root/scripts/build_artifact_lock.py" \
+  "$python_bin" "$root/scripts/build_artifact_lock.py" \
     "$(dirname "$(dirname "$artifact_lock")")" \
     "$artifact_lock" \
     --verify
 done < <(find "$root/experiments" -name artifact-lock.json -print0)
 
 for benchmark_schema in "$root"/schemas/benchmark-task-*.schema.json; do
-  python3 - "$benchmark_schema" <<'PY'
+  "$python_bin" - "$benchmark_schema" <<'PY'
 import json
 import pathlib
 import sys
@@ -32,7 +53,7 @@ jsonschema.Draft202012Validator.check_schema(schema)
 PY
 done
 
-python3 - "$root" <<'PY'
+"$python_bin" - "$root" <<'PY'
 import json
 import pathlib
 import sys
@@ -58,7 +79,7 @@ for screening_path in root.glob("experiments/**/calibration/screening.json"):
         raise ValueError(f"calibration repositories are not disjoint: {screening_path}")
 PY
 
-python3 - "$root" <<'PY'
+"$python_bin" - "$root" <<'PY'
 import json
 import pathlib
 import sys
@@ -84,7 +105,7 @@ for candidate_path in root.glob("experiments/**/construction/candidates.json"):
 PY
 
 while IFS= read -r -d '' manifest; do
-  python3 - "$schema" "$manifest" <<'PY'
+  "$python_bin" - "$schema" "$manifest" <<'PY'
 import json
 import pathlib
 import sys
@@ -105,10 +126,10 @@ PY
 done < <(find "$root/experiments" -name manifest.json -print0)
 
 while IFS= read -r -d '' task; do
-  python3 "$root/scripts/benchmark_tasks.py" "$task"
+  "$python_bin" "$root/scripts/benchmark_tasks.py" "$task"
 done < <(find "$root/experiments" -name benchmark-task.json -print0)
 
-python3 - "$root" <<'PY'
+"$python_bin" - "$root" <<'PY'
 import json
 import pathlib
 import sys
