@@ -1343,3 +1343,13 @@ schema-level false, no credential was read, and no cost occurred. The next red
 test is a sequence-3-only runner and launch schema, followed by a separate
 content-bound authorization decision. See
 [`REPRESENTATIONAL_CONFIRMATORY_CANARY_003_PLAN.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003_PLAN.md).
+
+Representational Confirmatory Canary 003 Runner v2 now enforces that exact
+plan with sequence-3-only launch and result schemas. A provider-free regression
+replays the three inspection instructions that stopped canary 002; under the
+opaque-table successor runtime, the fourth request contains `k32`, excludes
+`arguments[0]`, and terminates through `F`. Launch and scope drift are rejected
+before inference, sequences 1 and 2 remain non-repeatable, and 957 cells remain
+blocked. No launch was materialized, no credential was read, and no provider
+request or cost occurred. See
+[`REPRESENTATIONAL_CONFIRMATORY_CANARY_003_RUNNER_V2.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003_RUNNER_V2.md).

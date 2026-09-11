@@ -1741,3 +1741,44 @@ schema at this checkpoint; do not label the builder as an execution runner.
 - No credential was read, no provider request was made, and no cost occurred.
 - The next red test is a sequence-3-only runner and launch schema. Even after
   those exist, execution requires a separate authorization bound to this plan.
+
+## Representational confirmatory canary 003 runner v2
+
+### Context
+
+The canary-003 plan fixed the next immutable cell and external boundary, but no
+executor existed that could enforce that plan or prove locally that protocol v2
+crosses the exact lexical trajectory that stopped canary 002.
+
+### Options
+
+1. Reuse the protocol-v1 canary runner and patch its sequence at launch time.
+2. Materialize an authorized launch while implementing the replacement runner.
+3. Implement a versioned sequence-3-only runner with new launch and result
+   schemas, exercise it with local deterministic inference, and keep launch
+   absent.
+
+### Decision
+
+Choose option 3. Require the exact materialized plan and bind future launch
+documents to the plan file, protocol v2, runner, schemas, participant runtime,
+selected cell, provider identity, and execution limits. Preserve the 12-request,
+zero-retry, USD 4 ceiling while keeping both prior retries and the remaining
+campaign blocked.
+
+Replay canary 002's three recorded inspection instructions locally under the
+opaque-table successor runtime, then issue `F`. Require the resulting fourth
+request to contain `k32`, exclude `arguments[0]`, terminate normally, pass its
+behavior-blind operational gate, and validate against the result schema.
+
+### Consequences
+
+- The exact formerly failing lexical trajectory completes under protocol v2.
+- Launch, source, scope, and hash drift are rejected before inference.
+- The runner has a real-provider path, but it is unreachable without a
+  separately materialized and validated launch.
+- The local responses are test doubles and create no behavioral evidence.
+- No launch or observation artifact was created, no credential was read, and
+  zero provider requests and cost occurred.
+- The next red test is freezing this checkpoint, after which a new explicit
+  content-bound authorization and current preflight are required for launch.

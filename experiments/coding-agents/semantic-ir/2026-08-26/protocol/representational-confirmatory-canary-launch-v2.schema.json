@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-confirmatory-canary-launch-v2.schema.json",
+  "title": "Representational confirmatory protocol-v2 one-cell launch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "launch_id",
+    "plan_id",
+    "plan_file_sha256",
+    "plan_sha256",
+    "plan_repository_revision",
+    "authorized_at",
+    "authorization_message",
+    "explicit_user_authorization",
+    "protocol_freeze_file_sha256",
+    "protocol_artifact_lock_sha256",
+    "runner_file_sha256",
+    "launch_schema_file_sha256",
+    "result_schema_file_sha256",
+    "provider_model",
+    "provider_endpoint",
+    "credential_preflight_passed",
+    "pricing_recheck_passed",
+    "rates_usd_per_million_tokens",
+    "participant_runtime",
+    "selected_cell",
+    "authorized_cell_count",
+    "prior_observed_cell_count",
+    "blocked_cell_count",
+    "excluded_retry_sequences",
+    "maximum_provider_requests",
+    "provider_retries",
+    "maximum_total_spend_usd",
+    "behavior_blind_operational_gate",
+    "prior_canary_retries_authorized",
+    "remaining_campaign_release_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-confirmatory-canary-launch/v2"
+    },
+    "launch_id": {"const": "representational-confirmatory-canary-003"},
+    "plan_id": {"const": "representational-confirmatory-canary-plan-003"},
+    "plan_file_sha256": {"$ref": "#/$defs/sha256"},
+    "plan_sha256": {"$ref": "#/$defs/sha256"},
+    "plan_repository_revision": {"type": "string", "minLength": 1},
+    "authorized_at": {"type": "string", "format": "date-time"},
+    "authorization_message": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "explicit_user_authorization": {"const": true},
+    "protocol_freeze_file_sha256": {"$ref": "#/$defs/sha256"},
+    "protocol_artifact_lock_sha256": {"$ref": "#/$defs/sha256"},
+    "runner_file_sha256": {"$ref": "#/$defs/sha256"},
+    "launch_schema_file_sha256": {"$ref": "#/$defs/sha256"},
+    "result_schema_file_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_model": {"const": "us.anthropic.claude-sonnet-4-6"},
+    "provider_endpoint": {
+      "const": "https://bedrock-runtime.us-east-1.amazonaws.com"
+    },
+    "credential_preflight_passed": {"const": true},
+    "pricing_recheck_passed": {"const": true},
+    "rates_usd_per_million_tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "cached_input", "output"],
+      "properties": {
+        "input": {"const": 3.0},
+        "cached_input": {"const": 0.3},
+        "output": {"const": 15.0}
+      }
+    },
+    "participant_runtime": {"$ref": "#/$defs/participantRuntime"},
+    "selected_cell": {"$ref": "#/$defs/selectedCell"},
+    "authorized_cell_count": {"const": 1},
+    "prior_observed_cell_count": {"const": 2},
+    "blocked_cell_count": {"const": 957},
+    "excluded_retry_sequences": {
+      "type": "array",
+      "prefixItems": [{"const": 1}, {"const": 2}],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "maximum_provider_requests": {"const": 12},
+    "provider_retries": {"const": 0},
+    "maximum_total_spend_usd": {"const": 4.0},
+    "behavior_blind_operational_gate": {"const": true},
+    "prior_canary_retries_authorized": {"const": false},
+    "remaining_campaign_release_authorized": {"const": false}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "participantRuntime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_id",
+        "state_schema_version",
+        "observation_codec",
+        "selected_lexicon",
+        "selected_packaging",
+        "lexicon_delta"
+      ],
+      "properties": {
+        "protocol_id": {"const": "representational-confirmatory-protocol-v2"},
+        "state_schema_version": {
+          "const": "ai-experiments.semantic-ir.representational-session-state/v1"
+        },
+        "observation_codec": {"const": "representational_observation_codec_v1"},
+        "selected_lexicon": {"const": "opaque"},
+        "selected_packaging": {"const": "table"},
+        "lexicon_delta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["meaningful", "opaque"],
+          "properties": {
+            "meaningful": {"const": "arguments[0]"},
+            "opaque": {"const": "k32"}
+          }
+        }
+      }
+    },
+    "selectedCell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "slot_id",
+        "condition_id",
+        "session_id",
+        "workspace_id",
+        "initial_request_sha256",
+        "initial_request_bytes",
+        "bedrock_request_sha256"
+      ],
+      "properties": {
+        "sequence": {"const": 3},
+        "slot_id": {"const": "capability_lookup_fallback-001"},
+        "condition_id": {"const": "opaque_table"},
+        "session_id": {
+          "const": "representational-confirmatory-v0/session/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "workspace_id": {
+          "const": "representational-confirmatory-v0/workspace/capability_lookup_fallback-001/a1/opaque_table"
+        },
+        "initial_request_sha256": {
+          "const": "7ec4c5ad73975bf1a0d6e56ecc71a16c8ecb2c6e1497b3bfdcb43881bc39eb7c"
+        },
+        "initial_request_bytes": {"const": 13920},
+        "bedrock_request_sha256": {
+          "const": "fe7ea7b227b7e281c726ac1f82161a4c786e68406bd5599fdc1280c4c728a610"
+        }
+      }
+    }
+  }
+}
