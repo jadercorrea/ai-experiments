@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from build_artifact_lock import verify_lock  # noqa: E402
 from session_state_replay import (  # noqa: E402
     _normalize_evaluator_text,
+    _normalize_tool_records,
     build_session_state_replay,
 )
 
@@ -39,6 +40,37 @@ class SemanticSessionStateReplayV1Test(unittest.TestCase):
         )
         self.assertEqual(_normalize_evaluator_text(historical, workspace), expected)
         self.assertEqual(_normalize_evaluator_text(replayed, workspace), expected)
+
+    def test_source_patch_rejection_diagnostics_are_git_version_independent(
+        self,
+    ) -> None:
+        workspace = pathlib.Path("/tmp/replay/workspace")
+        older_git = [{
+            "tool_call_id": "call-1",
+            "result": {
+                "accepted": False,
+                "classification": "source_patch_rejected",
+                "message": "source patch rejected: error: corrupt patch at line 13",
+            },
+        }]
+        newer_git = [{
+            "tool_call_id": "call-1",
+            "result": {
+                "accepted": False,
+                "classification": "source_patch_rejected",
+                "message": (
+                    "source patch rejected: error: patch fragment without header "
+                    "at line 13"
+                ),
+            },
+        }]
+
+        normalized = _normalize_tool_records(older_git, workspace)
+        self.assertEqual(normalized, _normalize_tool_records(newer_git, workspace))
+        self.assertEqual(
+            normalized[0]["result"]["message"],
+            "source patch rejected: <GIT_DIAGNOSTIC>",
+        )
 
     def test_replay_preserves_recorded_actions_and_compacts_history(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

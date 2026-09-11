@@ -84,6 +84,12 @@ def _normalize_tool_records(
         result = record.get("result")
         if not isinstance(result, dict):
             continue
+        if (
+            result.get("accepted") is False
+            and result.get("classification") == "source_patch_rejected"
+            and isinstance(result.get("message"), str)
+        ):
+            result["message"] = "source patch rejected: <GIT_DIAGNOSTIC>"
         evaluator_result = all(
             key in result
             for key in ("passed", "classification", "exit_code", "stdout", "stderr")
