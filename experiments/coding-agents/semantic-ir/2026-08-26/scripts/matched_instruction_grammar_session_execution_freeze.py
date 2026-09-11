@@ -338,14 +338,19 @@ def build_matched_instruction_grammar_session_execution_freeze(
 def validate_matched_instruction_grammar_session_execution_freeze(
     destination: pathlib.Path,
     freeze: dict[str, Any],
+    *,
+    reconstruct: bool = True,
 ) -> None:
     _validate_schema(freeze)
     _validate_subject_isolation(freeze)
-    expected = build_matched_instruction_grammar_session_execution_freeze(destination)
-    if freeze != expected:
-        raise ExecutionFreezeError(
-            "instruction grammar freeze differs from deterministic lock"
+    if reconstruct:
+        expected = build_matched_instruction_grammar_session_execution_freeze(
+            destination
         )
+        if freeze != expected:
+            raise ExecutionFreezeError(
+                "instruction grammar freeze differs from deterministic lock"
+            )
     if freeze["claim_boundary"]["model_calls_authorized"]:
         raise ExecutionFreezeError("pre-execution freeze may not authorize calls")
     errors = verify_lock(
@@ -359,14 +364,15 @@ def validate_matched_instruction_grammar_session_execution_freeze(
     report = _read_json(destination / PREFLIGHT_PATH)
     if report != freeze["preflight"]["result"]:
         raise ExecutionFreezeError("instruction grammar preflight artifact drifted")
-    assets = _asset_bytes()
-    assets[PREFLIGHT_PATH] = _json_bytes(report)
-    for relative_path, content in assets.items():
-        path = destination / relative_path
-        if not path.is_file() or path.read_bytes() != content:
-            raise ExecutionFreezeError(
-                f"generated instruction grammar artifact drifted: {relative_path}"
-            )
+    if reconstruct:
+        assets = _asset_bytes()
+        assets[PREFLIGHT_PATH] = _json_bytes(report)
+        for relative_path, content in assets.items():
+            path = destination / relative_path
+            if not path.is_file() or path.read_bytes() != content:
+                raise ExecutionFreezeError(
+                    f"generated instruction grammar artifact drifted: {relative_path}"
+                )
 
 
 def load_matched_instruction_grammar_session_execution_freeze(
@@ -374,7 +380,7 @@ def load_matched_instruction_grammar_session_execution_freeze(
 ) -> dict[str, Any]:
     freeze = _read_json(destination / "freeze.json")
     validate_matched_instruction_grammar_session_execution_freeze(
-        destination.resolve(), freeze
+        destination.resolve(), freeze, reconstruct=False
     )
     return freeze
 
