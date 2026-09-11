@@ -46,6 +46,9 @@ from semantic_session_calibration import SessionExecutionSession  # noqa: E402
 STATE_PREFIX = "SESSION_STATE/v1\n"
 VOLATILE_DURATION = re.compile(r"\([0-9]+ms\)")
 VOLATILE_DENO_CHECK = re.compile(r"(?m)^Check [^\n]*\n")
+VOLATILE_DENO_TEST_FILE_URL = re.compile(
+    r"file://(?:<WORKSPACE>|[^\s()]+?)(?=/tests/(?:public|hidden)\.test\.ts)"
+)
 
 
 def _read_json(path: pathlib.Path) -> dict[str, Any]:
@@ -66,6 +69,9 @@ def _write_json(path: pathlib.Path, value: Any) -> None:
 def _normalize_evaluator_text(value: str, workspace: pathlib.Path) -> str:
     normalized = value.replace(str(workspace), "<WORKSPACE>")
     normalized = VOLATILE_DENO_CHECK.sub("", normalized)
+    normalized = VOLATILE_DENO_TEST_FILE_URL.sub(
+        "file://<WORKSPACE>", normalized
+    )
     return VOLATILE_DURATION.sub("(<TIME>)", normalized)
 
 

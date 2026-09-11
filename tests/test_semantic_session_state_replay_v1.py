@@ -14,10 +14,32 @@ sys.path.insert(0, str(EXPERIMENT / "scripts"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from build_artifact_lock import verify_lock  # noqa: E402
-from session_state_replay import build_session_state_replay  # noqa: E402
+from session_state_replay import (  # noqa: E402
+    _normalize_evaluator_text,
+    build_session_state_replay,
+)
 
 
 class SemanticSessionStateReplayV1Test(unittest.TestCase):
+    def test_evaluator_stack_paths_are_canonical_across_workspaces(self) -> None:
+        workspace = pathlib.Path("/tmp/replay/workspace")
+        historical = (
+            "at assertEquals "
+            "(file:///Users/author/project/observations/cell/workspace/"
+            "tests/public.test.ts:5:11)\n"
+        )
+        replayed = (
+            "at assertEquals "
+            "(file:///tmp/replay/workspace/tests/public.test.ts:5:11)\n"
+        )
+
+        expected = (
+            "at assertEquals "
+            "(file://<WORKSPACE>/tests/public.test.ts:5:11)\n"
+        )
+        self.assertEqual(_normalize_evaluator_text(historical, workspace), expected)
+        self.assertEqual(_normalize_evaluator_text(replayed, workspace), expected)
+
     def test_replay_preserves_recorded_actions_and_compacts_history(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             destination = pathlib.Path(temporary) / "replay"
