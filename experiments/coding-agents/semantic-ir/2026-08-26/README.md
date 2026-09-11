@@ -1353,3 +1353,17 @@ before inference, sequences 1 and 2 remain non-repeatable, and 957 cells remain
 blocked. No launch was materialized, no credential was read, and no provider
 request or cost occurred. See
 [`REPRESENTATIONAL_CONFIRMATORY_CANARY_003_RUNNER_V2.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003_RUNNER_V2.md).
+
+Representational Confirmatory Canary 003 subsequently passed its
+behavior-blind operational gate but ended as `model_turn_limit_exhausted` after
+12 Bedrock requests. Protocol v2 completed the live trajectory without the
+lexicalization failure that invalidated canary 002. The participant instead
+made three progressively deeper Motion submissions, all rejected by
+construction validation before mutation: outer `S` arity, `patch_id` grammar,
+then root-reference grammar. No mutation or evaluation occurred. The run used
+130,376 tokens at an estimated USD 0.436080; prior canaries were not retried and
+957 cells remain blocked. This motivates a new, unconfirmed bidirectional
+totality hypothesis: readable observations are insufficient unless legal
+actions are expressible and invalid actions receive finite machine-addressable
+repair diagnostics. See
+[`REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md).

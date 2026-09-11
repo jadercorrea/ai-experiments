@@ -61,8 +61,18 @@ class RepresentationalConfirmatoryCanaryRunnerV2Test(unittest.TestCase):
             repository_revision="test-revision",
         )
 
-    def test_no_launch_is_materialized_by_freezing_the_runner(self) -> None:
-        self.assertFalse(DEFAULT_LAUNCH_PATH.exists())
+    def test_materialized_launch_is_content_bound_and_scope_limited(self) -> None:
+        launch = json.loads(DEFAULT_LAUNCH_PATH.read_text(encoding="utf-8"))
+        schema = json.loads(LAUNCH_SCHEMA_PATH.read_text(encoding="utf-8"))
+
+        jsonschema.Draft202012Validator(schema).validate(launch)
+        validate_launch(launch)
+        self.assertTrue(launch["explicit_user_authorization"])
+        self.assertEqual(launch["authorized_cell_count"], 1)
+        self.assertEqual(launch["blocked_cell_count"], 957)
+        self.assertEqual(launch["excluded_retry_sequences"], [1, 2])
+        self.assertFalse(launch["prior_canary_retries_authorized"])
+        self.assertFalse(launch["remaining_campaign_release_authorized"])
 
     def test_launch_contract_binds_plan_runner_and_sequence_3(self) -> None:
         launch, audit = self._launch()

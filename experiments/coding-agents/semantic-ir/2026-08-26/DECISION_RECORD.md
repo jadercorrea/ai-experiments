@@ -1782,3 +1782,49 @@ behavior-blind operational gate, and validate against the result schema.
   zero provider requests and cost occurred.
 - The next red test is freezing this checkpoint, after which a new explicit
   content-bound authorization and current preflight are required for launch.
+
+## Representational confirmatory canary 003 observation
+
+### Context
+
+The frozen sequence-3 runner was committed before a new content-bound user
+authorization materialized its launch. The live protocol-v2 cell then consumed
+all 12 allowed Bedrock requests without an infrastructure error or terminal
+submission. Three `S` attempts crossed successive validation frontiers but no
+mutation was applied.
+
+### Options
+
+1. Treat the behavior-blind operational pass as sufficient to release the
+   remaining campaign.
+2. Treat the non-terminal result as evidence that protocol v2 failed to repair
+   canary 002's lexicalization defect.
+3. Record the two-plane result: protocol-v2 infrastructure was admitted and
+   the prior lexical failure did not recur, while task behavior failed at a new
+   construction-repair frontier; keep the campaign blocked.
+
+### Decision
+
+Choose option 3. Classify the session as `product_failure` with
+`model_turn_limit_exhausted`, independently of the passing operational gate.
+Preserve the three deterministic submission-validation rejections in order:
+outer `S` arity, patch-identifier grammar, and root-reference grammar. Record
+zero applied mutations and no public or hidden evaluation.
+
+Treat bidirectional totality as a new hypothesis, not a finding. A future
+agent-native protocol may need both a total observation language and an action
+construction surface whose failures are emitted as finite, structured repair
+state rather than prose-only diagnostics.
+
+### Consequences
+
+- The exact authorized cell used 12 provider requests, zero retries, 126,630
+  input tokens, 3,746 output tokens, and an estimated USD 0.436080.
+- The live trajectory did not trigger `RealizationError`; protocol v2 remained
+  operational through the request bound.
+- The participant produced no valid patch, terminal instruction, or behavioral
+  evaluation, so no efficacy inference is available.
+- The next provider-free red test is a versioned construction-diagnostic IR
+  replaying the three observed invalid submissions.
+- Canaries 001, 002, and 003 remain non-repeatable, and the remaining 957 cells
+  remain blocked pending a separately frozen intervention and authorization.
