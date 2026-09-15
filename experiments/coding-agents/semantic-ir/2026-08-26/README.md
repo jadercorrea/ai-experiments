@@ -1367,3 +1367,15 @@ totality hypothesis: readable observations are insufficient unless legal
 actions are expressible and invalid actions receive finite machine-addressable
 repair diagnostics. See
 [`REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md).
+
+Representational Construction Diagnostic v0 now replays the immutable
+canary-003 prefix locally and supplies bounded, machine-addressable diagnostics
+for its three submission-validation frontiers. Both the historical and successor
+memory paths preserve all eight replayed dispatch outcomes, the same workspace
+tree and counters, and zero applied mutations. The three complete reduced-state
+snapshots grow by 349, 391, and 386 canonical bytes; these are local payload
+bytes, not provider tokens. The content-bound freeze has zero model calls and
+grants no external launch or retry authority. The vocabulary is limited to the
+three observed errors; broader bidirectional totality and behavioral benefit
+remain untested. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md).

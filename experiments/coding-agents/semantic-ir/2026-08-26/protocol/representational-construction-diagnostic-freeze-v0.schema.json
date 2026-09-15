@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-freeze-v0.schema.json",
+  "title": "Provider-free canary-003 construction diagnostic freeze v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "historical_canary_sequence",
+    "source_sha256",
+    "replay",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-construction-diagnostic-freeze/v0"
+    },
+    "status": {
+      "const": "provider_free_diagnostic_replay_passed_launch_blocked"
+    },
+    "historical_canary_sequence": {"const": 3},
+    "source_sha256": {
+      "type": "object",
+      "minProperties": 14,
+      "maxProperties": 14,
+      "patternProperties": {
+        "^(construction|protocol|scripts|observations)/": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "additionalProperties": false
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prefix_turns",
+        "construction_rejections",
+        "reduced_state_round_trips",
+        "submission_attempts",
+        "submission_validation_rejections",
+        "applied_mutations",
+        "public_evaluations",
+        "workspace_tree_sha256",
+        "records"
+      ],
+      "properties": {
+        "prefix_turns": {"const": 8},
+        "construction_rejections": {"const": 3},
+        "reduced_state_round_trips": {"const": 3},
+        "submission_attempts": {"const": 3},
+        "submission_validation_rejections": {"const": 3},
+        "applied_mutations": {"const": 0},
+        "public_evaluations": {"const": 0},
+        "workspace_tree_sha256": {"$ref": "#/$defs/sha256"},
+        "records": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "turn", "historical_message", "diagnostic", "state_sha256",
+              "state_bytes_before", "state_bytes_after", "state_byte_delta"
+            ],
+            "properties": {
+              "turn": {"enum": [6, 7, 8]},
+              "historical_message": {"type": "string", "maxLength": 300},
+              "diagnostic": {"type": "object"},
+              "state_bytes_before": {"type": "integer", "minimum": 1},
+              "state_bytes_after": {"type": "integer", "minimum": 1},
+              "state_byte_delta": {"type": "integer", "minimum": 1},
+              "state_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_requests",
+        "model_behavior_observed",
+        "prior_canary_retries_authorized",
+        "remaining_cells_blocked",
+        "external_launch_authorized"
+      ],
+      "properties": {
+        "provider_requests": {"const": 0},
+        "model_behavior_observed": {"const": false},
+        "prior_canary_retries_authorized": {"const": false},
+        "remaining_cells_blocked": {"const": 957},
+        "external_launch_authorized": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

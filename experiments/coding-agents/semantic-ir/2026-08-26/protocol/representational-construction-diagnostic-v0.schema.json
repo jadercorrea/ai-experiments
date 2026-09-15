@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-v0.schema.json",
+  "title": "Cohort-bounded construction diagnostic v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "code",
+    "path",
+    "expected_production",
+    "observed",
+    "grammar_reference",
+    "recoverable"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-construction-diagnostic/v0"
+    },
+    "code": {
+      "enum": [
+        "S_OPERATION_ARITY",
+        "MOTION_PATCH_ID_PATTERN",
+        "MOTION_ROOT_PATTERN"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^/a(?:/[0-9]+)+$",
+      "maxLength": 64
+    },
+    "expected_production": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": {"const": "arity"},
+            "value": {"type": "integer", "minimum": 1, "maximum": 64}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": {"const": "pattern"},
+            "value": {"type": "string", "maxLength": 128}
+          }
+        }
+      ]
+    },
+    "observed": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": {"const": "array_length"},
+            "value": {"type": "integer", "minimum": 0, "maximum": 256}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": {"const": "scalar"},
+            "value": {"type": "string", "maxLength": 128}
+          }
+        }
+      ]
+    },
+    "grammar_reference": {"type": "string", "maxLength": 200},
+    "recoverable": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"code": {"const": "S_OPERATION_ARITY"}}},
+      "then": {
+        "properties": {
+          "path": {"pattern": "^/a/2/[0-9]+$"},
+          "expected_production": {
+            "properties": {"kind": {"const": "arity"}, "value": {"const": 5}}
+          },
+          "observed": {"properties": {"kind": {"const": "array_length"}}},
+          "grammar_reference": {
+            "const": "semantic_session_isa.decode_submit_instruction/S.operation.fields"
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"code": {"const": "MOTION_PATCH_ID_PATTERN"}}},
+      "then": {
+        "properties": {
+          "path": {"const": "/a/0"},
+          "expected_production": {
+            "properties": {
+              "kind": {"const": "pattern"},
+              "value": {
+                "const": "^[a-z][a-z0-9]*(?::[a-z][a-z0-9-]*)+$"
+              }
+            }
+          },
+          "observed": {"properties": {"kind": {"const": "scalar"}}},
+          "grammar_reference": {
+            "const": "motion-semantic-patch-v1.schema.json#/properties/patch_id/pattern"
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"code": {"const": "MOTION_ROOT_PATTERN"}}},
+      "then": {
+        "properties": {
+          "path": {"pattern": "^/a/2/[0-9]+/2$"},
+          "expected_production": {
+            "properties": {
+              "kind": {"const": "pattern"},
+              "value": {"const": "^r[0-9]+$"}
+            }
+          },
+          "observed": {"properties": {"kind": {"const": "scalar"}}},
+          "grammar_reference": {
+            "const": "motion-semantic-patch-v1.schema.json#/properties/operations/items/properties/root/pattern"
+          }
+        }
+      }
+    }
+  ]
+}
