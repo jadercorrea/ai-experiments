@@ -1,0 +1,30 @@
+{
+  "cases": [
+    {"case_id":"valid-reference-submit","expected_category":null,"expected_code":null,"expected_path":null,"grammar_frontier":"valid","mutation":{"op":"none"}},
+    {"case_id":"session-missing-arguments","expected_category":"instruction_validation","expected_code":"SESSION_REQUIRED","expected_path":"/a","grammar_frontier":"session_schema","mutation":{"op":"delete","path":["a"]}},
+    {"case_id":"session-extra-property","expected_category":"instruction_validation","expected_code":"SESSION_CLOSED_OBJECT","expected_path":"/extra","grammar_frontier":"session_schema","mutation":{"op":"set","path":["extra"],"value":true}},
+    {"case_id":"session-unknown-opcode","expected_category":"instruction_validation","expected_code":"SESSION_ENUM","expected_path":"/i","grammar_frontier":"session_schema","mutation":{"op":"set","path":["i"],"value":"X"}},
+    {"case_id":"session-arguments-type","expected_category":"instruction_validation","expected_code":"SESSION_TYPE","expected_path":"/a","grammar_frontier":"session_schema","mutation":{"op":"set","path":["a"],"value":"invalid"}},
+    {"case_id":"submit-argument-arity","expected_category":"instruction_validation","expected_code":"SESSION_SUBMIT_ARITY","expected_path":"/a","grammar_frontier":"session_opcode_arity","mutation":{"op":"pop","path":["a"]}},
+    {"case_id":"submit-patch-id-type","expected_category":"submission_validation","expected_code":"SUBMIT_PATCH_ID_TYPE","expected_path":"/a/0","grammar_frontier":"submit_positional_decode","mutation":{"op":"set","path":["a",0],"value":7}},
+    {"case_id":"submit-state-token-type","expected_category":"submission_validation","expected_code":"SUBMIT_STATE_TOKEN_TYPE","expected_path":"/a/1","grammar_frontier":"submit_positional_decode","mutation":{"op":"set","path":["a",1],"value":7}},
+    {"case_id":"submit-operations-type","expected_category":"submission_validation","expected_code":"SUBMIT_OPERATIONS_TYPE","expected_path":"/a/2","grammar_frontier":"submit_positional_decode","mutation":{"op":"set","path":["a",2],"value":"invalid"}},
+    {"case_id":"submit-operations-empty","expected_category":"submission_validation","expected_code":"SUBMIT_OPERATIONS_NON_EMPTY","expected_path":"/a/2","grammar_frontier":"submit_positional_decode","mutation":{"op":"set","path":["a",2],"value":[]}},
+    {"case_id":"submit-operation-type","expected_category":"submission_validation","expected_code":"SUBMIT_OPERATION_TYPE","expected_path":"/a/2/0","grammar_frontier":"submit_positional_decode","mutation":{"op":"set","path":["a",2],"value":["invalid"]}},
+    {"case_id":"submit-operation-arity","expected_category":"submission_validation","expected_code":"S_OPERATION_ARITY","expected_path":"/a/2/0","grammar_frontier":"submit_positional_decode","mutation":{"op":"pop","path":["a",2,0]}},
+    {"case_id":"motion-patch-id-pattern","expected_category":"submission_validation","expected_code":"MOTION_PATCH_ID_PATTERN","expected_path":"/a/0","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",0],"value":"p01"}},
+    {"case_id":"motion-state-token-pattern","expected_category":"submission_validation","expected_code":"MOTION_STATE_TOKEN_PATTERN","expected_path":"/a/1","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",1],"value":"cap:v1:state:bad"}},
+    {"case_id":"motion-operation-id-pattern","expected_category":"submission_validation","expected_code":"MOTION_OPERATION_ID_PATTERN","expected_path":"/a/2/0/0","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",2,0,0],"value":"op01"}},
+    {"case_id":"motion-target-arity","expected_category":"submission_validation","expected_code":"MOTION_TARGET_ARITY","expected_path":"/a/2/0/1","grammar_frontier":"motion_schema","mutation":{"op":"pop","path":["a",2,0,1]}},
+    {"case_id":"motion-target-handle-pattern","expected_category":"submission_validation","expected_code":"MOTION_TARGET_PATTERN","expected_path":"/a/2/0/1/0","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",2,0,1,0],"value":"node"}},
+    {"case_id":"motion-target-token-pattern","expected_category":"submission_validation","expected_code":"MOTION_TARGET_PATTERN","expected_path":"/a/2/0/1/1","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",2,0,1,1],"value":"cap:v1:target:bad"}},
+    {"case_id":"motion-root-pattern","expected_category":"submission_validation","expected_code":"MOTION_ROOT_PATTERN","expected_path":"/a/2/0/2","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",2,0,2],"value":"n8"}},
+    {"case_id":"motion-binding-arity","expected_category":"submission_validation","expected_code":"MOTION_BINDINGS_ARITY","expected_path":"/a/2/0/3/0","grammar_frontier":"motion_schema","mutation":{"op":"pop","path":["a",2,0,3,0]}},
+    {"case_id":"motion-binding-reference-pattern","expected_category":"submission_validation","expected_code":"MOTION_BINDINGS_PATTERN","expected_path":"/a/2/0/3/0/0","grammar_frontier":"motion_schema","mutation":{"op":"set","path":["a",2,0,3,0,0],"value":"binding"}}
+  ],
+  "claim_boundary":{"motion_schema_frontier_sampled":true,"semantic_resolution_covered":false,"session_opcode_arity_sampled":true,"session_schema_frontier_sampled":true,"submit_positional_decode_frontier_sampled":true},
+  "corpus_id":"representational-construction-diagnostic-grammar-v1",
+  "invalid_case_count":20,
+  "schema_version":"ai-experiments.semantic-ir.representational-construction-diagnostic-corpus/v1",
+  "valid_case_count":1
+}

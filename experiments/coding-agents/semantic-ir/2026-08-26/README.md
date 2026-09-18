@@ -1379,3 +1379,14 @@ grants no external launch or retry authority. The vocabulary is limited to the
 three observed errors; broader bidirectional totality and behavioral benefit
 remain untested. See
 [`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md).
+
+Representational Construction Diagnostic Grammar v1 now expands those three
+observed examples into a frozen 21-case corpus: one valid reference action and
+twenty single-defect invalid actions sampling the Session schema, `S` arity,
+positional decoding, and Motion schema frontiers. All twenty invalid actions
+produce bounded diagnostics in both the immediate result and reduced state;
+the valid control passes the same grammar. Nineteen distinct codes are observed,
+with zero mutations and zero provider calls. This is corpus-bounded grammar
+coverage, not exhaustive grammar totality, semantic-resolution coverage, or
+behavioral evidence. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md).
