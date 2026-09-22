@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-semantic-v2.schema.json",
+  "title": "Bounded semantic-resolution diagnostic v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "stage", "code", "path", "expected", "observed", "rule_reference", "recoverable"],
+  "properties": {
+    "schema_version": {"const": "ai-experiments.semantic-ir.representational-construction-diagnostic-semantic/v2"},
+    "stage": {"enum": ["motion_resolution", "capability_resolution", "ir_validation"]},
+    "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$", "maxLength": 64},
+    "path": {"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$", "maxLength": 96},
+    "expected": {"type": "string", "minLength": 1, "maxLength": 160},
+    "observed": {"type": "string", "minLength": 1, "maxLength": 160},
+    "rule_reference": {"type": "string", "minLength": 1, "maxLength": 240},
+    "recoverable": {"const": true}
+  }
+}

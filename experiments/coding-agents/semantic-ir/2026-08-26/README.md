@@ -1367,3 +1367,43 @@ totality hypothesis: readable observations are insufficient unless legal
 actions are expressible and invalid actions receive finite machine-addressable
 repair diagnostics. See
 [`REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md`](REPRESENTATIONAL_CONFIRMATORY_CANARY_003.md).
+
+Representational Construction Diagnostic v0 now replays the immutable
+canary-003 prefix locally and supplies bounded, machine-addressable diagnostics
+for its three submission-validation frontiers. Both the historical and successor
+memory paths preserve all eight replayed dispatch outcomes, the same workspace
+tree and counters, and zero applied mutations. The three complete reduced-state
+snapshots grow by 349, 391, and 386 canonical bytes; these are local payload
+bytes, not provider tokens. The content-bound freeze has zero model calls and
+grants no external launch or retry authority. The vocabulary is limited to the
+three observed errors; broader bidirectional totality and behavioral benefit
+remain untested. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_V0.md).
+
+Representational Construction Diagnostic Grammar v1 now expands those three
+observed examples into a frozen 21-case corpus: one valid reference action and
+twenty single-defect invalid actions sampling the Session schema, `S` arity,
+positional decoding, and Motion schema frontiers. All twenty invalid actions
+produce bounded diagnostics in both the immediate result and reduced state;
+the valid control passes the same grammar. Nineteen distinct codes are observed,
+with zero mutations and zero provider calls. This is corpus-bounded grammar
+coverage, not exhaustive grammar totality, semantic-resolution coverage, or
+behavioral evidence. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md).
+
+Representational Construction Diagnostic Semantic v2 now samples the next
+frontier with twelve grammar-valid actions: ten semantic rejections and two
+valid controls. Ten bounded diagnostics appear immediately and in reduced
+state, with no session mutation or provider calls. The effect-evolution control
+shows that the backend recalculates effect declarations rather than rejecting
+their change. This is corpus-bounded construction evidence, not semantic
+totality or model-repair evidence. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md).
+
+Diagnostic Participant Runtime v3 now composes grammar-v1 and semantic-v2
+diagnostics in one local, versioned session wrapper. A provider-free replay
+preserves the accepted reference action, eight historical canary-003 turns,
+and ten frozen semantic rejections. Unsupported errors remain recoverable
+without a fabricated code. The selected replay is content-bound and does not
+authorize a new treatment or model call. See
+[`REPRESENTATIONAL_DIAGNOSTIC_PARTICIPANT_RUNTIME_V3.md`](REPRESENTATIONAL_DIAGNOSTIC_PARTICIPANT_RUNTIME_V3.md).

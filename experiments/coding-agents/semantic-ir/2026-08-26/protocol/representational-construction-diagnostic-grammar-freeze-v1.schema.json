@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-grammar-freeze-v1.schema.json",
+  "title": "Construction diagnostic grammar coverage freeze v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "corpus_sha256", "source_sha256", "coverage", "accounting", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "ai-experiments.semantic-ir.representational-construction-diagnostic-grammar-freeze/v1"},
+    "status": {"const": "grammar_coverage_passed_semantic_resolution_red_launch_blocked"},
+    "corpus_sha256": {"$ref": "#/$defs/sha256"},
+    "source_sha256": {
+      "type": "object",
+      "minProperties": 12,
+      "maxProperties": 12,
+      "patternProperties": {"^(construction|protocol|scripts)/": {"$ref": "#/$defs/sha256"}},
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_cases", "valid_actions_accepted", "invalid_actions_diagnosed", "immediate_diagnostics", "state_round_trips", "unexpected_outcomes", "categories", "codes"],
+      "properties": {
+        "total_cases": {"const": 21},
+        "valid_actions_accepted": {"const": 1},
+        "invalid_actions_diagnosed": {"const": 20},
+        "immediate_diagnostics": {"const": 20},
+        "state_round_trips": {"const": 20},
+        "unexpected_outcomes": {"const": 0},
+        "categories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["instruction_validation", "submission_validation"],
+          "properties": {
+            "instruction_validation": {"const": 5},
+            "submission_validation": {"const": 15}
+          }
+        },
+        "codes": {
+          "type": "object",
+          "minProperties": 19,
+          "maxProperties": 19,
+          "propertyNames": {"pattern": "^[A-Z][A-Z0-9_]+$"},
+          "additionalProperties": {"type": "integer", "minimum": 1, "maximum": 2}
+        }
+      }
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applied_mutations", "provider_requests"],
+      "properties": {"applied_mutations": {"const": 0}, "provider_requests": {"const": 0}}
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grammar_coverage_corpus_complete", "semantic_resolution_covered", "model_behavior_observed", "external_launch_authorized", "remaining_cells_blocked"],
+      "properties": {
+        "grammar_coverage_corpus_complete": {"const": true},
+        "semantic_resolution_covered": {"const": false},
+        "model_behavior_observed": {"const": false},
+        "external_launch_authorized": {"const": false},
+        "remaining_cells_blocked": {"const": 957}
+      }
+    }
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

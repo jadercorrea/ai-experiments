@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-v1.schema.json",
+  "title": "Construction grammar diagnostic v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "code", "path", "expected_production", "observed",
+    "grammar_reference", "recoverable"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "ai-experiments.semantic-ir.representational-construction-diagnostic/v1"
+    },
+    "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$", "maxLength": 64},
+    "path": {"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$", "maxLength": 96},
+    "expected_production": {"$ref": "#/$defs/production"},
+    "observed": {"$ref": "#/$defs/observation"},
+    "grammar_reference": {"type": "string", "minLength": 1, "maxLength": 240},
+    "recoverable": {"const": true}
+  },
+  "$defs": {
+    "boundedValue": {
+      "oneOf": [
+        {"type": "string", "maxLength": 160},
+        {"type": "integer", "minimum": 0, "maximum": 1024},
+        {"type": "array", "maxItems": 16, "items": {"type": "string", "maxLength": 64}},
+        {"type": "null"}
+      ]
+    },
+    "production": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {
+          "enum": ["type", "enum", "pattern", "required", "closed", "arity", "non_empty"]
+        },
+        "value": {"$ref": "#/$defs/boundedValue"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {"enum": ["missing", "type", "scalar", "array_length", "object_keys"]},
+        "value": {"$ref": "#/$defs/boundedValue"}
+      }
+    }
+  }
+}
