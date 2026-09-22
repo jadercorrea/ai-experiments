@@ -1399,3 +1399,11 @@ shows that the backend recalculates effect declarations rather than rejecting
 their change. This is corpus-bounded construction evidence, not semantic
 totality or model-repair evidence. See
 [`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md).
+
+Diagnostic Participant Runtime v3 now composes grammar-v1 and semantic-v2
+diagnostics in one local, versioned session wrapper. A provider-free replay
+preserves the accepted reference action, eight historical canary-003 turns,
+and ten frozen semantic rejections. Unsupported errors remain recoverable
+without a fabricated code. The selected replay is content-bound and does not
+authorize a new treatment or model call. See
+[`REPRESENTATIONAL_DIAGNOSTIC_PARTICIPANT_RUNTIME_V3.md`](REPRESENTATIONAL_DIAGNOSTIC_PARTICIPANT_RUNTIME_V3.md).
