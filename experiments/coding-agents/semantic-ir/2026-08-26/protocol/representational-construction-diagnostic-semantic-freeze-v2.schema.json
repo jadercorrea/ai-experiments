@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gptcode.dev/schemas/semantic-ir/representational-construction-diagnostic-semantic-freeze-v2.schema.json",
+  "title": "Semantic construction diagnostic corpus freeze v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "corpus_sha256", "source_sha256", "coverage", "diagnostics", "accounting", "claim_boundary"],
+  "properties": {
+    "schema_version": {"const": "ai-experiments.semantic-ir.representational-construction-diagnostic-semantic-freeze/v2"},
+    "status": {"const": "semantic_resolution_corpus_passed_repair_red_launch_blocked"},
+    "corpus_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_sha256": {"type": "object", "minProperties": 16, "maxProperties": 16, "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_cases", "valid_actions_accepted", "effect_evolution_controls", "grammar_valid_invalid_actions", "invalid_actions_diagnosed", "immediate_diagnostics", "state_round_trips", "codes", "unexpected_outcomes"],
+      "properties": {
+        "total_cases": {"const": 12},
+        "valid_actions_accepted": {"const": 2},
+        "effect_evolution_controls": {"const": 1},
+        "grammar_valid_invalid_actions": {"const": 10},
+        "invalid_actions_diagnosed": {"const": 10},
+        "immediate_diagnostics": {"const": 10},
+        "state_round_trips": {"const": 10},
+        "codes": {"type": "object", "minProperties": 10, "maxProperties": 10, "additionalProperties": {"const": 1}},
+        "unexpected_outcomes": {"const": 0}
+      }
+    },
+    "diagnostics": {"type": "array", "minItems": 10, "maxItems": 10, "items": {"type": "object"}},
+    "accounting": {
+      "type": "object", "additionalProperties": false,
+      "required": ["applied_mutations", "provider_requests"],
+      "properties": {"applied_mutations": {"const": 0}, "provider_requests": {"const": 0}}
+    },
+    "claim_boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["semantic_resolution_corpus_complete", "semantic_totality_proven", "model_repair_observed", "external_launch_authorized", "remaining_cells_blocked"],
+      "properties": {
+        "semantic_resolution_corpus_complete": {"const": true},
+        "semantic_totality_proven": {"const": false},
+        "model_repair_observed": {"const": false},
+        "external_launch_authorized": {"const": false},
+        "remaining_cells_blocked": {"const": 957}
+      }
+    }
+  }
+}

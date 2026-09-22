@@ -1390,3 +1390,12 @@ with zero mutations and zero provider calls. This is corpus-bounded grammar
 coverage, not exhaustive grammar totality, semantic-resolution coverage, or
 behavioral evidence. See
 [`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_GRAMMAR_V1.md).
+
+Representational Construction Diagnostic Semantic v2 now samples the next
+frontier with twelve grammar-valid actions: ten semantic rejections and two
+valid controls. Ten bounded diagnostics appear immediately and in reduced
+state, with no session mutation or provider calls. The effect-evolution control
+shows that the backend recalculates effect declarations rather than rejecting
+their change. This is corpus-bounded construction evidence, not semantic
+totality or model-repair evidence. See
+[`REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md`](REPRESENTATIONAL_CONSTRUCTION_DIAGNOSTIC_SEMANTIC_V2.md).

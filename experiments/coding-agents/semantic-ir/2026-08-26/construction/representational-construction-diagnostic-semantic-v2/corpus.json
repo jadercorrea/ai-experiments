@@ -1,0 +1,26 @@
+{
+  "schema_version": "ai-experiments.semantic-ir.representational-construction-diagnostic-semantic-corpus/v2",
+  "corpus_id": "representational-construction-diagnostic-semantic-v2",
+  "valid_case_count": 2,
+  "invalid_case_count": 10,
+  "cases": [
+    {"case_id":"valid-reference-submit","mutation":{"op":"none"},"expected_code":null},
+    {"case_id":"stale-state-capability","mutation":{"op":"set","path":["a",1],"value":"cap:v1:state:00000000000000000000000000000000"},"expected_code":"STATE_CAPABILITY_STALE"},
+    {"case_id":"stale-target-capability","mutation":{"op":"set","path":["a",2,0,1,1],"value":"cap:v1:target:00000000000000000000000000000000"},"expected_code":"TARGET_CAPABILITY_STALE"},
+    {"case_id":"duplicate-operation-id","mutation":{"op":"duplicate_operation"},"expected_code":"DUPLICATE_OPERATION_ID"},
+    {"case_id":"unknown-catalog-symbol","mutation":{"op":"set","path":["a",2,0,4,1,2],"value":"unknown.get_by_id"},"expected_code":"UNKNOWN_CATALOG_SYMBOL"},
+    {"case_id":"catalog-call-arity","mutation":{"op":"remove_call_argument"},"expected_code":"CATALOG_CALL_ARITY"},
+    {"case_id":"unknown-motion-reference","mutation":{"op":"set","path":["a",2,0,4,3,3],"value":"r99"},"expected_code":"UNKNOWN_MOTION_REFERENCE"},
+    {"case_id":"shared-motion-reference","mutation":{"op":"set","path":["a",2,0,4,3,3],"value":"r2"},"expected_code":"SHARED_MOTION_REFERENCE"},
+    {"case_id":"unreachable-motion-reference","mutation":{"op":"append_motion","motion":["str","r12","orphan"]},"expected_code":"UNREACHABLE_MOTION_REFERENCE"},
+    {"case_id":"binding-out-of-scope","mutation":{"op":"set","path":["a",2,0,4,6,2],"value":"b0"},"expected_code":"BINDING_OUT_OF_SCOPE"},
+    {"case_id":"result-type-mismatch","mutation":{"op":"replace_expression","motions":[["str","r0","wrong"]]},"expected_code":"RESULT_TYPE_MISMATCH"},
+    {"case_id":"effect-evolution-control","mutation":{"op":"set","path":["a",2,0,4,1,2],"value":"directory.get_by_id"},"expected_code":null}
+  ],
+  "claim_boundary": {
+    "grammar_valid_probes": true,
+    "semantic_resolution_sampled": true,
+    "semantic_totality_proven": false,
+    "model_repair_observed": false
+  }
+}
